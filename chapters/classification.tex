@@ -3,18 +3,29 @@
 \chapter{Wpływ redukcji błędów na klasyfikację obrazów}\label{chapter:classification}
 
 \agentinfo{
-UWAGA: zakres tego rozdziału wymaga decyzji autora i promotora.
 Tytuł rozprawy obejmuje klasyfikację obrazów, a dotychczasowe artykuły nie zawierają eksperymentów klasyfikacji obrazów kodowanych kwantowo.
 Artykuły zapowiadają jedynie kierunek: wykrywanie przyrządów lotniczych na obrazach z kokpitu symulatora lotu \agentref{artykuły/CoDIT_2025_final_paper/root.tex} \agentref{artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex}.
 Koncepcja rozprawy z 2022 r. przewidywała implementację kwantowej klasyfikacji obrazów oraz ocenę PDU w tym zadaniu \agentref{inne/Wstępna koncepcja rozprawy doktorskiej.docx}.
 
-Możliwe warianty, od najmniej do najbardziej pracochłonnego:
-A. Klasyfikator klasyczny na obrazach zrekonstruowanych: porównanie dokładności dla obrazów surowych, po PDU, po sieci pix2pix i po obu etapach. Wykorzystuje istniejący potok z rozdziałów 5 i 6; wymaga zbioru z etykietami w rozdzielczości 8x8 lub 16x16.
-B. Klasyfikator hybrydowy kwantowo-klasyczny z kodowaniem LPIQE, trenowany i oceniany przy różnych poziomach szumu, z redukcją błędów i bez niej.
-C. Wariant B wykonany także na rzeczywistym urządzeniu.
-Jeżeli żaden wariant nie zostanie zrealizowany, rozdział należy usunąć, a zagadnienie klasyfikacji ująć w przeglądzie literatury, rozdziale 8 i kierunkach dalszych badań; wtedy trzeba też rozważyć zgodność treści z tytułem pracy.
+Kierunek wskazany przez autora 2026-11-26: dorobić badania na symulatorze i połączyć je z bieżącymi badaniami autora nad klasyfikacją kwantową i kodowaniem obrazów.
+Szczegółowy zakres poniżej jest PROPOZYCJĄ czekającą na akceptację autora; do czasu akceptacji nie pisać treści rozdziału.
 
-Do czasu decyzji nie pisać treści tego rozdziału.
+Materiał istniejący: repozytorium /Users/krzysztofwerner/git/quantum-classifier (tylko do odczytu; nie czytać plików .env).
+Klasyfikator FBS z odczytem klasy z fazy (azymutu wektora Blocha), kąty bramek przewiduje sieć klasyczna, 2--7 kubitów.
+Dane są syntetyczne i tabelaryczne, nie obrazowe.
+Są wyniki symulatorowe z szumem, przebiegi na urządzeniu ibm_fez, kalibracja modelu szumu stanami GHZ oraz afiniczny model urządzenia; nie zastosowano żadnej mitygacji błędów.
+Zapisane pomiary sprzętowe (400 próbek uczących i 100 testowych na model) pozwalają badać korektę odczytu bez nowych przebiegów na sprzęcie.
+Manuskrypt roboczy jest współautorski i nieopublikowany: Quantum_Specific_Classification_working_draft_v4_kw.tex; część teoretyczna (geometria) jest wkładem współautora.
+
+Proponowane eksperymenty:
+E0. Korekta odczytu typu PDU (interpolacja błędu fazy na kubit) dopasowana na próbkach uczących i oceniona na testowych, na istniejących danych z ibm_fez.
+E1. Krzywe degradacji dokładności przy rosnącym szumie na symulatorze, z korektą i bez niej, w tym skończona liczba pomiarów.
+E2. Porównanie treningu w szumie z korektą po fakcie, na wielu ziarnach losowych.
+E4. Klasyfikacja obrazów 8x8 lub 16x16 w wariantach: oryginał, rekonstrukcja LPIQE surowa, po PDU, po pix2pix, po obu etapach; klasyfikator klasyczny i klasyfikator FBS. Ten eksperyment spina rozdziały 5--6 z tytułem pracy.
+
+Zagrożenia do usunięcia przed użyciem wyników: jedno ziarno losowe, brak zbioru walidacyjnego (dobór hiperparametrów i punktu kontrolnego na zbiorze testowym), standaryzacja liczona przed podziałem danych, klasyfikator FBS słabszy od sieci MLP we wszystkich przypadkach.
+W rozprawie klasyfikator jest środowiskiem do badania szumu i redukcji błędów, a nie propozycją konkurencyjnego klasyfikatora.
+Nie ustalono jeszcze, gdzie znajduje się kod potoku LPIQE, PDU i pix2pix potrzebny do E4.
 }
 
 \section{Cel i zakres rozdziału}\label{sec:cls:scope}
