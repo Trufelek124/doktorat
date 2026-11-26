@@ -46,7 +46,7 @@
 \newcommand{\IdCoauthor}{}
 %%%%%%%%%%
 
-\newcommand{\Supervisor}{Dr hab. inż. Krzysztof Cyran, Prof. PŚ}     % DO WERYFIKACJI: aktualny tytuł/stopień promotora
+\newcommand{\Supervisor}{Dr hab. inż. Krzysztof Cyran, Prof. PŚ}     % zapis potwierdzony przez autora 2026-11-26
 \newcommand{\Title}{Ograniczanie i~korekcja błędów w~procesie\\kwantowego przetwarzania i~klasyfikacji obrazów}
 \newcommand{\TitleAlt}{Quantum error reduction and correction in quantum based image processing and classification}
 \newcommand{\Program}{}            % kierunek studiów (niedrukowany na stronie tytułowej rozprawy)
@@ -122,9 +122,10 @@
 % 4. Metoda PDU: redukcja błędów wyznaczana eksperymentalnie (chapters/pdu.tex)
 % 5. Redukcja błędów w kodowaniu i rekonstrukcji obrazów kwantowych (chapters/pdu_images.tex)
 % 6. Uczenie głębokie jako narzędzie redukcji błędów (chapters/dl_error_reduction.tex)
-% 7. Wpływ redukcji błędów na klasyfikację obrazów (chapters/classification.tex)
-% 8. Struktura szumu kwantowego: modelowanie i wykorzystanie w uczeniu (chapters/noise_structure.tex)
-% 9. Podsumowanie (chapters/summary.tex)
+% 7. Uczone kodowanie obrazów na rzeczywistym sprzęcie kwantowym (chapters/learned_encoding.tex)
+% 8. Klasyfikacja w obecności szumu i wpływ redukcji błędów (chapters/classification.tex)
+% 9. Prace powiązane z udziałem autora: struktura szumu kwantowego (chapters/noise_structure.tex)
+% 10. Podsumowanie (chapters/summary.tex)
 % Dodatki (chapters/appendix_experiments.tex) (chapters/appendix_results.tex)
 %
 
@@ -165,6 +166,7 @@
 \input{chapters/pdu.tex}
 \input{chapters/pdu_images.tex}
 \input{chapters/dl_error_reduction.tex}
+\input{chapters/learned_encoding.tex}
 \input{chapters/classification.tex}
 \input{chapters/noise_structure.tex}
 \input{chapters/summary.tex}
@@ -174,6 +176,7 @@
 \cleardoublepage
 \phantomsection
 \addcontentsline{toc}{chapter}{Bibliografia}
+\nocite{*}
 \printbibliography           % biblatex
 
 \cleardoublepage

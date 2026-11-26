@@ -7,6 +7,7 @@ Cel rozdziału: ustalić, w jakim stopniu istniejące metody korekcji, mitygacji
 Narracja prowadzi od metod ogólnych (korekcja, mitygacja), przez metody oparte na pomiarze i uczeniu maszynowym, charakteryzację szumu, do zastosowań obrazowych i klasyfikacji, a kończy się syntezą i luką.
 Definicje metod znajdują się w zapleczu teoretycznym \agentref{chapters/theoretical_background_03_QEC.tex}; tutaj analizowane są prace: zakres, warunki eksperymentów, sprzęt lub symulator, miary, wyniki, koszty, ograniczenia.
 
+Docelowa objętość rozdziału: około 14 stron.
 Punkt wyjścia literaturowy: prace cytowane w artykułach autora (bibliography/biblio.bib).
 Literatura z artykułów kończy się w dużej mierze na latach 2021--2023; przegląd wymaga uzupełnienia o nowsze prace, w szczególności o eksperymentalne demonstracje korekcji błędów poniżej progu, nowsze przeglądy mitygacji błędów oraz prace o uczeniu maszynowym w mitygacji.
 Każdą nową pozycję zweryfikować w źródle (DOI, tytuł, autorzy) przed dodaniem do bazy; nie tworzyć wpisów z pamięci.
@@ -35,7 +36,7 @@ Wniosek, do którego prowadzi sekcja: pełna korekcja pozostaje kosztowna dla ob
 \section{Mitygacja błędów w erze NISQ}\label{sec:lr:qem}
 \agentinfo{
 Ekstrapolacja do zerowego szumu, probabilistyczne odwracanie szumu, mitygacja błędów pomiaru, weryfikacja symetrii, metody oparte na regresji danych z obwodów Clifforda.
-Prace wyjściowe: endo_practical_2018, maciejewski_mitigation_2020, richardson-extrapolation, quasi-probability, near-future.
+Prace wyjściowe: endo_practical_2018, maciejewski_mitigation_2020, richardson-extrapolation, quasi-probability.
 Dla każdej grupy metod: założenia o szumie, koszt próbkowania, skala eksperymentów, ograniczenia.
 Szczególnie dokładnie omówić mitygację błędów pomiaru i metody kalibracyjne, bo są najbliższe PDU.
 }
@@ -53,20 +54,22 @@ Tomografia procesu, gate set tomography, randomized benchmarking, uczenie modeli
 Stabilność błędu między kalibracjami: prace potwierdzające lub podważające założenie metody PDU.
 Symetrie a szum i korekcja błędów.
 Źródło: sekcja Related Work artykułu \agentref{artykuły/quantum_noise_elsevier_submission/main.tex} oraz jego bibliografia.
-Jest to tło dla rozdziału 8.
+Jest to tło dla rozdziałów 7 i 9.
 }
 
 \section{Kwantowe przetwarzanie obrazów w obecności szumu}\label{sec:lr:qimg}
 \agentinfo{
 Przeglądy metod reprezentacji obrazów (na przykład cai_survey_2018), realizacje na rzeczywistych urządzeniach, badania odporności reprezentacji na szum, maksymalne rozmiary obrazów osiągane eksperymentalnie.
 Definicje FRQI, NEQR i LPIQE są w zapleczu teoretycznym \agentref{chapters/theoretical_background_05_QIMG.tex}; tutaj porównanie wyników i warunków eksperymentów.
-Jest to tło dla rozdziału 5.
+Uwzględnić także uczone i przybliżone kodowania obrazów (autoenkodery kwantowe i hybrydowe, kodowania wariacyjne), które są tłem dla rozdziału 7.
+Jest to tło dla rozdziałów 5 i 7.
 }
 
 \section{Klasyfikacja obrazów z użyciem komputerów kwantowych a szum}\label{sec:lr:classification}
 \agentinfo{
 Klasyfikatory kwantowe i hybrydowe dla obrazów, wpływ szumu na trening i wnioskowanie, płaskowyże gradientu indukowane szumem, trening uwzględniający szum, szum jako regularyzator lub zasób.
-Sekcja łączy tło dla rozdziału 7 (wpływ redukcji błędów na klasyfikację) i rozdziału 8 (szum jako dodatkowy stopień swobody w uczeniu).
+Sekcja łączy tło dla rozdziału 8 (wpływ szumu i redukcji błędów na klasyfikację) i rozdziału 9 (szum jako dodatkowy stopień swobody w uczeniu).
+Uwzględnić pracę współautorską o klasyfikacji obrazów FRQI kwantową siecią rekurencyjną \agentref{bib:potempa_frqi_pairs_2025}.
 Źródło części o strukturze grupowej: sekcja Related work artykułu \agentref{artykuły/noisy_lie_group_learners/main.tex}.
 }
 

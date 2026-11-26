@@ -6,7 +6,8 @@
 Rozdział przedstawia przyczyny powstania pracy, problem badawczy, tezy, cele, wkład oraz układ rozprawy.
 Ma charakter opisowy.
 Szczegółowe uzasadnienie luki badawczej znajduje się w rozdziale przeglądu literatury \agentref{chapters/literature_review.tex}, a tutaj należy się do niego odwołać.
-Rozdział pisać po rozdziałach 2--8, a wcześniej utrzymywać go jako aktualny konspekt.
+Rozdział pisać po rozdziałach 2--9, a wcześniej utrzymywać go jako aktualny konspekt.
+Docelowa objętość: około 6 stron; cała praca około 125 stron.
 
 Oś narracji całej pracy:
 (1) komputery ery NISQ są zaszumione, a pełna korekcja błędów zużywa kubity i bramki, których brakuje;
@@ -14,8 +15,9 @@ Oś narracji całej pracy:
 (3) autor proponuje ograniczanie błędu po stronie klasycznej, na podstawie pomiarów: metodę PDU;
 (4) PDU zostaje przeniesiona na kodowanie i rekonstrukcję obrazów metodą LPIQE oraz porównana z FRQI i NEQR;
 (5) błąd pozostały po PDU jest dalej redukowany siecią generatywną pix2pix;
-(6) badany jest wpływ redukcji błędów na klasyfikację obrazów;
-(7) perspektywa uzupełniająca: szum ma strukturę, którą można modelować (generatory łamiące symetrię) i wykorzystać w uczeniu (sieci oparte na grupach Liego).
+(6) ta sama idea korekty opartej na pomiarze jest sprawdzana dla uczonego kodowania obrazów na współczesnym urządzeniu;
+(7) badany jest wpływ szumu i redukcji błędów na klasyfikację;
+(8) perspektywa uzupełniająca, jako prace powiązane z udziałem autora: szum ma strukturę, którą można modelować (generatory łamiące symetrię) i wykorzystać w uczeniu (sieci oparte na grupach Liego).
 }
 
 \section{Motywacja}\label{sec:introduction:motivation}
@@ -44,10 +46,10 @@ PB2. Czy korekta wyznaczona dla funkcji referencyjnej poprawia wyniki innych obl
 PB3. Jak duża jest utrata danych w metodach FRQI, NEQR i LPIQE na symulatorze i na rzeczywistych urządzeniach oraz w jakim stopniu ogranicza ją PDU?
 PB4. Czy klasyczna sieć generatywna może usunąć błąd pozostały po PDU i jakim kosztem?
 PB5. Jak redukcja błędów wpływa na skuteczność klasyfikacji obrazów?
-PB6. Czy szum urządzenia można opisać na poziomie generatorów bramek i wykorzystać w uczeniu?
+PB6. Jak uczone kodowanie obrazów znosi szum rzeczywistego urządzenia i czy korekta kalibracyjna zmniejsza lukę między symulatorem a sprzętem?
 
 Teza T2 wymaga doprecyzowania: z jaką metodą kompresji i przy jakich parametrach następuje porównanie.
-Tytuł pracy obejmuje klasyfikację obrazów, a dotychczasowe artykuły pokrywają ją słabo; zakres rozdziału 7 wymaga decyzji autora i promotora \agentref{chapters/classification.tex}.
+Tytuł pracy obejmuje klasyfikację obrazów, a dotychczasowe artykuły jej nie pokrywają; pokrycie dają nowe eksperymenty opisane w rozdziale 8 \agentref{chapters/classification.tex}.
 }
 
 \section{Zakres pracy}\label{sec:introduction:scope}
@@ -64,15 +66,18 @@ Wkład należy wyliczyć w punktach i powiązać z rozdziałami:
 (b) uogólnienie PDU na przetwarzanie obrazów i schemat kodowanie--rekonstrukcja z LPIQE (rozdział 5);
 (c) porównanie utraty danych w FRQI, NEQR i LPIQE na symulatorze i rzeczywistych urządzeniach (rozdział 5);
 (d) zastosowanie sieci pix2pix do redukcji błędu pozostałego po PDU (rozdział 6);
-(e) ocena wpływu redukcji błędów na klasyfikację obrazów (rozdział 7, zależnie od decyzji o zakresie);
-(f) udział w pracach nad modelowaniem szumu generatorami łamiącymi symetrię i nad sieciami opartymi na grupach Liego (rozdział 8).
-W punktach (f) precyzyjnie oddzielić wkład własny autora od wkładu współautorów; wymaga informacji od autora.
+(e) charakterystyka szumu i korekta kalibracyjna dla uczonego kodowania obrazów na rzeczywistym urządzeniu (rozdział 7);
+(f) ocena wpływu szumu i redukcji błędów na klasyfikację, w tym klasyfikację obrazów (rozdział 8).
+Prace omawiane w rozdziale 9 nie są wkładem rozprawy; autor implementował w nich część kodu i uruchamiał eksperymenty.
+W punktach (e) i (f) oddzielić wkład własny autora od wkładu współautorów manuskryptów roboczych.
 }
 
 \section{Publikacje i manuskrypty związane z rozprawą}\label{sec:introduction:publications}
 \agentinfo{
 Status publikacji (opublikowana, przyjęta, w recenzji, manuskrypt) oraz pełne dane bibliograficzne wymagają potwierdzenia przez autora.
-Według autora (2026-11-26) opublikowane są prawdopodobnie tylko trzy prace; najpewniej są to ICCS 2022, KES 2023 i CoDIT 2025, co wymaga potwierdzenia.
+Stan zweryfikowany w Crossref 2026-11-26: opublikowane z autorem jako pierwszym autorem są trzy prace (ICCS 2022, KES 2023, CoDIT 2025); praca o sieciach GAN istnieje tylko jako preprint z 2023 r.; praca o szumie, w której autor jest drugim autorem, została opublikowana w APS Open Science w 2026 r.; praca o grupach Liego jest preprintem z 2026 r.
+Lista jest zgodna z profilem autora w serwisie ResearchGate odczytanym 2026-11-26 (10 pozycji, w tym preprinty i praca magisterska).
+Praca FRQI Pairs (CoDIT 2025, autor rozprawy jako czwarty autor) dotyczy klasyfikacji obrazów; ustalić z autorem jego udział i to, czy warto ją omówić w rozdziale 8 lub w przeglądzie literatury.
 Rozprawa powstaje z wyników eksperymentów, a nie z artykułów, więc lista poniżej dokumentuje dorobek, a nie wyznacza zakres pracy.
 Dwa kolejne manuskrypty robocze autora: klasyfikator z odczytem fazowym (repozytorium quantum-classifier) oraz hybrydowy autoenkoder obrazów z uczonym kodowaniem (katalog best_results_package, plik article/main.tex); oba współautorskie i nieopublikowane.
 Wpisy znajdują się w bibliography/own_publications.bib; pola oznaczone DO WERYFIKACJI uzupełnić po potwierdzeniu.
@@ -82,18 +87,21 @@ Artykuł CoDIT 2025 ma dwie wcześniejsze wersje robocze w katalogach Quantum_Er
 
 \subsection{Prace bezpośrednio związane z rozprawą}
 
+Autor rozprawy jest pierwszym autorem wszystkich prac wymienionych w tym punkcie.
+
 \begin{itemize}
 \item Praca~\cite{werner_experiment_driven_2022} wprowadza metodę redukcji błędów opartą na funkcji PDU i stanowi podstawę rozdziału~\ref{chapter:pdu}.
 \item Praca~\cite{werner_data_loss_2023} porównuje utratę danych w metodach kwantowej reprezentacji obrazów i stanowi podstawę rozdziału~\ref{chapter:pdu_images}.
 \item Praca~\cite{werner_error_reduction_2025} przedstawia schemat kodowania i~rekonstrukcji obrazów z~redukcją błędów i stanowi podstawę rozdziału~\ref{chapter:pdu_images}.
-\item Manuskrypt~\cite{werner_deep_learning_manuscript} opisuje zastosowanie generatywnych sieci przeciwstawnych do redukcji błędów i stanowi podstawę rozdziału~\ref{chapter:dl_error_reduction}.
+\item Preprint~\cite{werner_deep_learning_manuscript} opisuje zastosowanie generatywnych sieci przeciwstawnych do redukcji błędów i stanowi podstawę rozdziału~\ref{chapter:dl_error_reduction}.
 \end{itemize}
 
 \subsection{Pozostałe prace}
 
 \begin{itemize}
 \item Praca~\cite{raubitzek_quantum_noise} dotyczy rekonstrukcji szumu kwantowego z~generatorów łamiących symetrię i jest omawiana w rozdziale~\ref{chapter:noise_structure}.
-\item Manuskrypt~\cite{raubitzek_lie_group_manuscript} dotyczy sieci neuronowych opartych na grupach Liego i jest omawiany w rozdziale~\ref{chapter:noise_structure}.
+\item Preprint~\cite{raubitzek_lie_group_manuscript} dotyczy sieci neuronowych opartych na grupach Liego i jest omawiany w rozdziale~\ref{chapter:noise_structure}.
+\item Praca~\cite{potempa_frqi_pairs_2025} dotyczy klasyfikacji obrazów kodowanych metodą FRQI z~użyciem kwantowej sieci rekurencyjnej.
 \item Praca magisterska autora~\cite{werner_magisterka_2022} zawiera pierwotne sformułowanie metody PDU.
 \end{itemize}
 

@@ -1,46 +1,73 @@
 % !TeX root = ./../main.tex
 
-\chapter{Wpływ redukcji błędów na klasyfikację obrazów}\label{chapter:classification}
+\chapter{Klasyfikacja w obecności szumu i wpływ redukcji błędów}\label{chapter:classification}
 
 \agentinfo{
-Tytuł rozprawy obejmuje klasyfikację obrazów, a dotychczasowe artykuły nie zawierają eksperymentów klasyfikacji obrazów kodowanych kwantowo.
-Artykuły zapowiadają jedynie kierunek: wykrywanie przyrządów lotniczych na obrazach z kokpitu symulatora lotu \agentref{artykuły/CoDIT_2025_final_paper/root.tex} \agentref{artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex}.
-Koncepcja rozprawy z 2022 r. przewidywała implementację kwantowej klasyfikacji obrazów oraz ocenę PDU w tym zadaniu \agentref{inne/Wstępna koncepcja rozprawy doktorskiej.docx}.
-
-Kierunek wskazany przez autora 2026-11-26: dorobić badania na symulatorze i połączyć je z bieżącymi badaniami autora nad klasyfikacją kwantową i kodowaniem obrazów.
-Szczegółowy zakres poniżej jest PROPOZYCJĄ czekającą na akceptację autora; do czasu akceptacji nie pisać treści rozdziału.
+Rozdział bada, jak szum wpływa na klasyfikację prowadzoną z użyciem obwodów kwantowych i czy klasyczna redukcja błędów ją poprawia.
+Spina tytuł pracy z rozdziałami 4--7.
+Docelowa objętość: około 16 stron.
+Struktura przyjęta przez autora 2026-11-26; eksperymenty E0--E4 są zadaniami w infokuźni (epika Eksperymenty uzupełniające).
 
 Materiał istniejący: repozytorium /Users/krzysztofwerner/git/quantum-classifier (tylko do odczytu; nie czytać plików .env).
 Klasyfikator FBS z odczytem klasy z fazy (azymutu wektora Blocha), kąty bramek przewiduje sieć klasyczna, 2--7 kubitów.
-Dane są syntetyczne i tabelaryczne, nie obrazowe.
+Dane istniejące są syntetyczne i tabelaryczne, nie obrazowe.
 Są wyniki symulatorowe z szumem, przebiegi na urządzeniu ibm_fez, kalibracja modelu szumu stanami GHZ oraz afiniczny model urządzenia; nie zastosowano żadnej mitygacji błędów.
 Zapisane pomiary sprzętowe (400 próbek uczących i 100 testowych na model) pozwalają badać korektę odczytu bez nowych przebiegów na sprzęcie.
-Manuskrypt roboczy jest współautorski i nieopublikowany: Quantum_Specific_Classification_working_draft_v4_kw.tex; część teoretyczna (geometria) jest wkładem współautora.
+Manuskrypt roboczy Quantum_Specific_Classification_working_draft_v4_kw.tex jest współautorski i nieopublikowany; część teoretyczna (geometria) jest wkładem współautora.
 
-Proponowane eksperymenty:
-E0. Korekta odczytu typu PDU (interpolacja błędu fazy na kubit) dopasowana na próbkach uczących i oceniona na testowych, na istniejących danych z ibm_fez.
+Nowe eksperymenty:
+E0. Korekta odczytu typu PDU (interpolacja błędu fazy na kubit) dopasowana na próbkach uczących i oceniona na testowych, na zapisanych danych z ibm_fez.
 E1. Krzywe degradacji dokładności przy rosnącym szumie na symulatorze, z korektą i bez niej, w tym skończona liczba pomiarów.
 E2. Porównanie treningu w szumie z korektą po fakcie, na wielu ziarnach losowych.
-E4. Klasyfikacja obrazów 8x8 lub 16x16 w wariantach: oryginał, rekonstrukcja LPIQE surowa, po PDU, po pix2pix, po obu etapach; klasyfikator klasyczny i klasyfikator FBS. Ten eksperyment spina rozdziały 5--6 z tytułem pracy.
+E4. Klasyfikacja obrazów 8x8 lub 16x16 w wariantach: oryginał, rekonstrukcja LPIQE surowa, po PDU, po pix2pix, po obu etapach; klasyfikator klasyczny i klasyfikator FBS.
+Oryginalnego kodu potoku LPIQE, PDU i pix2pix nie ma na komputerze autora; potok jest odtwarzany na symulatorze w ramach osobnego zadania.
 
-Zagrożenia do usunięcia przed użyciem wyników: jedno ziarno losowe, brak zbioru walidacyjnego (dobór hiperparametrów i punktu kontrolnego na zbiorze testowym), standaryzacja liczona przed podziałem danych, klasyfikator FBS słabszy od sieci MLP we wszystkich przypadkach.
-W rozprawie klasyfikator jest środowiskiem do badania szumu i redukcji błędów, a nie propozycją konkurencyjnego klasyfikatora.
-Nie ustalono jeszcze, gdzie znajduje się kod potoku LPIQE, PDU i pix2pix potrzebny do E4.
+Zagrożenia do usunięcia przed użyciem wyników: jedno ziarno losowe, brak zbioru walidacyjnego (dobór hiperparametrów i punktu kontrolnego na zbiorze testowym), standaryzacja liczona przed podziałem danych.
+Klasyfikator FBS jest słabszy od sieci MLP we wszystkich przypadkach; w rozprawie jest środowiskiem do badania szumu i redukcji błędów, a nie propozycją konkurencyjnego klasyfikatora, i należy to napisać wprost.
 }
 
 \section{Cel i zakres rozdziału}\label{sec:cls:scope}
-\agentinfo{Pytanie badawcze rozdziału: PB5.}
+\agentinfo{
+Pytanie badawcze rozdziału: PB5.
+Odniesienie do roboczej tezy T4; wynik może być negatywny i wtedy tezę trzeba przeformułować, a nie naginać wyniki.
+}
 
-\section{Potok klasyfikacji obrazów kodowanych kwantowo}\label{sec:cls:pipeline}
-\agentinfo{Do uzupełnienia po decyzji o wariancie: etapy od obrazu wejściowego, przez kodowanie, pomiar i redukcję błędów, do klasyfikatora.}
+\section{Klasyfikator z odczytem fazowym}\label{sec:cls:classifier}
+\agentinfo{
+Idea: klasa odczytywana z azymutu wektora Blocha, promień wektora jako miara pewności; obwód o stałej strukturze z kątami przewidywanymi przez sieć klasyczną.
+Opis zwięzły, w zakresie potrzebnym do zrozumienia wpływu szumu; geometrię modelu przypisać współautorowi.
+Związek z metodą PDU: wynik jest zapisany w fazie, więc zniekształcenie fazy bezpośrednio przesuwa decyzję klasyfikatora.
+}
 
 \section{Metodyka badań eksperymentalnych}\label{sec:cls:methodology}
-\agentinfo{Do uzupełnienia po decyzji o wariancie: zbiór danych, model, warianty redukcji błędów, miary, liczba powtórzeń.}
+\agentinfo{
+Dane tabelaryczne (syntetyczne) i obrazowe (zbiór z etykietami w rozdzielczości 8x8 lub 16x16).
+Modele szumu: odstrojenie, tłumienie fazy i depolaryzacja po każdym bloku; poziomy skalibrowane stanami GHZ.
+Sprzęt: zapisane przebiegi z urządzenia ibm_fez.
+Poprawiona metodyka: zbiór walidacyjny, standaryzacja po podziale, wiele ziaren, przedziały ufności.
+Miary: dokładność, zgodność predykcji między symulatorem a sprzętem, odległość wektorów Blocha.
+}
 
 \section{Wyniki}\label{sec:cls:results}
-\agentinfo{Do uzupełnienia po wykonaniu eksperymentów.}
+
+\subsection{Wpływ szumu i głębokości obwodu na dokładność}\label{subsec:cls:results:noise}
+\agentinfo{
+Wyniki istniejące: dokładność na symulatorze i na ibm_fez w funkcji liczby bramek dwukubitowych; spadek promienia wektora Blocha przy zachowanej dokładności; niedopasowanie poziomu szumu między treningiem a testem.
+}
+
+\subsection{Korekta odczytu typu PDU}\label{subsec:cls:results:pdu}
+\agentinfo{Eksperymenty E0 i E1. Pisać po ich wykonaniu.}
+
+\subsection{Trening w szumie a korekta po fakcie}\label{subsec:cls:results:training}
+\agentinfo{Eksperyment E2. Pisać po jego wykonaniu.}
+
+\subsection{Klasyfikacja obrazów po redukcji błędów}\label{subsec:cls:results:images}
+\agentinfo{Eksperyment E4. Pisać po jego wykonaniu. Zwrócić uwagę na rozłączność danych użytych do treningu sieci pix2pix i do testu klasyfikatora.}
 
 \section{Dyskusja}\label{sec:cls:discussion}
-\agentinfo{Odpowiedź na PB5 oraz zagrożenia trafności.}
+\agentinfo{
+Odpowiedź na PB5 oraz zagrożenia trafności.
+Co korekta klasyczna usuwa (składowa koherentna, systematyczne przesunięcie fazy), a czego nie (utrata czystości stanu).
+}
 
 \section{Podsumowanie}\label{sec:cls:summary}

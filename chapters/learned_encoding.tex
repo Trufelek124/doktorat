@@ -1,0 +1,77 @@
+% !TeX root = ./../main.tex
+
+\chapter{Uczone kodowanie obrazów na rzeczywistym sprzęcie kwantowym}\label{chapter:learned_encoding}
+
+\agentinfo{
+Rozdział opisuje hybrydowy autoenkoder, w którym sieć klasyczna uczy się kodować obraz w płytki obwód kwantowy, oraz zachowanie tego kodowania na rzeczywistym urządzeniu.
+Jest to kolejny etap linii badań z rozdziałów 5 i 6: kodowanie i rekonstrukcja obrazu pod szumem.
+Docelowa objętość: około 12 stron.
+
+Źródło: katalog /Users/krzysztofwerner/Downloads/Quantum/best_results_package (tylko do odczytu; nie czytać plików .env).
+Manuskrypt roboczy article/main.tex jest współautorski i nieopublikowany; wkład autora rozprawy trzeba oddzielić od wkładu współautorów.
+Liczby brać z plików wynikowych (article/data/eval_results.json, article/data/hw_results.json, output/hw_run1/analysis/report.md, hw_run2_finetune/baseline/summary.md), a nie z tekstu manuskryptu.
+
+Akcent rozdziału: charakterystyka szumu urządzenia, budżet błędu i redukcja błędów, a nie jakość samego kodowania.
+Model jest tylko nieznacznie lepszy od obrazu średniego, a na sprzęcie gorszy od niego; należy to napisać wprost.
+Wyniki negatywne i nierozstrzygające (trening w szumie, dostrajanie na sprzęcie) są pełnoprawną treścią rozdziału.
+
+Zagrożenia do usunięcia przed użyciem liczb: duplikaty obrazów między zbiorem walidacyjnym a uczącym (rzetelna ocena na 10 niewidzianych obrazach), wybór punktu kontrolnego na zbiorze, na którym raportowano wynik, bardzo mała próba, jedno urządzenie i jedno ziarno losowe.
+Miarą główną w źródle jest MAE, a w rozdziałach 5 i 6 MSE i korelacja Pearsona; podać obie grupy miar.
+}
+
+\section{Cel i zakres rozdziału}\label{sec:le:scope}
+\agentinfo{
+Pytanie badawcze rozdziału: PB6 (jak uczone kodowanie obrazów znosi szum rzeczywistego urządzenia i czy korekta kalibracyjna zmniejsza lukę między symulatorem a sprzętem).
+Odniesienie do tezy T1 w wersji uogólnionej: korekta oparta na pomiarze poza obliczeniami QCoSamp.
+}
+
+\section{Hybrydowy autoenkoder z uczonym kodowaniem}\label{sec:le:architecture}
+\agentinfo{
+Sieć klasyczna zamienia obraz na kąty stałego ansatzu (warstwa Hadamarda, bloki bramek jednokubitowych i kontrolowanych przesunięć fazy na łańcuchu liniowym, warstwa Hadamarda); obwód nie ma własnych parametrów.
+Odczyt: piksel jako przeskalowane prawdopodobieństwo stanu bazowego; po odczycie uczony splot wygładzający.
+Konfiguracje: obrazy RGB 8x8 i 9x9 na 9 kubitach, 16x16 na 11 kubitach.
+Porównanie z LPIQE, FRQI i NEQR: kodowanie przybliżone i stratne nawet bez szumu, ale płytkie i zgodne z topologią urządzenia.
+}
+
+\section{Metodyka badań eksperymentalnych}\label{sec:le:methodology}
+\agentinfo{
+Dane: kafle lotnicze z pojazdami oraz obrazy KITTI; opisać pochodzenie, licencję i podział.
+Trening: strata L1, optymalizator Adam, dobór hiperparametrów.
+Symulator bez szumu, symulator z szumem (depolaryzacja i odstrojenie na warstwę), skończona liczba pomiarów.
+Sprzęt: urządzenie ibm_fez, dwa przebiegi (228 rejestrów; 10 obrazów), bez mitygacji błędów.
+Miary: MAE, MSE, PSNR, SSIM, wierność Hellingera, korelacja Pearsona.
+}
+
+\section{Wyniki}\label{sec:le:results}
+
+\subsection{Jakość rekonstrukcji na symulatorze}\label{subsec:le:results:sim}
+\agentinfo{Wyniki bez szumu i przy skończonej liczbie pomiarów, na tle obrazu średniego jako odniesienia.}
+
+\subsection{Degradacja na rzeczywistym urządzeniu}\label{subsec:le:results:hardware}
+\agentinfo{
+Wierność rozkładów na sprzęcie, równoważna depolaryzacja na warstwę, wzrost błędu rekonstrukcji względem symulatora wraz z przedziałem ufności.
+Dekompozycja luki między symulatorem a sprzętem: szum śrutowy, jednorodna depolaryzacja, reszta o nieznanej strukturze.
+}
+
+\subsection{Trening w szumie i dostrajanie na sprzęcie}\label{subsec:le:results:training}
+\agentinfo{
+Trening z modelem szumu słabszym niż rzeczywisty szum urządzenia oraz dostrajanie z pomiarem na sprzęcie i gradientem z symulowanego bliźniaka.
+Wynik statystycznie nierozstrzygający; podać przedziały ufności i wpływ dryfu między zadaniami.
+}
+
+\subsection{Korekta kalibracyjna typu PDU}\label{subsec:le:results:pdu}
+\agentinfo{
+Nowy eksperyment na zapisanych danych sprzętowych (bez nowych przebiegów): korekta dopasowana na części łańcuchów kubitów i oceniona na pozostałych.
+Uzupełnienie na symulatorze: jakość rekonstrukcji przy rosnącym szumie, z korektą i bez niej.
+Sekcję pisać po wykonaniu eksperymentów.
+}
+
+\section{Dyskusja}\label{sec:le:discussion}
+\agentinfo{
+Odpowiedź na PB6.
+Budżet błędu z trzech składników: aproksymacja modelu, szum śrutowy, szum urządzenia.
+Co korekta klasyczna może usunąć (składowa systematyczna), a czego nie (depolaryzacja).
+Ograniczenia: mała próba, jedno urządzenie, słaba przewaga nad obrazem średnim, obrazy RGB zamiast skali szarości.
+}
+
+\section{Podsumowanie}\label{sec:le:summary}

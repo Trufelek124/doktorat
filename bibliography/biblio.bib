@@ -3,6 +3,21 @@
 % Usunięto pola: abstract, file, keywords, annote, urldate.
 % Publikacje własne autora znajdują się w own_publications.bib.
 % Zasada: nie zmieniać istniejących kluczy cytowania; nie dodawać wpisów bez weryfikacji (DOI, tytuł, autorzy).
+%
+% Aliasy kluczy (alias -> klucz kanoniczny). Aliasy pochodzą ze źródeł artykułów;
+% w rozprawie cytować wyłącznie klucz kanoniczny. Duplikaty usunięto w zadaniu PHD-TS-3.
+%   bib:qCoSamp                       -> wereszczynski_cosine_2020
+%   quantum_history                   -> ibm_q
+%   bib:coherent_error_surface_codes  -> bravyi_correcting_2018
+%   Temme2017                         -> quasi-probability
+%   near-future                       -> endo_practical_2018
+%   bib:game_of_surface_codes         -> litinski_game_2019
+%   QiskitPTMDoc_2                    -> QiskitPTMDoc
+%   bib:depolarizing                  -> NielsenChuang2010
+%   pdu, pdu-werner                   -> werner_experiment_driven_2022 (own_publications.bib)
+%   bdcc9090223                       -> raubitzek_obfuscation_2025
+%   bib:somhorst_quantum_2022         -> somhorst_quantum_2022 (KES 2023)
+%   bib:de_goede_high_2022            -> de_goede_high_2022 (KES 2023)
 
 
 % ===== źródło: artykuły/CoDIT_2025_final_paper/ms.bib =====
@@ -11,7 +26,7 @@
   title        = {Cosine series quantum sampling method with applications in signal and image processing},
   url          = {http://arxiv.org/abs/2011.12738},
   journal      = {arXiv:2011.12738},
-  author       = {Wereszczyński, K and Michalczuk, A and Pęszor, D and Paszkuta, M and Cyran, K and Polański, A},
+  author       = {Wereszczyński, Kamil and Michalczuk, Agnieszka and Pęszor, Damian and Paszkuta, Marcin and Cyran, Krzysztof and Polański, Andrzej},
   month        = nov,
   year         = {2020}
 }
@@ -32,10 +47,10 @@
 }
 
 @article{qubit_lattice,
-  author       = {Venegas-Andraca, Salvador and Bose, Sougato},
+  author       = {Venegas-Andraca, Salvador E. and Bose, Sougato},
   year         = {2003},
   month        = {08},
-  pages        = {},
+  pages        = {137},
   title        = {Storing, Processing and Retrieving an Image using Quantum Mechanics},
   volume       = {5105},
   journal      = {Proceedings of SPIE - The International Society for Optical Engineering},
@@ -46,7 +61,6 @@
   author       = {Le, Phuc Q. and Dong, Fangyan and Hirota, Kaoru},
   title        = {A Flexible Representation of Quantum Images for Polynomial Preparation, Image Compression, and Processing Operations},
   year         = {2011},
-  issue_date   = {February 2011},
   publisher    = {Kluwer Academic Publishers},
   address      = {USA},
   volume       = {10},
@@ -55,47 +69,45 @@
   url          = {https://doi.org/10.1007/s11128-010-0177-y},
   doi          = {10.1007/s11128-010-0177-y},
   journal      = {Quantum Information Processing},
-  month        = {feb},
-  pages        = {63--84},
-  numpages     = {22}
+  month        = {2},
+  pages        = {63--84}
 }
 
 @article{neqr,
   author       = {Zhang, Yi and Lu, Kai and Gao, Yinghui and Wang, Mo},
   year         = {2013},
   month        = {08},
-  pages        = {},
+  pages        = {2833--2860},
   title        = {NEQR: A novel enhanced quantum representation of digital images},
   volume       = {12},
   journal      = {Quantum Information Processing},
-  doi          = {10.1007/s11128-013-0567-z}
+  doi          = {10.1007/s11128-013-0567-z},
+  number       = {8}
 }
 
 @article{frqi-polynomial,
   title        = {Flexible Representation of Quantum Images and Its Computational Complexity Analysis},
-  author       = {Le Quang Phuc and Dong Fangyang and Arai Yoshinori and Hirota Kaoru},
+  author       = {Le Quang, Phuc and Dong, Fangyan and Arai, Yoshinori and Hirota, Kaoru},
   year         = {2009},
-  doi          = {10.14864/fss.25.0.185.0}
-}
-
-@misc{quantum_history,
-  title        = {IBM Quantum Systems},
-  url          = {https://www.ibm.com/quantum/systems},
-  journal      = {IBM Quantum Computing | Systems Technology},
-  publisher    = {IBM},
-  year         = {2015},
-  month        = {10}
+  doi          = {10.14864/fss.25.0.185.0},
+  journal      = {Proceedings of the Fuzzy System Symposium},
+  volume       = {25},
+  pages        = {185}
 }
 
 @article{taballione_20-mode_2022,
   title        = {20-{Mode} {Universal} {Quantum} {Photonic} {Processor}},
-  copyright    = {arXiv.org perpetual, non-exclusive license},
   url          = {https://arxiv.org/abs/2203.01801},
-  doi          = {10.48550/ARXIV.2203.01801},
-  author       = {Taballione, Caterina and Anguita, Malaquias Correa and de Goede, Michiel and Venderbosch, Pim and Kassenberg, Ben and Snijders, Henk and Kannan, Narasimhan and Smith, Devin and Epping, Jörn P. and van der Meer, Reinier and Pinkse, Pepijn W. H. and Vlekkert, Hans van den and Renema, Jelmer J.},
-  year         = {2022},
-  note         = {Publisher: arXiv
-Version Number: 3}
+  doi          = {10.22331/q-2023-08-01-1071},
+  author       = {Taballione, Caterina and Anguita, Malaquias Correa and de Goede, Michiel and Venderbosch, Pim and Kassenberg, Ben and Snijders, Henk and Kannan, Narasimhan and Vleeshouwers, Ward L. and Smith, Devin and Epping, Jörn P. and van der Meer, Reinier and Pinkse, Pepijn W. H. and van den Vlekkert, Hans and Renema, Jelmer J.},
+  year         = {2023},
+  journal      = {Quantum},
+  volume       = {7},
+  pages        = {1071},
+  month        = {8},
+  issn         = {2521-327X},
+  eprint       = {2203.01801},
+  eprinttype   = {arxiv}
 }
 
 @misc{de_goede_high_2022,
@@ -109,33 +121,30 @@ Version Number: 3}
 }
 
 @article{somhorst_quantum_2022,
-  title        = {Quantum photo-thermodynamics on a programmable photonic quantum processor},
-  copyright    = {arXiv.org perpetual, non-exclusive license},
+  title        = {Quantum simulation of thermodynamics in an integrated quantum photonic processor},
   url          = {https://arxiv.org/abs/2201.00049},
-  doi          = {10.48550/ARXIV.2201.00049},
-  author       = {Somhorst, Frank H. B. and van der Meer, Reinier and Anguita, Malaquias Correa and Schadow, Riko and Snijders, Henk J. and de Goede, Michiel and Kassenberg, Ben and Venderbosch, Pim and Taballione, Caterina and Epping, Jörn. P. and Vlekkert, Hans. H. van den and Bulmer, Jacob F. F. and Lugani, Jasleen and Walmsley, Ian A. and Pinkse, Pepijn W. H. and Eisert, Jens and Walk, Nathan and Renema, Jelmer J.},
-  year         = {2022},
-  note         = {Publisher: arXiv
-Version Number: 1}
+  doi          = {10.1038/s41467-023-38413-9},
+  author       = {Somhorst, Frank H. B. and van der Meer, Reinier and Correa Anguita, Malaquias and Schadow, Riko and Snijders, Henk J. and de Goede, Michiel and Kassenberg, Ben and Venderbosch, Pim and Taballione, Caterina and Epping, Jörn P. and van den Vlekkert, Hans H. and Timmerhuis, J. and Bulmer, Jacob F. F. and Lugani, Jasleen and Walmsley, Ian A. and Pinkse, Pepijn W. H. and Eisert, Jens and Walk, Nathan and Renema, Jelmer J.},
+  year         = {2023},
+  journal      = {Nature Communications},
+  volume       = {14},
+  number       = {1},
+  pages        = {3895},
+  month        = {7},
+  issn         = {2041-1723},
+  eprint       = {2201.00049},
+  eprinttype   = {arxiv}
 }
 
 @article{bib:perfect_quantum_error_correction_code,
-  title        = {Perfect Quantum Error Correction Code},
-  author       = {Raymond Laflamme and Cesar Miquel and Juan Pablo Paz and Wojciech Zurek},
+  title        = {Perfect Quantum Error Correcting Code},
+  author       = {Laflamme, Raymond and Miquel, Cesar and Paz, Juan Pablo and Zurek, Wojciech Hubert},
   journal      = {Physical Review Letters},
   year         = {1996},
-  number       = {198},
-  volume       = {77}
-}
-
-@article{bib:coherent_error_surface_codes,
-  title        = {Correcting coherent errors with surface codes},
-  author       = {Sergey Bravyi and Matthias Englbrecht and Robert König and Nolan Peard},
-  journal      = {npj Quantum Information},
-  year         = {2018},
   number       = {1},
-  volume       = {4},
-  pages        = {55}
+  volume       = {77},
+  pages        = {198--201},
+  doi          = {10.1103/PhysRevLett.77.198}
 }
 
 @article{madsen_quantum_2022,
@@ -144,7 +153,6 @@ Version Number: 1}
   issn         = {0028-0836, 1476-4687},
   url          = {https://www.nature.com/articles/s41586-022-04725-x},
   doi          = {10.1038/s41586-022-04725-x},
-  language     = {en},
   number       = {7912},
   journal      = {Nature},
   author       = {Madsen, Lars S. and Laudenbach, Fabian and Askarani, Mohsen Falamarzi. and Rortais, Fabien and Vincent, Trevor and Bulmer, Jacob F. F. and Miatto, Filippo M. and Neuhaus, Leonhard and Helt, Lukas G. and Collins, Matthew J. and Lita, Adriana E. and Gerrits, Thomas and Nam, Sae Woo and Vaidya, Varun D. and Menotti, Matteo and Dhand, Ish and Vernon, Zachary and Quesada, Nicolás and Lavoie, Jonathan},
@@ -158,11 +166,10 @@ Version Number: 1}
   author       = {Li, Ying and Benjamin, Simon C.},
   journal      = {Phys. Rev. X},
   volume       = {7},
-  issue        = {2},
+  number       = {2},
   pages        = {021050},
-  numpages     = {14},
   year         = {2017},
-  month        = {Jun},
+  month        = {6},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevX.7.021050},
   url          = {https://link.aps.org/doi/10.1103/PhysRevX.7.021050}
@@ -173,11 +180,10 @@ Version Number: 1}
   author       = {Temme, Kristan and Bravyi, Sergey and Gambetta, Jay M.},
   journal      = {Phys. Rev. Lett.},
   volume       = {119},
-  issue        = {18},
+  number       = {18},
   pages        = {180509},
-  numpages     = {5},
   year         = {2017},
-  month        = {Nov},
+  month        = {11},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevLett.119.180509},
   url          = {https://link.aps.org/doi/10.1103/PhysRevLett.119.180509}
@@ -189,7 +195,6 @@ Version Number: 1}
   issn         = {2470-0010, 2470-0029},
   url          = {https://link.aps.org/doi/10.1103/PhysRevD.100.065021},
   doi          = {10.1103/PhysRevD.100.065021},
-  language     = {en},
   number       = {6},
   journal      = {Physical Review D},
   author       = {Funai, Nicholas and Martín-Martínez, Eduardo},
@@ -202,38 +207,21 @@ Version Number: 1}
   address      = {Washington, DC},
   title        = {Loophole-{Free} {Test} of {Einstein}-{Podolsky}-{Rosen} {Steering} with {One} {Bit} of {Faster}-than-{Light} {Communication}},
   isbn         = {978-1-943580-76-7},
-  language     = {en},
   booktitle    = {Conference on {Lasers} and {Electro}-{Optics}},
   publisher    = {Optica Publishing Group},
   author       = {Mazurek, M. D. and Xiang, Y. and Stevens, M. J. and Bienfang, J. C. and Wayne, M. A. and Abellán, C. and Amaya, W. and Mitchell, M. W. and Mirin, R. P. and Nam, S. W. and He, Q. and Shalm, L. K. and Wiseman, H. M.},
   year         = {2020},
-  pages        = {FTh1D.6}
+  pages        = {FTh1D.6},
+  doi          = {10.1364/CLEO_QELS.2020.FTh1D.6}
 }
 
 @article{tann_quantum_2022,
   title        = {Quantum {Remote} {Entanglement} for {Medium}-{Free} {Secure} {Communication}?},
   journal      = {arXiv e-prints},
-  copyright    = {Creative Commons Attribution Non Commercial No Derivatives 4.0 International},
   url          = {https://arxiv.org/abs/2202.00830},
   doi          = {10.48550/ARXIV.2202.00830},
   author       = {Tann, Wesley Joon-Wie},
-  year         = {2022},
-  note         = {Publisher: arXiv Version Number: 1}
-}
-
-@article{near-future,
-  title        = {Practical Quantum Error Mitigation for Near-Future Applications},
-  author       = {Endo, Suguru and Benjamin, Simon C. and Li, Ying},
-  journal      = {Phys. Rev. X},
-  volume       = {8},
-  issue        = {3},
-  pages        = {031027},
-  numpages     = {21},
-  year         = {2018},
-  month        = {Jul},
-  publisher    = {American Physical Society},
-  doi          = {10.1103/PhysRevX.8.031027},
-  url          = {https://link.aps.org/doi/10.1103/PhysRevX.8.031027}
+  year         = {2022}
 }
 
 
@@ -271,7 +259,6 @@ Version Number: 1}
   issn         = {0018-8646, 0018-8646},
   url          = {http://ieeexplore.ieee.org/document/5391327/},
   doi          = {10.1147/rd.176.0525},
-  language     = {en},
   number       = {6},
   journal      = {IBM Journal of Research and Development},
   author       = {Bennett, C. H.},
@@ -286,7 +273,6 @@ Version Number: 1}
   issn         = {2041-1723},
   url          = {http://www.nature.com/articles/s41467-019-11489-y},
   doi          = {10.1038/s41467-019-11489-y},
-  language     = {en},
   number       = {1},
   journal      = {Nature Communications},
   author       = {Adcock, Jeremy C. and Vigliar, Caterina and Santagati, Raffaele and Silverstone, Joshua W. and Thompson, Mark G.},
@@ -315,7 +301,6 @@ Version Number: 1}
   title        = {Multipartite {Entanglement}},
   isbn         = {978-3-527-41353-9 978-3-527-80578-5},
   url          = {https://onlinelibrary.wiley.com/doi/10.1002/9783527805785.ch14},
-  language     = {en},
   booktitle    = {Quantum {Information}},
   publisher    = {Wiley},
   author       = {Walter, Michael and Gross, David and Eisert, Jens},
@@ -341,13 +326,14 @@ Version Number: 1}
   pages        = {042329}
 }
 
-@article{mackay_information_2003,
+@book{mackay_information_2003,
   title        = {Information {Theory}, {Inference}, and {Learning} {Algorithms}},
-  language     = {en},
-  author       = {MacKay, David J C},
-  pages        = {640},
+  author       = {MacKay, David J. C.},
   year         = {2003},
-  publisher    = {Cambridge University Press}
+  publisher    = {Cambridge University Press},
+  address      = {Cambridge},
+  isbn         = {978-0-521-64298-9},
+  pagetotal    = {640}
 }
 
 @article{aaronson_improved_2004,
@@ -385,7 +371,6 @@ Version Number: 1}
   issn         = {0217-9792, 1793-6578},
   url          = {https://www.worldscientific.com/doi/abs/10.1142/S0217979220500599},
   doi          = {10.1142/S0217979220500599},
-  language     = {en},
   number       = {08},
   journal      = {International Journal of Modern Physics B},
   author       = {Nguyen, Duc Manh and Kim, Sunghwan},
@@ -414,7 +399,6 @@ Version Number: 1}
   issn         = {2160-3308},
   url          = {https://link.aps.org/doi/10.1103/PhysRevX.11.041058},
   doi          = {10.1103/PhysRevX.11.041058},
-  language     = {en},
   number       = {4},
   journal      = {Physical Review X},
   author       = {Ryan-Anderson, C. and Bohnet, J. G. and Lee, K. and Gresh, D. and Hankin, A. and Gaebler, J. P. and Francois, D. and Chernoguzov, A. and Lucchetti, D. and Brown, N. C. and Gatterman, T. M. and Halit, S. K. and Gilmore, K. and Gerber, J. A. and Neyenhuis, B. and Hayes, D. and Stutz, R. P.},
@@ -429,7 +413,6 @@ Version Number: 1}
   issn         = {1029-8479},
   url          = {http://link.springer.com/10.1007/JHEP03(2021)160},
   doi          = {10.1007/JHEP03(2021)160},
-  language     = {en},
   number       = {3},
   journal      = {Journal of High Energy Physics},
   author       = {Dymarsky, Anatoly and Shapere, Alfred},
@@ -444,7 +427,6 @@ Version Number: 1}
   issn         = {2056-6387},
   url          = {http://www.nature.com/articles/s41534-018-0106-y},
   doi          = {10.1038/s41534-018-0106-y},
-  language     = {en},
   number       = {1},
   journal      = {npj Quantum Information},
   author       = {Bravyi, Sergey and Englbrecht, Matthias and König, Robert and Peard, Nolan},
@@ -460,7 +442,6 @@ Version Number: 1}
   shorttitle   = {A {Game} of {Surface} {Codes}},
   url          = {https://quantum-journal.org/papers/q-2019-03-05-128/},
   doi          = {10.22331/q-2019-03-05-128},
-  language     = {en},
   journal      = {Quantum},
   author       = {Litinski, Daniel},
   month        = mar,
@@ -474,7 +455,6 @@ Version Number: 1}
   issn         = {2521-327X},
   url          = {https://quantum-journal.org/papers/q-2020-04-24-257/},
   doi          = {10.22331/q-2020-04-24-257},
-  language     = {en},
   journal      = {Quantum},
   author       = {Maciejewski, Filip B. and Zimborás, Zoltán and Oszmaniec, Michał},
   month        = apr,
@@ -488,9 +468,9 @@ Version Number: 1}
   issn         = {2160-3308},
   url          = {https://link.aps.org/doi/10.1103/PhysRevX.8.031027},
   doi          = {10.1103/PhysRevX.8.031027},
-  language     = {en},
   number       = {3},
   journal      = {Physical Review X},
+  publisher    = {American Physical Society},
   author       = {Endo, Suguru and Benjamin, Simon C. and Li, Ying},
   month        = jul,
   year         = {2018},
@@ -503,9 +483,11 @@ Version Number: 1}
 @inproceedings{isola_image_2017,
   title        = {Image-to-image translation with conditional adversarial networks},
   author       = {Isola, Phillip and Zhu, Jun-Yan and Zhou, Tinghui and Efros, Alexei A},
-  booktitle    = {Proceedings of the IEEE conference on computer vision and pattern recognition},
-  pages        = {1125--1134},
-  year         = {2017}
+  booktitle    = {2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages        = {5967--5976},
+  year         = {2017},
+  publisher    = {IEEE},
+  doi          = {10.1109/CVPR.2017.632}
 }
 
 @book{goodfellow2016deep,
@@ -520,7 +502,8 @@ Version Number: 1}
   author       = {Goodfellow, Ian and Pouget-Abadie, Jean and Mirza, Mehdi and Xu, Bing and Warde-Farley, David and Ozair, Sherjil and Courville, Aaron and Bengio, Yoshua},
   journal      = {Advances in neural information processing systems},
   volume       = {27},
-  year         = {2014}
+  year         = {2014},
+  url          = {https://papers.nips.cc/paper/5423-generative-adversarial-nets}
 }
 
 @misc{tensorflow2015-whitepaper,
@@ -618,7 +601,6 @@ Version Number: 1}
   volume       = {70},
   number       = {1},
   pages        = {012310},
-  date         = {2004-07-19},
   month        = jul,
   doi          = {10.1103/PhysRevA.70.012310},
   url          = {https://link.aps.org/doi/10.1103/PhysRevA.70.012310},
@@ -635,11 +617,10 @@ Version Number: 1}
   author       = {Vatan, Farrokh and Williams, Colin},
   journal      = {Phys. Rev. A},
   volume       = {69},
-  issue        = {3},
+  number       = {3},
   pages        = {032315},
-  numpages     = {5},
   year         = {2004},
-  month        = {Mar},
+  month        = {3},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevA.69.032315},
   url          = {https://link.aps.org/doi/10.1103/PhysRevA.69.032315}
@@ -650,11 +631,10 @@ Version Number: 1}
   author       = {Wood, Christopher J. and Gambetta, Jay M.},
   journal      = {Phys. Rev. A},
   volume       = {97},
-  issue        = {3},
+  number       = {3},
   pages        = {032306},
-  numpages     = {17},
   year         = {2018},
-  month        = {Mar},
+  month        = {3},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevA.97.032306},
   url          = {https://link.aps.org/doi/10.1103/PhysRevA.97.032306}
@@ -665,11 +645,10 @@ Version Number: 1}
   author       = {Chow, Jerry M. and Gambetta, Jay M. and C\'orcoles, A. D. and Merkel, Seth T. and Smolin, John A. and Rigetti, Chad and Poletto, S. and Keefe, George A. and Rothwell, Mary B. and Rozen, J. R. and Ketchen, Mark B. and Steffen, M.},
   journal      = {Phys. Rev. Lett.},
   volume       = {109},
-  issue        = {6},
+  number       = {6},
   pages        = {060501},
-  numpages     = {5},
   year         = {2012},
-  month        = {Aug},
+  month        = {8},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevLett.109.060501},
   url          = {https://link.aps.org/doi/10.1103/PhysRevLett.109.060501}
@@ -680,11 +659,10 @@ Version Number: 1}
   author       = {McKay, David C. and Wood, Christopher J. and Sheldon, Sarah and Chow, Jerry M. and Gambetta, Jay M.},
   journal      = {Phys. Rev. A},
   volume       = {96},
-  issue        = {2},
+  number       = {2},
   pages        = {022330},
-  numpages     = {8},
   year         = {2017},
-  month        = {Aug},
+  month        = {8},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevA.96.022330},
   url          = {https://link.aps.org/doi/10.1103/PhysRevA.96.022330}
@@ -693,20 +671,10 @@ Version Number: 1}
 @online{QiskitPTMDoc,
   author       = {{Qiskit Development Team}},
   title        = {PTM: \texttt{qiskit.quantum\_info.PTM} --- Pauli Transfer Matrix representation of a quantum channel},
-  subtitle     = {API-Referenz, Qiskit-SDK v2.2.1 (neueste Version)},
-  date         = {2025},
+  year         = {2025},
   url          = {https://quantum.cloud.ibm.com/docs/de/api/qiskit/qiskit.quantum_info.PTM},
   organization = {IBM Quantum},
   version      = {2.2.1},
-  language     = {german},
-  note         = {Klassenpfad: \texttt{qiskit.quantum\_info.PTM}. Seite listet Definition, Attribute, Methoden (z.\,B. \texttt{compose}, \texttt{tensor}, \texttt{is\_cptp}) und die PTM-Gleichungen; verweist auf Holz--Biamonte--Cory (2015) als weiterführende Referenz.}
-}
-
-@misc{QiskitPTMDoc_2,
-  author       = {{Qiskit Development Team}},
-  title        = {PTM: qiskit.quantum\_info.PTM --- Pauli Transfer Matrix representation of a quantum channel},
-  url          = {https://quantum.cloud.ibm.com/docs/de/api/qiskit/qiskit.quantum_info.PTM},
-  year         = {2025},
   note         = {IBM Quantum Documentation; Qiskit-SDK v2.2.1 (latest). Accessed 2025-10-22.}
 }
 
@@ -726,20 +694,7 @@ Version Number: 1}
   year         = {1997},
   publisher    = {Taylor \& Francis},
   doi          = {10.1080/09500349708231894},
-  url          = { 
-    
-    
-        https://www.tandfonline.com/doi/abs/10.1080/09500349708231894
-    
-
-},
-  eprint       = { 
-    
-    
-        https://www.tandfonline.com/doi/pdf/10.1080/09500349708231894
-    
-
-}
+  url          = {https://www.tandfonline.com/doi/abs/10.1080/09500349708231894}
 }
 
 @article{Poyatos1997,
@@ -747,9 +702,8 @@ Version Number: 1}
   author       = {Poyatos, J. F. and Cirac, J. I. and Zoller, P.},
   journal      = {Phys. Rev. Lett.},
   volume       = {78},
-  issue        = {2},
+  number       = {2},
   pages        = {390--393},
-  numpages     = {0},
   year         = {1997},
   month        = {01},
   publisher    = {American Physical Society},
@@ -758,11 +712,13 @@ Version Number: 1}
 }
 
 @book{NielsenChuang2010,
-  place        = {Cambridge},
+  address      = {Cambridge},
   title        = {Quantum Computation and Quantum Information: 10th Anniversary Edition},
   publisher    = {Cambridge University Press},
   author       = {Nielsen, Michael A. and Chuang, Isaac L.},
-  year         = {2010}
+  year         = {2010},
+  isbn         = {978-1-107-00217-3},
+  doi          = {10.1017/CBO9780511976667}
 }
 
 @article{Gilchrist2005,
@@ -770,9 +726,8 @@ Version Number: 1}
   author       = {Gilchrist, Alexei and Langford, Nathan K. and Nielsen, Michael A.},
   journal      = {Phys. Rev. A},
   volume       = {71},
-  issue        = {6},
+  number       = {6},
   pages        = {062310},
-  numpages     = {14},
   year         = {2005},
   month        = {06},
   publisher    = {American Physical Society},
@@ -785,9 +740,8 @@ Version Number: 1}
   author       = {Merkel, Seth T. and Gambetta, Jay M. and Smolin, John A. and Poletto, Stefano and C\'orcoles, Antonio D. and Johnson, Blake R. and Ryan, Colm A. and Steffen, Matthias},
   journal      = {Phys. Rev. A},
   volume       = {87},
-  issue        = {6},
+  number       = {6},
   pages        = {062119},
-  numpages     = {9},
   year         = {2013},
   month        = {06},
   publisher    = {American Physical Society},
@@ -812,11 +766,10 @@ Version Number: 1}
   author       = {Holland, Connor M. and Lu, Yukai and Li, Samuel J. and Welsh, Callum L. and Cheuk, Lawrence W.},
   journal      = {Phys. Rev. X},
   volume       = {15},
-  issue        = {3},
+  number       = {3},
   pages        = {031018},
-  numpages     = {20},
   year         = {2025},
-  month        = {Jul},
+  month        = {7},
   publisher    = {American Physical Society},
   doi          = {10.1103/8q8p-mx1l},
   url          = {https://link.aps.org/doi/10.1103/8q8p-mx1l}
@@ -827,11 +780,10 @@ Version Number: 1}
   author       = {Magesan, Easwar and Gambetta, J. M. and Emerson, Joseph},
   journal      = {Phys. Rev. Lett.},
   volume       = {106},
-  issue        = {18},
+  number       = {18},
   pages        = {180504},
-  numpages     = {4},
   year         = {2011},
-  month        = {May},
+  month        = {5},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevLett.106.180504},
   url          = {https://link.aps.org/doi/10.1103/PhysRevLett.106.180504}
@@ -856,11 +808,10 @@ Version Number: 1}
   author       = {Proctor, Timothy and Rudinger, Kenneth and Young, Kevin and Sarovar, Mohan and Blume-Kohout, Robin},
   journal      = {Phys. Rev. Lett.},
   volume       = {119},
-  issue        = {13},
+  number       = {13},
   pages        = {130502},
-  numpages     = {6},
   year         = {2017},
-  month        = {Sep},
+  month        = {9},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevLett.119.130502},
   url          = {https://link.aps.org/doi/10.1103/PhysRevLett.119.130502}
@@ -869,12 +820,10 @@ Version Number: 1}
 @article{SilvaHands2025,
   author       = {Silva, Ana and Greplova, Eliska},
   title        = {Hands-on introduction to randomized benchmarking},
-  journaltitle = {SciPost Physics Lecture Notes},
   journal      = {SciPost Physics Lecture Notes},
   shortjournal = {SciPost Phys. Lect. Notes},
   number       = {97},
   volume       = {97},
-  date         = {2025-07-21},
   year         = {2025},
   doi          = {10.21468/SciPostPhysLectNotes.97},
   url          = {https://scipost.org/SciPostPhysLectNotes.97},
@@ -883,21 +832,18 @@ Version Number: 1}
   eprint       = {2410.08683},
   eprinttype   = {arXiv},
   eprintclass  = {quant-ph},
-  license      = {CC-BY-4.0},
   note         = {Received 2024-11-18; accepted 2025-07-07; published 2025-07-21}
 }
 
 @article{JohnsonDemonstration2015,
   author       = {Johnson, Blake R. and da Silva, Marcus P. and Ryan, Colm A. and Kimmel, Shelby and Chow, Jerry M. and Ohki, Thomas A.},
   title        = {Demonstration of Robust Quantum Gate Tomography via Randomized Benchmarking},
-  journaltitle = {New Journal of Physics},
   journal      = {New Journal of Physics},
   shortjournal = {New J. Phys.},
   year         = {2015},
   volume       = {17},
   number       = {11},
   pages        = {113019},
-  date         = {2015-11-05},
   doi          = {10.1088/1367-2630/17/11/113019},
   url          = {https://arxiv.org/abs/1505.06686},
   eprint       = {1505.06686},
@@ -908,27 +854,12 @@ Version Number: 1}
   note         = {Journal ref: New J. Phys. 17, 113019 (2015)}
 }
 
-@article{Temme2017,
-  title        = {Error Mitigation for Short-Depth Quantum Circuits},
-  author       = {Temme, Kristan and Bravyi, Sergey and Gambetta, Jay M.},
-  journal      = {Phys. Rev. Lett.},
-  volume       = {119},
-  issue        = {18},
-  pages        = {180509},
-  numpages     = {5},
-  year         = {2017},
-  month        = {11},
-  publisher    = {American Physical Society},
-  doi          = {10.1103/PhysRevLett.119.180509},
-  url          = {https://link.aps.org/doi/10.1103/PhysRevLett.119.180509}
-}
-
 @misc{QiskitTomographyDoc,
   author       = {{Qiskit-Experiments Team}},
   title        = {Qiskit Experiments: State and Process Tomography (documentation)},
   year         = {2025},
   url          = {https://qiskit.org/},
-  note         = {Accessed 2025-10-22}
+  note         = {Accessed 2025-10-22. DO WERYFIKACJI: adres https://qiskit.org/ prowadzi na ogólną stronę Qiskit, nie do dokumentacji tomografii w Qiskit Experiments; podać właściwy adres}
 }
 
 @misc{QiskitStateTomographyDoc,
@@ -980,7 +911,7 @@ Version Number: 1}
   doi          = {10.1088/2058-9565/ad04e7},
   url          = {https://doi.org/10.1088/2058-9565/ad04e7},
   year         = {2023},
-  month        = {oct},
+  month        = {10},
   publisher    = {IOP Publishing},
   volume       = {9},
   number       = {1},
@@ -1014,14 +945,18 @@ Version Number: 1}
 }
 
 @article{Huang:2025suy,
-  author       = "Huang, Tangyou and others",
-  title        = "{Quantum Process Tomography with Digital Twins of Error Matrices}",
-  journal      = {arXiv preprint arXiv:2505.07725},
-  eprint       = "2505.07725",
-  archiveprefix = "arXiv",
-  primaryclass = "quant-ph",
-  month        = "5",
-  year         = "2025"
+  author       = {Huang, Tangyou and Gaikwad, Akshay and Moskalenko, Ilya and Aggarwal, Anuj and Abad, Tahereh and Kuzmanović, Marko and Chang, Yu-Han and Stanisavljević, Ognjen and Hogedal, Emil and Warren, Christhopher and Ahmad, Irshad and Biznárová, Janka and Osman, Amr and Dahiya, Mamta and Rommel, Marcus and Rousari, Anita Fadavi and Nylander, Andreas and Chen, Liangyu and Bylander, Jonas and Paraoanu, Gheorghe Sorin and Kockum, Anton Frisk and Tancredi, Giovanna},
+  title        = {Quantum Process Tomography with Digital Twins of Error Matrices},
+  journal      = {Physical Review Letters},
+  eprint       = {2505.07725},
+  archiveprefix = {arXiv},
+  primaryclass = {quant-ph},
+  month        = {12},
+  year         = {2025},
+  volume       = {135},
+  number       = {23},
+  pages        = {230601},
+  doi          = {10.1103/dpgy-rtxr}
 }
 
 @article{Altepeter2003,
@@ -1029,11 +964,10 @@ Version Number: 1}
   author       = {Altepeter, J. B. and Branning, D. and Jeffrey, E. and Wei, T. C. and Kwiat, P. G. and Thew, R. T. and O'Brien, J. L. and Nielsen, M. A. and White, A. G.},
   journal      = {Phys. Rev. Lett.},
   volume       = {90},
-  issue        = {19},
+  number       = {19},
   pages        = {193601},
-  numpages     = {4},
   year         = {2003},
-  month        = {May},
+  month        = {5},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevLett.90.193601},
   url          = {https://link.aps.org/doi/10.1103/PhysRevLett.90.193601}
@@ -1047,7 +981,7 @@ Version Number: 1}
   volume       = {68},
   number       = {1},
   pages        = {012305},
-  month        = {Jul},
+  month        = {7},
   doi          = {10.1103/PhysRevA.68.012305},
   url          = {https://link.aps.org/doi/10.1103/PhysRevA.68.012305},
   archiveprefix = {arXiv},
@@ -1093,11 +1027,10 @@ Version Number: 1}
   author       = {D'Ariano, G. M. and Lo Presti, P.},
   journal      = {Phys. Rev. Lett.},
   volume       = {86},
-  issue        = {19},
+  number       = {19},
   pages        = {4195--4198},
-  numpages     = {0},
   year         = {2001},
-  month        = {May},
+  month        = {5},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevLett.86.4195},
   url          = {https://link.aps.org/doi/10.1103/PhysRevLett.86.4195}
@@ -1108,11 +1041,10 @@ Version Number: 1}
   author       = {O'Brien, J. L. and Pryde, G. J. and Gilchrist, A. and James, D. F. V. and Langford, N. K. and Ralph, T. C. and White, A. G.},
   journal      = {Phys. Rev. Lett.},
   volume       = {93},
-  issue        = {8},
+  number       = {8},
   pages        = {080502},
-  numpages     = {4},
   year         = {2004},
-  month        = {Aug},
+  month        = {8},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevLett.93.080502},
   url          = {https://link.aps.org/doi/10.1103/PhysRevLett.93.080502}
@@ -1130,31 +1062,33 @@ Version Number: 1}
   author       = {Schuld, Maria and Bocharov, Alex and Svore, Krysta M. and Wiebe, Nathan},
   journal      = {Phys. Rev. A},
   volume       = {101},
-  issue        = {3},
+  number       = {3},
   pages        = {032308},
-  numpages     = {8},
   year         = {2020},
-  month        = {Mar},
+  month        = {3},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevA.101.032308},
   url          = {https://link.aps.org/doi/10.1103/PhysRevA.101.032308}
 }
 
 @book{sakurai_napolitano,
-  place        = {Cambridge},
+  address      = {Cambridge},
   edition      = {3},
   title        = {Modern Quantum Mechanics},
   publisher    = {Cambridge University Press},
   author       = {Sakurai, J. J. and Napolitano, Jim},
-  year         = {2020}
+  year         = {2020},
+  doi          = {10.1017/9781108587280}
 }
 
 @book{weinberg_qft,
-  place        = {Cambridge},
+  address      = {Cambridge},
   title        = {The Quantum Theory of Fields},
   publisher    = {Cambridge University Press},
   author       = {Weinberg, Steven},
-  year         = {1995}
+  year         = {1995},
+  volume       = {1},
+  doi          = {10.1017/CBO9781139644167}
 }
 
 @article{mcardle2019variational,
@@ -1180,10 +1114,7 @@ Version Number: 1}
   pages        = {032407},
   year         = {2023},
   month        = Mar,
-  doi          = {10.1103/PhysRevA.107.032407},
-  pdf          = {https://hal.science/hal-03796370v1/file/BonetMonroig2021-Performance%20comparison%20of%20optimization%20methods%20on%20variational%20quantum%20algorithms.pdf},
-  hal_id       = {hal-03796370},
-  hal_version  = {v1}
+  doi          = {10.1103/PhysRevA.107.032407}
 }
 
 @article{gambetta2017building,
@@ -1227,11 +1158,10 @@ Version Number: 1}
   author       = {Magesan, Easwar and Gambetta, Jay M. and Emerson, Joseph},
   journal      = {Phys. Rev. A},
   volume       = {85},
-  issue        = {4},
+  number       = {4},
   pages        = {042311},
-  numpages     = {16},
   year         = {2012},
-  month        = {Apr},
+  month        = {4},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevA.85.042311},
   url          = {https://link.aps.org/doi/10.1103/PhysRevA.85.042311}
@@ -1258,8 +1188,8 @@ Version Number: 1}
   pages        = {11},
   year         = {2015},
   publisher    = {Springer},
-  doi          = {10.1140/epjqt/s40507-015-0023-3},
-  url          = {https://doi.org/10.1140/epjqt/s40507-015-0023-3}
+  doi          = {10.1140/epjqt/s40507-015-0022-4},
+  url          = {https://doi.org/10.1140/epjqt/s40507-015-0022-4}
 }
 
 @misc{ibm_backend_docs,
@@ -1267,7 +1197,7 @@ Version Number: 1}
   author       = {{IBM Quantum}},
   year         = {2024},
   url          = {https://quantum-computing.ibm.com/docs/},
-  note         = {Accessed: 2025-11-03}
+  note         = {Accessed: 2025-11-03. DO WERYFIKACJI: adres https://quantum-computing.ibm.com/docs/ przekierowuje na stronę IBM Quantum Platform, nie do dokumentacji; podać właściwy adres}
 }
 
 @misc{Qiskit,
@@ -1280,18 +1210,20 @@ Version Number: 1}
 
 @article{ibm_brisbane,
   title        = {Quantum Circuit Benchmarking on IBM Brisbane: Performance Insights from Superconducting Qubit Models},
-  author       = {Thirunirai Selvam, J and Saravana Veni, S},
-  journal      = {arXiv e-prints},
-  pages        = {arXiv--2508},
-  year         = {2025}
+  author       = {Thirunirai Selvam, J. and Saravana Veni, S.},
+  journal      = {arXiv preprint arXiv:2508.05331},
+  year         = {2025},
+  url          = {https://arxiv.org/abs/2508.05331},
+  eprint       = {2508.05331},
+  eprinttype   = {arxiv}
 }
 
 @misc{ibm-brisbane-wayback-machine,
-  title        = "IBM Brisbane architecture",
+  title        = {IBM Brisbane architecture},
   author       = {{Qiskit Development Team}},
   url          = {https://web.archive.org/web/20240805141123/https://quantum.ibm.com/services/resources?type=Eagle&system=ibm_brisbane},
   year         = {2024},
-  note         = {Accessed: 2025-11-09}
+  note         = {Accessed: 2025-11-09. DO WERYFIKACJI: migawki Wayback Machine nie udało się otworzyć (HTTP 429), a API dostępności archive.org nie zwraca migawki dla tego adresu}
 }
 
 @misc{qiskit-optimization-level,
@@ -1327,7 +1259,7 @@ Version Number: 1}
   journal      = {Machine Learning},
   year         = {1988},
   volume       = {3},
-  number       = {2},
+  number       = {2--3},
   pages        = {95--99},
   doi          = {10.1023/A:1022602019183},
   url          = {https://doi.org/10.1023/A:1022602019183},
@@ -1382,7 +1314,7 @@ Version Number: 1}
   year         = {2002},
   volume       = {6},
   number       = {2},
-  pages        = {182-197},
+  pages        = {182--197},
   doi          = {10.1109/4235.996017}
 }
 
@@ -1393,9 +1325,8 @@ Version Number: 1}
   volume       = {24},
   year         = {2022},
   number       = {5},
-  article-number = {718},
+  pages        = {718},
   url          = {https://www.mdpi.com/1099-4300/24/5/718},
-  pubmedid     = {35626601},
   issn         = {1099-4300},
   doi          = {10.3390/e24050718}
 }
@@ -1407,10 +1338,11 @@ Version Number: 1}
   number       = {NIST Technical Note 1297},
   year         = {1994},
   address      = {Gaithersburg, MD, USA},
-  month        = {September},
+  month        = {9},
   pages        = {24},
   url          = {https://nvlpubs.nist.gov/nistpubs/legacy/tn/nbstechnicalnote1297.pdf},
-  note         = {Supersedes NIST Technical Note 1297, January 1993}
+  note         = {Supersedes NIST Technical Note 1297, January 1993},
+  doi          = {10.6028/NIST.TN.1297}
 }
 
 @misc{NISTeHandbookZ,
@@ -1436,8 +1368,6 @@ Version Number: 1}
   url          = {https://link.aps.org/doi/10.1103/PhysRevA.77.032322},
   publisher    = {American Physical Society},
   issn         = {1050-2947},
-  eissn        = {1094-1622},
-  numpages     = {15},
   archiveprefix = {arXiv},
   eprint       = {quant-ph/0702131},
   primaryclass = {quant-ph}
@@ -1475,7 +1405,6 @@ Version Number: 1}
   month        = 07,
   doi          = {10.1038/nature13436},
   issn         = {0028-0836},
-  pmid         = {25043007},
   url          = {https://www.nature.com/articles/nature13436}
 }
 
@@ -1498,11 +1427,10 @@ Version Number: 1}
   author       = {Proctor, Timothy J. and Carignan-Dugas, Arnaud and Rudinger, Kenneth and Nielsen, Erik and Blume-Kohout, Robin and Young, Kevin},
   journal      = {Phys. Rev. Lett.},
   volume       = {123},
-  issue        = {3},
+  number       = {3},
   pages        = {030503},
-  numpages     = {7},
   year         = {2019},
-  month        = {Jul},
+  month        = {7},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevLett.123.030503},
   url          = {https://link.aps.org/doi/10.1103/PhysRevLett.123.030503}
@@ -1518,8 +1446,6 @@ Version Number: 1}
   number       = {7965},
   pages        = {500--505},
   doi          = {10.1038/s41586-023-06096-3},
-  pmid         = {37316724},
-  pmcid        = {PMC10266970},
   url          = {https://www.nature.com/articles/s41586-023-06096-3}
 }
 
@@ -1528,11 +1454,10 @@ Version Number: 1}
   author       = {Cai, Zhenyu and Babbush, Ryan and Benjamin, Simon C. and Endo, Suguru and Huggins, William J. and Li, Ying and McClean, Jarrod R. and O'Brien, Thomas E.},
   journal      = {Rev. Mod. Phys.},
   volume       = {95},
-  issue        = {4},
+  number       = {4},
   pages        = {045005},
-  numpages     = {37},
   year         = {2023},
-  month        = {Dec},
+  month        = {12},
   publisher    = {American Physical Society},
   doi          = {10.1103/RevModPhys.95.045005},
   url          = {https://link.aps.org/doi/10.1103/RevModPhys.95.045005}
@@ -1543,11 +1468,10 @@ Version Number: 1}
   author       = {Smolin, John A. and Gambetta, Jay M. and Smith, Graeme},
   journal      = {Phys. Rev. Lett.},
   volume       = {108},
-  issue        = {7},
+  number       = {7},
   pages        = {070502},
-  numpages     = {4},
   year         = {2012},
-  month        = {Feb},
+  month        = {2},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevLett.108.070502},
   url          = {https://link.aps.org/doi/10.1103/PhysRevLett.108.070502}
@@ -1558,11 +1482,10 @@ Version Number: 1}
   author       = {McKay, David C. and Sheldon, Sarah and Smolin, John A. and Chow, Jerry M. and Gambetta, Jay M.},
   journal      = {Phys. Rev. Lett.},
   volume       = {122},
-  issue        = {20},
+  number       = {20},
   pages        = {200502},
-  numpages     = {6},
   year         = {2019},
-  month        = {May},
+  month        = {5},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevLett.122.200502},
   url          = {https://link.aps.org/doi/10.1103/PhysRevLett.122.200502}
@@ -1585,11 +1508,10 @@ Version Number: 1}
   author       = {Faist, Philippe and Nezami, Sepehr and Albert, Victor V. and Salton, Grant and Pastawski, Fernando and Hayden, Patrick and Preskill, John},
   journal      = {Phys. Rev. X},
   volume       = {10},
-  issue        = {4},
+  number       = {4},
   pages        = {041018},
-  numpages     = {31},
   year         = {2020},
-  month        = {Oct},
+  month        = {10},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevX.10.041018},
   url          = {https://link.aps.org/doi/10.1103/PhysRevX.10.041018}
@@ -1612,11 +1534,10 @@ Version Number: 1}
   author       = {Niu, Murphy Yuezhen and Chuang, Isaac L. and Shapiro, Jeffrey H.},
   journal      = {Phys. Rev. A},
   volume       = {97},
-  issue        = {3},
+  number       = {3},
   pages        = {032323},
-  numpages     = {21},
   year         = {2018},
-  month        = {Mar},
+  month        = {3},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevA.97.032323},
   url          = {https://link.aps.org/doi/10.1103/PhysRevA.97.032323}
@@ -1638,11 +1559,10 @@ Version Number: 1}
   author       = {Mundada, Pranav and Zhang, Gengyan and Hazard, Thomas and Houck, Andrew},
   journal      = {Phys. Rev. Appl.},
   volume       = {12},
-  issue        = {5},
+  number       = {5},
   pages        = {054023},
-  numpages     = {10},
   year         = {2019},
-  month        = {Nov},
+  month        = {11},
   publisher    = {American Physical Society},
   doi          = {10.1103/PhysRevApplied.12.054023},
   url          = {https://link.aps.org/doi/10.1103/PhysRevApplied.12.054023}
@@ -1659,8 +1579,7 @@ Version Number: 1}
   booktitle    = {Advances in Neural Information Processing Systems (NeurIPS)},
   volume       = {31},
   year         = {2018},
-  url          = {https://proceedings.neurips.cc/paper/2018/hash/
-               488e4104520c6aab692863cc1dba45af-Abstract.html}
+  url          = {https://proceedings.neurips.cc/paper/2018/hash/488e4104520c6aab692863cc1dba45af-Abstract.html}
 }
 
 @article{thomas2018_tfn,
@@ -1770,8 +1689,7 @@ Version Number: 1}
   pages        = {1970--1981},
   year         = {2020},
   publisher    = {Curran Associates, Inc.},
-  url          = {https://proceedings.neurips.cc/paper/2020/hash/
-               15231a7ce4ba789d13b722cc5c955834-Abstract.html}
+  url          = {https://proceedings.neurips.cc/paper/2020/hash/15231a7ce4ba789d13b722cc5c955834-Abstract.html}
 }
 
 @inproceedings{satorras2021egnn,
@@ -1847,8 +1765,8 @@ Version Number: 1}
 @inproceedings{worrall2016harmonic,
   title        = {Harmonic Networks: Deep Translation and Rotation Equivariance},
   author       = {Worrall, Daniel E. and Garbin, Stephan J. and Turmukhambetov, Daniyar and Brostow, Gabriel J.},
-  booktitle    = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
-  pages        = {5028--5037},
+  booktitle    = {2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages        = {7168--7177},
   year         = {2017},
   publisher    = {IEEE},
   doi          = {10.1109/CVPR.2017.758},
@@ -1882,7 +1800,7 @@ Version Number: 1}
   author       = {Geurts, Pierre and Ernst, Damien and Wehenkel, Louis},
   journal      = {Machine Learning},
   volume       = {63},
-  number       = {1--2},
+  number       = {1},
   pages        = {3--42},
   year         = {2006},
   publisher    = {Springer},
@@ -1900,7 +1818,7 @@ Version Number: 1}
   pages        = {1310--1318},
   year         = {2013},
   address      = {Atlanta, Georgia, USA},
-  month        = {17--19 Jun},
+  month        = {6},
   publisher    = {PMLR},
   url          = {https://proceedings.mlr.press/v28/pascanu13.html}
 }
@@ -2009,9 +1927,8 @@ Version Number: 1}
   volume       = {26},
   year         = {2026},
   number       = {4},
-  article-number = {1263},
+  pages        = {1263},
   url          = {https://www.mdpi.com/1424-8220/26/4/1263},
-  pubmedid     = {41755202},
   issn         = {1424-8220},
   doi          = {10.3390/s26041263}
 }
@@ -2023,9 +1940,8 @@ Version Number: 1}
   volume       = {25},
   year         = {2023},
   number       = {12},
-  article-number = {1671},
+  pages        = {1671},
   url          = {https://www.mdpi.com/1099-4300/25/12/1671},
-  pubmedid     = {38136551},
   issn         = {1099-4300},
   doi          = {10.3390/e25121671}
 }
@@ -2037,7 +1953,7 @@ Version Number: 1}
   volume       = {9},
   year         = {2025},
   number       = {9},
-  article-number = {223},
+  pages        = {223},
   url          = {https://www.mdpi.com/2504-2289/9/9/223},
   issn         = {2504-2289},
   doi          = {10.3390/bdcc9090223}
@@ -2088,13 +2004,14 @@ Version Number: 1}
 }
 
 @inproceedings{434a74f7e1d541dfb963d74323d104e5,
-  title        = "Code Obfuscation Classification using Singular Value Decomposition on Grayscale Image Representations",
-  author       = "Sebastian Raubitzek and Sebastian Schrittwieser and Caroline Lawitschka and Kevin Mallinger and Andreas Ekelhart and Weippl, \{Edgar R.\}",
-  year         = "2024",
+  title        = {Code Obfuscation Classification Using Singular Value Decomposition on Grayscale Image Representations},
+  author       = {Raubitzek, Sebastian and Schrittwieser, Sebastian and Lawitschka, Caroline and Mallinger, Kevin and Ekelhart, Andreas and Weippl, Edgar R.},
+  year         = {2024},
   month        = jul,
-  day          = "1",
-  language     = "English",
-  booktitle    = "SECRYPT"
+  booktitle    = {Proceedings of the 21st International Conference on Security and Cryptography (SECRYPT 2024)},
+  publisher    = {SCITEPRESS -- Science and Technology Publications},
+  pages        = {323--333},
+  doi          = {10.5220/0012856600003767}
 }
 
 @article{nitrogen6030052,
@@ -2104,7 +2021,7 @@ Version Number: 1}
   volume       = {6},
   year         = {2025},
   number       = {3},
-  article-number = {52},
+  pages        = {52},
   url          = {https://www.mdpi.com/2504-3129/6/3/52},
   issn         = {2504-3129},
   doi          = {10.3390/nitrogen6030052}
@@ -2117,7 +2034,7 @@ Version Number: 1}
   volume       = {6},
   year         = {2025},
   number       = {4},
-  article-number = {100},
+  pages        = {100},
   url          = {https://www.mdpi.com/2504-3129/6/4/100},
   issn         = {2504-3129},
   doi          = {10.3390/nitrogen6040100}
@@ -2130,7 +2047,7 @@ Version Number: 1}
   pages        = {103850},
   year         = {2024},
   issn         = {2214-2126},
-  doi          = {https://doi.org/10.1016/j.jisa.2024.103850},
+  doi          = {10.1016/j.jisa.2024.103850},
   url          = {https://www.sciencedirect.com/science/article/pii/S2214212624001522},
   author       = {Sebastian Raubitzek and Sebastian Schrittwieser and Elisabeth Wimmer and Kevin Mallinger}
 }
@@ -2139,78 +2056,92 @@ Version Number: 1}
 % ===== źródło: artykuły/magisterka_werner_final/biblio/biblio.bib =====
 
 @online{bib:uncertainty-principle,
-  author       = {Jan Hilgevoord},
+  author       = {Hilgevoord, Jan and Uffink, Jos},
   title        = {The Uncertainty Principle},
   year         = {2016},
-  url          = {https://plato.stanford.edu/entries/qt-uncertainty/}
+  url          = {https://plato.stanford.edu/entries/qt-uncertainty/},
+  organization = {Stanford Encyclopedia of Philosophy}
 }
 
 @article{bib:interference-quant,
   title        = {Young’s double-slit interference experiment with electrons},
-  author       = {S. Frabboni},
+  author       = {Frabboni, S. and Gazzadi, G. C. and Pozzi, G.},
   journal      = {American Journal of Physics},
   year         = {2007},
-  number       = {1053},
-  volume       = {75}
+  number       = {11},
+  volume       = {75},
+  pages        = {1053--1055},
+  doi          = {10.1119/1.2757621}
 }
 
 @article{bib:schrodinger-relations,
   title        = {Discussion of Probability Relations between Separated Systems},
-  author       = {E. Schrödinger},
+  author       = {Schrödinger, E.},
   journal      = {Mathematical Proceedings of the Cambridge Philosophical Society},
   year         = {1935},
-  pages        = {555 - 563},
-  volume       = {31}
+  pages        = {555--563},
+  volume       = {31},
+  number       = {4},
+  doi          = {10.1017/S0305004100013554}
 }
 
 @article{bib:epr-article,
   title        = {Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?},
-  author       = {A. Einstein, B. Podolsky, N. Rosen},
+  author       = {Einstein, A. and Podolsky, B. and Rosen, N.},
   journal      = {Physical Review},
   year         = {1935},
-  number       = {777},
-  volume       = {47}
+  number       = {10},
+  volume       = {47},
+  pages        = {777--780},
+  doi          = {10.1103/PhysRev.47.777}
 }
 
 @article{bib:epr-bell-answer,
   title        = {On the Einstein Podolsky Rosen paradox},
-  author       = {J. S. Bell},
+  author       = {Bell, J. S.},
   journal      = {Physics Physique Fizika},
   year         = {1964},
-  number       = {195},
-  volume       = {1}
+  number       = {3},
+  volume       = {1},
+  pages        = {195--200},
+  doi          = {10.1103/PhysicsPhysiqueFizika.1.195}
 }
 
 @article{bib:chsh-inequality,
   title        = {Proposed Experiment to Test Local Hidden-Variable Theories},
-  author       = {J. Clauser, M. Horne, A. Shimony and R. Holt},
-  journal      = {Physics Review Letters},
+  author       = {Clauser, John F. and Horne, Michael A. and Shimony, Abner and Holt, Richard A.},
+  journal      = {Physical Review Letters},
   year         = {1969},
-  number       = {880},
-  volume       = {23}
+  number       = {15},
+  volume       = {23},
+  pages        = {880--884},
+  doi          = {10.1103/PhysRevLett.23.880}
 }
 
 @book{bib:new-quantum-mechanics,
   title        = {The New Quantum Mechanics},
-  author       = {George Birtwistle},
+  author       = {Birtwistle, George},
   publisher    = {Cambridge University Press},
   year         = {1928},
   address      = {Cambridge},
-  isbn         = {9781108005326}
+  isbn         = {9781108005326},
+  doi          = {10.1017/CBO9780511694264},
+  note         = {Wznowienie: Cambridge University Press, 2009}
 }
 
 @book{bib:quantum-information-theory,
   title        = {Quantum information theory},
-  author       = {Mark M. Wilde},
+  author       = {Wilde, Mark M.},
   publisher    = {Cambridge University Press},
   year         = {2013},
   address      = {Cambridge},
-  isbn         = {9781139525343}
+  isbn         = {9781139525343},
+  doi          = {10.1017/CBO9781139525343}
 }
 
 @book{bib:old-quantum-theory,
   title        = {The Old Quantum Theory},
-  author       = {D. Ter Haar},
+  author       = {{Ter Haar}, D.},
   publisher    = {Elsevier},
   year         = {1967},
   isbn         = {9781483151960}
@@ -2224,90 +2155,103 @@ Version Number: 1}
 
 @article{bib:entanglement_alice_bob,
   title        = {Substituting quantum entanglement for communication},
-  author       = {Richard Cleve, Harry Buhrman},
+  author       = {Cleve, Richard and Buhrman, Harry},
   journal      = {Physical Review A},
   year         = {1997},
-  number       = {1201},
-  volume       = {56}
+  number       = {2},
+  volume       = {56},
+  pages        = {1201--1204},
+  doi          = {10.1103/PhysRevA.56.1201}
 }
 
 @article{bib:schrodinger-cat,
   title        = {Die gegenwärtige Situation in der Quantenmechanik},
-  author       = {Erwin Schrödinger},
+  author       = {Schrödinger, Erwin},
   journal      = {Naturwissenschaften},
   year         = {1935},
   pages        = {807--812},
-  volume       = {23}
+  volume       = {23},
+  number       = {48},
+  doi          = {10.1007/BF01491891}
 }
 
 @article{bib:maximal_entanglement_suskind,
   title        = {Teleportation through the wormhole},
-  author       = {Leonard Susskind and Ying Zhao},
+  author       = {Susskind, Leonard and Zhao, Ying},
   journal      = {Physical Review D},
   year         = {2018},
-  number       = {046016},
-  volume       = {98}
+  number       = {4},
+  volume       = {98},
+  pages        = {046016},
+  doi          = {10.1103/PhysRevD.98.046016}
 }
 
 @article{bib:quantum_gates,
   title        = {Elementary gates for quantum computation},
-  author       = {A. Barenco and C. H. Bennett and R. Cleve and D. P. DiVincenzo and N. Margolus and P. Shor and T. Sleator and J. Smolin and H. Weinfurter},
+  author       = {Barenco, Adriano and Bennett, Charles H. and Cleve, Richard and DiVincenzo, David P. and Margolus, Norman and Shor, Peter and Sleator, Tycho and Smolin, John A. and Weinfurter, Harald},
   journal      = {Physical Review A},
   year         = {1995},
-  number       = {3457},
-  volume       = {52}
+  number       = {5},
+  volume       = {52},
+  pages        = {3457--3467},
+  doi          = {10.1103/PhysRevA.52.3457}
 }
 
 @article{bib:toffoli_impl,
   title        = {Realization of the Quantum Toffoli Gate with Trapped Ions},
-  author       = {T. Monz and K. Kim and W. Hänsel and M. Riebe and A. S. Villar and P. Schindler and M. Chwalla and M. Hennrich and R. Blatt},
+  author       = {Monz, T. and Kim, K. and Hänsel, W. and Riebe, M. and Villar, A. S. and Schindler, P. and Chwalla, M. and Hennrich, M. and Blatt, R.},
   journal      = {Physical Review Letters},
   year         = {2009},
-  number       = {040501},
-  volume       = {102}
+  number       = {4},
+  volume       = {102},
+  pages        = {040501},
+  doi          = {10.1103/PhysRevLett.102.040501}
 }
 
 @article{bib:density_matrix_art,
   title        = {Theory and applications of the density matrix},
-  author       = {D Ter Haar},
+  author       = {{Ter Haar}, D.},
   journal      = {Reports on Progress in Physics},
   year         = {1961},
   number       = {1},
-  volume       = {24}
+  volume       = {24},
+  pages        = {304--362},
+  doi          = {10.1088/0034-4885/24/1/307}
 }
 
 @book{bib:density_matrix_book,
   title        = {Density Matrix Theory and Applications},
-  author       = {Karl Blum},
+  author       = {Blum, Karl},
   publisher    = {Springer},
   year         = {2012},
   isbn         = {978-3-642-20561-3},
-  pages        = {39-65}
+  pages        = {39--65},
+  series       = {Springer Series on Atomic, Optical, and Plasma Physics},
+  doi          = {10.1007/978-3-642-20561-3},
+  note         = {DO WERYFIKACJI: zakres stron 39--65 nie odpowiada rozdziałowi 2 (General Density Matrix Theory, s. 35--60) wydania z 2012 r. według Crossref}
 }
 
 @article{bib:quantum_sampling,
   title        = {Quantum Sampling Algorithms for Near-Term Devices},
-  author       = {Dominik S. Wild and Dries Sels and Hannes Pichler and Cristian Zanoci and Mikhail D. Lukin},
+  author       = {Wild, Dominik S. and Sels, Dries and Pichler, Hannes and Zanoci, Cristian and Lukin, Mikhail D.},
   journal      = {Physical Review Letters},
   year         = {2021},
-  number       = {100504},
-  volume       = {127}
+  number       = {10},
+  volume       = {127},
+  pages        = {100504},
+  doi          = {10.1103/PhysRevLett.127.100504}
 }
 
-@inproceedings{bib:qCoSamp,
-  title        = {Cosine series quantum sampling method with applications in signal and image processing},
-  author       = {Kamil Wereszczyński and Agnieszka Michalczuk and Damian Pęszor and Marcin Paszkuta and Krzysztof Cyran and Andrzej Polański},
-  year         = {2022}
-}
-
-@inbook{bib:quantum_tomography,
-  title        = {Quantum State Estimation},
-  author       = {Joseph B. Altepeter and Daniel F.V. James and Paul G. Kwiat},
+@incollection{bib:quantum_tomography,
+  title        = {Qubit Quantum State Tomography},
+  author       = {Altepeter, Joseph B. and James, Daniel F. V. and Kwiat, Paul G.},
   publisher    = {Springer},
   year         = {2004},
   isbn         = {978-3-540-22329-0},
-  chapter      = "4 Qubit Quantum State Tomography",
-  pages        = {113-145}
+  pages        = {113--145},
+  booktitle    = {Quantum State Estimation},
+  series       = {Lecture Notes in Physics},
+  doi          = {10.1007/978-3-540-44481-7_4}
 }
 
 @online{bib:quantum_tomography_website,
@@ -2318,95 +2262,91 @@ Version Number: 1}
 
 @article{bib:quantum_tomography_mle,
   title        = {Superfast maximum-likelihood reconstruction for quantum tomography},
-  author       = {Jiangwei Shang and Zhengyun Zhang and Hui Khoon Ng},
+  author       = {Shang, Jiangwei and Zhang, Zhengyun and Ng, Hui Khoon},
   journal      = {Physical Review A},
   year         = {2017},
-  number       = {062336},
-  volume       = {95}
+  number       = {6},
+  volume       = {95},
+  pages        = {062336},
+  doi          = {10.1103/PhysRevA.95.062336}
 }
 
 @article{bib:quantum-decoherence,
   title        = {Quantum decoherence},
-  author       = {Maximilian Schlosshauer},
+  author       = {Schlosshauer, Maximilian},
   journal      = {Physics Reports},
   year         = {2019},
-  pages        = {1-57},
-  volume       = {831}
+  pages        = {1--57},
+  volume       = {831},
+  doi          = {10.1016/j.physrep.2019.10.001}
 }
 
 @online{bib:quantum-decoherence-vid,
-  title        = {Understanding Quantum Mechanics 5: Decoherence},
+  title        = {Understanding Quantum Mechanics \#5: Decoherence},
   year         = {2020},
-  url          = {https://www.youtube.com/watch?v=igsuIuI_HAQ}
-}
-
-@book{bib:depolarizing,
-  title        = {Quantum Computation and Quantum Information},
-  author       = {Michael Nielsen and Isaac Chuang},
-  publisher    = {Cambridge University Press},
-  year         = {2010},
-  isbn         = {978-1-107-00217-3}
-}
-
-@article{bib:game_of_surface_codes,
-  title        = {A Game of Surface Codes: Large-Scale Quantum Computing with Lattice Surgery},
-  author       = {Daniel Litinski},
-  journal      = {Quantum},
-  year         = {2019},
-  volume       = {3},
-  pages        = {128}
+  url          = {https://www.youtube.com/watch?v=igsuIuI_HAQ},
+  author       = {Hossenfelder, Sabine}
 }
 
 @article{bib:error_correction_reinforcement,
   title        = {Optimizing Quantum Error Correction Codes with Reinforcement Learning},
-  author       = {Hendrik Poulsen Nautrup and Nicolas Delfosse and Vedran Dunjk and Hans J. Briegel1 and Nicolai Friis},
+  author       = {Nautrup, Hendrik Poulsen and Delfosse, Nicolas and Dunjko, Vedran and Briegel, Hans J. and Friis, Nicolai},
   journal      = {Quantum},
   year         = {2019},
   volume       = {3},
-  pages        = {215}
+  pages        = {215},
+  doi          = {10.22331/q-2019-12-16-215}
 }
 
 @inproceedings{bib:grovers_alg,
-  title        = {A Fast Quantum Mechanical Algorithm for Database Searc},
-  author       = {Lov K. Grover},
-  booktitle    = {28th annual acm symposium on theory of computing},
+  title        = {A Fast Quantum Mechanical Algorithm for Database Search},
+  author       = {Grover, Lov K.},
+  booktitle    = {Proceedings of the Twenty-Eighth Annual ACM Symposium on Theory of Computing (STOC '96)},
   year         = {1996},
-  pages        = {212--219}
+  pages        = {212--219},
+  publisher    = {ACM Press},
+  doi          = {10.1145/237814.237866}
 }
 
 @book{bib:statistics_wilc,
   title        = {Practical Nonparametric Statistics},
-  author       = {W. J. Conover},
+  author       = {Conover, W. J.},
   publisher    = {John Wiley \& Sons, Inc.},
   year         = {1999},
   pages        = {353},
-  isbn         = {978-0-471-16068-7}
+  isbn         = {978-0-471-16068-7},
+  edition      = {3}
 }
 
 @article{bib:quantum_gate_tomography,
   title        = {Gate Set Tomography},
-  author       = {Erik Nielsen and John King Gamble and Kenneth Rudinger and Travis Scholten and Kevin Young and Robin Blume-Kohout},
-  journal      = {Quantum 5},
+  author       = {Nielsen, Erik and Gamble, John King and Rudinger, Kenneth and Scholten, Travis and Young, Kevin and Blume-Kohout, Robin},
+  journal      = {Quantum},
   year         = {2021},
-  volume       = {557}
+  volume       = {5},
+  pages        = {557},
+  doi          = {10.22331/q-2021-10-05-557}
 }
 
 @article{bib:quantum_detector_tomography,
   title        = {Tomography of quantum detectors},
-  author       = {J. S. Lundeen and A. Feito and H. Coldenstrodt-Ronge and K. L. Pregnell and Ch. Silberhorn and T. C. Ralph and J. Eisert and M. B. Plenio and I. A. Walmsley },
+  author       = {Lundeen, J. S. and Feito, A. and Coldenstrodt-Ronge, H. and Pregnell, K. L. and Silberhorn, Ch. and Ralph, T. C. and Eisert, J. and Plenio, M. B. and Walmsley, I. A.},
   journal      = {Nature Physics},
   year         = {2009},
   volume       = {5},
-  pages        = {27-30}
+  pages        = {27--30},
+  number       = {1},
+  doi          = {10.1038/nphys1133}
 }
 
 @book{bib:bloch_rotations_pauli,
   title        = {Quantum Mechanics: A Modern Development},
-  author       = {Leslie E. Ballentine},
+  author       = {Ballentine, Leslie E.},
   publisher    = {World scientific},
   year         = {2014},
   chapter      = {3},
-  isbn         = {978-9-810-22707-4}
+  isbn         = {978-9-810-22707-4},
+  note         = {DO WERYFIKACJI: rok 2014 odpowiada 2. wydaniu (World Scientific, DOI 10.1142/9038, ISBN 978-981-4578-57-8), a podany ISBN 978-981-02-2707-4 wydaniu z 1998 r. (DOI 10.1142/3142); ustalić wydanie}
 }
 
 @article{bib:quantum_measurement_problem,
@@ -2414,54 +2354,66 @@ Version Number: 1}
   author       = {Schlosshauer, Maximilian},
   journal      = {Rev. Mod. Phys.},
   volume       = {76},
-  issue        = {4},
   pages        = {1267--1305},
   year         = {2005},
-  publisher    = {American Physical Society}
+  publisher    = {American Physical Society},
+  number       = {4},
+  doi          = {10.1103/RevModPhys.76.1267}
 }
 
-@book{bib:quantum_noise,
-  place        = {Cambridge},
-  title        = {Quantum Error Correction},
+@incollection{bib:quantum_noise,
+  title        = {Introduction to decoherence and noise in open quantum systems},
   publisher    = {Cambridge University Press},
-  author       = {Lidar and Daniel A. and Brun and Todd A.},
+  author       = {Lidar, Daniel A. and Brun, Todd A.},
   year         = {2013},
-  pages        = {3--45}
+  pages        = {3--45},
+  booktitle    = {Quantum Error Correction},
+  editor       = {Lidar, Daniel A. and Brun, Todd A.},
+  address      = {Cambridge},
+  doi          = {10.1017/CBO9781139034807.003}
 }
 
 @article{bib:error_correction_difference,
   title        = {Real-Time Error Correction for Quantum Computing},
-  author       = {Philip Ball},
-  journal      = {Physics 14},
+  author       = {Ball, Philip},
+  journal      = {Physics},
   year         = {2021},
-  volume       = {184}
+  volume       = {14},
+  pages        = {184},
+  doi          = {10.1103/Physics.14.184}
 }
 
 @article{bib:error_corr_intr,
   title        = {Quantum Error Correction: An Introductory Guide},
-  author       = {Joschka Roffe},
+  author       = {Roffe, Joschka},
   journal      = {Contemporary Physics},
   year         = {2019},
   volume       = {60},
-  pages        = {1-20}
+  pages        = {226--245},
+  number       = {3},
+  doi          = {10.1080/00107514.2019.1667078}
 }
 
 @article{bib:shor_code,
   title        = {Scheme for reducing decoherence in quantum computer memory},
-  author       = {Peter Shor},
+  author       = {Shor, Peter W.},
   journal      = {Physical Review A},
   year         = {1995},
   volume       = {52},
-  issue        = {4}
+  number       = {4},
+  pages        = {R2493--R2496},
+  doi          = {10.1103/PhysRevA.52.R2493}
 }
 
 @article{bib:feynman_quantum,
   title        = {Simulating Physics with Computers},
-  author       = {Richard Feynman},
+  author       = {Feynman, Richard P.},
   journal      = {International Journal of Theoretical Physics},
   year         = {1982},
   volume       = {21},
-  pages        = {447-488}
+  pages        = {467--488},
+  number       = {6--7},
+  doi          = {10.1007/BF02650179}
 }
 
 @article{bib:surface_codes_fowler,
@@ -2470,7 +2422,9 @@ Version Number: 1}
   number       = {3},
   author       = {Austin G. Fowler and Matteo Mariantoni and John M. Martinis and Andrew N. Cleland},
   title        = {Surface codes: Towards practical large-scale quantum computation},
-  journal      = {Physical Review A}
+  journal      = {Physical Review A},
+  pages        = {032324},
+  doi          = {10.1103/PhysRevA.86.032324}
 }
 
 @misc{ibm_q,
@@ -2479,7 +2433,8 @@ Version Number: 1}
   journal      = {IBM Quantum Computing | Systems Technology},
   publisher    = {IBM},
   year         = {2015},
-  month        = {10}
+  month        = {10},
+  note         = {DO WERYFIKACJI: strona pod podanym adresem ma obecnie tytuł IBM Quantum Computing -- Hardware and roadmap; tytułu IBM Quantum Systems i roku 2015 nie da się potwierdzić; brak daty dostępu}
 }
 
 @article{bib:Bruno_2016,
@@ -2488,9 +2443,73 @@ Version Number: 1}
   volume       = {24},
   number       = {1},
   pages        = {125},
-  author       = {Natalia Bruno and Vittorio Pini and Anthony Martin and Varun B. Verma and Sae Woo Nam and Richard Mirin and Adriana Lita and Francesco Marsili and Boris Korzh and F{\'{e}
-}lix Bussi{\`{e}}res and Nicolas Sangouard and Hugo Zbinden and Nicolas Gisin and Rob Thew},
+  author       = {Bruno, Natalia and Pini, Vittorio and Martin, Anthony and Verma, Varun B. and Nam, Sae Woo and Mirin, Richard and Lita, Adriana and Marsili, Francesco and Korzh, Boris and Bussi{\`{e}}res, F{\'{e}}lix and Sangouard, Nicolas and Zbinden, Hugo and Gisin, Nicolas and Thew, Rob},
   title        = {Heralded amplification of photonic qubits},
-  journal      = {Optics Express}
+  journal      = {Optics Express},
+  doi          = {10.1364/OE.24.000125}
 }
 
+
+% ===== źródło: artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex (lista \bibitem; PHD-TS-4) =====
+% Wpisy zweryfikowane w Crossref po DOI 2026-11-26; strony bib:wright_bros ze strony wydawcy (sciendo.com).
+
+@article{cai_survey_2018,
+  title        = {A Survey on Quantum Image Processing},
+  volume       = {27},
+  issn         = {1022-4653, 2075-5597},
+  doi          = {10.1049/cje.2018.02.012},
+  number       = {4},
+  journal      = {Chinese Journal of Electronics},
+  author       = {Cai, Yongquan and Lu, Xiaowei and Jiang, Nan},
+  month        = jul,
+  year         = {2018},
+  pages        = {718--727}
+}
+
+@inproceedings{bib:kamil3,
+  title        = {Quantum computing for clustering big datasets},
+  booktitle    = {2018 Applications of Electromagnetics in Modern Techniques and Medicine (PTZE)},
+  address      = {Racławice},
+  publisher    = {IEEE},
+  author       = {Wereszczyński, Kamil and Michalczuk, Agnieszka and Josiński, Henryk and Polański, Andrzej},
+  month        = sep,
+  year         = {2018},
+  pages        = {276--280},
+  doi          = {10.1109/PTZE.2018.8503109}
+}
+
+@article{bib:kamil1,
+  title        = {High-Precision Voltage Measurement for Optical Quantum Computation},
+  volume       = {15},
+  issn         = {1996-1073},
+  doi          = {10.3390/en15124205},
+  number       = {12},
+  journal      = {Energies},
+  author       = {Wereszczyński, Kamil and Michalczuk, Agnieszka and Paszkuta, Marcin and Gumiela, Jacek},
+  month        = jun,
+  year         = {2022},
+  pages        = {4205}
+}
+
+@incollection{bib:kamil2,
+  title        = {Two-Rail Photonic Qubit Utilizing the Quantum Holographic Imaging Idea},
+  booktitle    = {Holography -- Recent Advances and Applications},
+  publisher    = {IntechOpen},
+  author       = {Wereszczyński, Kamil and Cyran, Krzysztof},
+  year         = {2023},
+  isbn         = {978-1-80356-563-7},
+  doi          = {10.5772/intechopen.106889}
+}
+
+@article{bib:wright_bros,
+  title        = {A hierarchy of finite state machines as a scenario player in interactive training of pilots in flight simulators},
+  volume       = {31},
+  issn         = {1641-876X, 2083-8492},
+  doi          = {10.34768/amcs-2021-0049},
+  number       = {4},
+  journal      = {International Journal of Applied Mathematics and Computer Science},
+  author       = {Bach, Małgorzata and Werner, Aleksandra and Mrozik, Magda and Cyran, Krzysztof A.},
+  month        = dec,
+  year         = {2021},
+  pages        = {713--727}
+}
