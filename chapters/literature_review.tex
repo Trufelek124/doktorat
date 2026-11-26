@@ -1,0 +1,84 @@
+% !TeX root = ./../main.tex
+
+\chapter{Przegląd literatury}\label{chapter:literature_review}
+
+\agentinfo{
+Cel rozdziału: ustalić, w jakim stopniu istniejące metody korekcji, mitygacji i redukcji błędów pozwalają dziś prowadzić kwantowe przetwarzanie i klasyfikację obrazów na urządzeniach ery NISQ, oraz wyprowadzić lukę badawczą, którą wypełnia praca.
+Narracja prowadzi od metod ogólnych (korekcja, mitygacja), przez metody oparte na pomiarze i uczeniu maszynowym, charakteryzację szumu, do zastosowań obrazowych i klasyfikacji, a kończy się syntezą i luką.
+Definicje metod znajdują się w zapleczu teoretycznym \agentref{chapters/theoretical_background_03_QEC.tex}; tutaj analizowane są prace: zakres, warunki eksperymentów, sprzęt lub symulator, miary, wyniki, koszty, ograniczenia.
+
+Punkt wyjścia literaturowy: prace cytowane w artykułach autora (bibliography/biblio.bib).
+Literatura z artykułów kończy się w dużej mierze na latach 2021--2023; przegląd wymaga uzupełnienia o nowsze prace, w szczególności o eksperymentalne demonstracje korekcji błędów poniżej progu, nowsze przeglądy mitygacji błędów oraz prace o uczeniu maszynowym w mitygacji.
+Każdą nową pozycję zweryfikować w źródle (DOI, tytuł, autorzy) przed dodaniem do bazy; nie tworzyć wpisów z pamięci.
+
+Zasady analizy:
+rozróżniać deklaracje autorów, wyniki poparte eksperymentem lub dowodem oraz własne wnioski;
+dla istotnych twierdzeń notować lokalizację w źródle (sekcja, tabela, wzór);
+brak informacji w publikacji oznaczać jako ,,nie podano'';
+brak wyników wyszukiwania nie dowodzi istnienia luki badawczej.
+}
+
+\section{Cel i zakres przeglądu}\label{sec:lr:scope}
+\agentinfo{
+Wstęp do rozdziału: zakres tematyczny i czasowy, kryteria doboru prac, przebieg argumentacji.
+Uzupełnić na końcu, po opracowaniu pozostałych części.
+}
+
+\section{Kwantowa korekcja błędów}\label{sec:lr:qec}
+\agentinfo{
+Stan badań nad kodami stabilizatorowymi i powierzchniowymi oraz ich realizacjami eksperymentalnymi.
+Prace cytowane we wstępie artykułu ICCS \agentref{artykuły/Quantum_Errors_ICCS/main.tex}: aaronson_improved_2004, nguyen_quantum_2018, nguyen_novel_2020, lv_explicit_2020, ryan-anderson_realization_2021, dymarsky_quantum_2021, bravyi_correcting_2018, litinski_game_2019.
+Uzupełnić o nowsze demonstracje sprzętowe i o analizę narzutu zasobów.
+Wniosek, do którego prowadzi sekcja: pełna korekcja pozostaje kosztowna dla obliczeń wymagających całej dostępnej objętości kwantowej, takich jak przetwarzanie obrazów.
+}
+
+\section{Mitygacja błędów w erze NISQ}\label{sec:lr:qem}
+\agentinfo{
+Ekstrapolacja do zerowego szumu, probabilistyczne odwracanie szumu, mitygacja błędów pomiaru, weryfikacja symetrii, metody oparte na regresji danych z obwodów Clifforda.
+Prace wyjściowe: endo_practical_2018, maciejewski_mitigation_2020, richardson-extrapolation, quasi-probability, near-future.
+Dla każdej grupy metod: założenia o szumie, koszt próbkowania, skala eksperymentów, ograniczenia.
+Szczególnie dokładnie omówić mitygację błędów pomiaru i metody kalibracyjne, bo są najbliższe PDU.
+}
+
+\section{Redukcja błędów oparta na pomiarze i uczeniu maszynowym}\label{sec:lr:ml}
+\agentinfo{
+Metody korygujące wynik po stronie klasycznej: modele uczone na parach wynik zaszumiony--wynik idealny, sieci neuronowe do mitygacji, odszumianie rozkładów wyników, modele generatywne.
+Także dekodery neuronowe dla kodów korekcyjnych, jako kontekst.
+Sekcja ma pokazać, czy i jak wcześniej stosowano modele obraz--obraz do wyników obliczeń kwantowych; jest to tło dla rozdziału 6.
+}
+
+\section{Charakteryzacja i modelowanie szumu urządzeń}\label{sec:lr:noise}
+\agentinfo{
+Tomografia procesu, gate set tomography, randomized benchmarking, uczenie modeli szumu, szum niemarkowowski, dryf w czasie, przesłuch.
+Stabilność błędu między kalibracjami: prace potwierdzające lub podważające założenie metody PDU.
+Symetrie a szum i korekcja błędów.
+Źródło: sekcja Related Work artykułu \agentref{artykuły/quantum_noise_elsevier_submission/main.tex} oraz jego bibliografia.
+Jest to tło dla rozdziału 8.
+}
+
+\section{Kwantowe przetwarzanie obrazów w obecności szumu}\label{sec:lr:qimg}
+\agentinfo{
+Przeglądy metod reprezentacji obrazów (na przykład cai_survey_2018), realizacje na rzeczywistych urządzeniach, badania odporności reprezentacji na szum, maksymalne rozmiary obrazów osiągane eksperymentalnie.
+Definicje FRQI, NEQR i LPIQE są w zapleczu teoretycznym \agentref{chapters/theoretical_background_05_QIMG.tex}; tutaj porównanie wyników i warunków eksperymentów.
+Jest to tło dla rozdziału 5.
+}
+
+\section{Klasyfikacja obrazów z użyciem komputerów kwantowych a szum}\label{sec:lr:classification}
+\agentinfo{
+Klasyfikatory kwantowe i hybrydowe dla obrazów, wpływ szumu na trening i wnioskowanie, płaskowyże gradientu indukowane szumem, trening uwzględniający szum, szum jako regularyzator lub zasób.
+Sekcja łączy tło dla rozdziału 7 (wpływ redukcji błędów na klasyfikację) i rozdziału 8 (szum jako dodatkowy stopień swobody w uczeniu).
+Źródło części o strukturze grupowej: sekcja Related work artykułu \agentref{artykuły/noisy_lie_group_learners/main.tex}.
+}
+
+\section{Synteza stanu badań i luka badawcza}\label{sec:lr:gap}
+\agentinfo{
+Lukę wyprowadzić z porównania prac, a nie z deklaracji.
+Kandydaci na elementy luki, do sprawdzenia w literaturze wraz z możliwymi kontrprzykładami:
+(a) brak metod redukcji błędów zorientowanych na problem, które nie zużywają kubitów, bramek ani dodatkowych wykonań obwodu poza kalibracją;
+(b) brak systematycznego porównania utraty danych w reprezentacjach obrazów na rzeczywistych urządzeniach;
+(c) brak oceny modeli generatywnych obraz--obraz jako etapu redukcji błędu po korekcie kalibracyjnej;
+(d) brak oceny wpływu redukcji błędów na klasyfikację obrazów kodowanych kwantowo;
+(e) ograniczona wiedza o strukturze szumu wykraczającej poza modele zachowujące symetrię.
+Każdy element luki opatrzyć uzasadnieniem źródłowym, zakresem niepewności i odwołaniem do rozdziału, który go adresuje.
+Warto zakończyć tabelą: metoda, dodatkowe kubity, dodatkowe bramki, dodatkowe wykonania, założenia, zastosowanie do obrazów.
+}

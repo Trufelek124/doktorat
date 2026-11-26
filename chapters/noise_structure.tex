@@ -1,0 +1,88 @@
+% !TeX root = ./../main.tex
+
+\chapter{Struktura szumu kwantowego: modelowanie i wykorzystanie w uczeniu}\label{chapter:noise_structure}
+
+\agentinfo{
+Rozdział przedstawia perspektywę uzupełniającą wobec rozdziałów 4--7: zamiast usuwać skutki szumu, bada jego strukturę i możliwość jej wykorzystania.
+Opiera się na dwóch pracach współautorskich, których pierwszym autorem jest Sebastian Raubitzek (SBA Research, Wiedeń):
+rekonstrukcja szumu z generatorów łamiących symetrię \agentref{bib:raubitzek_quantum_noise} \agentref{artykuły/quantum_noise_elsevier_submission/main.tex},
+sieci neuronowe oparte na grupach Liego \agentref{bib:raubitzek_lie_group_manuscript} \agentref{artykuły/noisy_lie_group_learners/main.tex}.
+Praca powiązana, bez udziału autora rozprawy: raubitzek_obfuscation_2025.
+
+Rozdział ma charakter omówienia, a nie pełnego powtórzenia artykułów; manuskrypt o grupach Liego jest bardzo obszerny, więc należy wybrać wyłącznie wątki związane z szumem i błędami.
+Wkład własny autora rozprawy w obu pracach musi zostać opisany precyzyjnie i zgodnie z oświadczeniami współautorów; wymaga informacji od autora.
+Związek z tematem pracy:
+(1) model szumu na poziomie generatorów wskazuje, które założenia standardowych modeli szumu nie są spełnione na rzeczywistym sprzęcie, co ma znaczenie dla korekcji i mitygacji;
+(2) kontrolowane zaburzenie łamiące symetrię, wzorowane na szumie kwantowym, może pełnić w uczeniu rolę dodatkowego stopnia swobody.
+W autorskim ujęciu autora rozprawy jest to uczenie wykorzystujące błędy kwantowe jako dodatkowy wymiar; sformułowania w tekście muszą jednak odpowiadać temu, co faktycznie pokazano w manuskryptach (sieci są klasyczne, a zaburzenie jest opcjonalnym elementem konstrukcji).
+Podstawy matematyczne są w zapleczu teoretycznym \agentref{chapters/theoretical_background_01_Q.tex} \agentref{chapters/theoretical_background_02_noise.tex}.
+}
+
+\section{Cel i zakres rozdziału}\label{sec:ns:scope}
+\agentinfo{
+Pytanie badawcze rozdziału: PB6.
+Odniesienie do roboczej tezy T4.
+Tutaj także jawne określenie wkładu własnego autora w prace współautorskie.
+}
+
+\section{Rekonstrukcja szumu z generatorów łamiących symetrię}\label{sec:ns:generators}
+
+\subsection{Model zaburzonych generatorów}\label{subsec:ns:generators:model}
+\agentinfo{
+Bramka jako eksponenta generatora z addytywnym zaburzeniem.
+Zaburzenie hermitowskie (błąd koherentny: przechylenie osi, błąd kąta) i niehermitowskie (efektywna nieunitarność: dyssypacja, wyciek).
+}
+
+\subsection{Analityczna tomografia procesu}\label{subsec:ns:generators:qpt}
+\agentinfo{
+Odtworzenie jednokubitowej tomografii procesu z 12 obwodami zgodnie z procedurą Qiskit, model próbkowania dwumianowego, macierz PTM.
+}
+
+\subsection{Dopasowanie zaburzeń algorytmem genetycznym}\label{subsec:ns:generators:ga}
+
+\subsection{Wyniki}\label{subsec:ns:generators:results}
+\agentinfo{
+Dane sprzętowe: 88 wykonań na urządzeniu IBM Brisbane, uśredniona PTM i odchylenie standardowe.
+Zgodność modelu z urządzeniem element po elemencie i blokami.
+Porównanie zespołów losowych zaburzeń hermitowskich i niehermitowskich.
+}
+
+\section{Implikacje dla korekcji i mitygacji błędów}\label{sec:ns:implications}
+\agentinfo{
+Źródło: podsekcja Implications for error correction artykułu o szumie.
+Sygnatury łamania symetrii jako wskaźnik diagnostyczny (wyciek, utrata populacji, relaksacja zależna od stanu).
+Schemat: scharakteryzować, uzupełnić etap odtwarzania, monitorować.
+Zastrzeżenia: stabilność i powtarzalność zaburzeń, pominięte źródła szumu.
+Powiązać z założeniem stabilności błędu w metodzie PDU (rozdział 4): obie metody zakładają, że błąd jest stabilną, mierzalną cechą urządzenia.
+}
+
+\section{Szum jako zasób w uczeniu: sieci oparte na grupach Liego}\label{sec:ns:lie}
+
+\subsection{Warstwy działania grupy Liego}\label{subsec:ns:lie:layers}
+\agentinfo{
+Bank wektorów, współrzędne w algebrze Liego, mapa wykładnicza, lokalne działanie grupy, odczyt.
+Tylko w zakresie potrzebnym do zrozumienia roli zaburzenia.
+}
+
+\subsection{Kontrolowane łamanie symetrii}\label{subsec:ns:lie:noise}
+\agentinfo{
+Źródło: akapit Optional noise insertion and symmetry violation oraz odpowiadający mu dodatek manuskryptu.
+Addytywne zaburzenie macierzy współrzędnych algebry; składowa wewnątrz algebry i składowa poza algebrą; interpolacja między ścisłą strukturą grupową a transformacją łamiącą symetrię.
+Związek z modelem szumu z poprzedniej sekcji.
+}
+
+\subsection{Wyniki eksperymentów}\label{subsec:ns:lie:results}
+\agentinfo{
+Zwięzłe omówienie: klasyfikacja i regresja na danych tabelarycznych, odszumianie sygnałów, GAN, prognozowanie szeregów czasowych.
+Wynik jest zależny od zbioru danych; najwyraźniejsza poprawa dotyczy odszumiania.
+Sprawdzić w manuskrypcie, w których eksperymentach faktycznie użyto zaburzenia łamiącego symetrię, i opisać tylko to, co wynika z danych.
+}
+
+\section{Dyskusja}\label{sec:ns:discussion}
+\agentinfo{
+Odpowiedź na PB6.
+Ograniczenia: model jednokubitowy, jedno urządzenie, koszt danych sprzętowych, model fenomenologiczny, sieci klasyczne zamiast kwantowych.
+Miejsce tych wyników w całości pracy: od usuwania skutków szumu do jego opisu i wykorzystania.
+}
+
+\section{Podsumowanie}\label{sec:ns:summary}

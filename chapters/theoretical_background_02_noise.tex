@@ -1,0 +1,42 @@
+% !TeX root = ./../main.tex
+
+\section{Szum i błędy w komputerach kwantowych}\label{sec:tb:noise}
+\agentinfo{
+Cel: wyjaśnić, skąd biorą się błędy, jak się je opisuje formalnie i jak się je mierzy.
+Jest to centralny podrozdział teoretyczny pracy, ponieważ wszystkie rozdziały badawcze dotyczą przeciwdziałania szumowi albo jego opisu.
+Źródła własne: \agentref{artykuły/magisterka_werner_final/chapters/01.tex} (rozdział Analiza tematu, sekcja Błędy kwantowe) \agentref{artykuły/quantum_noise_elsevier_submission/main.tex} (sekcje Theoretical Foundations i Quantum Process Tomography).
+}
+
+\subsection{Źródła błędów}\label{subsec:tb:noise:sources}
+\agentinfo{
+Dekoherencja: relaksacja (czas T1) i defazowanie (czas T2).
+Błędy bramek jedno- i dwukubitowych, błędy przygotowania stanu i pomiaru (SPAM), przesłuch (crosstalk), wyciek poza przestrzeń obliczeniową, dryf parametrów między kalibracjami.
+Podkreślić rolę cyklu kalibracji urządzenia, ponieważ metoda PDU zakłada stabilność błędu między kalibracjami.
+}
+
+\subsection{Formalizm kanałów kwantowych}\label{subsec:tb:noise:channels}
+\agentinfo{
+Układy otwarte, odwzorowania CPTP, reprezentacja operatorami Krausa, równanie Lindblada w zarysie.
+Błędy koherentne (unitarne) a niekoherentne (stochastyczne).
+Kanały unitalne i nieunitalne; pojęcie potrzebne w rozdziale 8.
+}
+
+\subsection{Podstawowe modele szumu}\label{subsec:tb:noise:models}
+\agentinfo{
+Kanał odwrócenia bitu i fazy, kanał depolaryzujący, tłumienie amplitudy, tłumienie fazy, błąd odczytu.
+Modele szumu w symulatorach (na przykład modele budowane z danych kalibracyjnych urządzenia) i ich ograniczenia.
+}
+
+\subsection{Charakteryzacja szumu}\label{subsec:tb:noise:characterisation}
+\agentinfo{
+Tomografia stanu, tomografia procesu kwantowego (QPT), macierz transferu Pauliego (PTM) i jej interpretacja (wiersz afiniczny, blok unitalny).
+Randomized benchmarking w zarysie.
+Poziom szczegółowości PTM dobrać tak, by rozdział 8 mógł się do niej odwoływać bez powtórzeń.
+}
+
+\subsection{Era NISQ i platformy sprzętowe}\label{subsec:tb:noise:nisq}
+\agentinfo{
+Pojęcie ery NISQ, miary jakości urządzeń (wierność bramek, objętość kwantowa i nowsze miary).
+Platformy: kubity nadprzewodzące (IBM Quantum, używane w eksperymentach), pułapki jonowe, układy fotoniczne (docelowa platforma dla LPIQE).
+Dane o konkretnych urządzeniach podawać z datą i źródłem; parametry urządzeń użytych w eksperymentach zebrać w dodatku \agentref{chapters/appendix_experiments.tex}.
+}

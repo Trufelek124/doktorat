@@ -1,0 +1,24 @@
+# pliki pomocnicze LaTeX
+*.aux
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.fdb_latexmk
+*.fls
+*.glo
+*.gls
+*.glg
+*.glsdefs
+*.idx
+*.ilg
+*.ind
+*.lof
+*.lot
+*.log
+*.out
+*.rks
+*.synctex.gz
+*.toc
+*-blx.bib
+.DS_Store

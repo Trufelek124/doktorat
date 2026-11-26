@@ -1,0 +1,35 @@
+% !TeX root = ./../main.tex
+
+\chapter{Wpływ redukcji błędów na klasyfikację obrazów}\label{chapter:classification}
+
+\agentinfo{
+UWAGA: zakres tego rozdziału wymaga decyzji autora i promotora.
+Tytuł rozprawy obejmuje klasyfikację obrazów, a dotychczasowe artykuły nie zawierają eksperymentów klasyfikacji obrazów kodowanych kwantowo.
+Artykuły zapowiadają jedynie kierunek: wykrywanie przyrządów lotniczych na obrazach z kokpitu symulatora lotu \agentref{artykuły/CoDIT_2025_final_paper/root.tex} \agentref{artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex}.
+Koncepcja rozprawy z 2022 r. przewidywała implementację kwantowej klasyfikacji obrazów oraz ocenę PDU w tym zadaniu \agentref{inne/Wstępna koncepcja rozprawy doktorskiej.docx}.
+
+Możliwe warianty, od najmniej do najbardziej pracochłonnego:
+A. Klasyfikator klasyczny na obrazach zrekonstruowanych: porównanie dokładności dla obrazów surowych, po PDU, po sieci pix2pix i po obu etapach. Wykorzystuje istniejący potok z rozdziałów 5 i 6; wymaga zbioru z etykietami w rozdzielczości 8x8 lub 16x16.
+B. Klasyfikator hybrydowy kwantowo-klasyczny z kodowaniem LPIQE, trenowany i oceniany przy różnych poziomach szumu, z redukcją błędów i bez niej.
+C. Wariant B wykonany także na rzeczywistym urządzeniu.
+Jeżeli żaden wariant nie zostanie zrealizowany, rozdział należy usunąć, a zagadnienie klasyfikacji ująć w przeglądzie literatury, rozdziale 8 i kierunkach dalszych badań; wtedy trzeba też rozważyć zgodność treści z tytułem pracy.
+
+Do czasu decyzji nie pisać treści tego rozdziału.
+}
+
+\section{Cel i zakres rozdziału}\label{sec:cls:scope}
+\agentinfo{Pytanie badawcze rozdziału: PB5.}
+
+\section{Potok klasyfikacji obrazów kodowanych kwantowo}\label{sec:cls:pipeline}
+\agentinfo{Do uzupełnienia po decyzji o wariancie: etapy od obrazu wejściowego, przez kodowanie, pomiar i redukcję błędów, do klasyfikatora.}
+
+\section{Metodyka badań eksperymentalnych}\label{sec:cls:methodology}
+\agentinfo{Do uzupełnienia po decyzji o wariancie: zbiór danych, model, warianty redukcji błędów, miary, liczba powtórzeń.}
+
+\section{Wyniki}\label{sec:cls:results}
+\agentinfo{Do uzupełnienia po wykonaniu eksperymentów.}
+
+\section{Dyskusja}\label{sec:cls:discussion}
+\agentinfo{Odpowiedź na PB5 oraz zagrożenia trafności.}
+
+\section{Podsumowanie}\label{sec:cls:summary}

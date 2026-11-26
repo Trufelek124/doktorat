@@ -1,0 +1,72 @@
+% !TeX root = ./../main.tex
+
+\chapter{Uczenie głębokie jako narzędzie redukcji błędów}\label{chapter:dl_error_reduction}
+
+\agentinfo{
+Rozdział opisuje użycie generatywnej sieci przeciwstawnej pix2pix do redukcji błędu w obrazach kodowanych metodą LPIQE, samodzielnie oraz w połączeniu z PDU.
+Źródła:
+manuskrypt w szablonie czasopisma Quantum (wersja po korekcie językowej, traktować jako nadrzędną) \agentref{bib:werner_deep_learning_manuscript} \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex},
+ten sam manuskrypt w szablonie MDPI \agentref{artykuły/Energies_article/template.tex},
+rysunki \agentref{artykuły/Quantum_journal_GAN__Copy_/imgs}.
+Podstawy sieci GAN i pix2pix są w zapleczu teoretycznym \agentref{chapters/theoretical_background_06_ML.tex}.
+}
+
+\section{Cel i zakres rozdziału}\label{sec:dl:scope}
+\agentinfo{
+Pytanie badawcze rozdziału: PB4.
+Odniesienie do roboczej tezy T3.
+}
+
+\section{Redukcja błędu jako translacja obraz--obraz}\label{sec:dl:concept}
+\agentinfo{
+Sformułowanie zadania: wejściem jest obraz zrekonstruowany z pomiarów (surowy albo po PDU), wyjściem obraz zbliżony do oryginału.
+Uzasadnienie: zniekształcenie jest systematyczne i zależne od urządzenia, więc może być wyuczone.
+Miejsce sieci w potoku: po rekonstrukcji i po PDU, w całości po stronie klasycznej.
+}
+
+\section{Architektura sieci}\label{sec:dl:architecture}
+\agentinfo{
+Generator U-Net (liczba parametrów, bloki kodujące i dekodujące, połączenia skrótowe), dyskryminator PatchGAN, funkcja straty z wagami 1 i 100, optymalizator Adam z parametrami.
+Skalowanie obrazów do 256x256 i z powrotem; omówić konsekwencje.
+Schematy architektury wykonać na nowo w TikZ zamiast przenosić rastrowe rysunki z manuskryptu.
+}
+
+\section{Protokół eksperymentalny}\label{sec:dl:protocol}
+\agentinfo{
+Cztery eksperymenty:
+E1: obrazy 16x16 z symulatora, odniesieniem obrazy po PDU;
+E2: obrazy 8x8 z rzeczywistego urządzenia, odniesieniem obrazy po PDU;
+E3: obrazy 16x16 z symulatora po PDU, odniesieniem obrazy oryginalne;
+E4: obrazy 8x8 z rzeczywistego urządzenia po PDU, odniesieniem obrazy oryginalne.
+Zbiory: 631 obrazów (symulator) i 61 obrazów (urządzenie IBMQ Nairobi); liczba epok 250 i 1000.
+Opisać podział na zbiór uczący i testowy oraz kroki odtworzenia eksperymentu.
+W manuskrypcie tytuły podrozdziałów wyników i lista eksperymentów nie są w pełni spójne; uzgodnić numerację z danymi przed opisem.
+}
+
+\section{Wyniki}\label{sec:dl:results}
+
+\subsection{Obrazy z symulatora}\label{subsec:dl:results:sim}
+\agentinfo{Eksperymenty E1 i E3.}
+
+\subsection{Obrazy z rzeczywistego urządzenia}\label{subsec:dl:results:real}
+\agentinfo{
+Eksperymenty E2 i E4.
+Wynik kluczowy do zweryfikowania w danych: MSE rzędu 0,00014 i odchylenie standardowe błędu 0,00993 dla E4.
+}
+
+\subsection{Porównanie: wynik surowy, PDU, sieć, PDU z siecią}\label{subsec:dl:results:comparison}
+\agentinfo{Tabela zbiorcza miar dla wszystkich wariantów.}
+
+\section{Dyskusja}\label{sec:dl:discussion}
+\agentinfo{
+Odpowiedź na PB4.
+Zagrożenia trafności, które trzeba omówić wprost:
+bardzo mały zbiór z rzeczywistego urządzenia (61 obrazów) i ryzyko przeuczenia;
+ryzyko, że sieć odtwarza rozkład danych uczących zamiast usuwać szum (obraz wiarygodny wizualnie, lecz niezgodny z pomiarem);
+zależność wytrenowanej sieci od urządzenia i od kalibracji;
+koszt treningu sieci o ponad 54 milionach parametrów dla obrazów 8x8 i 16x16;
+skalowanie na większe obrazy.
+Jeśli dane na to pozwalają, rozważyć eksperymenty uzupełniające: walidację krzyżową, test na obrazach spoza rozkładu, prostsze modele odniesienia (do decyzji autora).
+}
+
+\section{Podsumowanie}\label{sec:dl:summary}

@@ -1,0 +1,91 @@
+% !TeX root = ./../main.tex
+
+\chapter{Metoda PDU: redukcja błędów wyznaczana eksperymentalnie}\label{chapter:pdu}
+
+\agentinfo{
+Rozdział przedstawia główny wkład metodyczny pracy: funkcję odwracania zniekształceń fazy (Phase Distortion Unraveling, PDU).
+Źródła:
+artykuł ICCS 2022 \agentref{bib:werner_experiment_driven_2022} \agentref{artykuły/Quantum_Errors_ICCS/main.tex},
+praca magisterska autora w języku polskim, zawierająca znacznie więcej szczegółów i wyników niż artykuł \agentref{artykuły/magisterka_werner_final/chapters/02.tex} \agentref{artykuły/magisterka_werner_final/chapters/03.tex} \agentref{artykuły/magisterka_werner_final/chapters/04.tex},
+rysunki \agentref{artykuły/magisterka_werner_final/graf/Eksperymenty} \agentref{artykuły/Quantum_Errors_ICCS/imgs}.
+Rozdział nie może być tłumaczeniem artykułu: wymaga pełnych definicji formalnych, opisu procedury w postaci algorytmu, pełnej metodyki, analizy statystycznej i dyskusji ograniczeń.
+Nazwy urządzeń IBM Quantum z lat 2021--2022 (Lima, Manila, Bogota, Belem, Quito, Santiago, Athens) podawać z datami eksperymentów; urządzenia te są już wycofane.
+Pojęcia QCoSamp i funkcji referencyjnej są wprowadzone w zapleczu teoretycznym \agentref{chapters/theoretical_background_04_QSAMP.tex}.
+}
+
+\section{Cel i zakres rozdziału}\label{sec:pdu:scope}
+\agentinfo{
+Pytania badawcze rozdziału: PB1 (stabilność błędu między kalibracjami) i PB2 (przenoszalność korekty na inne obliczenia na tym samym układzie kubitów).
+Odniesienie do tezy T1.
+}
+
+\section{Założenia metody}\label{sec:pdu:assumptions}
+\agentinfo{
+Obwód traktowany jako czarna skrzynka realizująca algorytm oparty na próbkowaniu.
+Metoda zorientowana na problem, a nie na bramkę: funkcję PDU wyznacza się dla danego problemu, urządzenia i układu kubitów.
+Założenie stabilności błędu między kalibracjami fizycznymi.
+Brak dodatkowych kubitów i bramek; cała objętość kwantowa pozostaje dostępna dla obliczeń.
+}
+
+\section{Funkcja referencyjna i wyznaczanie błędu}\label{sec:pdu:reference}
+\agentinfo{
+Definicja funkcji referencyjnej (połowa pierwszej składowej QCoSamp), wartości oczekiwane wyznaczane klasycznie, wartości eksperymentalne z histogramu pomiarów, zbiór błędów wyznaczonych.
+Liczba powtórzeń obwodu i jej uzasadnienie (w eksperymentach 8192).
+}
+
+\section{Definicja funkcji PDU}\label{sec:pdu:definition}
+\agentinfo{
+Funkcja PDU jako interpolacja punktów (argument, błąd).
+Wersja dla pojedynczego kubitu i dla całego układu; funkcja zawiera zarówno błędy kubitów, jak i błędy zależności między nimi.
+Wynik po korekcie jako suma rozkładu zmierzonego i funkcji PDU.
+Zapis formalny w środowiskach Definition; notacja z config/symbols.tex.
+Omówić wybór metody interpolacji i gęstości punktów kalibracyjnych.
+}
+
+\section{Procedura kalibracji i korekcji}\label{sec:pdu:procedure}
+\agentinfo{
+Algorytm krok po kroku: kalibracja (wykonanie obwodów referencyjnych, wyznaczenie błędów, interpolacja), stosowanie (odczyt wyniku, korekta), warunek ponownej kalibracji.
+Zapisać jako algorytm oraz schemat blokowy.
+Koszt: liczba dodatkowych wykonań obwodu potrzebna do kalibracji.
+}
+
+\section{Metodyka badań eksperymentalnych}\label{sec:pdu:methodology}
+\agentinfo{
+Środowisko: Qiskit, urządzenia IBM Quantum, system kolejkowania i jego wpływ na czas wykonania eksperymentów.
+Protokoły: eksperyment stabilności czasowej, eksperyment istotności korekcji, eksperymenty dla funkcji jednej i dwóch zmiennych.
+Miary: MSE, odchylenie standardowe, współczynnik korelacji Pearsona; liczność prób dla poszczególnych urządzeń.
+Źródło szczegółów: \agentref{artykuły/magisterka_werner_final/chapters/02.tex} (sekcje Środowisko eksperymentalne, Metodologia).
+}
+
+\section{Wyniki}\label{sec:pdu:results}
+
+\subsection{Charakterystyka błędu urządzeń}\label{subsec:pdu:results:devices}
+\agentinfo{
+Macierze sąsiedztwa i macierze gęstości z pracy magisterskiej \agentref{artykuły/magisterka_werner_final/chapters/03.tex} (sekcja Macierze sąsiedztwa).
+}
+
+\subsection{Stabilność błędu w czasie}\label{subsec:pdu:results:stability}
+\agentinfo{
+Linie trendu błędu w funkcji czasu od kalibracji.
+Wniosek dotyczący PB1.
+}
+
+\subsection{Korekcja funkcji jednej zmiennej}\label{subsec:pdu:results:one}
+\agentinfo{
+Korekcja dla cos(x) i cos(2x) na poszczególnych urządzeniach; tabele MSE przed korektą i po korekcie, istotność statystyczna.
+}
+
+\subsection{Korekcja funkcji dwóch zmiennych i szeregów wieloskładnikowych}\label{subsec:pdu:results:two}
+\agentinfo{
+Wyniki z pracy magisterskiej (sekcja Korekcja funkcji dwóch zmiennych oraz katalog graf/Eksperymenty/wiele_komp).
+Wniosek dotyczący PB2.
+}
+
+\section{Dyskusja}\label{sec:pdu:discussion}
+\agentinfo{
+PDU na tle korekcji i mitygacji błędów według kryteriów kosztu z zaplecza teoretycznego.
+Relacja do mitygacji błędów pomiaru.
+Ograniczenia i zagrożenia trafności: zależność od problemu i układu kubitów, konieczność ponownej kalibracji, mała liczba kubitów w eksperymentach, wycofane urządzenia, skalowalność interpolacji, użyteczność poza erą NISQ.
+}
+
+\section{Podsumowanie}\label{sec:pdu:summary}

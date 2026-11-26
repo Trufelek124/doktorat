@@ -1,0 +1,40 @@
+% !TeX root = ./../main.tex
+
+\section{Korekcja, mitygacja i redukcja błędów}\label{sec:tb:qec}
+\agentinfo{
+Cel: zdefiniować trzy rodziny metod przeciwdziałania błędom i wprowadzić mechanizmy działania metod bazowych.
+Tutaj znajdują się definicje i zasady działania.
+Stan badań, najnowsze wyniki eksperymentalne i porównania należą do przeglądu literatury \agentref{chapters/literature_review.tex}.
+Źródła własne: \agentref{artykuły/magisterka_werner_final/chapters/01.tex} (podsekcja Metody korekcji błędów kwantowych) oraz wstępy artykułów \agentref{artykuły/Quantum_Errors_ICCS/main.tex} \agentref{artykuły/CoDIT_2025_final_paper/root.tex} \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex}.
+}
+
+\subsection{Terminologia przyjęta w pracy}\label{subsec:tb:qec:taxonomy}
+\agentinfo{
+Zdefiniować i rozgraniczyć:
+korekcję błędów (kodowanie w kubitach logicznych, wykrywanie i odwracanie błędów w trakcie obliczeń),
+mitygację błędów (zmniejszanie wpływu szumu na wynik bez kubitów logicznych, zwykle kosztem dodatkowych wykonań obwodu),
+redukcję błędów w rozumieniu pracy (korekta wyniku po stronie klasycznej na podstawie pomiarów, bez dodatkowych kubitów i bramek).
+Tytułowe ,,ograniczanie błędów'' odpowiada redukcji i mitygacji.
+W literaturze granica między mitygacją a redukcją nie jest ostra; należy to uczciwie zaznaczyć i wskazać, gdzie PDU lokuje się względem mitygacji błędów pomiaru.
+Definicje muszą być zgodne z hasłami w config/glossary.tex.
+}
+
+\subsection{Kwantowa korekcja błędów}\label{subsec:tb:qec:codes}
+\agentinfo{
+Twierdzenie o zakazie klonowania i jego konsekwencje dla nadmiarowości.
+Kod powtórzeniowy, kod Shora, kod pięciokubitowy, formalizm stabilizatorów, kody powierzchniowe, pomiar syndromu, twierdzenie progowe.
+Narzut zasobów: liczba kubitów fizycznych na kubit logiczny, ograniczenia topologii połączeń.
+}
+
+\subsection{Mitygacja błędów}\label{subsec:tb:qec:mitigation}
+\agentinfo{
+Ekstrapolacja do zerowego szumu (ekstrapolacja Richardsona), probabilistyczne odwracanie szumu (metoda quasi-prawdopodobieństw), mitygacja błędów pomiaru macierzą kalibracyjną, dynamiczne odsprzęganie.
+Dla każdej metody: zasada, założenia o szumie, koszt w liczbie wykonań obwodu.
+}
+
+\subsection{Koszt zasobów jako kryterium porównania}\label{subsec:tb:qec:cost}
+\agentinfo{
+Wprowadzić kryteria, według których w rozdziałach 4--6 porównywana jest metoda PDU z innymi metodami:
+dodatkowe kubity, dodatkowe bramki, dodatkowe wykonania obwodu, koszt obliczeń klasycznych, założenia o stabilności szumu, zakres stosowalności (zorientowanie na bramkę a zorientowanie na problem).
+Warto przygotować tabelę zbiorczą.
+}

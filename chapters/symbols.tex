@@ -1,0 +1,68 @@
+% !TeX root = ./../main.tex
+
+\chapter*{Wykaz skrótów i symboli}
+\addcontentsline{toc}{chapter}{Wykaz skrótów i symboli}
+\agentinfo{
+Wykaz uzupełniać na bieżąco wraz z rozdziałami.
+Makra symboli znajdują się w config/symbols.tex.
+Symbol użyty w tekście musi mieć wiersz w tym wykazie.
+}
+
+\section*{Skróty}
+
+\begin{longtable}{@{}p{0.2\textwidth}p{0.73\textwidth}@{}}
+\toprule
+\textbf{Skrót} & \textbf{Znaczenie} \\
+\midrule
+\endhead
+CPTP & odwzorowanie całkowicie dodatnie i zachowujące ślad (ang. \emph{completely positive trace-preserving}) \\
+FRQI & \emph{Flexible Representation of Quantum Images} \\
+GAN & generatywna sieć przeciwstawna (ang. \emph{Generative Adversarial Network}) \\
+LPIQE & \emph{Local Phase Image Quantum Encoding} \\
+MAE & średni błąd bezwzględny (ang. \emph{Mean Absolute Error}) \\
+MSE & błąd średniokwadratowy (ang. \emph{Mean Square Error}) \\
+NEQR & \emph{Novel Enhanced Quantum Representation} \\
+NISQ & \emph{Noisy Intermediate-Scale Quantum} \\
+PDF & funkcja rozkładu prawdopodobieństwa (ang. \emph{Probability Distribution Function}) \\
+PDO & operator zniekształcenia fazy (ang. \emph{Phase Distortion Operator}) \\
+PDU & funkcja odwracania zniekształceń fazy (ang. \emph{Phase Distortion Unraveling}) \\
+PSNR & szczytowy stosunek sygnału do szumu (ang. \emph{Peak Signal-to-Noise Ratio}) \\
+PTM & macierz transferu Pauliego (ang. \emph{Pauli Transfer Matrix}) \\
+QCoSamp & kwantowe próbkowanie szeregiem cosinusów (ang. \emph{Cosine Series Quantum Sampling}) \\
+QEC & kwantowa korekcja błędów (ang. \emph{Quantum Error Correction}) \\
+QEM & mitygacja błędów kwantowych (ang. \emph{Quantum Error Mitigation}) \\
+QML & kwantowe uczenie maszynowe (ang. \emph{Quantum Machine Learning}) \\
+QPT & tomografia procesu kwantowego (ang. \emph{Quantum Process Tomography}) \\
+QV & objętość kwantowa (ang. \emph{Quantum Volume}) \\
+SPAM & błędy przygotowania stanu i pomiaru (ang. \emph{State Preparation and Measurement}) \\
+VQC & wariacyjny obwód kwantowy (ang. \emph{Variational Quantum Circuit}) \\
+\bottomrule
+\end{longtable}
+
+\section*{Symbole}
+
+\begin{longtable}{@{}p{0.2\textwidth}p{0.73\textwidth}@{}}
+\toprule
+\textbf{Symbol} & \textbf{Znaczenie} \\
+\midrule
+\endhead
+$\hilbert$ & przestrzeń Hilberta \\
+$\ket{\psi}$ & wektor stanu układu kwantowego \\
+$\rho$ & macierz gęstości \\
+$\identity$ & operator identycznościowy \\
+$\channel$ & kanał kwantowy \\
+$\prob(\ket{x})$ & prawdopodobieństwo zmierzenia stanu bazowego $\ket{x}$ \\
+$\reffun(x)$ & funkcja referencyjna o znanych wartościach oczekiwanych \\
+$\reffunexp(x)$ & funkcja referencyjna wyznaczona eksperymentalnie \\
+$\pdu(x)$ & funkcja PDU: $\pdu(x)=\reffunexp(x)-\reffun(x)$ \\
+$H, W$ & wysokość i szerokość obrazu w pikselach \\
+$\img$ & obraz jako macierz intensywności pikseli \\
+$\lpiqe(\img)$ & operator kodowania LPIQE \\
+$\reconst(\img)$ & operator rekonstrukcji obrazu \\
+$\liealg{g}$ & algebra Liego grupy $G$ \\
+$\genpert$ & addytywne zaburzenie generatora bramki \\
+$\dataset$ & zbiór danych \\
+$\trainset$, $\valset$, $\testset$ & zbiór treningowy, walidacyjny i testowy \\
+$\symloss$ & funkcja straty \\
+\bottomrule
+\end{longtable}

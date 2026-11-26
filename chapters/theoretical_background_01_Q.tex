@@ -1,0 +1,51 @@
+% !TeX root = ./../main.tex
+
+\section{Podstawy informatyki kwantowej}\label{sec:tb:quantum}
+\agentinfo{
+Cel: wprowadzić minimalny, ale kompletny aparat potrzebny do zrozumienia metod z rozdziałów 4--8.
+Poziom: czytelnik jest informatykiem bez przygotowania z mechaniki kwantowej.
+Źródła własne: \agentref{artykuły/magisterka_werner_final/chapters/01.tex} (sekcje: Notacja Diraca, Nowe sformułowanie mechaniki kwantowej, Podstawy informatyki kwantowej).
+Źródła podręcznikowe: Nielsen i Chuang oraz pozycje z bibliography/biblio.bib; brakujące pozycje dodać po weryfikacji.
+Rysunki (sfera Blocha, obwody) wykonać samodzielnie w TikZ i quantikz2, w katalogu figures/chp_theoretical_background.
+}
+
+\subsection{Kubit, rejestry kwantowe i notacja Diraca}\label{subsec:tb:qubit}
+\agentinfo{
+Bit a kubit, superpozycja, przestrzeń Hilberta, notacja Diraca, iloczyn tensorowy, rejestry wielokubitowe, splątanie, sfera Blocha.
+}
+
+\subsection{Bramki i obwody kwantowe}\label{subsec:tb:gates}
+\agentinfo{
+Ewolucja unitarna, bramki jednokubitowe (Pauliego, Hadamarda, obroty), bramki przesunięcia fazy, bramki kontrolowane i wielokrotnie kontrolowane, obwód kwantowy, głębokość obwodu.
+Techniki używane dalej w pracy: phase kickback, uncomputation, definiowanie operatora macierzą i jego transpilacja do bramek natywnych urządzenia.
+Zwrócić uwagę, że transpilacja zmienia liczbę i rodzaj bramek, co wpływa na błąd; do tego odwołują się rozdziały 4 i 5.
+}
+
+\subsection{Faza globalna i lokalna, interferencja}\label{subsec:tb:phase}
+\agentinfo{
+Rozróżnienie fazy globalnej (nieobserwowalnej) i lokalnej (względnej).
+Interferencja jako mechanizm zamiany informacji fazowej na prawdopodobieństwa pomiaru.
+To pojęcie jest fundamentem kodowania LPIQE i metody PDU, dlatego wymaga osobnego, starannego wprowadzenia z przykładem jednokubitowym.
+}
+
+\subsection{Pomiar i estymacja rozkładu wyników}\label{subsec:tb:measurement}
+\agentinfo{
+Postulat pomiaru, pomiar w bazie obliczeniowej, wartość oczekiwana.
+Wielokrotne wykonanie obwodu (shots), histogram wyników jako estymator rozkładu prawdopodobieństwa.
+Błąd statystyczny wynikający ze skończonej liczby powtórzeń i jego odróżnienie od błędu sprzętowego; to rozróżnienie jest potrzebne przy interpretacji wyników w rozdziałach 4--6 i 8.
+}
+
+\subsection{Stany mieszane i macierz gęstości}\label{subsec:tb:density}
+\agentinfo{
+Stany czyste i mieszane, macierz gęstości, ślad częściowy, wierność stanów.
+Wprowadzenie potrzebne do opisu szumu w kolejnym podrozdziale oraz do macierzy gęstości prezentowanych w rozdziale 4.
+}
+
+\subsection{Bramki kwantowe jako elementy grup Liego}\label{subsec:tb:lie}
+\agentinfo{
+Grupy SU(2), SO(3), SU(3) i ich algebry Liego, generatory, mapa wykładnicza.
+Bramka obrotu jako eksponenta generatora: U(theta) = exp(-i theta G / 2).
+Jest to podstawa rozdziału 8 (zaburzenia generatorów, sieci oparte na grupach Liego).
+Źródła: \agentref{artykuły/quantum_noise_elsevier_submission/main.tex} (sekcja Theoretical Foundations) \agentref{artykuły/noisy_lie_group_learners/main.tex} (sekcja Lie Groups, Lie Algebras, and Neural Network Layers).
+Zakres ograniczyć do tego, co faktycznie jest używane w rozdziale 8.
+}

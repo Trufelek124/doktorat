@@ -1,0 +1,67 @@
+% !TeX root = ./../main.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                             %
+% MOJE PAKIETY, USTAWIENIA ITD                %
+%                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Numeracja wierszy na prawym marginesie.
+% Przełącznik \LineNumberingtrue/false znajduje się w pliku main.tex.
+\ifLineNumbering
+  \usepackage[right,mathlines]{lineno}
+  \newcommand{\StartLineNumbering}{\linenumbers}
+\else
+  \newcommand{\StartLineNumbering}{}
+\fi
+
+% Kolor konspektów drukowanych przez znaczniki \agentinfo i \agenttask.
+\definecolor{agentgray}{gray}{0.4}
+
+% Bibliografia.
+% Plik bibliography/biblio.bib (główna baza literatury) jest wczytywany w config/settings.tex.
+% Poniżej dołączane są pozostałe bazy.
+\bibliography{bibliography/own_publications}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% listingi i fragmenty kodu źródłowego
+\usepackage{listings}
+\lstset{%
+language=Python,%
+commentstyle=\textit,%
+identifierstyle=\textsf,%
+keywordstyle=\sffamily\bfseries,%
+tabsize=3,%
+frame=lines,%
+numbers=left,%
+numberstyle=\tiny,%
+numbersep=5pt,%
+breaklines=true,%
+escapeinside={@*}{*@},%
+}
+
+\usepackage{todonotes}
+\todostyle{red}{color=red}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{braket}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\floatname{algorithm}{Algorytm}
+\usetikzlibrary{arrows.meta,calc,positioning,quantikz2}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.18}
+\usepackage{cleveref}
+
+\makeindex[
+  title={Skorowidz},
+  intoc,
+  columns=2
+]
+\usepackage[toc]{glossaries-extra}
+\makenoidxglossaries
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                             %
+% KONIEC MOICH USTAWIEŃ                       %
+%                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

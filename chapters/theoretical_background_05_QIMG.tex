@@ -1,0 +1,41 @@
+% !TeX root = ./../main.tex
+
+\section{Kwantowe reprezentacje obrazów}\label{sec:tb:qimg}
+\agentinfo{
+Cel: zdefiniować metody reprezentacji obrazów używane i porównywane w rozdziale 5 oraz miary jakości rekonstrukcji.
+Źródła własne: \agentref{artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex} (wstęp z tabelą podziału metod, opisy FRQI, NEQR, LPIQE) \agentref{artykuły/CoDIT_2025_final_paper/root.tex} (sekcje LPIQE method, Image reconstruction).
+Bibliografia artykułu KES jest zapisana w treści pliku jako lista bibitem; brakujące wpisy trzeba przenieść do bibliography/biblio.bib po weryfikacji.
+}
+
+\subsection{Podział metod reprezentacji}\label{subsec:tb:qimg:taxonomy}
+\agentinfo{
+Podział według sposobu zapisu barwy: kąt obrotu pojedynczego kubitu (FRQI i pochodne), stany bazowe sekwencji kubitów (NEQR i pochodne), faza lokalna (LPIQE).
+Podział według obsługi koloru.
+Tabela zbiorcza: liczba kubitów, złożoność przygotowania stanu, sposób odczytu.
+}
+
+\subsection{Qubit Lattice i FRQI}\label{subsec:tb:qimg:frqi}
+\agentinfo{
+Qubit Lattice jako pierwsza reprezentacja.
+FRQI: definicja stanu, obwód przygotowania, odczyt intensywności z prawdopodobieństw.
+}
+
+\subsection{NEQR}\label{subsec:tb:qimg:neqr}
+\agentinfo{
+Definicja stanu, liczba kubitów, obwód przygotowania, deterministyczny odczyt wartości.
+}
+
+\subsection{LPIQE}\label{subsec:tb:qimg:lpiqe}
+\agentinfo{
+Wektoryzacja obrazu, stan z fazami lokalnymi, operator kodowania, liczba kubitów.
+Operator rekonstrukcji, prawdopodobieństwa pomiaru i wzór na odtworzoną intensywność piksela.
+Zakres argumentu funkcji arcus cosinus i margines na zniekształcenia.
+Notacja zgodna z config/symbols.tex.
+}
+
+\subsection{Miary jakości rekonstrukcji obrazu}\label{subsec:tb:qimg:metrics}
+\agentinfo{
+Błąd średniokwadratowy, odchylenie standardowe błędu, współczynnik korelacji Pearsona wraz z p-wartością, PSNR, SSIM.
+Wskazać, które miary są używane w rozdziałach 5 i 6 oraz jak interpretować ich wartości.
+Teza T2 odwołuje się do poziomu błędu standardowych metod kompresji, więc należy wprowadzić sposób porównania z kompresją stratną.
+}

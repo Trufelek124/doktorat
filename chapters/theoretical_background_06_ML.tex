@@ -1,0 +1,40 @@
+% !TeX root = ./../main.tex
+
+\section{Uczenie maszynowe}\label{sec:tb:ml}
+\agentinfo{
+Cel: wprowadzić pojęcia uczenia maszynowego potrzebne w rozdziałach 6, 7 i 8.
+Zakres ograniczyć do tego, co jest używane: uczenie nadzorowane, sieci splotowe, sieci generatywne obraz--obraz, klasyfikacja, podstawy kwantowego uczenia maszynowego, struktura grupowa w sieciach.
+Źródła własne: \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex} (sekcja GAN pix2pix network) \agentref{artykuły/noisy_lie_group_learners/main.tex}.
+}
+
+\subsection{Uczenie nadzorowane i klasyfikacja obrazów}\label{subsec:tb:ml:supervised}
+\agentinfo{
+Próbka, etykieta, funkcja straty, podział danych, przeuczenie.
+Klasyfikacja binarna i wieloklasowa, macierz pomyłek, dokładność, precyzja, czułość, miara F1.
+}
+
+\subsection{Sieci neuronowe i sieci splotowe}\label{subsec:tb:ml:cnn}
+\agentinfo{
+Neuron, warstwa, funkcje aktywacji, propagacja wsteczna, optymalizator Adam.
+Warstwy splotowe i transponowane sploty, normalizacja wsadowa, dropout, architektura U-Net z połączeniami skrótowymi.
+}
+
+\subsection{Generatywne sieci przeciwstawne}\label{subsec:tb:ml:gan}
+\agentinfo{
+Gra dwuosobowa generatora i dyskryminatora, funkcja wartości.
+Warunkowe GAN, model pix2pix i dyskryminator PatchGAN, funkcja straty łącząca entropię krzyżową i MAE.
+}
+
+\subsection{Kwantowe uczenie maszynowe}\label{subsec:tb:ml:qml}
+\agentinfo{
+Wariacyjne obwody kwantowe, kodowanie danych, modele hybrydowe kwantowo-klasyczne, kwantowe mapy cech i jądra.
+Zakres zależy od ostatecznego kształtu rozdziału 7; jeśli klasyfikator w rozdziale 7 będzie czysto klasyczny, podrozdział można skrócić do kontekstu dla rozdziału 8.
+}
+
+\subsection{Symetrie i grupy Liego w sieciach neuronowych}\label{subsec:tb:ml:lie}
+\agentinfo{
+Ekwiwariancja i sieci ekwiwariantne w zarysie.
+Działanie grupy Liego w przestrzeni cech jako strukturalna transformacja wewnątrz sieci.
+Związek z kwantowym uczeniem maszynowym: parametry w algebrze, mapa wykładnicza, działanie elementu grupy.
+Odwołać się do podrozdziału o bramkach jako elementach grup Liego.
+}

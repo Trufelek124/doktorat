@@ -1,0 +1,67 @@
+% !TeX root = ./../main.tex
+
+\chapter{Redukcja błędów w kodowaniu i rekonstrukcji obrazów kwantowych}\label{chapter:pdu_images}
+
+\agentinfo{
+Rozdział przenosi metodę PDU na kwantowe przetwarzanie obrazów i bada utratę danych w metodach reprezentacji.
+Źródła:
+artykuł KES 2023 o utracie danych \agentref{bib:werner_data_loss_2023} \agentref{artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex},
+artykuł CoDIT 2025 o schemacie kodowanie--rekonstrukcja \agentref{bib:werner_error_reduction_2025} \agentref{artykuły/CoDIT_2025_final_paper/root.tex},
+rysunki \agentref{artykuły/PROCS_KES2023_LATEX_Template/imgs} \agentref{artykuły/CoDIT_2025_final_paper/imgs}.
+Katalogi Quantum_Errors_ICCS_Images i Artykuł_2025_PDU_conf zawierają wcześniejsze wersje artykułu CoDIT i służą tylko pomocniczo.
+Definicje FRQI, NEQR, LPIQE i miar jakości znajdują się w zapleczu teoretycznym \agentref{chapters/theoretical_background_05_QIMG.tex}; tutaj tylko odwołania.
+}
+
+\section{Cel i zakres rozdziału}\label{sec:pdui:scope}
+\agentinfo{
+Pytanie badawcze rozdziału: PB3.
+Odniesienie do tez T1 i T2.
+}
+
+\section{Schemat kodowania i rekonstrukcji obrazu}\label{sec:pdui:scheme}
+\agentinfo{
+Potok: obraz, wektoryzacja, operator LPIQE, operator rekonstrukcji, pomiar, odtworzenie intensywności, korekta PDU.
+Hybrydowy charakter: obliczenia na komputerze kwantowym, redukcja błędu na komputerze klasycznym.
+Dwa scenariusze użycia zakodowanego obrazu: przetwarzanie wewnątrz procesora kwantowego oraz przesłanie do innego układu (komunikacja kwantowa).
+}
+
+\section{Uogólnienie funkcji PDU na przetwarzanie obrazów}\label{sec:pdui:generalisation}
+\agentinfo{
+Uogólniona definicja PDU: funkcja określona na parach (stan bazowy, faza), wyznaczana eksperymentalnie.
+Kalibracja dla układu kubitów użytego do kodowania obrazu, ziarnistość pomiarów kalibracyjnych.
+Źródło: sekcja Error reduction artykułu CoDIT.
+}
+
+\section{Metodyka badań eksperymentalnych}\label{sec:pdui:methodology}
+\agentinfo{
+Dane: obrazy monochromatyczne 8x8 i 16x16, liczba obrazów, sposób generowania.
+Środowisko: rzeczywiste urządzenia IBM Quantum (nazwy, daty) oraz symulatory; liczba powtórzeń.
+Implementacje FRQI, NEQR i LPIQE użyte w porównaniu.
+Miary: MSE, odchylenie standardowe błędu, korelacja Pearsona z p-wartością.
+Źródła: sekcje Experimental protocol obu artykułów.
+}
+
+\section{Wyniki}\label{sec:pdui:results}
+
+\subsection{Utrata danych w metodach reprezentacji na symulatorze}\label{subsec:pdui:results:sim}
+\agentinfo{Źródło: artykuł KES, sekcja o obrazach 8x8 na symulatorze.}
+
+\subsection{Utrata danych w metodach reprezentacji na rzeczywistych urządzeniach}\label{subsec:pdui:results:real}
+\agentinfo{Źródło: artykuł KES, sekcja o obrazach 8x8 na rzeczywistych urządzeniach.}
+
+\subsection{Redukcja błędów dla obrazów \texorpdfstring{$8\times8$}{8x8} na rzeczywistych urządzeniach}\label{subsec:pdui:results:pdu8}
+\agentinfo{Źródła: artykuł KES (sekcja o redukcji błędów z LPIQE) i artykuł CoDIT (sekcja real-comp).}
+
+\subsection{Redukcja błędów dla obrazów \texorpdfstring{$16\times16$}{16x16} na symulatorze}\label{subsec:pdui:results:pdu16}
+\agentinfo{Źródło: artykuł CoDIT, sekcja simulator.}
+
+\section{Dyskusja}\label{sec:pdui:discussion}
+\agentinfo{
+Odpowiedź na PB3.
+Weryfikacja tezy T2: porównanie MSE po PDU z błędem standardowych metod kompresji stratnej; artykuły nie zawierają takiego porównania wprost, więc może być potrzebny dodatkowy, prosty eksperyment klasyczny (do decyzji autora).
+Kompromis między liczbą kubitów a jakością rekonstrukcji w FRQI, NEQR i LPIQE.
+Znaczenie dla platform fotonicznych i komunikacji kwantowej.
+Ograniczenia: małe rozmiary obrazów, operator definiowany macierzą i koszt jego transpilacji, eksperymenty wyłącznie na urządzeniach nadprzewodzących i symulatorach.
+}
+
+\section{Podsumowanie}\label{sec:pdui:summary}

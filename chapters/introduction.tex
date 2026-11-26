@@ -1,0 +1,99 @@
+% !TeX root = ./../main.tex
+
+\chapter{Wprowadzenie}\label{chapter:introduction}
+
+\agentinfo{
+Rozdział przedstawia przyczyny powstania pracy, problem badawczy, tezy, cele, wkład oraz układ rozprawy.
+Ma charakter opisowy.
+Szczegółowe uzasadnienie luki badawczej znajduje się w rozdziale przeglądu literatury \agentref{chapters/literature_review.tex}, a tutaj należy się do niego odwołać.
+Rozdział pisać po rozdziałach 2--8, a wcześniej utrzymywać go jako aktualny konspekt.
+
+Oś narracji całej pracy:
+(1) komputery ery NISQ są zaszumione, a pełna korekcja błędów zużywa kubity i bramki, których brakuje;
+(2) kwantowe przetwarzanie obrazów wymaga wielu kubitów i głębokich obwodów, więc jest szczególnie wrażliwe na szum;
+(3) autor proponuje ograniczanie błędu po stronie klasycznej, na podstawie pomiarów: metodę PDU;
+(4) PDU zostaje przeniesiona na kodowanie i rekonstrukcję obrazów metodą LPIQE oraz porównana z FRQI i NEQR;
+(5) błąd pozostały po PDU jest dalej redukowany siecią generatywną pix2pix;
+(6) badany jest wpływ redukcji błędów na klasyfikację obrazów;
+(7) perspektywa uzupełniająca: szum ma strukturę, którą można modelować (generatory łamiące symetrię) i wykorzystać w uczeniu (sieci oparte na grupach Liego).
+}
+
+\section{Motywacja}\label{sec:introduction:motivation}
+\agentinfo{
+Treść: ograniczenia sprzętu ery NISQ (liczba kubitów, objętość kwantowa, dekoherencja), koszt kwantowej korekcji błędów, potencjał kwantowego przetwarzania obrazów (wykładnicza pojemność rejestru), napięcie między liczbą kubitów przeznaczonych na obliczenia a przeznaczonych na korekcję.
+Kontekst aplikacyjny z artykułów: platformy fotoniczne, komunikacja kwantowa, rozpoznawanie przyrządów lotniczych w symulatorze lotu.
+Źródła: wstępy artykułów \agentref{artykuły/Quantum_Errors_ICCS/main.tex} \agentref{artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex} \agentref{artykuły/CoDIT_2025_final_paper/root.tex} \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex} oraz koncepcja rozprawy \agentref{inne/Wstępna koncepcja rozprawy doktorskiej.docx}.
+Dane liczbowe o sprzęcie z koncepcji z 2022 r. są nieaktualne i wymagają aktualizacji na podstawie bieżących źródeł.
+}
+
+\section{Problem badawczy, tezy i cele pracy}\label{sec:introduction:theses}
+\agentinfo{
+Tezy z koncepcji rozprawy z 2022 r. (punkt wyjścia):
+T1. Metody redukcji błędów kwantowych oparte na pomiarze, w tym funkcja PDU, w sposób statystycznie istotny zmniejszają wpływ dekoherencji i szumu powstających w obliczeniach kwantowych.
+T2. Błąd średniokwadratowy obrazu zrekonstruowanego po zastosowaniu PDU w kwantowym przetwarzaniu obrazów jest na poziomie standardowych metod kompresji obrazów.
+
+Robocza propozycja rozszerzenia, DO UZGODNIENIA Z PROMOTOREM (nie wpisywać do tekstu bez akceptacji autora):
+T3. Połączenie PDU z klasycznym modelem generatywnym typu obraz--obraz pozwala dalej zmniejszyć błąd rekonstrukcji obrazu bez użycia dodatkowych zasobów kwantowych.
+T4. Szum rzeczywistych urządzeń kwantowych ma strukturę, którą można odtworzyć zaburzeniami generatorów łamiącymi symetrię i którą można wykorzystać jako dodatkowy stopień swobody w uczeniu maszynowym.
+
+Robocze pytania badawcze:
+PB1. Czy błąd obliczeń opartych na próbkowaniu kwantowym jest stabilny między kalibracjami urządzenia w stopniu pozwalającym wyznaczyć jego korektę eksperymentalnie?
+PB2. Czy korekta wyznaczona dla funkcji referencyjnej poprawia wyniki innych obliczeń na tym samym układzie kubitów?
+PB3. Jak duża jest utrata danych w metodach FRQI, NEQR i LPIQE na symulatorze i na rzeczywistych urządzeniach oraz w jakim stopniu ogranicza ją PDU?
+PB4. Czy klasyczna sieć generatywna może usunąć błąd pozostały po PDU i jakim kosztem?
+PB5. Jak redukcja błędów wpływa na skuteczność klasyfikacji obrazów?
+PB6. Czy szum urządzenia można opisać na poziomie generatorów bramek i wykorzystać w uczeniu?
+
+Teza T2 wymaga doprecyzowania: z jaką metodą kompresji i przy jakich parametrach następuje porównanie.
+Tytuł pracy obejmuje klasyfikację obrazów, a dotychczasowe artykuły pokrywają ją słabo; zakres rozdziału 7 wymaga decyzji autora i promotora \agentref{chapters/classification.tex}.
+}
+
+\section{Zakres pracy}\label{sec:introduction:scope}
+\agentinfo{
+Wskazać, co praca obejmuje: obliczenia oparte na próbkowaniu kwantowym, redukcję błędów po stronie klasycznej, obrazy monochromatyczne małych rozmiarów (8x8 na urządzeniach, 16x16 na symulatorze), urządzenia nadprzewodzące IBM Quantum oraz symulatory.
+Wskazać, czego praca nie obejmuje: projektowania nowych kodów korekcyjnych, eksperymentów na sprzęcie fotonicznym (LPIQE jest projektowana dla tej platformy, ale badania wykonano na urządzeniach nadprzewodzących i symulatorach).
+Wyjaśnić użycie terminów ,,ograniczanie'' (redukcja), ,,mitygacja'' i ,,korekcja'' błędów oraz odesłać do definicji w rozdziale 2 \agentref{chapters/theoretical_background_03_QEC.tex}.
+}
+
+\section{Wkład pracy}\label{sec:introduction:contribution}
+\agentinfo{
+Wkład należy wyliczyć w punktach i powiązać z rozdziałami:
+(a) metoda PDU: definicja, procedura kalibracji, dowód eksperymentalny stabilności i istotności statystycznej (rozdział 4);
+(b) uogólnienie PDU na przetwarzanie obrazów i schemat kodowanie--rekonstrukcja z LPIQE (rozdział 5);
+(c) porównanie utraty danych w FRQI, NEQR i LPIQE na symulatorze i rzeczywistych urządzeniach (rozdział 5);
+(d) zastosowanie sieci pix2pix do redukcji błędu pozostałego po PDU (rozdział 6);
+(e) ocena wpływu redukcji błędów na klasyfikację obrazów (rozdział 7, zależnie od decyzji o zakresie);
+(f) udział w pracach nad modelowaniem szumu generatorami łamiącymi symetrię i nad sieciami opartymi na grupach Liego (rozdział 8).
+W punktach (f) precyzyjnie oddzielić wkład własny autora od wkładu współautorów; wymaga informacji od autora.
+}
+
+\section{Publikacje i manuskrypty związane z rozprawą}\label{sec:introduction:publications}
+\agentinfo{
+Status publikacji (opublikowana, przyjęta, w recenzji, manuskrypt) oraz pełne dane bibliograficzne wymagają potwierdzenia przez autora.
+Wpisy znajdują się w bibliography/own_publications.bib; pola oznaczone DO WERYFIKACJI uzupełnić po potwierdzeniu.
+Manuskrypt o sieciach GAN istnieje w dwóch szablonach (Quantum oraz MDPI Energies); ustalić, gdzie ostatecznie został zgłoszony.
+Artykuł CoDIT 2025 ma dwie wcześniejsze wersje robocze w katalogach Quantum_Errors_ICCS_Images i Artykuł_2025_PDU_conf; wersją obowiązującą jest CoDIT_2025_final_paper.
+}
+
+\subsection{Prace bezpośrednio związane z rozprawą}
+
+\begin{itemize}
+\item Praca~\cite{werner_experiment_driven_2022} wprowadza metodę redukcji błędów opartą na funkcji PDU i stanowi podstawę rozdziału~\ref{chapter:pdu}.
+\item Praca~\cite{werner_data_loss_2023} porównuje utratę danych w metodach kwantowej reprezentacji obrazów i stanowi podstawę rozdziału~\ref{chapter:pdu_images}.
+\item Praca~\cite{werner_error_reduction_2025} przedstawia schemat kodowania i~rekonstrukcji obrazów z~redukcją błędów i stanowi podstawę rozdziału~\ref{chapter:pdu_images}.
+\item Manuskrypt~\cite{werner_deep_learning_manuscript} opisuje zastosowanie generatywnych sieci przeciwstawnych do redukcji błędów i stanowi podstawę rozdziału~\ref{chapter:dl_error_reduction}.
+\end{itemize}
+
+\subsection{Pozostałe prace}
+
+\begin{itemize}
+\item Praca~\cite{raubitzek_quantum_noise} dotyczy rekonstrukcji szumu kwantowego z~generatorów łamiących symetrię i jest omawiana w rozdziale~\ref{chapter:noise_structure}.
+\item Manuskrypt~\cite{raubitzek_lie_group_manuscript} dotyczy sieci neuronowych opartych na grupach Liego i jest omawiany w rozdziale~\ref{chapter:noise_structure}.
+\item Praca magisterska autora~\cite{werner_magisterka_2022} zawiera pierwotne sformułowanie metody PDU.
+\end{itemize}
+
+\section{Struktura pracy}\label{sec:introduction:structure}
+\agentinfo{
+Przewodnik po rozdziałach: po jednym akapicie na rozdział, z odwołaniami przez etykiety chapter:... .
+Pisać na końcu.
+}

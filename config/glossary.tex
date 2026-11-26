@@ -1,0 +1,61 @@
+% !TeX root = ./../main.tex
+% Słownik pojęć.
+% Hasło pojawia się w słowniku dopiero po użyciu w tekście: \gls{etykieta}, \glspl{etykieta}.
+
+\newglossaryentry{qubit}{
+  name={kubit},
+  plural={kubity},
+  sort={kubit},
+  description={
+    Podstawowa jednostka informacji kwantowej.
+    Jej stan jest opisywany znormalizowanym wektorem $\ket{\psi}=\alpha\ket{0}+\beta\ket{1}$ w dwuwymiarowej zespolonej przestrzeni Hilberta, gdzie $\alpha,\beta\in\mathbb{C}$ oraz $|\alpha|^2+|\beta|^2=1$.
+  }
+}
+
+\newglossaryentry{decoherence}{
+  name={dekoherencja},
+  sort={dekoherencja},
+  description={
+    Utrata kwantowych własności układu wskutek niekontrolowanego oddziaływania z otoczeniem.
+  }
+}
+
+\newglossaryentry{nisq}{
+  name={era NISQ},
+  sort={era NISQ},
+  description={
+    Okres rozwoju komputerów kwantowych o średniej skali i znacznym poziomie szumu (ang. \emph{Noisy Intermediate-Scale Quantum}), w którym pełna korekcja błędów nie jest jeszcze dostępna.
+  }
+}
+
+\newglossaryentry{error-correction}{
+  name={korekcja błędów kwantowych},
+  sort={korekcja bledow kwantowych},
+  description={
+    Grupa metod chroniących informację kwantową przez zakodowanie jej w nadmiarowej liczbie kubitów fizycznych oraz wykrywanie i odwracanie błędów w trakcie obliczeń.
+  }
+}
+
+\newglossaryentry{error-mitigation}{
+  name={mitygacja błędów kwantowych},
+  sort={mitygacja bledow kwantowych},
+  description={
+    Grupa metod zmniejszających wpływ szumu na wartości oczekiwane lub rozkłady wyników bez kodowania informacji w kubitach logicznych, zwykle kosztem dodatkowych wykonań obwodu.
+  }
+}
+
+\newglossaryentry{error-reduction}{
+  name={redukcja błędów kwantowych},
+  sort={redukcja bledow kwantowych},
+  description={
+    W niniejszej pracy: grupa metod ograniczających błąd wyniku obliczeń kwantowych na podstawie wyników pomiarów, realizowanych po stronie klasycznej, bez dodatkowych kubitów i bramek w obwodzie.
+  }
+}
+
+\newglossaryentry{quantum-sampling}{
+  name={próbkowanie kwantowe},
+  sort={probkowanie kwantowe},
+  description={
+    Sposób prowadzenia obliczeń kwantowych, w którym wynikiem jest rozkład prawdopodobieństwa stanów bazowych wyznaczony z wielokrotnego wykonania tego samego obwodu.
+  }
+}

@@ -1,0 +1,207 @@
+% !TeX spellcheck = pl_PL
+% !TeX root = main.tex - zacznij kompilację od tego pliku -
+% w przeciwnym razie kompilacja zaczyna się od ./config/settings.tex, co powoduje błąd
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                        %
+% Szablon pracy dyplomowej               %
+% zgodny  z aktualnymi  przepisami  SZJK %
+%                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                        %
+%  (c) Krzysztof Simiński, 2018-2023     %
+%                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                        %
+% Najnowsza wersja szablonów jest        %
+% dostępna pod adresem                   %
+% github.com/ksiminski/polsl-aei-theses  %
+%                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Kompilacja (pdfLaTeX + BibTeX):
+%
+% pdflatex main
+% bibtex   main
+% pdflatex main
+% pdflatex main
+%
+% Kompilacja XeLaTeX-em różni się fontem strony tytułowej (Calibri).
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                             %
+% PERSONALIZACJA PRACY – DANE PRACY           %
+%                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% dane autora
+\newcommand{\FirstNameAuthor}{Krzysztof}
+\newcommand{\SurnameAuthor}{Werner}
+\newcommand{\IdAuthor}{}   % numer albumu (niedrukowany na stronie tytułowej rozprawy)
+
+% Praca ma jednego autora, więc dane drugiego autora pozostają puste.
+\newcommand{\FirstNameCoauthor}{}
+\newcommand{\SurnameCoauthor}{}
+\newcommand{\IdCoauthor}{}
+%%%%%%%%%%
+
+\newcommand{\Supervisor}{Dr hab. inż. Krzysztof Cyran, Prof. PŚ}     % DO WERYFIKACJI: aktualny tytuł/stopień promotora
+\newcommand{\Title}{Ograniczanie i~korekcja błędów w~procesie\\kwantowego przetwarzania i~klasyfikacji obrazów}
+\newcommand{\TitleAlt}{Quantum error reduction and correction in quantum-based image processing and classification}
+\newcommand{\Program}{}            % kierunek studiów (niedrukowany na stronie tytułowej rozprawy)
+\newcommand{\Specialisation}{}     % specjalność (niedrukowana na stronie tytułowej rozprawy)
+\newcommand{\Departament}{Grafiki, Wizji Komputerowej i Systemów Cyfrowych}        % katedra promotora
+
+% promotor pomocniczy
+\newcommand{\Consultant}{Dr inż. Kamil Wereszczyński}
+
+% Znaczniki współpracy z agentami AI.
+% Opis znaczenia: plik CLAUDE.md w katalogu nadrzędnym.
+%   \agentinfo{...}     – konspekt sekcji, kontekst i uzgodnienia,
+%   \agentref{...}      – odwołanie do źródła: pliku, artykułu, klucza bib:<klucz>,
+%   \agenttask{...}     – zadanie do wykonania przez agenta,
+%   \agenttaskDONE{...} – zadanie wykonane.
+% \ShowAgentNotestrue  – konspekty i zadania są drukowane w PDF szarą czcionką (wersja robocza),
+% \ShowAgentNotesfalse – znaczniki nie generują żadnego tekstu (wersja do oddania).
+\newif\ifShowAgentNotes
+\ShowAgentNotestrue
+
+% Numeracja wierszy na prawym marginesie (ułatwia recenzję roboczych wersji).
+% Aby ją wyłączyć, zamień \LineNumberingtrue na \LineNumberingfalse.
+% UWAGA: dopóki sekcje są puste, numerację wierszy można łączyć tylko z \ShowAgentNotestrue;
+% wiele nagłówków pod rząd bez tekstu zapętla pakiet lineno.
+\newif\ifLineNumbering
+\LineNumberingtrue
+
+% Implementacja znaczników (nie wymaga zmian).
+% Znaki _ # & ^ oraz procent są w argumentach znaczników traktowane dosłownie.
+\newcommand{\agentliteral}{\catcode`\_=12 \catcode`\#=12 \catcode`\&=12 \catcode`\^=12 \catcode`\%=12 }
+\newcommand{\agentgobble}[1]{\endgroup}
+\newcommand{\agentnote}[2]{\endgroup\par{\footnotesize\sffamily\color{agentgray}\raggedright\noindent\textbf{[#1]} #2\par}\smallskip}
+\newcommand{\agentinfonote}[1]{\agentnote{Konspekt}{#1}}
+\newcommand{\agenttasknote}[1]{\agentnote{Zadanie}{#1}}
+\newcommand{\agentrefnote}[1]{\endgroup{\ttfamily #1}}
+\ifShowAgentNotes
+  \newcommand{\agentinfo}{\begingroup\agentliteral\agentinfonote}
+  \newcommand{\agenttask}{\begingroup\agentliteral\agenttasknote}
+  \newcommand{\agentref}{\begingroup\agentliteral\agentrefnote}
+\else
+  \newcommand{\agentinfo}{\begingroup\agentliteral\agentgobble}
+  \newcommand{\agenttask}{\begingroup\agentliteral\agentgobble}
+  \newcommand{\agentref}{\begingroup\agentliteral\agentgobble}
+\fi
+\newcommand{\agenttaskDONE}{\begingroup\agentliteral\agentgobble}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                             %
+% KONIEC PERSONALIZACJI PRACY                 %
+%                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{config/settings.tex} % Proszę nie modyfikować pliku settings.tex
+\include{config/symbols.tex}
+
+\input{config/my-settings.tex} % Własne pakiety, makra, ustawienia.
+\input{config/glossary.tex}    % Definicje haseł muszą być wczytane w preambule.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+%\kslistofremarks
+% Notatka dla agentów (komentarz, nie jest drukowany):
+% Rozprawa doktorska Krzysztofa Wernera pt. ,,Ograniczanie i korekcja błędów w procesie kwantowego przetwarzania i klasyfikacji obrazów''.
+% Promotor: prof. Krzysztof Cyran, promotor pomocniczy: dr inż. Kamil Wereszczyński, Politechnika Śląska.
+% Zasady pracy nad tekstem oraz mapa źródeł znajdują się w pliku CLAUDE.md w katalogu nadrzędnym.
+%
+% Struktura pracy:
+% 1. Wprowadzenie (chapters/introduction.tex)
+% 2. Zaplecze teoretyczne (chapters/theoretical_background_00.tex)
+% 3. Przegląd literatury (chapters/literature_review.tex)
+% 4. Metoda PDU: redukcja błędów wyznaczana eksperymentalnie (chapters/pdu.tex)
+% 5. Redukcja błędów w kodowaniu i rekonstrukcji obrazów kwantowych (chapters/pdu_images.tex)
+% 6. Uczenie głębokie jako narzędzie redukcji błędów (chapters/dl_error_reduction.tex)
+% 7. Wpływ redukcji błędów na klasyfikację obrazów (chapters/classification.tex)
+% 8. Struktura szumu kwantowego: modelowanie i wykorzystanie w uczeniu (chapters/noise_structure.tex)
+% 9. Podsumowanie (chapters/summary.tex)
+% Dodatki (chapters/appendix_experiments.tex) (chapters/appendix_results.tex)
+%
+
+\frontmatter
+\input{config/titlepage.tex}  % Proszę nie modyfikować pliku titlepage.tex
+
+\cleardoublepage
+
+\rmfamily\normalfont
+\pagestyle{empty}
+
+\input{chapters/abstract.tex}          % streszczenie PL + EN
+\input{chapters/acknowledgements.tex}  % podziękowania i finansowanie
+
+%%%%%%%%%%%%%%%%%% SPIS TRESCI %%%%%%%%%%%%%%%%%%%%%%
+% \thispagestyle{empty} w pliku spisu treści, bo \pagestyle{empty} nie działa dla wielostronicowego spisu.
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\tableofcontents
+\input{chapters/symbols.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{stronyPozaNumeracja}{\value{page}}
+\mainmatter
+\pagestyle{empty}
+
+\cleardoublepage
+
+\pagestyle{NumeryStronNazwyRozdzialow}
+
+% Numerowanie wierszy rozpoczyna się wraz z właściwą treścią pracy.
+\StartLineNumbering
+
+%%%%%%%%%%%%%% wlasciwa tresc pracy %%%%%%%%%%%%%%%%%
+
+\input{chapters/introduction.tex}
+\input{chapters/theoretical_background_00.tex}
+\input{chapters/literature_review.tex}
+\input{chapters/pdu.tex}
+\input{chapters/pdu_images.tex}
+\input{chapters/dl_error_reduction.tex}
+\input{chapters/classification.tex}
+\input{chapters/noise_structure.tex}
+\input{chapters/summary.tex}
+
+\backmatter
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliografia}
+\printbibliography           % biblatex
+
+\cleardoublepage
+\printnoidxglossary[title={Słownik pojęć}]
+
+% Skorowidz
+\cleardoublepage
+\phantomsection
+\printindex
+
+\begin{appendices}
+
+\input{chapters/appendix_experiments.tex} % środowisko eksperymentalne i parametry urządzeń
+\input{chapters/appendix_results.tex}     % wyniki uzupełniające
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Spis rysunków}
+\listoffigures
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Spis tabel}
+\listoftables
+
+\end{appendices}
+
+\end{document}
+
+
+%% Finis coronat opus.
