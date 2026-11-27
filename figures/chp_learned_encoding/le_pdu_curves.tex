@@ -1,0 +1,110 @@
+% !TeX root = ./../../main.tex
+% Błąd rekonstrukcji po korekcie wyniku na symulatorze i niejednorodne skurczenie rozkładu (podrozdział 7.4.4, rys. fig:le:pdu:curves).
+% Wykres własny (PHD-TS-83), odtworzony w pgfplots z danych eksperymentu X4b (zadanie PHD-TS-71);
+% żadna wartość nie została odczytana z wykresu źródłowego.
+% Dane: kopie plików z katalogu eksperymenty/krzywe-degradacji/autoenkoder/wyniki/pgf (obok katalogu rozprawa/),
+% leżące w figures/chp_learned_encoding/ pod nazwami z przedrostkiem le_pdu_ (nagłówek każdej kopii podaje plik źródłowy i jego sumę SHA-256):
+%   le_pdu_krzywe_A_N4096.dat          -- panel (a): MAE względem obrazu wejściowego w funkcji depolaryzacji, 4096 pomiarów;
+%   le_pdu_pomiary_A_p0.018.dat        -- panel (b): to samo w funkcji liczby pomiarów przy depolaryzacji 0,018;
+%   le_pdu_pomiary_A_p0.018_Ninf.dat   -- panel (b): rozkład dokładny (wiersz N = inf), rysowany w umownym położeniu 2^26 z etykietą nieskończoności;
+%   le_pdu_skurczenie_A.dat            -- panel (c): współczynniki skurczenia (kolumny s_kal, s_srednia_kanalu, s_detal);
+%   le_pdu_odniesienia_A.dat           -- linie odniesienia: model_bezszumowy mae_x = 0.0795429, plaski_kolor_wlasny mae_x = 0.083346.
+% Model A9, zbiór A eksperymentu X4b: test na 10 obrazach K10, kalibracja na 112 obrazach części uczącej.
+% Kolumny: surowe = wynik bez korekty, PDUS = korekta addytywna, depol = odwrócenie depolaryzacji, CNN = korekta uczona.
+% Odwrócenie krzywej błędu (kolumny PDUV) różni się od odwrócenia depolaryzacji o najwyżej 0,003 i nie jest rysowane.
+% Szare pasmo w panelu (a): depolaryzacja dopasowana do zliczeń z urządzenia, od 0,015 (H2) do 0,0202 (H1), jak w podrozdziale 7.4.2.
+% Panel (c): linia ciągła = cały rozkład (s_kal), przerywana = średnia kanału, czyli barwa (s_srednia_kanalu), kropkowana = odchylenia od niej, czyli detal (s_detal);
+% rodzaje linii objaśnia podpis rysunku w pliku rozdziału.
+% Linia pozioma w panelu (c): skurczenie zmierzone w przebiegu H2, 0.4472
+%   (eksperymenty/krzywe-degradacji/autoenkoder/wyniki/odniesienie_sprzet.json, pole skurczenie_s).
+% Linie odróżnia rodzaj kreski i znacznik, a nie barwa (druk czarno-biały).
+% Wymaga: pgfplots z biblioteką groupplots (wczytane w config/my-settings.tex).
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=3 by 1, horizontal sep=3mm},
+  width=0.372\textwidth,
+  height=3.9cm,
+  minor tick style={draw=none},
+  ymajorgrids,
+  grid style={black!12},
+  tick label style={font=\scriptsize},
+  label style={font=\footnotesize},
+  title style={font=\footnotesize, yshift=-1.5mm},
+  xlabel shift=-1mm,
+  legend style={font=\scriptsize, legend columns=3, draw=none, legend cell align=left, /tikz/every even column/.append style={column sep=3mm}},
+]
+% ---------- (a) MAE w funkcji depolaryzacji, 4096 pomiarów ----------
+\nextgroupplot[
+  title={(a) $\nshots=4096$},
+  xlabel={$\qdep$},
+  ylabel={MAE},
+  ymode=log,
+  log ticks with fixed point,
+  xmin=-0.002, xmax=0.052,
+  ymin=0.075, ymax=0.23,
+  xtick={0,0.01,0.02,0.03,0.04,0.05},
+  xticklabels={0,{0,01},{0,02},{0,03},{0,04},{0,05}},
+  scaled x ticks=false,
+  ytick={0.08,0.10,0.12,0.15,0.20},
+  yticklabels={{0,08},{0,10},{0,12},{0,15},{0,20}},
+  legend to name=lepdulegend,
+]
+\fill[black!9] (axis cs:0.015,0.075) rectangle (axis cs:0.0202,0.23);
+\addplot[black, mark=*, mark size=1.3pt] table[x=p, y=surowe_mae_x] {figures/chp_learned_encoding/le_pdu_krzywe_A_N4096.dat};
+\addlegendentry{bez korekty}
+\addplot[black, dashed, mark=square, mark size=1.3pt, mark options={solid}] table[x=p, y=PDUS_mae_x] {figures/chp_learned_encoding/le_pdu_krzywe_A_N4096.dat};
+\addlegendentry{korekta addytywna}
+\addplot[black, dashdotted, mark=triangle, mark size=1.6pt, mark options={solid}] table[x=p, y=depol_mae_x] {figures/chp_learned_encoding/le_pdu_krzywe_A_N4096.dat};
+\addlegendentry{odwrócenie depolaryzacji}
+\addplot[black!55, mark=diamond*, mark size=1.6pt, mark options={solid}] table[x=p, y=CNN_mae_x] {figures/chp_learned_encoding/le_pdu_krzywe_A_N4096.dat};
+\addlegendentry{korekta uczona}
+\addplot[black!45, thin, domain=-0.002:0.052, samples=2] {0.0795429};
+\addlegendentry{model bez szumu, wartość dokładna}
+\addplot[black, densely dotted, thick, domain=-0.002:0.052, samples=2] {0.083346};
+\addlegendentry{płaski obraz własnego koloru}
+% ---------- (b) MAE w funkcji liczby pomiarów, depolaryzacja 0,018 ----------
+\nextgroupplot[
+  title={(b) $\qdep=0{,}018$},
+  xlabel={$\nshots$},
+  xmode=log,
+  log basis x=2,
+  ymode=log,
+  xmin=600, xmax=115000000,
+  ymin=0.075, ymax=0.23,
+  xtick={1024,16384,262144,4194304,67108864},
+  xticklabels={$2^{10}$,$2^{14}$,$2^{18}$,$2^{22}$,$\infty$},
+  ytick={0.08,0.10,0.12,0.15,0.20},
+  yticklabels={},
+]
+\addplot[black!45, thin, domain=600:115000000, samples=2] {0.0795429};
+\addplot[black, densely dotted, thick, domain=600:115000000, samples=2] {0.083346};
+\addplot[black, mark=*, mark size=1.3pt] table[x=N, y=surowe_mae_x] {figures/chp_learned_encoding/le_pdu_pomiary_A_p0.018.dat};
+\addplot[black, dashed, mark=square, mark size=1.3pt, mark options={solid}] table[x=N, y=PDUS_mae_x] {figures/chp_learned_encoding/le_pdu_pomiary_A_p0.018.dat};
+\addplot[black, dashdotted, mark=triangle, mark size=1.6pt, mark options={solid}] table[x=N, y=depol_mae_x] {figures/chp_learned_encoding/le_pdu_pomiary_A_p0.018.dat};
+\addplot[black!55, mark=diamond*, mark size=1.6pt, mark options={solid}] table[x=N, y=CNN_mae_x] {figures/chp_learned_encoding/le_pdu_pomiary_A_p0.018.dat};
+% rozkład dokładny (N = inf) w umownym położeniu 2^26
+\addplot[black, only marks, mark=*, mark size=1.3pt] table[x expr=67108864, y=surowe_mae_x] {figures/chp_learned_encoding/le_pdu_pomiary_A_p0.018_Ninf.dat};
+\addplot[black, only marks, mark=square, mark size=1.3pt] table[x expr=67108864, y=PDUS_mae_x] {figures/chp_learned_encoding/le_pdu_pomiary_A_p0.018_Ninf.dat};
+\addplot[black, only marks, mark=triangle, mark size=1.6pt] table[x expr=67108864, y=depol_mae_x] {figures/chp_learned_encoding/le_pdu_pomiary_A_p0.018_Ninf.dat};
+\addplot[black!55, only marks, mark=diamond*, mark size=1.6pt] table[x expr=67108864, y=CNN_mae_x] {figures/chp_learned_encoding/le_pdu_pomiary_A_p0.018_Ninf.dat};
+% ---------- (c) współczynniki skurczenia ----------
+\nextgroupplot[
+  title={(c) skurczenie},
+  xlabel={$\qdep$},
+  xmin=-0.002, xmax=0.052,
+  ymin=0, ymax=1.05,
+  xtick={0,0.01,0.02,0.03,0.04,0.05},
+  xticklabels={0,{0,01},{0,02},{0,03},{0,04},{0,05}},
+  scaled x ticks=false,
+  ytick={0,0.25,0.5,0.75,1},
+  yticklabels={0,{0,25},{0,50},{0,75},1},
+  yticklabel pos=right,
+]
+\addplot[black, dashed, mark=square, mark size=1.3pt, mark options={solid}] table[x=p, y=s_srednia_kanalu] {figures/chp_learned_encoding/le_pdu_skurczenie_A.dat};
+\addplot[black, mark=*, mark size=1.3pt] table[x=p, y=s_kal] {figures/chp_learned_encoding/le_pdu_skurczenie_A.dat};
+\addplot[black, densely dotted, thick, mark=triangle, mark size=1.6pt, mark options={solid, thin}] table[x=p, y=s_detal] {figures/chp_learned_encoding/le_pdu_skurczenie_A.dat};
+\addplot[black!45, thin, domain=-0.002:0.052, samples=2] {0.4472};
+\node[anchor=south west, font=\scriptsize, inner sep=1pt] at (axis cs:-0.0015,0.4472) {H2};
+\end{groupplot}
+\node[anchor=north] at ($(group c1r1.south west)!0.5!(group c3r1.south east)+(0,-0.95cm)$) {\pgfplotslegendfromname{lepdulegend}};
+\end{tikzpicture}

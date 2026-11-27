@@ -2,39 +2,165 @@
 
 \section{Korekcja, mitygacja i redukcja błędów}\label{sec:tb:qec}
 \agentinfo{
-Cel: zdefiniować trzy rodziny metod przeciwdziałania błędom i wprowadzić mechanizmy działania metod bazowych.
-Tutaj znajdują się definicje i zasady działania.
-Stan badań, najnowsze wyniki eksperymentalne i porównania należą do przeglądu literatury \agentref{chapters/literature_review.tex}.
-Źródła własne: \agentref{artykuły/magisterka_werner_final/chapters/01.tex} (podsekcja Metody korekcji błędów kwantowych) oraz wstępy artykułów \agentref{artykuły/Quantum_Errors_ICCS/main.tex} \agentref{artykuły/CoDIT_2025_final_paper/root.tex} \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex}.
+Uzgodnienia (PHD-TS-14, 2026-11-26): tutaj definicje i mechanizmy metod; stan badań i wyniki prac w \agentref{chapters/literature_review.tex}.
+Terminologia całej pracy: korekcja błędów oznacza wyłącznie QEC, poprawianie wyniku po stronie klasycznej to korekta wyniku, mitygacja bez dopowiedzenia to metody QEM inne niż redukcja.
+Metodę PDU definiuje rozdział 4; kryteria K1--K6 i tabela tab:tb03:cost służą dyskusjom w rozdziałach 4--6 i 8.
+Notacja: skala szumu c, quasi-prawdopodobieństwa omega, koszt próbkowania makro pecnorm (gamma, kappa, lambda, eta i q są zajęte).
+Zaadaptowane źródła własne autora: \agentref{artykuły/magisterka_werner_final/chapters/01.tex} \agentref{artykuły/Quantum_Errors_ICCS/main.tex} \agentref{artykuły/CoDIT_2025_final_paper/root.tex} \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex}.
 }
+
+Błąd sprzętowy, czyli systematyczna składowa błędu wyniku w rozkładzie~\eqref{eq:tb01:errordecomp}, nie maleje ze wzrostem liczby powtórzeń obwodu, więc trzeba mu przeciwdziałać innymi środkami.
+W tym podrozdziale zdefiniowano trzy rodziny metod, które temu służą, opisano mechanizmy metod bazowych i wprowadzono kryteria kosztu stosowane w dalszych rozdziałach.
+Stan badań i wyniki eksperymentalne omówiono w rozdziale~\ref{chapter:literature_review}.
 
 \subsection{Terminologia przyjęta w pracy}\label{subsec:tb:qec:taxonomy}
+
+W pracy rozróżnia się korekcję, mitygację i redukcję błędów; o przynależności metody decyduje to, czy zmienia ona obwód kwantowy zadania i jakich dodatkowych zasobów wymaga (rys.~\ref{fig:tb03:taxonomy}).
+
+\begin{Definition}[Kwantowa korekcja błędów]\label{def:tb03:qec}
+\glsdisp{error-correction}{Kwantową korekcją błędów} (ang. \emph{quantum error correction}, QEC) nazywa się metody, w których stan $k$ \glsdisp{logical-qubit}{kubitów logicznych} jest zakodowany nadmiarowo w stanie $n>k$ kubitów fizycznych, a błędy są wykrywane w trakcie obliczeń pomiarem \glsdisp{syndrome}{syndromu} i odwracane operacją zależną od jego wyniku, bez pomiaru zakodowanej informacji.
+\end{Definition}
+
+\begin{Definition}[Mitygacja błędów kwantowych]\label{def:tb03:qem}
+\glsdisp{error-mitigation}{Mitygacją błędów kwantowych} (ang. \emph{quantum error mitigation}, QEM) nazywa się metody, które zmniejszają wywołane szumem obciążenie estymatora wartości oczekiwanej lub rozkładu wyników przez klasyczną obróbkę wyników wielu wykonań obwodu, jego zmodyfikowanych wariantów lub obwodów kalibracyjnych, bez kodowania informacji w kubitach logicznych.
+\end{Definition}
+
+\begin{Definition}[Redukcja błędów kwantowych]\label{def:tb03:reduction}
+\glsdisp{error-reduction}{Redukcją błędów kwantowych} nazywa się w niniejszej pracy metody, które korygują wynik obliczeń kwantowych wyłącznie po stronie klasycznej, modelem korekty wyznaczonym eksperymentalnie dla danego zadania obliczeniowego i urządzenia, przy czym obwód zadania jest wykonywany bez zmian: bez dodatkowych kubitów i bramek, a dodatkowe wykonania służą tylko kalibracji modelu.
+\end{Definition}
+
+\begin{figure}[tb]
+  \centering
+  \input{figures/chp_theoretical_background/tb03_taxonomy.tex}
+  \caption[Miejsce ingerencji korekcji, mitygacji i redukcji błędów w proces obliczeń]{Miejsce ingerencji trzech rodzin metod w proces obliczeń; pas każdej rodziny leży pod etapami, które ta rodzina zmienia.}
+  \label{fig:tb03:taxonomy}
+\end{figure}
+
+Korekcja usuwa błędy ze stanu kwantowego w każdym wykonaniu obwodu.
+Mitygacja i redukcja tego nie robią: w pojedynczym wykonaniu poziom szumu pozostaje taki sam albo wyższy, a poprawia się dopiero wynik wyznaczony ze zbioru wykonań~\cite{cai2023quantum}.
+Tytułowe ,,ograniczanie błędów'' obejmuje właśnie te dwie rodziny.
+Do redukcji należą metody będące przedmiotem pracy: funkcja odwracania zniekształceń fazy (PDU), w której model korekty wyznacza się z pomiarów funkcji referencyjnej (rozdział~\ref{chapter:pdu}), oraz korekta odtworzonych obrazów modelem generatywnym uczonym na parach obraz zaszumiony--obraz wzorcowy (rozdział~\ref{chapter:dl_error_reduction}).
+Termin korekcja błędów jest w pracy zastrzeżony dla QEC, a poprawianie wyniku po stronie klasycznej, będące krokiem metod redukcji, nazywane jest korektą wyniku.
+
+Granice między rodzinami są częściowo umowne.
+Mitygacja nie ma powszechnie przyjętej definicji; definicja robocza z przeglądu~\cite{cai2023quantum}, za którą idzie definicja~\ref{def:tb03:qem}, obejmuje każdą obróbkę wyników zbioru wykonań obwodu zmniejszającą obciążenie wywołane szumem.
+W tym szerokim sensie redukcja jest szczególnym przypadkiem mitygacji, a angielski termin \emph{error reduction} nie oznacza w literaturze odrębnej klasy metod.
+W pracy wyodrębniono ją, ponieważ nie modyfikuje obwodu zadania i jest zorientowana na problem: korektę wyznacza się dla wyniku całego zadania, bez modelu szumu bramek lub pomiaru.
+Słowo mitygacja bez dopowiedzenia oznacza dalej metody QEM inne niż redukcja.
+Blisko redukcji leży mitygacja błędu odczytu (podrozdział~\ref{subsec:tb:qec:mitigation}), która także nie zmienia obwodu zadania i sprowadza się do kalibracji oraz obliczeń klasycznych~\cite{maciejewski_mitigation_2020,bravyi_mitigating_2021}.
+Kalibruje się w niej jednak sam pomiar, niezależnie od obwodu, więc korekta przenosi się na dowolne zadanie, ale obejmuje tylko błąd odczytu; w redukcji kalibruje się wynik całego zadania, więc korekta obejmuje łącznie skutki błędów bramek, dekoherencji i odczytu, lecz nie przenosi się na inne zadania.
+Jeszcze bliżej leżą metody, w których korektę wyniku kalibruje się na obwodach o znanym wyniku~\cite{jattana_general_2020,czarnik_error_2021,lolur_reference-state_2023}; ich zestawienie z metodą PDU zawiera podrozdział~\ref{sec:lr:qem} (tabela~\ref{tab:lr:qem:calibrated}).
 \agentinfo{
-Zdefiniować i rozgraniczyć:
-korekcję błędów (kodowanie w kubitach logicznych, wykrywanie i odwracanie błędów w trakcie obliczeń),
-mitygację błędów (zmniejszanie wpływu szumu na wynik bez kubitów logicznych, zwykle kosztem dodatkowych wykonań obwodu),
-redukcję błędów w rozumieniu pracy (korekta wyniku po stronie klasycznej na podstawie pomiarów, bez dodatkowych kubitów i bramek).
-Tytułowe ,,ograniczanie błędów'' odpowiada redukcji i mitygacji.
-W literaturze granica między mitygacją a redukcją nie jest ostra; należy to uczciwie zaznaczyć i wskazać, gdzie PDU lokuje się względem mitygacji błędów pomiaru.
-Definicje muszą być zgodne z hasłami w config/glossary.tex.
+Dopisek orkiestratora (2026-11-27): zdanie o metodach kalibrowanych na obwodach o znanym wyniku dodano po zebraniu literatury do sekcji 3.3, żeby podrozdział nie był sprzeczny z przeglądem literatury.
+Decyzja autora z 2026-11-27: PDU jest metodą rozwijaną w ramach tego doktoratu i ma być opisana jako ważny wkład rozprawy, z wyróżnikami podanymi w sekcji 3.3 (korekta indeksowana znanym argumentem i zbadanie stabilności błędu między kalibracjami).
+Nadal do decyzji autora: czy redukcję opisywać jako kategorię obejmującą te metody (definicję def:tb03:reduction spełniają także one) oraz czy dodać dla nich wiersz w tabeli tab:tb03:cost, która przypisuje całej mitygacji zorientowanie na bramkę.
 }
+Poza trzema definicjami pozostają metody pośrednie: weryfikacja symetrii, która stosuje sprawdzenia podobne do pomiaru syndromu, lecz wykonania z wykrytym błędem odrzuca, zamiast je naprawiać, oraz dynamiczne odsprzęganie, technika sterowania działająca bez pomiaru i obróbki wyników, nazywana tłumieniem błędów~\cite{cai2023quantum,ezzell_dynamical_2023}; omówiono je razem z mitygacją.
+We wcześniejszych pracach autora metodę PDU nazywano także korekcją błędów~\cite{werner_experiment_driven_2022}, a jej działanie określano jako mitygację~\cite{werner_magisterka_2022}; w rozprawie stosowany jest wyłącznie termin redukcja.
 
 \subsection{Kwantowa korekcja błędów}\label{subsec:tb:qec:codes}
-\agentinfo{
-Twierdzenie o zakazie klonowania i jego konsekwencje dla nadmiarowości.
-Kod powtórzeniowy, kod Shora, kod pięciokubitowy, formalizm stabilizatorów, kody powierzchniowe, pomiar syndromu, twierdzenie progowe.
-Narzut zasobów: liczba kubitów fizycznych na kubit logiczny, ograniczenia topologii połączeń.
-}
+
+Klasyczne kody korekcyjne powielają bity i rozstrzygają o ich wartości głosowaniem, czego nie da się przenieść wprost na kubity z trzech powodów~\cite{NielsenChuang2010,bib:error_corr_intr}.
+Twierdzenie o zakazie klonowania wyklucza istnienie operacji unitarnej $U$ spełniającej $U\ket{\psi}\ket{0}=\ket{\psi}\ket{\psi}$ dla każdego stanu $\ket{\psi}$, więc nieznanego stanu nie można powielić~\cite{wootters_single_1982}.
+Pomiar kubitów danych niszczy superpozycję (podrozdział~\ref{subsec:tb:measurement}), a błędy tworzą zbiór ciągły: obok odwrócenia bitu (bramka $\mathrm{X}$) występują odwrócenie fazy ($\mathrm{Z}$), ich złożenie ($\mathrm{Y}$) oraz dowolne kombinacje liniowe tych operatorów.
+
+Kody kwantowe omijają te przeszkody: stan zapisuje się w splątanym stanie wielu kubitów zamiast w kopiach, a mierzy się wyłącznie syndrom, czyli wielkości zależne od błędu, lecz nie od zakodowanych amplitud.
+Najprostszym przykładem jest trzykubitowy kod powtórzeniowy, w którym stan $\alpha\ket{0}+\beta\ket{1}$ zapisuje się jako $\alpha\ket{000}+\beta\ket{111}=\alpha\ket{0_L}+\beta\ket{1_L}$, gdzie $\ket{0_L}$ i $\ket{1_L}$ są stanami bazowymi kubitu logicznego.
+Syndrom tworzą parzystości sąsiednich par kubitów, czyli wyniki pomiaru operatorów $\mathrm{Z}_1\mathrm{Z}_2$ i $\mathrm{Z}_2\mathrm{Z}_3$, odczytywane za pomocą dwóch kubitów pomocniczych (rys.~\ref{fig:tb03:repetition}).
+Odwrócenie jednego bitu przenosi stan do jednej z trzech podprzestrzeni ortogonalnych do podprzestrzeni kodowej, a każdej z nich odpowiada inna wartość syndromu, więc błąd można rozpoznać i odwrócić bramką $\mathrm{X}$ bez poznania $\alpha$ i $\beta$.
+Przy niezależnych odwróceniach bitów z prawdopodobieństwem $p$ kod zawodzi dopiero przy co najmniej dwóch błędach, czyli z prawdopodobieństwem $3p^2-2p^3$, mniejszym od $p$ dla $p<1/2$; przed odwróceniem fazy nie chroni.
+
+\begin{figure}[tb]
+  \centering
+  \input{figures/chp_theoretical_background/tb03_repetition_code.tex}
+  \caption[Trzykubitowy kod powtórzeniowy z pomiarem syndromu]{Trzykubitowy kod powtórzeniowy: kodowanie stanu $\ket{\psi}=\alpha\ket{0}+\beta\ket{1}$, kanał szumu $\channel$, pomiar syndromu $(s_1,s_2)$ na kubitach pomocniczych i sterowana nim operacja naprawcza $R$.}
+  \label{fig:tb03:repetition}
+\end{figure}
+
+Pomiar syndromu rzutuje dowolny błąd pojedynczego kubitu na jeden z operatorów $\identity$, $\mathrm{X}$, $\mathrm{Y}$, $\mathrm{Z}$, dlatego kod korygujący odwrócenia bitu i fazy koryguje każdy błąd jednokubitowy~\cite{NielsenChuang2010}.
+Pierwszym takim kodem był dziewięciokubitowy kod Shora~\cite{bib:shor_code}, w którym każdy z trzech kubitów kodu powtórzeniowego chroniącego fazę jest zapisany trzema kubitami kodu chroniącego bit.
+Najmniejszy kod o tej własności wykorzystuje pięć kubitów~\cite{bib:perfect_quantum_error_correction_code}: jeżeli brakowi błędu i każdemu z $3n$ błędów jednokubitowych ma odpowiadać osobna para ortogonalnych stanów, to musi zachodzić $2(3n+1)\le2^n$, skąd $n\ge5$.
+
+Wymienione kody należą do rodziny kodów stabilizatorowych~\cite{gottesman_stabilizer_1997,NielsenChuang2010}.
+Kod taki określa grupa stabilizatorów $\stabgroup$: przemienna, niezawierająca $-\identity$ podgrupa grupy Pauliego, czyli grupy iloczynów tensorowych operatorów $\identity$, $\mathrm{X}$, $\mathrm{Y}$, $\mathrm{Z}$ na $n$ kubitach z czynnikami $\pm1$, $\pm\mathrm{i}$.
+Podprzestrzeń kodową tworzą stany spełniające $S\ket{\psi}=\ket{\psi}$ dla każdego $S\in\stabgroup$; przy $n-k$ niezależnych generatorach grupy mieści ona $k$ kubitów logicznych.
+Syndromem jest ciąg wyników pomiaru generatorów: błąd będący operatorem Pauliego zmienia na $-1$ wyniki tych generatorów, z którymi antykomutuje.
+Kod oznacza się symbolem $[[n,k,d]]$, w którym dystans $d$ jest najmniejszą liczbą kubitów, na które musi działać operator Pauliego, aby zmienić stan logiczny bez zmiany syndromu; taki kod, na przykład kod Shora $[[9,1,3]]$ albo pięciokubitowy $[[5,1,3]]$, koryguje dowolne błędy na $\lfloor(d-1)/2\rfloor$ kubitach.
+
+W kodach powierzchniowych kubity leżą na dwuwymiarowej siatce, a generatorami są iloczyny operatorów $\mathrm{X}$ albo $\mathrm{Z}$ na co najwyżej czterech sąsiednich kubitach danych~\cite{kitaev_fault-tolerant_2003,bib:surface_codes_fowler}.
+Każdy generator mierzy się kubitem pomocniczym sprzężonym tylko z najbliższymi sąsiadami, co sprzyja realizacji na urządzeniach o płaskiej topologii połączeń, a dystans rośnie z rozmiarem siatki.
+Pomiary generatorów powtarza się cyklicznie w trakcie obliczeń, a klasyczny dekoder wyznacza z ciągu syndromów najbardziej prawdopodobny układ błędów.
+
+O skalowalności korekcji rozstrzyga twierdzenie progowe: jeżeli prawdopodobieństwo błędu pojedynczej operacji $p$ jest mniejsze od wartości progowej $\pth$, to błąd obliczeń logicznych można uczynić dowolnie małym kosztem narzutu rosnącego polilogarytmicznie z rozmiarem obliczeń~\cite{aharonov_fault-tolerant_2008,knill_resilient_1998,NielsenChuang2010}.
+Dla kodu powierzchniowego próg jest rzędu $1\%$ (w modelu błędów z pracy~\cite{bib:surface_codes_fowler} $\pth=0{,}57\%$), a poniżej progu prawdopodobieństwo błędu logicznego maleje wykładniczo z dystansem, $\plog\propto(p/\pth)^{\lfloor(d+1)/2\rfloor}$.
+Ceną jest narzut zasobów: potrzebne są kubity pomiarowe, pomiary w trakcie obwodu i dekodowanie w czasie rzeczywistym, a według oszacowania z pracy~\cite{bib:surface_codes_fowler} kubit logiczny o użytecznie małym błędzie wymaga rzędu $10^3$--$10^4$ kubitów fizycznych.
+Ograniczeniem jest też topologia: bramki działają tylko między sąsiadami na siatce, więc operacje na odległych kubitach logicznych wymagają dodatkowych kroków i dodatkowego miejsca~\cite{litinski_game_2019}.
+Na urządzeniach ery NISQ (podrozdział~\ref{subsec:tb:noise:nisq}) kubity przeznaczone na korekcję pomniejszają i tak niewielką pulę dostępną dla obliczeń, co motywuje metody opisane dalej.
 
 \subsection{Mitygacja błędów}\label{subsec:tb:qec:mitigation}
-\agentinfo{
-Ekstrapolacja do zerowego szumu (ekstrapolacja Richardsona), probabilistyczne odwracanie szumu (metoda quasi-prawdopodobieństw), mitygacja błędów pomiaru macierzą kalibracyjną, dynamiczne odsprzęganie.
-Dla każdej metody: zasada, założenia o szumie, koszt w liczbie wykonań obwodu.
-}
+
+Metody mitygacji łączy wspólny schemat~\cite{cai2023quantum}: ze statystyk zaszumionych wykonań szacuje się wartość oczekiwaną obserwabli $O$ albo rozkład wyników obwodu idealnego.
+Estymator po mitygacji ma mniejsze obciążenie, lecz większą wariancję niż estymator~\eqref{eq:tb01:estimator}, co trzeba skompensować większą liczbą wykonań obwodu.
+Ten narzut próbkowania rośnie wykładniczo ze średnią liczbą błędów przypadających na jedno wykonanie obwodu, co ogranicza mitygację do obwodów o umiarkowanym rozmiarze.
+
+\paragraph{Ekstrapolacja do zerowego szumu} (ang. \emph{zero-noise extrapolation}, ZNE)~\cite{richardson-extrapolation,quasi-probability}.
+Ten sam obwód wykonuje się przy $m$ poziomach szumu $1=c_1<c_2<\dots<c_m$, gdzie $c=1$ oznacza poziom naturalny, i dla każdego wyznacza wartość $E(c_j)$ obserwabli.
+Jeżeli zależność $E(c)$ przybliża wielomian stopnia $m-1$, to jego wartość w zerze, zwana ekstrapolacją Richardsona, wynosi
+\begin{equation}\label{eq:tb03:zne}
+  \hat{E}(0)=\sum_{j=1}^{m}\beta_j\,E(c_j),\qquad \beta_j=\prod_{l\neq j}\frac{c_l}{c_l-c_j}.
+\end{equation}
+Szum zwiększa się przez wydłużanie impulsów sterujących~\cite{kandala2021hardware} albo, bez dostępu do impulsów, przez zastępowanie bramki $G$ ciągiem $GG^{\dagger}G$~\cite{giurgica-tiron_digital_2020}.
+Metoda zakłada, że szum daje się skalować w kontrolowany sposób, nie zmienia się w czasie zbierania danych i jest na tyle słaby, że $E(c)$ jest funkcją gładką.
+Nie wymaga dodatkowych kubitów ani modelu szumu; kosztem jest $m$ serii wykonań, głębsze obwody przy powielaniu bramek oraz wzrost wariancji wyniku (wariancje pomiarów sumują się z wagami $\beta_j^2$).
+
+\paragraph{Probabilistyczne znoszenie błędów} (ang. \emph{probabilistic error cancellation}, PEC), nazywane też metodą quasi-prawdopodobieństw~\cite{quasi-probability,endo_practical_2018}.
+Idealną operację $\mathcal{U}$ przedstawia się jako kombinację liniową operacji $\mathcal{O}_i$ wykonalnych na zaszumionym urządzeniu:
+\begin{equation}\label{eq:tb03:pec}
+  \mathcal{U}=\sum_i\omega_i\,\mathcal{O}_i,\qquad \sum_i\omega_i=1,\qquad \pecnorm=\sum_i|\omega_i|\ge1,
+\end{equation}
+przy czym część współczynników $\omega_i$ jest ujemna, więc nie tworzą one rozkładu prawdopodobieństwa.
+W każdym wykonaniu operację $\mathcal{O}_i$ losuje się z prawdopodobieństwem $|\omega_i|/\pecnorm$, a wynik pomiaru mnoży przez $\pecnorm\operatorname{sgn}(\omega_i)$; średnia tak ważonych wyników jest nieobciążonym estymatorem wartości idealnej.
+Rozkład~\eqref{eq:tb03:pec} wymaga znajomości kanału szumu każdej bramki, wyznaczanego tomografią (podrozdział~\ref{subsec:tb:noise:characterisation}), i jego stałości w czasie.
+W obwodzie złożonym z wielu bramek współczynniki $\pecnorm$ się mnożą, a liczba wykonań potrzebna do zachowania dokładności rośnie jak kwadrat ich iloczynu, czyli wykładniczo z liczbą bramek.
+
+\paragraph{Mitygacja błędu odczytu macierzą kalibracyjną}~\cite{maciejewski_mitigation_2020,bravyi_mitigating_2021}.
+Metoda odwraca klasyczny model błędu odczytu~\eqref{eq:tb:noise:readout}.
+Kolumny macierzy $\confmat$ wyznacza się, przygotowując kolejne stany bazowe i mierząc je, a korektę uzyskuje się, działając macierzą $\confmat^{-1}$ na wektor zmierzonych częstości; jeżeli wynik zawiera wartości ujemne, zastępuje się go najbliższym rozkładem prawdopodobieństwa.
+Pełna kalibracja rejestru $n$ kubitów wymaga $2^n$ obwodów, a przy założeniu niezależności błędów odczytu poszczególnych kubitów macierz ma tylko $2n$ parametrów.
+Metoda zakłada, że błąd przygotowania stanów bazowych jest pomijalny, a macierz nie zmienia się między kalibracją a użyciem.
+Obwód zadania pozostaje bez zmian, lecz korygowany jest wyłącznie błąd odczytu.
+
+\paragraph{Dynamiczne odsprzęganie} (ang. \emph{dynamical decoupling}, DD)~\cite{viola_dynamical_1999,ezzell_dynamical_2023}.
+W okresach, w których kubit czeka na kolejną bramkę, wstawia się ciąg szybkich impulsów, na przykład $\mathrm{X}$--$\mathrm{X}$ albo $\mathrm{X}$--$\mathrm{Y}$--$\mathrm{X}$--$\mathrm{Y}$, którego złożenie jest identycznością z dokładnością do fazy globalnej, lecz który uśrednia wolnozmienne sprzężenie kubitu z otoczeniem.
+Wymaga to szumu zmieniającego się wolno w porównaniu z odstępem między impulsami oraz dokładnych impulsów; metoda dodaje bramki, ale nie wymaga dodatkowych kubitów, wykonań obwodu ani obróbki wyników.
+
+Pozostałe metody mitygacji, w tym weryfikację symetrii i metody uczone na obwodach o znanym wyniku, omówiono w podrozdziale~\ref{sec:lr:qem}.
 
 \subsection{Koszt zasobów jako kryterium porównania}\label{subsec:tb:qec:cost}
-\agentinfo{
-Wprowadzić kryteria, według których w rozdziałach 4--6 porównywana jest metoda PDU z innymi metodami:
-dodatkowe kubity, dodatkowe bramki, dodatkowe wykonania obwodu, koszt obliczeń klasycznych, założenia o stabilności szumu, zakres stosowalności (zorientowanie na bramkę a zorientowanie na problem).
-Warto przygotować tabelę zbiorczą.
-}
+
+Opisane metody płacą za poprawę wyniku zasobami różnego rodzaju, dlatego w rozdziałach~\ref{chapter:pdu}--\ref{chapter:dl_error_reduction} oraz~\ref{chapter:classification} porównuje się je według sześciu kryteriów.
+Są to: dodatkowe kubity, nieniosące danych zadania (K1); dodatkowe bramki, zwiększające głębokość obwodu zadania i jego podatność na szum (K2); dodatkowe wykonania obwodu, czyli obwody kalibracyjne i powtórzenia potrzebne do zachowania dokładności statystycznej (K3); koszt obliczeń klasycznych, w tym konieczność prowadzenia ich w czasie rzeczywistym (K4); założenia o szumie, czyli wymagany model szumu i jego stabilność między kalibracją a użyciem (K5; podrozdział~\ref{subsec:tb:noise:sources}); zorientowanie metody (K6).
+Metoda zorientowana na bramkę przeciwdziała błędom elementów urządzenia (bramek, kubitów w~spoczynku, pomiaru) i stosuje się do dowolnego obwodu, a metoda zorientowana na problem wyznacza korektę dla wyniku konkretnego zadania, urządzenia i układu kubitów, traktując obwód jak czarną skrzynkę.
+Kryteria K1 i K2 określają, jaka część zasobów urządzenia pozostaje dla właściwych obliczeń, co jest istotne w przetwarzaniu obrazów, które wymaga wielu kubitów i głębokich obwodów.
+Zestawienie w tabeli~\ref{tab:tb03:cost} pokazuje, że redukcja błędów zajmuje położenie skrajne: poza kalibracją nie zużywa zasobów kwantowych, lecz ma najwęższy zakres stosowalności i opiera się na założeniu powtarzalności błędu, które trzeba sprawdzić eksperymentalnie (rozdział~\ref{chapter:pdu}).
+
+\begin{table}[htb]
+  \centering
+  \caption[Koszt zasobów metod korekcji, mitygacji i redukcji błędów]{Koszt zasobów metod korekcji, mitygacji i redukcji błędów: dodatkowe kubity (K1), bramki (K2) i wykonania obwodu (K3), obliczenia klasyczne (K4), założenia o szumie (K5), zorientowanie na bramkę albo na problem (K6). Zestawienie na podstawie podrozdziałów~\ref{subsec:tb:qec:codes} i~\ref{subsec:tb:qec:mitigation}.}
+  \label{tab:tb03:cost}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \newcommand{\tbc}[1]{\raggedright\hspace{0pt}#1}
+  \begin{tabular}{@{}p{2.5cm}p{0.6cm}p{2.3cm}p{2.5cm}p{2.3cm}p{2.95cm}p{1.45cm}@{}}
+    \toprule
+    \tbc{\textbf{Metoda}} & \tbc{\textbf{K1}} & \tbc{\textbf{K2}} & \tbc{\textbf{K3}} & \tbc{\textbf{K4}} & \tbc{\textbf{K5}} & \tbc{\textbf{K6}} \tabularnewline
+    \midrule
+    \tbc{QEC (kod powierzchniowy)} & \tbc{tak} & \tbc{cykle pomiaru syndromu} & \tbc{nie} & \tbc{dekoder czasu rzeczywistego} & \tbc{błąd operacji poniżej progu} & \tbc{bramka} \tabularnewline
+    \tbc{ZNE} & \tbc{nie} & \tbc{przy powielaniu bramek} & \tbc{$m$ serii, wzrost wariancji} & \tbc{dopasowanie krzywej} & \tbc{szum skalowalny, stały, słaby} & \tbc{bramka} \tabularnewline
+    \tbc{PEC} & \tbc{nie} & \tbc{wstawiane operacje} & \tbc{rosną wykładniczo} & \tbc{losowanie i~ważenie} & \tbc{znany, stały kanał każdej bramki} & \tbc{bramka} \tabularnewline
+    \tbc{Mitygacja błędu odczytu} & \tbc{nie} & \tbc{nie} & \tbc{kalibracja, do $2^n$ obwodów} & \tbc{odwrócenie macierzy} & \tbc{klasyczny, stały błąd odczytu} & \tbc{bramka} \tabularnewline
+    \tbc{DD} & \tbc{nie} & \tbc{impulsy w~przerwach} & \tbc{nie} & \tbc{brak} & \tbc{szum wolnozmienny} & \tbc{bramka} \tabularnewline
+    \tbc{Redukcja (rozdz.~\ref{chapter:pdu},~\ref{chapter:dl_error_reduction})} & \tbc{nie} & \tbc{nie} & \tbc{kalibracja na zadaniach wzorcowych} & \tbc{model korekty} & \tbc{powtarzalny błąd zadania} & \tbc{problem} \tabularnewline
+    \bottomrule
+  \end{tabular}
+\end{table}

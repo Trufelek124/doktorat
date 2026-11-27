@@ -1,0 +1,85 @@
+% !TeX root = ./../main.tex
+
+\section{Charakteryzacja i modelowanie szumu urządzeń}\label{sec:lr:noise}
+\agentinfo{
+Stan: treść napisana w zadaniu PHD-TS-34 (2026-11-27); czeka na przegląd autora.
+Notatka źródłowa (tabele prac, zestawienie założeń PDU z literaturą, zakres wyszukiwania, pozycje rezerwowe): \agentref{eksperymenty/przeglad-literatury/sekcja-3.5-szum.md}.
+Liczby sprawdzono ponownie w otwartych wersjach prac (arXiv, ar5iv; teksty pobrane 2026-11-27 w katalogu \agentref{eksperymenty/przeglad-literatury/_robocze/PHD-TS-21/txt}), nie w wersjach wydawców; lokalizacje podają komentarze w źródle pliku.
+Uzgodnienia: definicji metod charakteryzacji nie powtarzać (podrozdział 2.2); wnioski dla PDU przedstawiać jako pośrednie, bo prace mierzą parametry składowe, a nie systematyczny błąd wyniku obwodu; dowody przeciw stałości błędu do następnej kalibracji podawać bez łagodzenia; część o symetriach ograniczona do jednego akapitu (tło rozdziału 9, praca z pierwszym autorem S. Raubitzkiem).
+Ilorazy i zmiany procentowe dla pracy yeter-aydeniz_measuring_2023 są obliczeniami własnymi z tabel C2 i C3 wersji arXiv 2201.02899, przeliczonymi w zadaniu PHD-TS-34.
+Sekcja jest tłem rozdziałów 4 (założenia Z1--Z5 i Z8), 7 i 8 (rozbieżność symulatora i sprzętu) oraz 9.
+Pominięte dla budżetu stron (są w notatce): mckay_benchmarking_2023 (błąd w warstwie a błąd bramki izolowanej), liczby dla pułapki jonowej z proctor_detecting_2020, szczegóły serii pomiarowych poza tabelą.
+Po recenzji (PHD-TS-90, 2026-11-27): dwa zdania podzielono; zdanie o reakcji metod na zmienność skrócono i odesłano do sekcji 3.3, w której te same prace są już opisane (ponowne uczenie modelu szumu podaje się w obu sekcjach jako co kilka godzin); objaśniono metodę cycle benchmarking; zdanie o zmianach błędów bramek, odczytu i rozkładów parametrów odsyła do tabeli tab:lr:noise:time, w której te same prace są opisane (usunięto powtórzenie tekstu i tabeli); wniosek o ograniczonym czasie ważności korekty zostaje w tej sekcji (akapit o znaczeniu dla założeń metody PDU) i w syntezie w sekcji 3.8; jego trzecie powtórzenie, w zdaniu kończącym sekcję, usunięto dla zachowania objętości.
+}
+\agenttask{
+Do decyzji autora (PHD-TS-34).
+(1) Akapit o znaczeniu dla założeń PDU zawiera oceny własne: literatura nie potwierdza założenia Z4 w postaci mocnej, linia trendu może nie wykryć zmian epizodycznych, reguła jednej kalibracji PDU na dobę zakłada kalibrację urządzenia jako jedno znane zdarzenie. Czy te oceny mają zostać w przeglądzie, czy przejść do dyskusji ograniczeń w rozdziale 4 (sekcja 4.8), a tutaj zostać tylko zestawienie prac.
+(2) Czy w rozdziale 4 opatrzyć zastrzeżeniem zdanie o jednej kalibracji urządzenia na dobę (akapit Warunek ponownej kalibracji): według etxezarreta_multiqubit_2023 urządzenia santiago i bogota kalibrowano kilka razy na dobę, a według wilson_just-in-time_2020 bywały okresy 28--49 godzin bez kalibracji; obserwacja z pracy wilson_just-in-time_2020 pochodzi z okresu wcześniejszego niż eksperymenty PDU, a praca etxezarreta_multiqubit_2023 nie podaje roku pomiarów (dotyczy tych samych procesorów), więc nie wolno pisać, że to inne okresy. Zastrzeżenie do reguły dopisano w podrozdziale 4.8 (zadanie PHD-TS-57, 2026-11-27); do decyzji autora zostaje złagodzenie samych zdań w podrozdziale 4.5.
+(3) Hipoteza do sprawdzenia w danych autora, niewpisana do tekstu: większy rozrzut błędu na urządzeniu Santiago niż na urządzeniu Manila może mieć związek z częstszymi kalibracjami tego urządzenia.
+Wartości liczbowej dla urządzenia Santiago punkt nie przesądza, bo źródła podają ją w odwrotnym znaczeniu: według artykułu ICCS ponad 56 procent wartości błędu odbiegało od średniej o więcej niż 20 procent, a według pracy magisterskiej 56 procent wartości mieściło się w tym paśmie; dla urządzenia Manila oba źródła podają 83 procent wartości w paśmie (rozbieżność jest zgłoszona w recenzji rozdziału 4, ustalenie B1, i rozstrzyga ją autor albo dane pierwotne).
+(4) Czy dodać pozycje rezerwowe z notatki (Schlor 2019, Dahlhauser i Humble 2021, Chen 2023), dziś niecytowane.
+}
+
+Każda korekta wyznaczona z~wcześniejszego pomiaru, od macierzy odczytu po funkcję PDU i~modele uczone (podrozdział~\ref{sec:lr:ml}), zakłada, że zmierzona charakterystyka opisuje urządzenie także w~chwili obliczenia; istotne jest więc, czego metody charakteryzacji (podrozdział~\ref{subsec:tb:noise:characterisation}) nie obejmują i~jak szybko szum się zmienia.
+
+Jak pokazano w~pracy~\cite{Merkel2013}, tomografia procesu przypisuje operacji także błędy przygotowania stanu i~pomiaru; tomografia zbioru bramek jest od tej wady wolna~\cite{BlumeKohout2017,bib:quantum_gate_tomography}.
+Zakłada jednak szum stały w~czasie zbierania danych, a~według samouczka z~2025~r. jeden przebieg dwukubitowy może na platformach atomowych trwać kilka godzin~\cite{hashim_practical_2025}.
+% ŹRÓDŁO: hashim_practical_2025, część o ograniczeniach eksperymentalnych (dwukubitowa tomografia zbioru bramek na platformach atomowych), arXiv:2408.12064v2; numeracji sekcji w wersji PRX Quantum nie sprawdzano.
+Test z~losowymi sekwencjami bramek skaluje się lepiej, lecz zwraca jedną liczbę, która nie rozróżnia błędów koherentnych i~niekoherentnych~\cite{Magesan2011,ProctorWhat2017,Wallman2015,Hashim2023}, a~modele uczone w~większej skali opisują szum uśredniony do kanału Pauliego~\cite{harper_efficient_2020,van_den_berg_probabilistic_2023}.
+% ŹRÓDŁO: Hashim2023, streszczenie wersji opublikowanej (Crossref, DOI 10.1038/s41534-023-00764-y); harper_efficient_2020, streszczenie, arXiv:1907.13022; van_den_berg_probabilistic_2023, wstęp, arXiv:2201.09866.
+Poza zasięgiem modeli lokalnych i~markowowskich pozostają przesłuch~\cite{sarovar_detecting_2020,mundada2019crosstalk}, wyciek~\cite{Wood2015} i~pamięć otoczenia~\cite{white_demonstration_2020}, czego skutkiem jest rozbieżność między przewidywaniem z~danych kalibracyjnych a~wynikiem obwodu.
+Na dwunastu procesorach programy o~regularnej strukturze zawodziły przy rozmiarze nawet o~rząd wielkości mniejszym niż programy losowe~\cite{proctor_measuring_2022}.
+Niewierność bramek CNOT wyznaczona metodą \emph{cycle benchmarking}, czyli dla całego cyklu operacji na rejestrze, była od $1{,}3$ do $4{,}0$ razy większa od wartości kalibracyjnych producenta (obliczenie własne z~tabel pracy~\cite{yeter-aydeniz_measuring_2023}; metody nie mierzą tej samej wielkości).
+% ŹRÓDŁO: proctor_measuring_2022, streszczenie, arXiv:2008.11294; yeter-aydeniz_measuring_2023, wstęp (cycle benchmarking: błąd cyklu operacji wykonywanych na rejestrze, ,,when a clock cycle of operations is applied to a specific quantum register'') oraz tabele C2 i C3, arXiv:2201.02899 (ar5iv): ilorazy wartości z cycle benchmarking i z danych producenta dla 18 par liczb od 1,34 do 4,04 (obliczenie własne, PHD-TS-34).
+
+\paragraph{Zmienność szumu w~czasie.}
+Pomiary zestawia według skali czasu tabela~\ref{tab:lr:noise:time}.
+W~kubitach nadprzewodzących czas relaksacji $\Tone$ zmienia się wskutek niestabilności defektów materiałowych sprzężonych z~kubitem, przez skokowe przełączenia, a~nie powolny trend~\cite{klimov_fluctuations_2018,burnett_decoherence_2019,carroll_dynamics_2022}.
+% ŹRÓDŁO: burnett_decoherence_2019, streszczenie i część ,,T1 decay-profiles'', arXiv:1901.04417 (ar5iv); klimov_fluctuations_2018, tekst przy rys. 2, wersja arXiv (PDF).
+Dla rozprawy najważniejsze są pomiary wewnątrz okna kalibracji na pięciu pięciokubitowych procesorach IBM używanych także w~rozdziale~\ref{chapter:pdu}: współczynnik zmienności $\Tone$ poszczególnych kubitów wynosił od około $5\%$ do $47\%$, a~fluktuacje nie były istotnie skorelowane między kubitami~\cite{etxezarreta_multiqubit_2023}.
+% ŹRÓDŁO: etxezarreta_multiqubit_2023, tabele II i III, sekcja III-A, dodatek C, arXiv:2207.06838 (ar5iv).
+Zmieniają się także błędy bramek, odczyt, dokładność obwodów i, w~skali miesięcy, rozkłady parametrów szumu (tabela~\ref{tab:lr:noise:time}), a~dryf obserwowano również w~pułapce jonowej~\cite{proctor_detecting_2020}.
+
+\begin{table}[tb]
+\centering
+\caption[Pomiary zmienności szumu w~czasie]{Pomiary zmienności szumu w~czasie według skali; poza dokładnością obwodów są to parametry składowe, a~nie błąd wyniku obwodu. Opracowanie własne.}
+\label{tab:lr:noise:time}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\newcommand{\lrc}[1]{\raggedright\hspace{0pt}#1}
+\begin{tabular}{@{}p{1.4cm}p{1.1cm}p{6.6cm}p{6.2cm}@{}}
+\toprule
+\lrc{\textbf{Skala}} & \lrc{\textbf{Praca}} & \lrc{\textbf{Urządzenie i~wielkość mierzona}} & \lrc{\textbf{Obserwacja}} \tabularnewline
+\midrule
+\lrc{minuty} & \lrc{\cite{hirasaki_detection_2023}} & \lrc{ibm\_kawasaki (27 kubitów): wynik pomiaru kubitu, seria 1000~s} & \lrc{skoki częstości błędów trwające po kilka minut} \tabularnewline
+\lrc{minuty} & \lrc{\cite{klimov_fluctuations_2018}} & \lrc{transmon przestrajalny: $\Tone$ co 15~min przez 1200~min} & \lrc{zmiany do rzędu wielkości} \tabularnewline
+\lrc{godziny} & \lrc{\cite{burnett_decoherence_2019}} & \lrc{dwa transmony w~laboratorium: $\Tone$, serie 65 i~128~h} & \lrc{zmiany ponad dwukrotne; przełączenia co 2--12,5~h} \tabularnewline
+\lrc{godziny} & \lrc{\cite{etxezarreta_multiqubit_2023}} & \lrc{pięć 5-kubitowych procesorów IBM: $\Tone$ co 2--4~min w~oknie kalibracji, serie 4--27~h} & \lrc{współczynnik zmienności 5--47\%} \tabularnewline
+\lrc{godziny} & \lrc{\cite{kim_error_2025}} & \lrc{sześć transmonów: $\Tone$ (60~h) i~parametry uczonego modelu szumu (ok. 50~h)} & \lrc{$\Tone$ zmienne średnio o~ponad 300\%; skokowa zmiana parametrów modelu} \tabularnewline
+\lrc{doba, dni} & \lrc{\cite{yeter-aydeniz_measuring_2023}} & \lrc{ibmq\_boeblingen: niewierność CNOT trzech par rano, wieczorem (po kalibracji bramek) i~po pięciu dniach} & \lrc{od $-13\%$ do $+30\%$ w~ciągu doby; wzrost 1,3--1,7 raza w~pięć dni (obliczenia własne)} \tabularnewline
+\lrc{doba} & \lrc{\cite{wilson_just-in-time_2020}} & \lrc{procesory IBM: odczyt co godzinę; dokładność obwodów przy danych kalibracyjnych sprzed 28--49~h} & \lrc{odczyt niestabilny między kalibracjami; dokładność zmienna o~29--37\%} \tabularnewline
+\lrc{dni} & \lrc{\cite{carroll_dynamics_2022}} & \lrc{ibmq\_almaden: $\Tone$ 10 kubitów raz na dobę przez 9 miesięcy} & \lrc{kolejne pomiary skorelowane przez 1--2 dni} \tabularnewline
+\lrc{miesiące} & \lrc{\cite{dasgupta_impact_2024}} & \lrc{IBM washington: odległość Hellingera rozkładów parametrów szumu, dane kalibracyjne z~16 miesięcy} & \lrc{0,41--0,92; stabilny wynik obwodu wymaga 0,022; największy wkład: pomiar} \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table}
+% ŹRÓDŁA tabeli: hirasaki_detection_2023, streszczenie wersji opublikowanej (Crossref, DOI 10.1063/5.0166739) i opis eksperymentu (27 kubitów, seria 1000 s), arXiv:2307.04337; klimov_fluctuations_2018, podpis rys. 2 (31 278 pomiarów, 1200 min, krok 15 min) i tekst przy rys. 2 (,,up to an order of magnitude''), wersja arXiv (PDF); burnett_decoherence_2019, rys. 1 i 2 (ok. 65 h i ok. 128 h), ,,more than a factor 2'', czas przebywania 2--12,5 h, arXiv:1901.04417; etxezarreta_multiqubit_2023, tabele II i III, dodatek C, arXiv:2207.06838; kim_error_2025, sekcje II i III, arXiv:2407.02467v3; yeter-aydeniz_measuring_2023, tabela C3 (27 i 30 stycznia 2021 r.: zmiany +6,1; -7,1; +29,6 oraz -13,1; +4,6; -6,8 procent) i jej podpis, tabela C2 (24 i 29 stycznia: ilorazy 1,31; 1,61; 1,70), arXiv:2201.02899, obliczenia własne (PHD-TS-34); wilson_just-in-time_2020, sekcje II-A (rys. 1, IBM Poughkeepsie, 2019 r.) i V-B (rys. 6), arXiv:2005.12820; carroll_dynamics_2022, streszczenie (10 kubitów), sekcja II (ok. 250 pomiarów w 9 miesięcy) i dodatek D, arXiv:2105.15201; dasgupta_impact_2024, streszczenie, sekcje 3.3.1, 3.3.3 i 4, arXiv:2307.06833 (wynik z symulacji zasilanej danymi kalibracyjnymi; obwód Bernsteina--Vaziraniego na 5 kubitach).
+
+Metody oparte na kalibracji reagują na tę zmienność ponawianiem kalibracji co okres kalibracji urządzenia albo co kilka godzin~\cite{maciejewski_mitigation_2020,van_den_berg_probabilistic_2023} (podrozdział~\ref{sec:lr:qem}); skokowe zmiany parametrów uczonego modelu szumu prowadziły według pracy~\cite{kim_error_2025} z~2025~r. do błędnych oszacowań po mitygacji.
+% ŹRÓDŁO: jak w podrozdziale 3.3 (maciejewski_mitigation_2020, Remark 4, arXiv:1907.08518; van_den_berg_probabilistic_2023, materiał uzupełniający, część ,,Coherence'', arXiv:2201.09866); kim_error_2025, streszczenie i sekcja III, arXiv:2407.02467v3.
+Sama częstość kalibracji procesorów IBM nie była stała: prace z~lat 2019--2023 podają dwie kalibracje na dobę~\cite{murali_noise-adaptive_2019}, okres 28--49~godzin bez kalibracji~\cite{wilson_just-in-time_2020}, kilka kalibracji na dobę dla urządzeń santiago i~bogota wobec około jednej dla quito, belem i~lima~\cite{etxezarreta_multiqubit_2023} oraz pełną kalibrację rano i~częściową wieczorem~\cite{yeter-aydeniz_measuring_2023}.
+% ŹRÓDŁO: murali_noise-adaptive_2019, sekcja 2, arXiv:1901.11054; wilson_just-in-time_2020, sekcja V-B; etxezarreta_multiqubit_2023, dodatek C; yeter-aydeniz_measuring_2023, podpis tabeli C3.
+
+\paragraph{Znaczenie dla założeń metody PDU.}
+Wnioski dla PDU są pośrednie i~własne: prawie wszystkie przytoczone prace mierzą parametry składowe (czasy koherencji, błędy bramek i~odczytu, parametry modelu szumu), a~nie systematyczny błąd wyniku obwodu, którego dotyczą założenie~(\ref{itm:pdu:Z4}) i~warunek~\eqref{eq:pdu:stability}.
+Z~tym zastrzeżeniem literatura nie potwierdza założenia~(\ref{itm:pdu:Z4}) w~postaci mocnej, czyli stałości błędu do następnej kalibracji urządzenia: przeciw niej świadczą zmiany skokowe w~skali minut, zmienność $\Tone$ w~oknie kalibracji, zmiany błędu bramek w~ciągu doby i~niestabilność odczytu.
+Szum zmienny w~trakcie zbierania powtórzeń, których wymagają założenia~(\ref{itm:pdu:Z1}) i~(\ref{itm:pdu:Z3}), obciąża estymaty~\cite{kim_error_2025,proctor_detecting_2020}.
+Literatura jest zgodna z~postacią słabszą: korekta wyznaczona eksperymentalnie ma czas ważności rzędu godzin, nie przenosi się między dniami ani miesiącami i~jest przypisana do konkretnych kubitów, bo fluktuacje są lokalne~\cite{burnett_decoherence_2019,etxezarreta_multiqubit_2023}, co odpowiada założeniu~(\ref{itm:pdu:Z5}).
+Żadna ze sprawdzonych prac nie mierzy jednak przełożenia fluktuacji parametrów na dryf błędu wyniku, więc spełnienia warunku~\eqref{eq:pdu:stability} nie da się ocenić na podstawie literatury.
+Zmiany epizodyczne może ponadto pominąć linia trendu błędu średniokwadratowego (podrozdział~\ref{subsec:pdu:results:stability}), a~reguła jednej kalibracji PDU na dobę (podrozdział~\ref{sec:pdu:procedure}) zakłada, że kalibracja urządzenia jest jednym, znanym użytkownikowi zdarzeniem, czego przytoczone obserwacje nie potwierdzają.
+Zależność błędu od struktury programu i~historii operacji~\cite{proctor_measuring_2022,white_demonstration_2020} uzasadnia traktowanie obwodu jako całości (założenie~\ref{itm:pdu:Z2}), ale podważa przenoszenie korekty na obwody o~innej strukturze (założenie~\ref{itm:pdu:Z8}).
+
+Odrębny nurt wiąże szum z~symetriami: ciągłe symetrie ograniczają dokładność korekcji błędów~\cite{Faist_2020,liu2023quantumerrorcorrectionmeets}, a~prawa zachowania układu służą do wykrywania i~korygowania błędów~\cite{rajput2022quantumerrorcorrectiongauge,PhysRevA.97.032323}.
+% ŹRÓDŁO: Faist_2020, streszczenie, arXiv:1902.07714; liu2023quantumerrorcorrectionmeets i rajput2022quantumerrorcorrectiongauge, streszczenia wersji opublikowanych (Crossref); PhysRevA.97.032323, streszczenie, arXiv:1709.05302.
+W~pracy współautorskiej z~2026~r.~\cite{raubitzek_quantum_noise}, której pierwszym autorem jest S.~Raubitzek, odstępstwa bramki od operacji idealnej opisuje się jako zaburzenia generatorów łamiące symetrię (rozdział~\ref{chapter:noise_structure}).
+

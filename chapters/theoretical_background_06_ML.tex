@@ -2,40 +2,140 @@
 
 \section{Uczenie maszynowe}\label{sec:tb:ml}
 \agentinfo{
-Cel: wprowadzić pojęcia uczenia maszynowego potrzebne w rozdziałach 6--9.
-Zakres ograniczyć do tego, co jest używane: uczenie nadzorowane, sieci splotowe, sieci generatywne obraz--obraz, klasyfikacja, podstawy kwantowego uczenia maszynowego, struktura grupowa w sieciach.
-Źródła własne: \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex} (sekcja GAN pix2pix network) \agentref{artykuły/noisy_lie_group_learners/main.tex}.
+Zakres uzgodniony: wyłącznie pojęcia używane w rozdziałach 6--9, podrozdział zwięzły (około 4 stron).
+Architektury, hiperparametry i liczby z eksperymentów (liczba parametrów generatora, rozmiary obrazów, liczba epok) opisują rozdziały 6--8; tutaj tylko definicje.
+Miary jakości obrazu (MSE, korelacja Pearsona, PSNR, SSIM) definiuje podrozdział o reprezentacjach obrazów; tutaj MAE jako funkcja straty oraz miary klasyfikacji.
+Notacja dla rozdziałów 6--9: generator i dyskryminator to makra netG i netD (krój bezszeryfowy, odróżniony od grupy G i zbioru danych), sieć wyznaczająca kąty obwodu to Theta z indeksem w, liczba pomiarów to makro nshots.
+Objętość wersji roboczej przekracza orientacyjne 4 strony (dwa rysunki); dalsze cięcia, np. rezygnacja z rysunku modelu hybrydowego, do decyzji autora.
+Źródła własne: \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex} (sekcja GAN pix2pix network) \agentref{artykuły/noisy_lie_group_learners/main.tex} (wstęp, Related work, Lie-Group Action Layers).
 }
+
+Podrozdział wprowadza tylko pojęcia uczenia maszynowego używane w dalszych rozdziałach (od~\ref{chapter:dl_error_reduction} do~\ref{chapter:noise_structure}); podstawy wykłada monografia Goodfellowa i in.~\cite{goodfellow2016deep}.
 
 \subsection{Uczenie nadzorowane i klasyfikacja obrazów}\label{subsec:tb:ml:supervised}
-\agentinfo{
-Próbka, etykieta, funkcja straty, podział danych, przeuczenie.
-Klasyfikacja binarna i wieloklasowa, macierz pomyłek, dokładność, precyzja, czułość, miara F1.
-}
+
+W uczeniu nadzorowanym dany jest zbiór danych $\dataset=\{(\mathbf{x}_i,\mathbf{y}_i)\}_{i}$, w którym każda próbka $\mathbf{x}_i$ (np. obraz jako wektor intensywności pikseli) ma przypisaną wartość docelową $\mathbf{y}_i$.
+W klasyfikacji jest nią etykieta jednej z $K$ klas, zapisywana jako numer klasy $y_i\in\{1,\dots,K\}$ albo jako wektor jedynkowy $\mathbf{y}_i\in\{0,1\}^{K}$ (klasyfikacja binarna dla $K=2$, wieloklasowa dla $K>2$); w translacji obraz--obraz z rozdziału~\ref{chapter:dl_error_reduction} jest nią obraz odniesienia, a w autoenkoderze z rozdziału~\ref{chapter:learned_encoding} sam obraz wejściowy.
+Model $f_{\mathbf{w}}$ o parametrach (wagach) $\mathbf{w}$ wyznacza predykcję $\hat{\mathbf{y}}=f_{\mathbf{w}}(\mathbf{x})$, a uczenie polega na minimalizacji średniej straty na zbiorze uczącym:
+\begin{equation}\label{eq:tb:ml:risk}
+\symloss(\mathbf{w})=\frac{1}{|\trainset|}\sum_{(\mathbf{x},\mathbf{y})\in\trainset}\ell\bigl(f_{\mathbf{w}}(\mathbf{x}),\mathbf{y}\bigr).
+\end{equation}
+Dla wartości ciągłych, takich jak intensywności pikseli, stratą $\ell$ jest średni błąd bezwzględny albo błąd średniokwadratowy, zdefiniowane wzorem~\eqref{eq:tb:qimg:errors}; MAE użyty jako funkcja straty nazywa się stratą L1 i oznacza $\ell_{\mathrm{L1}}(\hat{\mathbf{y}},\mathbf{y})=\frac{1}{d}\sum_{j=1}^{d}|\hat{y}_j-y_j|$, gdzie $d$ jest liczbą składowych wektora.
+Dla klasyfikatora zwracającego rozkład prawdopodobieństwa klas stratą jest entropia krzyżowa $\ell_{\mathrm{CE}}(\hat{\mathbf{y}},\mathbf{y})=-\sum_{k=1}^{K}y_k\ln\hat{y}_k$, a dla jednego wyjścia $\hat{y}\in(0,1)$ binarna entropia krzyżowa (BCE):
+\begin{equation}\label{eq:tb:ml:bce}
+\ell_{\mathrm{BCE}}(\hat{y},y)=-y\ln\hat{y}-(1-y)\ln(1-\hat{y}),\qquad y\in\{0,1\}.
+\end{equation}
+
+Dane dzieli się na rozłączne zbiory: uczący $\trainset$, walidacyjny $\valset$, na którym dobiera się hiperparametry i wybiera punkt kontrolny modelu, oraz testowy $\testset$, używany jednokrotnie do oceny końcowej, ponieważ wybór najlepszego z wielu wariantów na podstawie wyniku na danym zbiorze zawyża ten wynik; przy małych zbiorach stosuje się walidację krzyżową i powtórzenia z różnymi ziarnami generatora liczb losowych.
+\Gls{overfitting} zachodzi, gdy model dopasowuje się do szczegółów i szumu zbioru uczącego: strata na $\trainset$ maleje, a na $\valset$ rośnie; ryzyko to rośnie ze stosunkiem liczby parametrów do liczby próbek, co ma znaczenie przy małych zbiorach wyników z rzeczywistych urządzeń (rozdziały~\ref{chapter:dl_error_reduction} i~\ref{chapter:learned_encoding}).
+Od przeuczenia trzeba odróżnić \glsdisp{data-leakage}{przeciek danych} (ang.~\emph{data leakage}): wpływ informacji ze zbioru ocenianego na uczenie lub wybór modelu, który zawyża ocenę niezależnie od rzeczywistej zdolności uogólniania i jest częstą przyczyną nieodtwarzalnych wyników badań opartych na uczeniu maszynowym~\cite{kapoor_leakage_2023}.
+W rozdziałach~\ref{chapter:learned_encoding} i~\ref{chapter:classification} znaczenie mają trzy jego formy: te same lub niemal te same próbki w zbiorze uczącym i ocenianym, parametry przetwarzania wstępnego (np. standaryzacji cech) wyznaczone przed podziałem danych oraz dobór hiperparametrów lub punktu kontrolnego na zbiorze, na którym raportuje się wynik.
+
+Wynik klasyfikatora podsumowuje macierz pomyłek $\mathbf{C}\in\mathbb{N}^{K\times K}$, której element $C_{kl}$ jest liczbą próbek klasy $k$ przypisanych do klasy $l$.
+Wyznacza się z niej dokładność oraz, dla każdej klasy $k$, precyzję (odsetek trafnych wśród próbek przypisanych do klasy), czułość (odsetek rozpoznanych próbek klasy) i ich średnią harmoniczną, miarę F1~\cite{goodfellow2016deep}:
+\begin{equation}\label{eq:tb:ml:metrics}
+\mathrm{ACC}=\frac{\sum_{k}C_{kk}}{\sum_{k,l}C_{kl}},\qquad
+P_k=\frac{C_{kk}}{\sum_{l}C_{lk}},\qquad
+R_k=\frac{C_{kk}}{\sum_{l}C_{kl}},\qquad
+\mathrm{F1}_k=\frac{2P_kR_k}{P_k+R_k}.
+\end{equation}
+Dokładność odnosi się do klasyfikatora trywialnego: przy $K$ równolicznych klasach zgadywanie daje $1/K$, a przy nierównolicznych wskazywanie zawsze klasy najliczniejszej daje jej udział w zbiorze; analogicznym odniesieniem dla rekonstrukcji obrazów jest obraz średni zbioru uczącego (rozdział~\ref{chapter:learned_encoding}).
 
 \subsection{Sieci neuronowe i sieci splotowe}\label{subsec:tb:ml:cnn}
-\agentinfo{
-Neuron, warstwa, funkcje aktywacji, propagacja wsteczna, optymalizator Adam.
-Warstwy splotowe i transponowane sploty, normalizacja wsadowa, dropout, architektura U-Net z połączeniami skrótowymi.
-}
+
+Neuron oblicza $h_j=a\bigl(\sum_{i}w_{ji}x_i+b_j\bigr)$, gdzie $w_{ji}$ są wagami, $b_j$ przesunięciem, a $a$ nieliniową funkcją aktywacji; warstwy neuronów złożone kolejno tworzą perceptron wielowarstwowy (MLP).
+W pracy występują funkcje $\mathrm{ReLU}(u)=\max(0,u)$, $\mathrm{LeakyReLU}_{\alpha}(u)=\max(\alpha u,u)$ z małym $\alpha\in(0,1)$, $\operatorname{sigmoid}(u)=1/(1+e^{-u})$ o wartościach w $(0,1)$, $\tanh$ o wartościach w $(-1,1)$ oraz softmax $\hat{y}_k=e^{u_k}/\sum_{l}e^{u_l}$, zamieniająca wektor $\mathbf{u}$ na rozkład prawdopodobieństwa.
+Wagi dobiera się metodą propagacji wstecznej, która iteracyjnie zmienia je tak, by zmniejszyć miarę różnicy między wyjściem sieci a wartością docelową~\cite{rumelhart_learning_1986}; gradient straty~\eqref{eq:tb:ml:risk} oblicza się regułą łańcuchową stosowaną od wyjścia do wejścia sieci, co jest szczególnym przypadkiem automatycznego różniczkowania~\cite{goodfellow2016deep}, szacując go na losowych paczkach próbek, a przejście przez cały zbiór uczący nazywa się epoką.
+Optymalizator Adam~\cite{kingma2014adam} aktualizuje wagi na podstawie wygładzonych wykładniczo estymat pierwszego i drugiego momentu gradientu $\mathbf{g}_t$ (zapis za~\cite{goodfellow2016deep}):
+\begin{equation}\label{eq:tb:ml:adam}
+\mathbf{m}_t=\beta_1\mathbf{m}_{t-1}+(1-\beta_1)\mathbf{g}_t,\quad
+\mathbf{v}_t=\beta_2\mathbf{v}_{t-1}+(1-\beta_2)\mathbf{g}_t^{2},\quad
+\mathbf{w}_t=\mathbf{w}_{t-1}-\eta\,\frac{\hat{\mathbf{m}}_t}{\sqrt{\hat{\mathbf{v}}_t}+\epsilon},
+\end{equation}
+gdzie działania wykonuje się po składowych, $\hat{\mathbf{m}}_t=\mathbf{m}_t/(1-\beta_1^{t})$ i $\hat{\mathbf{v}}_t=\mathbf{v}_t/(1-\beta_2^{t})$ są estymatami z korektą obciążenia, $\eta$ jest współczynnikiem uczenia, $\beta_1,\beta_2\in[0,1)$ współczynnikami zaniku (domyślnie $0{,}9$ i $0{,}999$), a $\epsilon$ małą stałą.
+
+Sieci splotowe (CNN) zaprojektowano do rozpoznawania obrazów, w których kształty dwuwymiarowe podlegają dużej zmienności~\cite{lecun1998gradient}.
+W warstwie splotowej każdy neuron oblicza ważoną sumę wartości z okna $q\times q$ wokół danego położenia, przy czym te same wagi (jądro splotu) są używane we wszystkich położeniach, a okno przesuwa się z krokiem $s$~\cite{goodfellow2016deep}.
+W generatorze modelu pix2pix sploty z krokiem $s=2$ zmniejszają rozdzielczość mapy cech dwukrotnie w koderze, a w dekoderze dwukrotnie ją zwiększają~\cite{isola_image_2017}; w generatorze z rozdziału~\ref{chapter:dl_error_reduction} tę drugą operację realizuje splot transponowany~\cite{werner_deep_learning_manuscript}.
+Normalizacja wsadowa~\cite{ioffe_batch_2015} standaryzuje aktywacje średnią i wariancją z bieżącej paczki, po czym skaluje je i przesuwa uczonymi parametrami.
+Dropout~\cite{srivastava_dropout_2014} losowo usuwa podczas uczenia neurony wraz z ich połączeniami, co zapobiega nadmiernemu współdopasowaniu neuronów i ogranicza przeuczenie; podczas testu używa się zwykle pełnej sieci.
+Sieć U-Net~\cite{ronneberger_u-net_2015} składa się ze ścieżki kodującej, w której rozdzielczość map cech maleje, a liczba kanałów rośnie, oraz niemal symetrycznej ścieżki dekodującej, która odtwarza rozdzielczość; mapy cech z każdego poziomu kodera są dołączane do map odpowiadającego mu poziomu dekodera.
+Takie połączenia skrótowe pozwalają przekazać informację niskiego poziomu z pominięciem najniższej rozdzielczości, co jest pożądane w translacji obraz--obraz, gdy wejście i wyjście mają wiele wspólnych szczegółów~\cite{isola_image_2017}, jak w rozdziale~\ref{chapter:dl_error_reduction}.
 
 \subsection{Generatywne sieci przeciwstawne}\label{subsec:tb:ml:gan}
-\agentinfo{
-Gra dwuosobowa generatora i dyskryminatora, funkcja wartości.
-Warunkowe GAN, model pix2pix i dyskryminator PatchGAN, funkcja straty łącząca entropię krzyżową i MAE.
-}
+
+Generatywna sieć przeciwstawna (GAN)~\cite{goodfellow2014generative} składa się z generatora $\netG$, który przekształca wektor losowy $\mathbf{z}\sim p_{\mathbf{z}}$ w próbkę $\netG(\mathbf{z})$, i dyskryminatora $\netD$, który zwraca prawdopodobieństwo, że próbka pochodzi ze zbioru danych, a nie z generatora.
+Obie sieci uczy się jednocześnie w dwuosobowej grze minimaksowej z funkcją wartości $V$:
+\begin{equation}\label{eq:tb:ml:gan}
+\min_{\netG}\max_{\netD}V(\netD,\netG),\qquad
+V(\netD,\netG)=\mathbb{E}_{\mathbf{y}\sim p_{\mathrm{data}}}\bigl[\ln\netD(\mathbf{y})\bigr]+\mathbb{E}_{\mathbf{z}\sim p_{\mathbf{z}}}\bigl[\ln\bigl(1-\netD(\netG(\mathbf{z}))\bigr)\bigr].
+\end{equation}
+Dyskryminator, maksymalizując $V$, minimalizuje stratę BCE~\eqref{eq:tb:ml:bce} z etykietą $1$ dla próbek prawdziwych i $0$ dla wygenerowanych.
+W przestrzeni dowolnych funkcji $\netG$ i $\netD$ gra ma jedno rozwiązanie, w którym rozkład próbek generatora pokrywa się z rozkładem danych, a dyskryminator zwraca wszędzie $1/2$; Goodfellow i in. proponują ponadto, by generator maksymalizował $\ln\netD(\netG(\mathbf{z}))$ zamiast minimalizować $\ln(1-\netD(\netG(\mathbf{z})))$, co nie zmienia punktu stałego, a daje silniejszy gradient na początku uczenia~\cite{goodfellow2014generative}.
+
+\begin{figure}[htb]
+\centering
+\input{figures/chp_theoretical_background/tb06_pix2pix.tex}
+\caption[Schemat uczenia modelu pix2pix]{Schemat uczenia modelu pix2pix. Generator $\netG$ (U-Net, linie przerywane oznaczają połączenia skrótowe) przekształca obraz zniekształcony $\mathbf{x}$ w obraz $\netG(\mathbf{x})$. Dyskryminator $\netD$ (PatchGAN) ocenia pary $(\mathbf{x},\netG(\mathbf{x}))$ z etykietą $0$ i $(\mathbf{x},\mathbf{y})$ z etykietą $1$, zwracając decyzję dla każdej łaty. Źródło: opracowanie własne na podstawie~\cite{isola_image_2017}.}
+\label{fig:tb:ml:pix2pix}
+\end{figure}
+
+W warunkowej sieci GAN informację warunkującą $\mathbf{x}$ podaje się na wejście zarówno generatora, jak i dyskryminatora~\cite{mirza2014conditional}, a funkcja wartości przyjmuje postać $V_{\mathrm{c}}(\netD,\netG)=\mathbb{E}_{\mathbf{x},\mathbf{y}}[\ln\netD(\mathbf{x},\mathbf{y})]+\mathbb{E}_{\mathbf{x},\mathbf{z}}[\ln(1-\netD(\mathbf{x},\netG(\mathbf{x},\mathbf{z})))]$.
+Model pix2pix~\cite{isola_image_2017} stosuje ją do translacji obraz--obraz: warunkiem jest obraz wejściowy $\mathbf{x}$, a generator ma zwrócić obraz docelowy $\mathbf{y}$ (rys.~\ref{fig:tb:ml:pix2pix}).
+Funkcja celu łączy składnik przeciwstawny ze stratą L1 o wadze $\lambda$:
+\begin{equation}\label{eq:tb:ml:pix2pix}
+\netG^{*}=\arg\min_{\netG}\max_{\netD}\Bigl(V_{\mathrm{c}}(\netD,\netG)+\lambda\,\mathbb{E}_{\mathbf{x},\mathbf{y},\mathbf{z}}\bigl[\ell_{\mathrm{L1}}\bigl(\netG(\mathbf{x},\mathbf{z}),\mathbf{y}\bigr)\bigr]\Bigr).
+\end{equation}
+Składnik L1 wymusza zgodność z obrazem docelowym w zakresie niskich częstotliwości przestrzennych, a składnik przeciwstawny ostrość struktury lokalnej, której sama strata L1 nie odtwarza~\cite{isola_image_2017}.
+Generatorem jest sieć U-Net, a dyskryminator PatchGAN jest siecią w pełni splotową, która dla pary $(\mathbf{x},\mathbf{y})$ zwraca prawdopodobieństwo dla każdego fragmentu (łaty) obrazu, a jego wynikiem jest średnia tych wartości; ograniczenie do struktury lokalnej zmniejsza liczbę parametrów i pozwala stosować dyskryminator do obrazów dowolnego rozmiaru~\cite{isola_image_2017}.
+Isola i in. zauważyli, że generator uczy się pomijać wektor $\mathbf{z}$, dlatego losowość wprowadza w pix2pix jedynie dropout aktywny również podczas wnioskowania, a wyniki dla tego samego wejścia mogą się nieznacznie różnić między wywołaniami~\cite{isola_image_2017}.
+W eksperymentach z rozdziału~\ref{chapter:dl_error_reduction} i preprintu~\cite{werner_deep_learning_manuscript} strata generatora jest sumą straty BCE dla wyjścia dyskryminatora i błędu MAE względem obrazu odniesienia z wagami $1$ i $100$, co odpowiada $\lambda=100$ we wzorze~\eqref{eq:tb:ml:pix2pix}; obie sieci uczy się optymalizatorem Adam~\eqref{eq:tb:ml:adam}.
+Wartość $\lambda=100$ podają też Isola i in., przy czym w ich zapisie składnik L1 jest normą $\|\mathbf{y}-\netG(\mathbf{x},\mathbf{z})\|_1$, a nie średnią po pikselach~\cite{isola_image_2017}.
 
 \subsection{Kwantowe uczenie maszynowe}\label{subsec:tb:ml:qml}
 \agentinfo{
-Wariacyjne obwody kwantowe, kodowanie danych, modele hybrydowe kwantowo-klasyczne, kwantowe mapy cech i jądra.
-Potrzebne w rozdziałach 7 i 8: sieć klasyczna przewidująca kąty obwodu o stałej strukturze, autoenkoder hybrydowy, trening z modelem szumu, odczyt z wartości oczekiwanych i ze skończonej liczby pomiarów.
+Wersja zwięzła; zakres może wymagać rozszerzenia po ustaleniu ostatecznego kształtu rozdziału 7 (np. opis wariantu dostrajania na sprzęcie z gradientem z symulatora).
 }
 
+Kwantowe uczenie maszynowe (QML) obejmuje modele, w których część obliczeń wykonuje obwód kwantowy~\cite{schuld2019qml,benedetti2019vqc}.
+Podstawowym modelem jest wariacyjny obwód kwantowy (VQC): sparametryzowany obwód $U(\boldsymbol{\theta})$ o ustalonej strukturze (ansatz), którego parametry, np. kąty $\boldsymbol{\theta}$ bramek obrotu (podrozdział~\ref{subsec:tb:gates}), dobiera klasyczny optymalizator przez minimalizację funkcji kosztu~\cite{cerezo_variational_2021}.
+Dane klasyczne koduje się w stanie kwantowym, np. w kątach obrotów pojedynczych kubitów albo w amplitudach stanu~\cite{benedetti2019vqc}; kodowaniami są też reprezentacje obrazów z podrozdziału~\ref{sec:tb:qimg}.
+Wyjściem modelu są wartości oczekiwane obserwabli $\langle O\rangle_{\boldsymbol{\theta}}=\bra{0}^{\otimes n}U^{\dagger}(\boldsymbol{\theta})\,O\,U(\boldsymbol{\theta})\ket{0}^{\otimes n}$ albo prawdopodobieństwa $\prob(\ket{b})$ stanów bazowych, szacowane na urządzeniu z $\nshots$ powtórzeń obwodu (podrozdział~\ref{subsec:tb:measurement}).
+Kodowanie danych w stanie $\ket{\psi(\mathbf{x})}$ można traktować jako nieliniową mapę cech w przestrzeni Hilberta, a iloczyny skalarne takich stanów jako jądro dla klasycznych metod jądrowych, np. maszyny wektorów nośnych~\cite{schuld2019qml}; często stosuje się jądro $\mathcal{K}(\mathbf{x},\mathbf{x}')=|\braket{\psi(\mathbf{x})|\psi(\mathbf{x}')}|^{2}$~\cite{havlicek_supervised_2019,benedetti2019vqc}, w tej pracy nieużywane.
+
+\Gls{hybrid-model} łączy obwód kwantowy z klasycznym przetwarzaniem wstępnym, które zamienia dane na parametry obwodu, i klasycznym przetwarzaniem końcowym wyników pomiaru; wszystkie te składniki mogą mieć uczone parametry~\cite{benedetti2019vqc}, a parametry dobiera się iteracyjnie, minimalizując stratę~\eqref{eq:tb:ml:risk}~\cite{mitarai_quantum_2018}.
+W rozdziałach~\ref{chapter:learned_encoding} i~\ref{chapter:classification} obwód nie ma własnych parametrów: sieć klasyczna $\Theta_{\mathbf{w}}$ wyznacza dla każdej próbki kąty $\boldsymbol{\theta}=\Theta_{\mathbf{w}}(\mathbf{x})$ obwodu o stałej strukturze, a wyjście modelu powstaje z wyników pomiaru przez klasyczne przetwarzanie końcowe (rys.~\ref{fig:tb:ml:hybrid}).
+Uczone są więc tylko wagi $\mathbf{w}$, a obwód jest ustaloną warstwą, nieliniową względem $\boldsymbol{\theta}$.
+Gdy celem jest odtworzenie wejścia, model jest autoenkoderem hybrydowym: koderem jest sieć $\Theta_{\mathbf{w}}$ wraz z obwodem, reprezentacją pośrednią stan kwantowy, a dekoderem pomiar i przetwarzanie końcowe, np. odczyt intensywności pikseli z prawdopodobieństw stanów bazowych.
+
+\begin{figure}[htb]
+\centering
+\input{figures/chp_theoretical_background/tb06_hybrid.tex}
+\caption[Hybrydowy model kwantowo-klasyczny z obwodem o stałej strukturze]{Hybrydowy model kwantowo-klasyczny z obwodem o stałej strukturze. Sieć klasyczna $\Theta_{\mathbf{w}}$ wyznacza kąty $\boldsymbol{\theta}$ obwodu $U(\boldsymbol{\theta})$; blok $\channel$ oznacza szum (model szumu w symulatorze albo szum urządzenia). Uczone są tylko wagi $\mathbf{w}$. Źródło: opracowanie własne.}
+\label{fig:tb:ml:hybrid}
+\end{figure}
+
+Gradient straty względem $\mathbf{w}$ wymaga pochodnych wyjścia obwodu względem $\boldsymbol{\theta}$.
+W symulatorze przechowującym wektor stanu lub macierz gęstości wyznacza się je automatycznym różniczkowaniem, a na urządzeniu regułą przesunięcia parametru~\cite{mitarai_quantum_2018,schuld_evaluating_2019}; dla bramki $\exp(-\mathrm{i}\theta_j\gen/2)$, której generator $\gen$ ma wartości własne $\pm1$ (np. macierz Pauliego),
+\begin{equation}\label{eq:tb:ml:shift}
+\frac{\partial\langle O\rangle_{\boldsymbol{\theta}}}{\partial\theta_j}=\frac{1}{2}\Bigl(\langle O\rangle_{\boldsymbol{\theta}+\frac{\pi}{2}\mathbf{e}_j}-\langle O\rangle_{\boldsymbol{\theta}-\frac{\pi}{2}\mathbf{e}_j}\Bigr),
+\end{equation}
+gdzie $\mathbf{e}_j$ jest $j$-tym wektorem bazy standardowej; każda składowa gradientu wymaga więc dwóch oszacowań wartości oczekiwanej na obwodach z przesuniętym parametrem, obarczonych szumem.
+Uczenie z modelem szumu polega na zastąpieniu w symulatorze ewolucji unitarnej kanałami kwantowymi (podrozdział~\ref{subsec:tb:noise:channels}), np. depolaryzującym lub tłumienia fazy po każdej warstwie bramek (podrozdział~\ref{subsec:tb:noise:models}); tak nauczony model jest dopasowany do założonego modelu szumu, a nie do urządzenia, którego szum może mieć inną strukturę i zmieniać się między kalibracjami.
+Ponadto uczenie prowadzi się zwykle na dokładnych prawdopodobieństwach lub wartościach oczekiwanych (granica $\nshots\to\infty$), a na urządzeniu dostępne są tylko estymaty $\tilde{\prob}$ obarczone błędem statystycznym rzędu $1/\sqrt{\nshots}$; szum śrutowy i szum urządzenia są w rozdziałach~\ref{chapter:learned_encoding} i~\ref{chapter:classification} analizowane jako osobne składniki błędu.
+
 \subsection{Symetrie i grupy Liego w sieciach neuronowych}\label{subsec:tb:ml:lie}
-\agentinfo{
-Ekwiwariancja i sieci ekwiwariantne w zarysie.
-Działanie grupy Liego w przestrzeni cech jako strukturalna transformacja wewnątrz sieci.
-Związek z kwantowym uczeniem maszynowym: parametry w algebrze, mapa wykładnicza, działanie elementu grupy.
-Odwołać się do podrozdziału o bramkach jako elementach grup Liego.
-Krótko: temat dotyczy tylko rozdziału 9.
-}
+
+Regularności wynikające ze struktury danych, w tym symetrie, można wbudować w architekturę sieci; wspólne ramy dla takich konstrukcji daje geometryczne uczenie głębokie~\cite{bronstein2021geometric}.
+Jeśli grupa $G$ działa na przestrzeni wejść przez przekształcenia $T_g$, a na przestrzeni cech przez $T'_g$, to odwzorowanie $f$ jest \glsdisp{equivariance}{ekwiwariantne}, gdy $f(T_g\mathbf{x})=T'_g f(\mathbf{x})$ dla wszystkich $g\in G$ i $\mathbf{x}$, oraz niezmiennicze, gdy $T'_g$ jest tożsamością.
+Ekwiwariancję warstwy splotowej względem przesunięć rozszerzają sieci G-CNN na dyskretne grupy przesunięć, obrotów i odbić~\cite{cohen2016gcnn}, sterowalne sieci splotowe na grupę euklidesową $E(2)$ i jej podgrupy~\cite{weiler2019general}, a warstwa LieConv na grupy Liego o surjektywnej mapie wykładniczej, działające na danych ciągłych~\cite{finzi2020lieconv}; symetrię zadania można też wbudować w kwantowe sieci neuronowe~\cite{nguyen2024_eqnn}.
+
+W preprincie Raubitzka i in.~\cite{raubitzek_lie_group_manuscript}, omawianym w rozdziale~\ref{chapter:noise_structure}, grupa Liego nie jest symetrią danych, lecz strukturą narzuconą na przekształcenie cech wewnątrz sieci, bez wymagania ekwiwariancji.
+Cechy dzieli się na bloki $\mathbf{h}_i\in\mathbb{K}^{d}$ ($\mathbb{K}=\mathbb{R}$ albo $\mathbb{C}$), a warstwa działania grupy przekształca każdy blok macierzą z grupy $G$, np. $\mathrm{SO}(3)$, $\mathrm{SU}(2)$ lub $\mathrm{SU}(3)$:
+\begin{equation}\label{eq:tb:ml:lie}
+\mathbf{h}_i\mapsto g_i\mathbf{h}_i,\qquad g_i=\exp\Bigl(\sum_{a=1}^{\dim\liealg{g}}c_{i,a}B_a\Bigr)\in G,
+\end{equation}
+gdzie $B_a$ są macierzami bazy algebry Liego $\liealg{g}$ (podrozdział~\ref{subsec:tb:lie}), a uczonymi parametrami są współrzędne $c_{i,a}$.
+Parametryzacja przez algebrę gwarantuje, że $g_i$ należy do grupy przy dowolnych współrzędnych, a gradient przechodzi przez mapę wykładniczą, więc warstwę uczy się zwykłą propagacją wsteczną.
+Ta sama konstrukcja występuje w obwodach kwantowych, gdzie bramka obrotu jest eksponentą elementu algebry $\liealg{su}(2)$, a obwód wariacyjny złożeniem takich elementów grupy; warstwę działania grupy można więc traktować jako klasyczny odpowiednik tego mechanizmu~\cite{raubitzek_lie_group_manuscript}.
+Konstrukcja dopuszcza opcjonalne addytywne zaburzenie elementu algebry, wzorowane na zaburzeniach generatorów bramek kwantowych, omówione w rozdziale~\ref{chapter:noise_structure}.

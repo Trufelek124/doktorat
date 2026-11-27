@@ -1,0 +1,81 @@
+% !TeX root = ./../../main.tex
+% Rysunek fig:cls:pdu-curves: dokładność modelu M2 (c7_f200_q3_b13_d2) w funkcji siły jednej składowej szumu,
+% bez korekty odczytu i z korektą w wariantach FZ i AR (eksperyment symulacyjny, 2000 próbek testowych).
+% Wykres odtworzony w pgfplots z plików danych; żadna wartość nie została odczytana z rysunków.
+% Dane: figures/chp_classification/cls_pdu_m2_<składowa>_<pomiary>.csv, czyli niezmienione kopie plików
+%   eksperymenty/krzywe-degradacji/klasyfikator/wyniki/pgfplots/c7_f200_q3_b13_d2__<składowa>__<pomiary>.csv
+%   (składowa: odstrojenie, tlumienie_fazy, depolaryzacja; pomiary: 1024 albo dokladne).
+% Kolumny: sila, dokl_bez (bez korekty), dokl_a2 (wariant FZ), dokl_b2 (wariant AR); pierwszy wiersz (sila = 0)
+%   to brak szumu obwodu i jest pomijany, bo oś jest logarytmiczna.
+% Poziom ibm_fez modelu M2: odstrojenie 0,0012756 rad, depolaryzacja 0,0029837, tłumienie fazy 0 (kolumna ibm_fez = 1).
+% Najlepsza stała predykcja: 0,1555 (wyniki/kontrole.csv, kolumna dokl_stala_predykcja).
+% Wymaga: pgfplots z biblioteką groupplots i biblioteki calc (wczytane w config/my-settings.tex).
+\begin{tikzpicture}
+\pgfplotsset{
+  clsbez/.style={black, thick, mark=*, mark size=1.5pt},
+  clsexact/.style={black!45, line width=1.3pt, no marks},
+  clsfz/.style={black, dashed, mark=square, mark size=1.6pt, mark options={solid}},
+  clsar/.style={black, densely dashdotted, mark=triangle, mark size=2.2pt, mark options={solid}},
+}
+\begin{groupplot}[
+  group style={group size=3 by 1, horizontal sep=0.45cm, y descriptions at=edge left},
+  width=0.385\textwidth,
+  height=4.5cm,
+  xmode=log,
+  xmin=0.001, xmax=0.7,
+  xtick={0.001,0.01,0.1},
+  ymin=0.05, ymax=0.47,
+  ytick={0.1,0.2,0.3,0.4},
+  ymajorgrids,
+  grid style={black!15},
+  tick label style={font=\footnotesize},
+  label style={font=\footnotesize},
+  title style={font=\footnotesize, yshift=-1mm},
+  yticklabel style={/pgf/number format/.cd, fixed, fixed zerofill, precision=1, use comma},
+  legend style={font=\scriptsize, draw=black!40, fill=white, inner sep=2pt, /tikz/every even column/.append style={column sep=3mm}},
+  legend cell align=left,
+  legend columns=4,
+]
+% ---------- (a) odstrojenie ----------
+\nextgroupplot[
+  title={(a) odstrojenie},
+  xlabel={$\cohangle$ [rad na blok]},
+  ylabel={dokładność},
+  legend to name=clspdulegend,
+]
+\draw[black!40, thin, densely dotted] (axis cs:0.001,0.1555) -- (axis cs:0.7,0.1555);
+\draw[black!55, thin, densely dashed] (axis cs:0.0012756,0.05) -- (axis cs:0.0012756,0.47);
+\node[font=\scriptsize, rotate=90, anchor=south west, inner sep=1.5pt] at (axis cs:0.0021,0.06) {ibm\_fez};
+\addplot[clsexact, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_bez] {figures/chp_classification/cls_pdu_m2_odstrojenie_dokladne.csv};
+\addlegendentry{bez korekty, wartości dokładne}
+\addplot[clsbez, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_bez] {figures/chp_classification/cls_pdu_m2_odstrojenie_1024.csv};
+\addlegendentry{bez korekty}
+\addplot[clsfz, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_a2] {figures/chp_classification/cls_pdu_m2_odstrojenie_1024.csv};
+\addlegendentry{wariant FZ}
+\addplot[clsar, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_b2] {figures/chp_classification/cls_pdu_m2_odstrojenie_1024.csv};
+\addlegendentry{wariant AR}
+% ---------- (b) tłumienie fazy ----------
+\nextgroupplot[
+  title={(b) tłumienie fazy},
+  xlabel={$\qphase$},
+]
+\draw[black!40, thin, densely dotted] (axis cs:0.001,0.1555) -- (axis cs:0.7,0.1555);
+\addplot[clsexact, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_bez] {figures/chp_classification/cls_pdu_m2_tlumienie_fazy_dokladne.csv};
+\addplot[clsbez, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_bez] {figures/chp_classification/cls_pdu_m2_tlumienie_fazy_1024.csv};
+\addplot[clsfz, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_a2] {figures/chp_classification/cls_pdu_m2_tlumienie_fazy_1024.csv};
+\addplot[clsar, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_b2] {figures/chp_classification/cls_pdu_m2_tlumienie_fazy_1024.csv};
+% ---------- (c) depolaryzacja ----------
+\nextgroupplot[
+  title={(c) depolaryzacja},
+  xlabel={$\qdep$},
+]
+\draw[black!40, thin, densely dotted] (axis cs:0.001,0.1555) -- (axis cs:0.7,0.1555);
+\draw[black!55, thin, densely dashed] (axis cs:0.0029837,0.05) -- (axis cs:0.0029837,0.47);
+\node[font=\scriptsize, rotate=90, anchor=south west, inner sep=1.5pt] at (axis cs:0.0048,0.06) {ibm\_fez};
+\addplot[clsexact, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_bez] {figures/chp_classification/cls_pdu_m2_depolaryzacja_dokladne.csv};
+\addplot[clsbez, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_bez] {figures/chp_classification/cls_pdu_m2_depolaryzacja_1024.csv};
+\addplot[clsfz, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_a2] {figures/chp_classification/cls_pdu_m2_depolaryzacja_1024.csv};
+\addplot[clsar, skip coords between index={0}{1}] table[col sep=comma, x=sila, y=dokl_b2] {figures/chp_classification/cls_pdu_m2_depolaryzacja_1024.csv};
+\end{groupplot}
+\node[anchor=north] at ($(group c2r1.south)+(0,-1.05cm)$) {\pgfplotslegendfromname{clspdulegend}};
+\end{tikzpicture}

@@ -1,0 +1,92 @@
+% Schemat uczenia modelu pix2pix: generator U-Net i dyskryminator PatchGAN.
+% Rysunek własny (PHD-TS-17); wstawiany przez \input w chapters/theoretical_background_06_ML.tex.
+\begin{tikzpicture}[
+  font=\small,
+  >={Stealth[length=2mm]},
+  img/.style={draw, minimum size=1.1cm, inner sep=0pt},
+  enc/.style={draw, fill=blue!15, minimum width=0.32cm, inner sep=0pt},
+  dec/.style={draw, fill=violet!15, minimum width=0.32cm, inner sep=0pt},
+  flow/.style={->, thick},
+  skipc/.style={->, dashed, gray!70!black},
+  lossn/.style={draw, rounded corners=2pt, fill=orange!20, inner sep=3pt},
+  lbl/.style={font=\footnotesize, align=center},
+]
+% siatka pikseli wewnątrz obrazu (4x4)
+\def\tbsixgrid#1{%
+  \foreach \k in {1,2,3} {%
+    \draw[gray!55] ($(#1.south west)+(0.275*\k,0)$) -- ($(#1.north west)+(0.275*\k,0)$);
+    \draw[gray!55] ($(#1.south west)+(0,0.275*\k)$) -- ($(#1.south east)+(0,0.275*\k)$);
+  }%
+}
+
+% obraz wejściowy (zniekształcony)
+\node[img, fill=gray!30] (x) at (0,0) {};
+\tbsixgrid{x}
+\fill[black!55] (-0.1375,0.1375) circle (0.22);
+\fill[black!35] (0.275,-0.275) rectangle (0.55,0);
+\fill[black!20] (-0.55,-0.55) rectangle (-0.275,-0.275);
+\node[lbl, below=2pt of x] {$\mathbf{x}$};
+
+% generator U-Net
+\node[enc, minimum height=1.5cm]  (e1) at (1.5,0) {};
+\node[enc, minimum height=1.0cm]  (e2) at (2.1,-0.45) {};
+\node[enc, minimum height=0.6cm]  (e3) at (2.7,-0.8) {};
+\node[enc, minimum height=0.35cm, fill=blue!35] (bn) at (3.3,-1.05) {};
+\node[dec, minimum height=0.6cm]  (d3) at (3.9,-0.8) {};
+\node[dec, minimum height=1.0cm]  (d2) at (4.5,-0.45) {};
+\node[dec, minimum height=1.5cm]  (d1) at (5.1,0) {};
+\foreach \a/\b in {e1/e2, e2/e3, e3/bn, bn/d3, d3/d2, d2/d1} {
+  \draw[->] (\a.east) -- (\b.west);
+}
+\draw[skipc] (e1.north) to[out=60, in=120] (d1.north);
+\draw[skipc] (e2.north) to[out=60, in=120] (d2.north);
+\draw[skipc] (e3.north) to[out=60, in=120] (d3.north);
+\node[lbl] at (3.3,-1.75) {generator $\netG$ (U-Net)};
+\node[font=\scriptsize, text=gray!70!black] at (3.3,1.9) {połączenia skrótowe};
+
+\draw[flow] (x.east) -- (e1.west);
+
+% wynik generatora i obraz odniesienia
+\node[img, fill=gray!15] (gx) at (6.5,0) {};
+\tbsixgrid{gx}
+\fill[black!55] (6.3625,0.1375) circle (0.22);
+\node[lbl, below=2pt of gx] {$\netG(\mathbf{x})$};
+\draw[flow] (d1.east) -- (gx.west);
+
+\node[img, fill=gray!10] (y) at (6.5,-2.3) {};
+\tbsixgrid{y}
+\fill[black!60] (6.3625,-2.1625) circle (0.22);
+\node[lbl, below=2pt of y] {$\mathbf{y}$};
+
+% składnik L1
+\coordinate (bg) at (8.0,0);
+\coordinate (by) at (8.0,-2.3);
+\draw[thick] (gx.east) -- (bg);
+\draw[thick] (y.east) -- (by);
+\fill (bg) circle (1.5pt);
+\fill (by) circle (1.5pt);
+\node[lossn] (l1) at (8.0,-1.15) {$\lambda\,\ell_{\mathrm{L1}}$};
+\draw[flow] (bg) -- (l1.north);
+\draw[flow] (by) -- (l1.south);
+
+% dyskryminator PatchGAN
+\draw[fill=green!15] (9.0,0.25) -- (10.4,-0.6) -- (10.4,-1.7) -- (9.0,-2.55) -- cycle;
+\node[lbl] at (9.65,-1.15) {$\netD$\\[-1pt]{\scriptsize PatchGAN}};
+\draw[flow] (bg) -- node[above, font=\scriptsize] {0} (9.0,0);
+\draw[flow] (by) -- node[below, font=\scriptsize] {1} (9.0,-2.3);
+\draw[flow] (x.north) |- (9.7,2.3) -- (9.7,-0.175);
+\node[font=\scriptsize, above] at (5.0,2.3) {warunek $\mathbf{x}$};
+
+% mapa decyzji dla łat
+\foreach \i/\j/\c in {0/0/30, 1/0/60, 2/0/20, 0/1/50, 1/1/15, 2/1/40, 0/2/25, 1/2/55, 2/2/35} {
+  \fill[black!\c] ({10.9+0.3*\i},{-1.6+0.3*\j}) rectangle ++(0.3,0.3);
+}
+\foreach \k in {0,1,2,3} {
+  \draw ({10.9+0.3*\k},-1.6) -- ++(0,0.9);
+  \draw (10.9,{-1.6+0.3*\k}) -- ++(0.9,0);
+}
+\draw[flow] (10.4,-1.15) -- (10.9,-1.15);
+\node[lbl, below] at (11.35,-1.65) {decyzje\\[-1pt]dla łat};
+\node[lossn] (bce) at (12.75,-1.15) {$\ell_{\mathrm{BCE}}$};
+\draw[flow] (11.8,-1.15) -- (bce.west);
+\end{tikzpicture}

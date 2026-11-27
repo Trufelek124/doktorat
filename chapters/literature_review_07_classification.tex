@@ -1,0 +1,83 @@
+% !TeX root = ./../main.tex
+
+\section[Klasyfikacja obrazów z użyciem komputerów kwantowych a szum]{Klasyfikacja obrazów z użyciem komputerów\\ kwantowych a szum}\label{sec:lr:classification}
+\agentinfo{
+Sekcja jest tłem rozdziału 8 (wpływ szumu i redukcji błędów na klasyfikację) i, w ostatnim akapicie, rozdziału 9; definicje modeli hybrydowych i miar są w podrozdziale 2.6 \agentref{chapters/theoretical_background_06_ML.tex}.
+Literatura i zakres wyszukiwania (zadanie PHD-TS-23): \agentref{eksperymenty/przeglad-literatury/sekcja-3.7-klasyfikacja.md}; wpisy pod znacznikiem LR-3.7 w biblio.bib.
+Sekcja napisana w zadaniu PHD-TS-36 (2026-11-27); liczby sprawdzono ponownie w źródłach, a wersję źródła podaje komentarz przy każdym zdaniu z liczbą.
+Trzy pozycje (shen_classification_2024, bowles_better_2024, lee_some_2022) oraz raubitzek_lie_group_manuscript to preprinty i tak są nazywane.
+Odporność klasyfikatora z rozdziału 8 na skurczenie wektora Blocha przedstawiać jako zgodną z pracą larose_robust_2020, a nie jako nową.
+Wniosku z punktu 4.2 notatki o niezmienniczości odczytu azymutalnego nie przeniesiono: nie ma źródła, a w części dotyczącej tłumienia fazy jest sprzeczny ze wzorem eq:cls:noise-frame rozdziału 8, według którego tłumienie fazy zmienia azymut.
+Pracę współautorską potempa_frqi_pairs_2025 przywołano jednym zdaniem jako pracę z udziałem autora rozprawy; jego rola nie jest ustalona.
+Po recenzji (PHD-TS-90, 2026-11-27): tytuł sekcji ma argument opcjonalny z pełnym brzmieniem (spis treści, nagłówki stron) i ręczne złamanie wiersza w tytule, bo bez niego wystawał poza margines; brzmienia nie zmieniono.
+Wynik pracy shen_classification_2024 podano jako najlepszy (najwyżej około 40 procent), a przy ustawieniach środowiska wykonawczego dopisano wartości podane przez autorów, bez interpretacji, bo praca nie opisuje, co oznacza poziom resilience 1.
+Pracę li_ensemble-learning_2024 z rezerwy notatki (symulacja; czytana w wersji arXiv) zacytowano dla oszczędności miejsca tylko w elemencie (d) sekcji 3.8, a zdanie wprowadzające sekcję usunięto (przebieg wywodu podaje sekcja 3.1); tabelę przerobiono na styl pozostałych tabel rozdziału, a zdanie o technice najbliższej korekcie typu PDU ma zakres (techniki z tabeli).
+Do decyzji autora:
+(1) jak sformułować element (d) luki w sekcji 3.8: w tekście podano tylko, co oceniano i na jakich danych;
+(2) czy zdanie oznaczone jako wniosek własny (szum jednakowo skalujący wielkości porównywane przy decyzji) ma zostać w przeglądzie, czy przejść do dyskusji rozdziału 8;
+(3) jaka była rola autora w pracy potempa_frqi_pairs_2025 i czy przywołanie jej jednym zdaniem wystarcza.
+}
+
+\paragraph{Skala i porównania z modelami klasycznymi.}
+Klasyfikatory obrazów uruchamiane na urządzeniach działają w zestawionych pracach na co najwyżej kilkudziesięciu cechach i kilkunastu kubitach (tabela~\ref{tab:lr:cls:mitigation}).
+W preprincie Shena i~in. przybliżone stany FRQI obrazów $32\times32$ na 11 kubitach dały na procesorze nadprzewodzącym dokładność najwyżej około 40\% dla dziesięciu klas (100 obrazów testowych), wobec $89{,}48\%$ maszyny wektorów nośnych uczonej na dokładnych stanach FRQI~\cite{shen_classification_2024}.
+% ŹRÓDŁO: shen_classification_2024, sek. III.A (,,the best test accuracy of about 40%''), rys. 4 oraz dod. A i B (ibmq-kolkata, pierwsze 100 obrazów testowych Fashion-MNIST, 11 kubitów; SVM na dokładnych stanach FRQI 89,48%), arXiv:2403.02405v1.
+Obrazy FRQI klasyfikuje też kwantowa sieć rekurencyjna z pracy z~2025~r. powstałej z udziałem autora rozprawy~\cite{potempa_frqi_pairs_2025}, bez analizy szumu.
+W obu zebranych porównaniach prowadzonych według jednolitego protokołu lepiej wypadły modele klasyczne.
+W preprincie Bowlesa i~in. dwanaście modeli kwantowych zbadano w symulacji na 160 zbiorach z sześciu zadań klasyfikacji binarnej i klasyczne modele użyte bez strojenia były od nich skuteczniejsze~\cite{bowles_better_2024}.
+W pracy~\cite{e25070992} klasyfikator wariacyjny i estymator jądra kwantowego przewyższały modele liniowe, lecz ustępowały metodom wzmacniania gradientowego.
+% ŹRÓDŁO: bowles_better_2024, streszczenie, arXiv:2403.07059v2; e25070992, streszczenie (Crossref).
+Słabszy od sieci klasycznej wynik klasyfikatora z rozdziału~\ref{chapter:classification} nie odbiega więc od tego obrazu.
+
+\paragraph{Szum a decyzja klasyfikatora.}
+Dla klasyfikatora binarnego, w którym etykietę wyznacza próg $1/2$ prawdopodobieństwa wyniku pomiaru kubitu odczytu, LaRose i~Coyle udowodnili~\cite{larose_robust_2020}, że kanały depolaryzujący i odwrócenia fazy (podrozdział~\ref{subsec:tb:noise:models}) nie zmieniają żadnej decyzji niezależnie od kodowania danych, a kanał Pauliego nie zmienia jej, gdy łączne prawdopodobieństwo błędów $\mathrm{X}$ i $\mathrm{Y}$ nie przekracza $1/2$.
+Przy tłumieniu amplitudy zbiór danych o niezmienionej decyzji zależy od kodowania.
+Twierdzenia te dotyczą dokładnych prawdopodobieństw; spadek dokładności pod depolaryzacją odnotowany we wcześniejszej pracy autorzy przypisują wyłącznie skończonej liczbie pomiarów.
+% ŹRÓDŁO: larose_robust_2020, Tw. 1--5 i uwaga po Tw. 5 (Tw. 2 dotyczy kanału defazującego, czyli kanału Pauliego bez błędów X i Y), arXiv:2003.01695v1; wersji wydawniczej nie czytano.
+Podobną własność ma metoda jądrowa: funkcja decyzyjna maszyny wektorów nośnych nie zależy od skali jądra, a elementy jądra zmierzone na 17 kubitach układały się wokół wartości idealnych pomnożonych przez około $0{,}29$ przy dokładności porównywalnej z symulacją bez szumu~\cite{peters_machine_2021}.
+% ŹRÓDŁO: peters_machine_2021, dod. E i rys. 9 (r = 0,29) oraz streszczenie, arXiv:2101.09581v1.
+Według preprintu Lee i~in. błąd koherentny, w uproszczonym modelu szumu jednokubitowego, zmienia decyzję tylko dla danych bliskich granicy decyzyjnej~\cite{lee_some_2022}, a Wang i~in. pokazują, że szum przekształca wynik pomiaru liniowo, ze skalowaniem niezależnym od wejścia i przesunięciem od niego zależnym~\cite{wang_quantumnat_2022}.
+% ŹRÓDŁO: lee_some_2022, Tw. 2, arXiv:2211.06492v2; wang_quantumnat_2022, Tw. 3.1, arXiv:2110.11331.
+Wniosek własny: decyzji nie zmienia szum, który jednakowo skaluje wielkości porównywane przy decyzji, więc korekta odwracająca samo skalowanie może na nią wpłynąć tylko przez błąd statystyczny; zmienia ją szum naruszający relacje między tymi wielkościami (tłumienie amplitudy, błąd koherentny, przesunięcie zależne od wejścia).
+Wywołany szumem zanik gradientu ogranicza też uczenie~\cite{wang_noise-induced_2021}, a~mitygacja nie usuwa go bez wykładniczych zasobów~\cite{wang_can_2024}.
+
+\begin{table}[tb]
+\centering
+\caption[Wpływ mitygacji i~korekty wyniku na dokładność klasyfikacji na rzeczywistych urządzeniach]{Wpływ mitygacji i~klasycznej korekty wyniku na dokładność klasyfikacji na urządzeniach; M3: metoda mitygacji błędu odczytu~\cite{nation_scalable_2021}. Opracowanie własne.}
+\label{tab:lr:cls:mitigation}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\newcommand{\lrc}[1]{\raggedright\hspace{0pt}#1}
+\begin{tabular}{@{}p{2.5cm}p{4.3cm}p{2.8cm}p{5.7cm}@{}}
+\toprule
+\lrc{\textbf{Praca}} & \lrc{\textbf{Dane, model, liczba kubitów}} & \lrc{\textbf{Technika}} & \lrc{\textbf{Wpływ na dokładność}} \tabularnewline
+\midrule
+\lrc{Havlíček i~in.~\cite{havlicek_supervised_2019}} & \lrc{dane syntetyczne 2D; klasyfikator wariacyjny i~jądro; 2} & \lrc{ZNE w~uczeniu i~klasyfikacji} & \lrc{poprawa tylko dla głębszych obwodów; jądro: dla jednego z~trzech zbiorów gorsza hiperpłaszczyzna} \tabularnewline
+\lrc{Johri i~in.~\cite{johri_nearest_2021}} & \lrc{MNIST, 8 cech po redukcji wymiaru; najbliższy centroid; do 8} & \lrc{postselekcja wyników} & \lrc{z~postselekcją dokładność jak klasycznego odpowiednika} \tabularnewline
+\lrc{Peters i~in.~\cite{peters_machine_2021}} & \lrc{supernowe, 67 cech; jądro kwantowe; do 17} & \lrc{mitygacja błędu odczytu} & \lrc{brak spójnej poprawy} \tabularnewline
+\lrc{Wang i~in.~\cite{wang_quantumnat_2022}} & \lrc{obrazy $4\times4$ i~$6\times6$; obwody parametryzowane; 4 albo 10} & \lrc{normalizacja wyników pomiaru} & \lrc{średnio $0{,}42\to0{,}52$; w~części konfiguracji spadek, np. $0{,}78\to0{,}68$} \tabularnewline
+\lrc{Singh i~in. (2026)~\cite{singh_benchmarking_2026}} & \lrc{MedMNIST $7\times7$ i~$8\times8$; obwód wariacyjny; 4--11} & \lrc{DD z~losową kompilacją (a), M3 (b), obie (c)} & \lrc{OCTMNIST: $0{,}286$ bez technik, $0{,}33$ (a), $0{,}285$ (b), $0{,}397$ (c); BreastMNIST: $0{,}782\to0{,}769$ (c)} \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table}
+% ŹRÓDŁO: havlicek_supervised_2019, tekst główny przy rys. 3 (ZNE pierwszego rzędu w każdym kroku uczenia i przy klasyfikacji; brak poprawy dla głębokości 0, wyraźna dla większych) oraz materiał uzupełniający, tekst przy rys. S8 (dla zbioru III mitygacja pogarsza wyznaczoną hiperpłaszczyznę), arXiv:1804.11326v2.
+% ŹRÓDŁO: johri_nearest_2021, opis procedury mitygacji (odrzucenie wyników spoza podprzestrzeni kodowania unarnego), akapit o zbiorze MNIST (PCA do 8 wymiarów) i rys. 11, arXiv:2012.04145v2.
+% ŹRÓDŁO: peters_machine_2021, dod. E (could not consistently improve the classifier performance) i opis eksperymentu na urządzeniu (10, 14 i 17 kubitów, 67 cech), arXiv:2101.09581v1.
+% ŹRÓDŁO: wang_quantumnat_2022, opis zbiorów i modeli przed sek. 4.2 (obrazy 4x4 i 6x6, 4 albo 10 kubitów, 300 obrazów testowych) i tab. 1 (kolumna Avg.-All: 0,42 i 0,52; Fashion-2 na urządzeniu Santiago: 0,78 i 0,68), arXiv:2110.11331.
+% ŹRÓDŁO: singh_benchmarking_2026, tab. 4 (OCTMNIST: 0,286; 0,33; 0,285; 0,397) i tab. 5 (BreastMNIST 0,782 i 0,769; 4--11 kubitów procesora 127-kubitowego IBM Cleveland), wersja opublikowana (Europe PMC PMC12992601).
+
+\paragraph{Mitygacja i korekta wyniku a dokładność.}
+W pracach zestawionych w tabeli~\ref{tab:lr:cls:mitigation} wpływ mitygacji albo klasycznej korekty wyniku na dokładność klasyfikacji na urządzeniu jest mieszany.
+Mitygacja samego błędu odczytu nie dała spójnej poprawy w żadnej z dwóch prac, które ją wyodrębniły~\cite{peters_machine_2021,singh_benchmarking_2026}, poprawę dawały techniki działające na cały obwód albo dopasowane do zadania, a w pojedynczych konfiguracjach wynik się pogarszał.
+Spośród technik z tabeli~\ref{tab:lr:cls:mitigation} korekcie typu PDU najbliższa jest normalizacja wyników pomiaru z pracy Wanga i~in.: klasyczna, bez dodatkowych kubitów i bramek, standaryzująca wyniki każdego kubitu w paczce wejść albo statystykami zebranymi wcześniej na urządzeniu.
+Nie wyznacza ona jednak zależności błędu od wartości wyniku i musi być stosowana także w uczeniu~\cite{wang_quantumnat_2022}.
+% ŹRÓDŁO: wang_quantumnat_2022, sek. 3.1 (normalizacja w uczeniu i we wnioskowaniu) i dod. A.3.7 (statystyki zbioru walidacyjnego zebrane wcześniej na urządzeniu), arXiv:2110.11331.
+Wpływ tych technik oceniano zatem na obrazach pomniejszonych i kodowanych kątowo, na cechach po redukcji wymiaru i na danych nieobrazowych.
+Dla obrazów w reprezentacji FRQI zebrane prace podają dokładność bez wariantu porównawczego: na urządzeniu przy domyślnych ustawieniach środowiska wykonawczego (\emph{optimization level}~3, \emph{resilience level}~1)~\cite{shen_classification_2024} albo bez analizy szumu~\cite{potempa_frqi_pairs_2025}.
+% ŹRÓDŁO: shen_classification_2024, dod. B (,,the default setting (optimization level = 3 and the resilience level = 1)''; znaczenia poziomów praca nie opisuje), arXiv:2403.02405v1.
+Oceny korekty typu PDU, kalibrowanej na zależności błędu od wartości wyniku, w zadaniu klasyfikacji w przeszukanym zakresie nie znaleziono (podrozdział~\ref{sec:lr:gap}).
+
+\paragraph{Szum jako zasób i struktura grupowa.}
+Szum bywa też składnikiem modelu: depolaryzacja poprawia oszacowanie odporności klasyfikatora na przykłady adwersarialne~\cite{du_quantum_2021}, a dobrany poziom szumu działał w symulacjach regresji jak regularyzacja (2025)~\cite{kuzmin_method_2025}.
+W kwantowych sieciach ekwiwariantnych~\cite{nguyen2024_eqnn} (podrozdział~\ref{subsec:tb:ml:lie}) część modeli zachowuje ekwiwariancję pod kanałami Pauliego, lecz nie pod tłumieniem amplitudy, a łamanie symetrii rośnie liniowo z liczbą warstw i siłą szumu~\cite{tuysuz_symmetry_2024}.
+Do tego wątku należą omawiane w rozdziale~\ref{chapter:noise_structure} prace z~2026~r. z udziałem autora rozprawy: artykuł~\cite{raubitzek_quantum_noise} i preprint~\cite{raubitzek_lie_group_manuscript}.

@@ -1,0 +1,90 @@
+% !TeX root = ./../main.tex
+
+\section{Redukcja błędów oparta na pomiarze i uczeniu maszynowym}\label{sec:lr:ml}
+\agentinfo{
+Stan: treść napisana w zadaniu PHD-TS-33 (2026-11-27); czeka na przegląd autora.
+Notatka źródłowa z kartami prac, zakresem wyszukiwania i pozycjami rezerwowymi: \agentref{eksperymenty/przeglad-literatury/sekcja-3.4-uczenie.md}.
+Teksty źródeł, w których ponownie sprawdzono liczby (wersje arXiv i streszczenia z Crossref lub OpenAlex, pobrane 2026-11-27): \agentref{eksperymenty/przeglad-literatury/_robocze/PHD-TS-33/txt}.
+Uzgodnienia: definicji sieci splotowych, GAN i pix2pix nie powtarzać (podrozdział 2.6); metody kalibrowane na obwodach o znanym wyniku omawia sekcja 3.3, tutaj są tylko punktem wyjścia; preprintu autora o sieciach GAN nie nazywać publikacją i nie przypisywać mu pierwszeństwa; wynik wyszukiwania prac o modelach obraz--obraz podawać z zakresem wyszukiwania, a nie jako lukę.
+Prace kim_quantum_2020 i lin_quantum_2025 są znane tylko ze streszczeń (w tabeli oznaczone gwiazdką); wersji wydawców pozostałych prac nie czytano.
+Pominięte dla budżetu stron (są w notatce): bennewitz_neural_2022 (neuronowy stan kwantowy, wymaga hamiltonianu), szczegóły architektur i liczności zbiorów uczących, wiersze tabeli dla prac ahmed_quantum_2021, zhou_quantum_2024 i jadhav_image_2026 (pochodzenie ich danych podano w tekście).
+Po recenzji (PHD-TS-90, 2026-11-27).
+Opis preprintu jadhav_image_2026 poprawiono po ponownym odczytaniu tabeli 2 w wersji HTML arXiv: preprint zestawia wynik z urządzenia z symulacją bez szumu, więc zdanie, że wkładów nie rozdzielono, było błędne; tekst podaje teraz obie pary wartości i różnice policzone w rozprawie oraz to, czym preprint różni się od potoku z rozdziału 6 (brak korekty kalibrowanej na zadaniu; brak informacji o uczeniu sieci na obrazach z urządzenia).
+Wynik pracy kim_quantum_2022 podano dla obu typów urządzeń (także ibmq_qx2).
+Pierwsze zdanie nazywa teraz omawianą klasę mitygacją opartą na uczeniu, tak jak przegląd cai2023quantum (osobnego zdania o stosunku nazwy sekcji do terminu mitygacja nie dodano z braku miejsca; stosunek redukcji do mitygacji opisuje podrozdział 2.3); funkcję PDU opisano jako tablicę błędów w węzłach (w eksperymentach rozdziału 4 nie interpolowano).
+Wniosek o niezbadanej trwałości korekty zostaje w sekcji 3.5; tutaj usunięto jego powtórzenie.
+}
+\agenttask{
+Do decyzji autora (PHD-TS-33).
+(1) Czy w sekcji 3.8 podać chronologię: preprint autora ma datę październik 2023, pierwsza wersja arXiv pracy zhou_quantum_2024 luty 2024; praca ta deklaruje w podsumowaniu, że jest pierwszą metodą tego rodzaju, i nie cytuje preprintu autora. W tekście sekcji chronologii ani deklaracji pierwszeństwa nie oceniano; brzmienie zdania o wyniku wyszukiwania modeli obraz--obraz (element c) poprawiono po recenzji (PHD-TS-90) i czeka ono na akceptację.
+(2) Czy dodać pozycje rezerwowe z notatki (wpisy BibTeX gotowe, niedodane do bazy): moodley_super-resolved_2022 (sieć GAN dla obrazów z obrazowania kwantowego), placidi_deep_2026 (preprint, porównanie korekt uczonych z analitycznymi), lee_scalable_2023, cantori_synergy_2024.
+(3) Ostatni akapit zawiera wniosek dotyczący metodyki rozdziału 6 (sieć uczona względem obrazów po korekcie PDU odtwarza najwyżej tę korektę; do tego dochodzi koszt danych uczących, o którym mowa w pierwszym akapicie): zostawić go tutaj czy przenieść do dyskusji w rozdziale 6.
+}
+
+Metody kalibrowane na obwodach o~znanym wyniku (podrozdział~\ref{sec:lr:qem}) są najprostszymi przedstawicielami mitygacji opartej na uczeniu, w~której koszt zbioru uczącego służącego jednemu zadaniu wlicza się do kosztu tego zadania~\cite{cai2023quantum}.
+% ŹRÓDŁO: cai2023quantum, podrozdział III.8 ,,Learning-based'', arXiv:2210.00921v3 (numeracji w wersji z Reviews of Modern Physics nie sprawdzano).
+W~tym ujęciu funkcja PDU (rozdział~\ref{chapter:pdu}) jest modelem o~bardzo małej pojemności, tablicą błędów w~węzłach argumentu (przyporządkowanie własne); prace z~tabeli~\ref{tab:lr:ml:works} różnią się od niej postacią modelu, korygowaną wielkością i~pochodzeniem danych uczących.
+
+\begin{table}[tb]
+\centering
+\caption[Prace o~korekcie wyników obliczeń kwantowych modelami uczonymi]{Modele uczone korygujące wyniki obliczeń; S -- dane uczące z~symulatora, H -- ze sprzętu, ,,n.p.'' -- nie podano, gwiazdka -- tylko streszczenie. Opracowanie własne.}
+\label{tab:lr:ml:works}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\newcommand{\lrc}[1]{\raggedright\hspace{0pt}#1}
+\begin{tabular}{@{}p{1.1cm}p{5.6cm}p{5.2cm}p{3.2cm}@{}}
+\toprule
+\lrc{\textbf{Praca}} & \lrc{\textbf{Model; korygowana wielkość}} & \lrc{\textbf{Dane uczące; skala}} & \lrc{\textbf{Inne urządzenie, inny czas}} \tabularnewline
+\midrule
+\lrc{\cite{strikis_learning-based_2021}} & \lrc{rozkład quasi-prawdopodobieństwa; wartość oczekiwana} & \lrc{H albo S, etykiety z~symulacji; obwód dwukubitowy (H)} & \lrc{n.p.} \tabularnewline
+\lrc{\cite{kim_quantum_2020}*} & \lrc{dwie sieci neuronowe; rozkład wyników} & \lrc{S i~H, obwody losowe; do 7 kubitów} & \lrc{n.p.} \tabularnewline
+\lrc{\cite{zhukov_quantum_2022}} & \lrc{sieć gęsta; wartości oczekiwane} & \lrc{wyłącznie H; 5 kubitów} & \lrc{n.p.} \tabularnewline
+\lrc{\cite{kim_quantum_2022}} & \lrc{sieć gęsta; rozkład wyników (błąd odczytu)} & \lrc{wyłącznie H, obwody kalibracyjne; 2--5 kubitów} & \lrc{inne urządzenie; po 2--4 tygodniach} \tabularnewline
+\lrc{\cite{liao_machine_2024}} & \lrc{regresja liniowa, las losowy, MLP, sieć grafowa; wartości oczekiwane} & \lrc{S i~H, etykiety z~symulacji albo z~wyniku ZNE; do 100 kubitów} & \lrc{tylko dwa symulowane modele szumu} \tabularnewline
+\lrc{\cite{zlokapa_deep_2020}} & \lrc{sieć splotowa jako predyktor szumu dla kompilatora (preprint)} & \lrc{wyłącznie H; 5 kubitów} & \lrc{inne urządzenie} \tabularnewline
+\lrc{\cite{lin_quantum_2025}*} & \lrc{autoenkoder splotowy; rozkład wyników} & \lrc{,,backendy Qiskit''; 4 kubity} & \lrc{n.p.} \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table}
+% ŹRÓDŁA tabeli: strikis_learning-based_2021, streszczenie i część z eksperymentem na ibmq_5_yorktown, ibmq_ourense i ibmq_santiago (obwód dwukubitowy), arXiv:2005.07601v2; kim_quantum_2020, streszczenie (OpenAlex, DOI 10.1109/ACCESS.2020.3031607): obwody o 2, 3, 5 i 7 kubitach, symulacje i chmura IBM; zhukov_quantum_2022, streszczenie i wstęp (dwa pięciokubitowe procesory IBM), arXiv:2105.07793v4; kim_quantum_2022, sekcje IV.1 i IV.3, materiał uzupełniający II, arXiv:2112.03585v1; liao_machine_2024, streszczenie, sekcja II.4, dodatek D, arXiv:2309.17368v2; zlokapa_deep_2020, streszczenie, arXiv:2005.10811v1; lin_quantum_2025, streszczenie (OpenAlex, DOI 10.1109/qccl65142.2025.11158291).
+% Wpis ,,n.p.'' dla prac czytanych w pełnym tekście (strikis, zhukov) oparto na przeszukaniu tekstu wersji arXiv pod kątem przenoszenia między urządzeniami i zmian w czasie.
+
+W~metodach uczonych na obwodach symulowalnych klasycznie~\cite{czarnik_error_2021,strikis_learning-based_2021} etykiety pochodzą z~symulacji, co ogranicza obwody uczące do bliskich obwodom Clifforda.
+Zhukov i~Pogosov~\cite{zhukov_quantum_2022} pokazali, że etykiety idealne nie są konieczne: sieć uczy się odwzorowania z~wyników obwodu o~sztucznie zwiększonej liczbie kroków Trottera na wyniki obwodu bez tego zwiększenia, wyłącznie na danych ze sprzętu.
+% ŹRÓDŁO: zhukov_quantum_2022, streszczenie, arXiv:2105.07793v4.
+W~najszerszym z~zebranych porównań~\cite{liao_machine_2024} las losowy nie ustępował dokładnością cyfrowej ekstrapolacji do zerowego szumu (ZNE) przy mniejszej liczbie wykonań, na urządzeniu ibm\_algiers 3000 zamiast 5000 obwodów; dla obwodów stukubitowych uczono go naśladować wynik ZNE, z~którą według autorów wtedy nie konkuruje, lecz zmniejsza jej koszt.
+% ŹRÓDŁO: liao_machine_2024, sekcja II.1.2 (500 obwodów uczących i 2500 testowych wobec 2 x 2500 dla ZNE), sekcja II.4 i dodatek C, arXiv:2309.17368v2.
+
+Spośród korekt opartych na sieciach neuronowych najbliżej PDU leży uczona mitygacja błędu odczytu~\cite{kim_quantum_2022}: obwód zadania pozostaje bez zmian, a~sieć odwzorowującą zmierzony rozkład na idealny uczy się wyłącznie na danych ze sprzętu, z~obwodów kalibracyjnych; kalibruje się jednak sam odczyt, niezależnie od zadania.
+Błąd średniokwadratowy liniowej inwersji macierzy odczytu (podrozdział~\ref{subsec:tb:qec:mitigation}) był na ibmq\_quito i~ibmq\_belem o~$17{,}6$--$30{,}4\%$, a~na ibmq\_qx2 o~$564$--$648\%$ większy niż błąd sieci, co autorzy wiążą z~nieliniowością szumu odczytu; liczba wejść i~wyjść sieci rośnie jednak jak $2^n$.
+% ŹRÓDŁO: kim_quantum_2022, wzór (3) i tabela 3 (Device Type (a), ibmq_quito i ibmq_belem, R_MSE: 19,9; 18,4; 30,4; 17,6; Device Type (b), ibmq_qx2, R_MSE: 648; 564; 611; 592; przypisanie urządzeń do typów: tekst przy rys. 4), akapit przed tabelą 3 (większą przewagę na typie (b) autorzy wiążą z silniejszą nieliniowością jako przypuszczenie) oraz sekcja V, arXiv:2112.03585v1.
+
+Sprawdzenie modelu poza urządzeniem i~chwilą uczenia jest rzadkie.
+W~preprincie~\cite{zlokapa_deep_2020} sieć przewidująca szum dla kompilatora zmniejsza szum wyjściowy o~$12{,}3\%$, lecz przeniesiona na inne urządzenie tylko o~$5{,}2\%$.
+% ŹRÓDŁO: zlokapa_deep_2020, streszczenie, arXiv:2005.10811v1 (preprint).
+W~pracy~\cite{kim_quantum_2022} sieć uczona na ibmq\_quito i~zastosowana do danych z~ibmq\_belem pozostała lepsza od liniowej inwersji opartej na tych samych danych poza jednym przypadkiem (błąd średniokwadratowy dla trzech kubitów), lecz bez porównania z~siecią uczoną na urządzeniu docelowym.
+% ŹRÓDŁO: kim_quantum_2022, tabela 4 i akapit przed nią, sekcja V, arXiv:2112.03585v1.
+Ta sama praca zawiera jedyny znaleziony test po upływie czasu: sieć uczona na danych z~2--11 czerwca 2021~r. zachowała przewagę nad liniową inwersją na danych z~okresu od 25 czerwca do 5 lipca.
+% ŹRÓDŁO: kim_quantum_2022, materiał uzupełniający, sekcja II i rys. S3 (ibmq_belem, 5 kubitów; macierz liniowej inwersji z 17 czerwca), arXiv:2112.03585v1.
+Liao i~in. zaznaczają, że model uczony w~jednej chwili może nie działać w~innej, i~pokazują tylko dostrajanie między dwoma symulowanymi modelami szumu~\cite{liao_machine_2024}; skale czasu zmian samego szumu omawia podrozdział~\ref{sec:lr:noise}.
+% ŹRÓDŁO: liao_machine_2024, dodatek D i rys. 10 (FakeLima, FakeBelem), arXiv:2309.17368v2.
+
+Architektury opracowane dla obrazów (podrozdziały~\ref{subsec:tb:ml:cnn} i~\ref{subsec:tb:ml:gan}) stosowano do danych z~układów kwantowych głównie w~innych zadaniach niż korekta obrazu.
+Warunkowej sieci GAN, z~oceną dyskryminatora wzorowaną na architekturze PatchGAN~\cite{isola_image_2017}, użyto w~tomografii stanu na danych symulowanych i~jednym zbiorze eksperymentalnym~\cite{ahmed_quantum_2021}, a~autoenkodera splotowego, w~pracy z~2025~r., w~odszumianiu rozkładów wyników~\cite{lin_quantum_2025}.
+% ŹRÓDŁO: ahmed_quantum_2021, wstęp i część o warunkowych sieciach GAN (,,inspired by the Patch GAN architecture''), arXiv:2008.03240v2; lin_quantum_2025, streszczenie (OpenAlex).
+Zhou i~in.~\cite{zhou_quantum_2024} proponują model poprawiający obrazy przetworzone kwantowo, lecz opisana sieć jest dwuklasowym klasyfikatorem, a~redukcja szumu progowaniem pikseli; szum symulowano klasycznie, a~wersja arXiv pracy nie zawiera wyników liczbowych.
+% ŹRÓDŁO: zhou_quantum_2024, sekcje 4.2, 5.1, 5.4 i 7, arXiv:2402.11645v2 (PDF, 9 stron); wersji SPIE nie czytano.
+W~preprincie~\cite{jadhav_image_2026} z~września 2026~r. klasyczna sieć SRGAN, czyli model obraz--obraz do nadrozdzielczości, poprawia obraz po kwantowej dekompresji: na procesorze ibm\_fez, z~mitygacją błędów dostawcy, PSNR wzrósł z~$27{,}01$ do $29{,}99$~dB, a~na symulatorze bez szumu z~$27{,}32$ do $30{,}07$~dB.
+% ŹRÓDŁO: jadhav_image_2026, tabela 2 (symulator wektora stanu bez szumu: 27,3209 i 30,0667 dB; ibm_fez: 27,0143 i 29,994 dB), sekcja 3 (podział zbioru, 500 obrazów testowych; sieć SRGAN ,,pre-trained exclusively on the isolated training subset'') i sekcja 3.2 (shots=2048, resilience_level=2; liczby obrazów wykonanych na urządzeniu nie podano), arXiv:2609.28387v1, wersja HTML odczytana ponownie 2026-11-27 (eksperymenty/recenzje/_robocze/PHD-TS-90/net).
+Urządzenie różni się więc od symulatora o~$0{,}31$~dB przed siecią, a~sieć dodaje $2{,}75$~dB bez szumu i~$2{,}98$~dB na urządzeniu, czyli odtwarza głównie stratę kompresji (obliczenia własne); nie poprzedza jej korekta kalibrowana na zadaniu i~nie podano, by uczono ją na obrazach z~urządzenia.
+% ŹRÓDŁO: jadhav_image_2026, sekcja 3.2 (,,This baseline degradation directly reflects the two-qubit gate infidelities and residual readout errors''; ,,SRGAN generative refinement successfully bridged the hardware-induced structural gap'') i tabela 2; obliczenia własne: 27,3209 - 27,0143 = 0,3066; 30,0667 - 29,994 = 0,0727; 30,0667 - 27,3209 = 2,7458; 29,994 - 27,0143 = 2,9797 (PHD-TS-90).
+Preprint autora z~2023~r.~\cite{werner_deep_learning_manuscript}, omówiony w~rozdziale~\ref{chapter:dl_error_reduction}, uczy model pix2pix na obrazach kodowanych metodą LPIQE, odczytanych z~symulatora i~z~rzeczywistego urządzenia, także po korekcie PDU.
+% ŹRÓDŁO: artykuły/Quantum_journal_GAN__Copy_/article.tex, lista eksperymentów (wiersze 261--266) i procedura (wiersze 321 i 329: dane uczące z symulatora albo z urządzenia IBMQ Nairobi, także po korekcie PDU).
+W~przeszukanym zakresie (podrozdział~\ref{sec:lr:gap}) nie znaleziono, poza wymienionymi, prac, w~których model translacji obraz--obraz koryguje obraz odczytany z~komputera kwantowego, ani, poza preprintem autora, prac, w~których następuje on po korekcie kalibrowanej na zadaniu.
+
+W~korekcji błędów (podrozdział~\ref{sec:lr:qec}) sieci są dekoderami działającymi na syndromach, a~nie na wyniku obliczenia, uczonymi w~symulacji~\cite{torlai_neural_2017} albo na danych syntetycznych z~dostrojeniem na próbkach z~procesora Sycamore~\cite{bausch_learning_2024}.
+% ŹRÓDŁO: torlai_neural_2017, streszczenie, arXiv:1610.04238v1; bausch_learning_2024, streszczenie wersji opublikowanej (Crossref, DOI 10.1038/s41586-024-08148-8).
+
+Wynikają stąd dwa wnioski własne.
+Korekta wyniku uczona na danych, bez zmian w~obwodzie zadania, jest udokumentowana dla wartości oczekiwanych i~rozkładów wyników, więc PDU różni się od niej przedmiotem kalibracji i~rozmiarem modelu, a~nie brakiem narzutu w~obwodzie.
+Model uczony względem wyniku innej korekty może ją najwyżej odtworzyć, co dotyczy rozdziału~\ref{chapter:dl_error_reduction}, gdzie odniesieniem jest obraz po korekcie PDU.

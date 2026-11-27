@@ -1,0 +1,44 @@
+% Schemat hybrydowego modelu kwantowo-klasycznego z obwodem o stałej strukturze.
+% Rysunek własny (PHD-TS-17); wstawiany przez \input w chapters/theoretical_background_06_ML.tex.
+\begin{tikzpicture}[
+  font=\small,
+  >={Stealth[length=2mm]},
+  box/.style={draw, rounded corners=2pt, align=center, minimum height=1.0cm, inner sep=3pt},
+  flow/.style={->, thick},
+  lbl/.style={font=\footnotesize, align=center},
+]
+% wejście i sieć klasyczna
+\node[box, fill=gray!15, minimum width=0.8cm] (in) at (0,0) {$\mathbf{x}$};
+\node[box, fill=blue!15] (net) at (1.9,0) {sieć\\klasyczna $\Theta_{\mathbf{w}}$};
+\draw[flow] (in) -- (net);
+
+% obwód o stałej strukturze
+\foreach \y in {0.45,0,-0.45} {
+  \node[font=\scriptsize] at (4.0,\y) {$\ket{0}$};
+  \draw (4.25,\y) -- (7.35,\y);
+}
+\draw[fill=white] (4.6,-0.65) rectangle (5.6,0.65);
+\node at (5.1,0) {$U(\boldsymbol{\theta})$};
+\draw[dashed, fill=red!8] (5.85,-0.65) rectangle (6.45,0.65);
+\node at (6.15,0) {$\channel$};
+\foreach \y in {0.45,0,-0.45} {
+  \draw[fill=white] (6.75,{\y-0.15}) rectangle (7.15,{\y+0.15});
+  \draw (6.82,{\y-0.08}) arc (160:20:0.14);
+  \draw[->, >={Stealth[length=1mm]}] (6.95,{\y-0.1}) -- (7.08,{\y+0.11});
+}
+\draw[dashed, rounded corners=3pt, gray!70!black] (3.7,-0.95) rectangle (7.5,0.95);
+\node[lbl, text=gray!30!black] at (5.6,-1.2) {obwód o stałej strukturze};
+
+% kąty z sieci klasycznej
+\draw[flow] (net.north) |- (5.1,1.4) -- node[right, pos=0.4] {$\boldsymbol{\theta}=\Theta_{\mathbf{w}}(\mathbf{x})$} (5.1,0.65);
+
+% odczyt, przetwarzanie końcowe, strata
+\node[box, fill=blue!15, font=\footnotesize] (post) at (11.1,0) {przetwarzanie\\końcowe};
+\draw[flow] (7.5,0) -- node[above, font=\scriptsize] {$\tilde{\prob}(\ket{b})$, $\langle O\rangle_{\boldsymbol{\theta}}$} node[below, font=\scriptsize] {$\nshots$ pomiarów} (post.west);
+\node[box, fill=orange!20] (loss) at (13.45,0) {$\ell(\hat{\mathbf{y}},\mathbf{y})$};
+\draw[flow] (post) -- node[above, font=\scriptsize] {$\hat{\mathbf{y}}$} (loss);
+
+% gradient
+\draw[->, dashed, thick, gray!60!black] (loss.south) -- ++(0,-1.0) -| (net.south);
+\node[lbl, text=gray!30!black] at (6.9,-2.0) {gradient $\partial\symloss/\partial\mathbf{w}$: różniczkowanie automatyczne (symulator)\\lub reguła przesunięcia parametru (urządzenie)};
+\end{tikzpicture}

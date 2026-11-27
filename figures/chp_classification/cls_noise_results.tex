@@ -1,0 +1,72 @@
+% !TeX root = ./../../main.tex
+% Rysunek fig:cls:noise-results: (a) średni promień wektora Blocha i zgodność predykcji w funkcji liczby bramek CZ,
+% (b) dokładność a średni promień w przeglądzie szumu.
+% Wykresy odtworzone w pgfplots z plików danych; żadna wartość nie została odczytana z rysunków manuskryptu.
+% Dane (a): figures/chp_classification/cls_depth.dat
+%   (źródło: /Users/krzysztofwerner/git/quantum-classifier/runs/<przebieg>/hardware_ibm_fez_*/experiment.json, summary.json, results.csv).
+% Dane (b): figures/chp_classification/cls_noise_sweep.dat
+%   (źródło: /Users/krzysztofwerner/git/quantum-classifier/runs/noisesweep_7_435_331_187_286_202_torus_c3_f200_29-07-2026-16-26-05/results.csv).
+% Oba pliki danych generuje eksperymenty/weryfikacja-liczb/rozdzial-8-skrypty/rysunki.py.
+% Wymaga: pgfplots z biblioteką groupplots (wczytane w config/my-settings.tex).
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=1.7cm},
+  width=0.5\textwidth,
+  height=5.1cm,
+  ymajorgrids,
+  grid style={black!15},
+  tick label style={font=\footnotesize},
+  label style={font=\footnotesize},
+  title style={font=\footnotesize, yshift=-1mm},
+  legend style={font=\scriptsize, draw=black!40, fill=white, inner sep=1.5pt, row sep=-1.5pt},
+  legend cell align=left,
+  yticklabel style={/pgf/number format/.cd, fixed, fixed zerofill, precision=1, use comma},
+]
+% ---------- (a) modele M1--M11: promień i zgodność predykcji a liczba bramek CZ ----------
+\nextgroupplot[
+  title={(a) modele M1--M11},
+  xmode=log,
+  log ticks with fixed point,
+  xmin=2, xmax=3200,
+  xtick={3,10,30,100,300,1000},
+  xticklabels={3,10,30,100,300,1000},
+  ymin=0, ymax=1.05,
+  ytick={0,0.2,0.4,0.6,0.8,1.0},
+  xlabel={liczba bramek CZ po transpilacji},
+  ylabel={średni promień, zgodność},
+  legend pos=south west,
+]
+\addplot[only marks, mark=o, mark size=2.2pt, black] table[x=cz, y=rsim] {figures/chp_classification/cls_depth.dat};
+\addlegendentry{promień, symulator}
+\addplot[only marks, mark=*, mark size=2.2pt, black] table[x=cz, y=rhw] {figures/chp_classification/cls_depth.dat};
+\addlegendentry{promień, urządzenie}
+\addplot[only marks, mark=x, mark size=3pt, thick, black!75] table[x=cz, y=agree] {figures/chp_classification/cls_depth.dat};
+\addlegendentry{zgodność predykcji}
+\node[font=\scriptsize, anchor=east, inner sep=4pt] at (axis cs:1814,0.105) {M1};
+\node[font=\scriptsize, anchor=north west, inner sep=3pt] at (axis cs:233,0.3658) {M2};
+\node[font=\scriptsize, anchor=north east, inner sep=3pt] at (axis cs:198,0.5032) {M3};
+% ---------- (b) przegląd szumu: dokładność a promień ----------
+\nextgroupplot[
+  title={(b) przegląd szumu, 64 kombinacje},
+  xmin=0.15, xmax=1.05,
+  xtick={0.2,0.4,0.6,0.8,1.0},
+  xticklabel style={/pgf/number format/.cd, fixed, fixed zerofill, precision=1, use comma},
+  ymin=0.70, ymax=0.85,
+  ytick={0.70,0.75,0.80,0.85},
+  yticklabel style={/pgf/number format/.cd, fixed, fixed zerofill, precision=2, use comma},
+  xlabel={średni promień},
+  ylabel={dokładność},
+  legend pos=south west,
+  legend columns=2,
+  legend style={/tikz/every even column/.append style={column sep=2mm}},
+]
+\addplot[only marks, mark=o, mark size=2pt, black, restrict expr to domain={\thisrow{dep}}{0:0}] table[x=r, y=accfinal] {figures/chp_classification/cls_noise_sweep.dat};
+\addlegendentry{$\qdep=0$}
+\addplot[only marks, mark=square, mark size=1.8pt, black, restrict expr to domain={\thisrow{dep}}{1:1}] table[x=r, y=accfinal] {figures/chp_classification/cls_noise_sweep.dat};
+\addlegendentry{$\qdep=0{,}01$}
+\addplot[only marks, mark=triangle, mark size=2.4pt, black, restrict expr to domain={\thisrow{dep}}{2:2}] table[x=r, y=accfinal] {figures/chp_classification/cls_noise_sweep.dat};
+\addlegendentry{$\qdep=0{,}05$}
+\addplot[only marks, mark=*, mark size=1.8pt, black, restrict expr to domain={\thisrow{dep}}{3:3}] table[x=r, y=accfinal] {figures/chp_classification/cls_noise_sweep.dat};
+\addlegendentry{$\qdep=0{,}10$}
+\end{groupplot}
+\end{tikzpicture}

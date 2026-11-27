@@ -1,0 +1,56 @@
+% !TeX root = ./../../main.tex
+% Rozkład różnicy MAE między urządzeniem a symulatorem poziomu 4 na składniki (podrozdział 7.4.2, rys. fig:le:gap).
+% Wykres własny (PHD-TS-82), odtworzony w pgfplots z liczb w plikach wynikowych pakietu best_results_package
+% (przebieg H2, model A9, zbiór K10, 16 384 pomiary); żadna wartość nie została odczytana z wykresu źródłowego.
+% Dane (ścieżki względem katalogu pakietu; plik article/data/hw_results.json, gałąź run2_finetune):
+%   symulator poziomu 4, rozkład dokładny:            methods.sim_level4.mae           = 0.078697
+%   symulator poziomu 4, 16 384 pomiary (1 losowanie): methods.sim_level4_sampled.mae   = 0.081864
+%   bliźniak (q_d = 0,015), 16 384 pomiary (3 losowania): sim_fitted_sampled_mae        = 0.089411
+%   urządzenie ibm_fez, zadanie bazowe:               methods.hw_baseline_job.mae      = 0.100927
+%   płaski obraz własnego koloru:                     methods.flat_own_colour.mae      = 0.083346
+%   obraz średni części uczącej:                      methods.mean_train_image.mae     = 0.132940
+% Składniki: 0.003167 (14,2%), 0.007547 (33,9%), 0.011516 (51,8%) różnicy 0.022230;
+% te same wartości w eksperymenty/weryfikacja-liczb/rozdzial-7.csv, wiersze 248-251.
+% Składniki odróżnia odcień szarości (druk czarno-biały).
+\begin{tikzpicture}
+\begin{axis}[
+  width=\textwidth,
+  height=4.4cm,
+  xmin=0.0655, xmax=0.1385,
+  ymin=-1.75, ymax=1.55,
+  axis y line=none,
+  axis x line=bottom,
+  axis line style={-},
+  xtick={0.07,0.08,0.09,0.10,0.11,0.12,0.13},
+  xticklabels={{0,07},{0,08},{0,09},{0,10},{0,11},{0,12},{0,13}},
+  xlabel={MAE na zbiorze K10},
+  tick label style={font=\scriptsize},
+  label style={font=\footnotesize},
+  clip=false,
+]
+% punkty odniesienia
+\draw[dashed] (axis cs:0.083346,-0.78) -- (axis cs:0.083346,0.72);
+\draw[dashed] (axis cs:0.132940,-0.78) -- (axis cs:0.132940,0.72);
+\node[anchor=north, font=\scriptsize, inner sep=1pt] at (axis cs:0.083346,-0.84) {płaski obraz własnego koloru: 0,0833};
+\node[anchor=north east, font=\scriptsize, inner sep=1pt] at (axis cs:0.1338,-0.84) {obraz średni: 0,1329};
+% składniki różnicy
+\draw[fill=white]    (axis cs:0.078697,-0.42) rectangle (axis cs:0.081864,0.42);
+\draw[fill=black!22] (axis cs:0.081864,-0.42) rectangle (axis cs:0.089411,0.42);
+\draw[fill=black!62] (axis cs:0.089411,-0.42) rectangle (axis cs:0.100927,0.42);
+\draw[dashed] (axis cs:0.083346,-0.42) -- (axis cs:0.083346,0.42);
+\node[font=\scriptsize, inner sep=0pt] at (axis cs:0.0802805,0) {14\%};
+\node[font=\scriptsize, inner sep=0pt] at (axis cs:0.0866,0) {34\%};
+\node[font=\scriptsize, inner sep=0pt, text=white] at (axis cs:0.095169,0) {52\%};
+% końce słupka
+\node[anchor=east, font=\scriptsize, align=right, inner sep=2pt] at (axis cs:0.078697,0) {symulator\\poziomu 4\\0,0787};
+\node[anchor=west, font=\scriptsize, align=left, inner sep=2pt] at (axis cs:0.100927,0) {urządzenie\\ibm\_fez\\0,1009};
+% legenda (kolejne pozycje ustawiane względem poprzednich, żeby napisy się nie nakładały)
+\coordinate (leg) at (rel axis cs:0.12,0.955);
+\draw[fill=white] ($(leg)+(0mm,-1.05mm)$) rectangle ++(3.2mm,2.1mm);
+\node[anchor=west, font=\scriptsize, inner sep=0pt] (l1) at ($(leg)+(4.4mm,0mm)$) {szum próbkowania: $+0{,}0032$};
+\draw[fill=black!22] ($(l1.east)+(6mm,-1.05mm)$) rectangle ++(3.2mm,2.1mm);
+\node[anchor=west, font=\scriptsize, inner sep=0pt] (l2) at ($(l1.east)+(10.4mm,0mm)$) {jednorodna depolaryzacja: $+0{,}0075$};
+\draw[fill=black!62] ($(l2.east)+(6mm,-1.05mm)$) rectangle ++(3.2mm,2.1mm);
+\node[anchor=west, font=\scriptsize, inner sep=0pt] (l3) at ($(l2.east)+(10.4mm,0mm)$) {reszta: $+0{,}0115$};
+\end{axis}
+\end{tikzpicture}

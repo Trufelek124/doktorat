@@ -1,0 +1,57 @@
+% !TeX root = ./../../main.tex
+% Odczyt klasy z kierunku wektora Blocha: rzut na płaszczyznę xy sfery Blocha kubitu j;
+% rys. fig:cls:readout (panel b rysunku fig:cls:model), podrozdział 8.2.
+% Rysunek własny (TikZ, zadanie PHD-TS-78), wykonany na podstawie kodu
+% /Users/krzysztofwerner/git/quantum-classifier/torus_classifier/readout.py (azymut, obcięcie, promień)
+% i torus_classifier/losses.py (kierunki docelowe w azymucie -pi/2 i +pi/2).
+% Wektory przykładowe: azymut -50 stopni, długość rzutu 0,85 (bez szumu, cienka strzałka) i 0,36 (po skróceniu, gruba szara strzałka);
+% wektor po zniekształceniu fazy (strzałka przerywana): azymut +25 stopni, długość 0,85.
+% Kółka wokół końców wektorów mają jednakowy promień (niepewność statystyczna składowych, schematycznie, nie w skali).
+\begin{tikzpicture}[
+    scale=1.7,
+    >={Stealth[length=2mm]},
+    aux/.style={thin, gray},
+    lab/.style={font=\footnotesize, align=left, inner sep=1.5pt},
+  ]
+  % półpłaszczyzna r_x < 0: azymut obcinany do +-pi/2
+  \begin{scope}
+    \clip (0,0) circle[radius=1];
+    \fill[gray!22] (-1.05,-1.05) rectangle (0,1.05);
+  \end{scope}
+  \draw[thin] (0,0) circle[radius=1];
+  \node[lab, align=center, font=\scriptsize] at (-0.47,0.27) {nasycenie\\$r_{j,x}<0$};
+  % osie
+  \draw[->, thin] (-1.15,0) -- (1.45,0) node[above, font=\footnotesize] {$r_{j,x}$};
+  \draw[->, thin] (0,-1.25) -- (0,1.38) node[left, font=\footnotesize] {$r_{j,y}$};
+  % granica decyzji dla K = 2
+  \draw[very thick, densely dashed] (0,0) -- (1,0);
+  % kierunki docelowe
+  \fill (0,-1) circle[radius=0.9pt];
+  \fill (0,1) circle[radius=0.9pt];
+  \node[lab, anchor=south west] at (0.06,1.03) {$\varphi_j=+\tfrac{\pi}{2}$: nie klasa $j$};
+  \node[lab, anchor=north west] at (0.06,-1.03) {$\varphi_j=-\tfrac{\pi}{2}$: klasa $j$};
+  % punkty końcowe wektorów
+  \coordinate (A) at ({0.85*cos(-50)},{0.85*sin(-50)});
+  \coordinate (S) at ({0.36*cos(-50)},{0.36*sin(-50)});
+  \coordinate (R) at ({0.85*cos(25)},{0.85*sin(25)});
+  % wektor bez szumu: cienka strzałka
+  \draw[->, line width=0.6pt] (0,0) -- (A);
+  % wektor skrócony (szum niekoherentny): ten sam azymut, gruba krótka strzałka na wierzchu
+  \draw[-{Stealth[length=2.8mm,width=2.4mm]}, line width=2pt, black!55] (0,0) -- (S);
+  % niepewność statystyczna składowych (schematycznie)
+  \draw[thin, densely dotted] (A) circle[radius=0.095];
+  \draw[thin, densely dotted] (S) circle[radius=0.095];
+  % wektor po zniekształceniu fazy: inny azymut
+  \draw[->, line width=0.9pt, densely dashed] (0,0) -- (R);
+  % kąty
+  \draw[thin] (0.2,0) arc[start angle=0, end angle=-50, radius=0.2];
+  \node[font=\footnotesize] at ({0.34*cos(-19)},{0.34*sin(-19)}) {$\varphi_j$};
+  \draw[->, thin] ({0.62*cos(-50)},{0.62*sin(-50)}) arc[start angle=-50, end angle=25, radius=0.62];
+  % opisy wektorów
+  \node[lab, anchor=west] (lr) at (1.3,0.72) {zniekształcenie fazy:\\azymut przesunięty};
+  \draw[aux] (lr.west) -- ($(R)+(0.04,0.03)$);
+  \node[lab, anchor=west] (ls) at (1.3,-0.36) {skrócenie wektora:\\azymut bez zmian};
+  \draw[aux] (ls.west) -- ($(S)+(0.1,-0.02)$);
+  \node[lab, anchor=west] (la) at (1.3,-0.8) {bez szumu};
+  \draw[aux] (la.west) -- ($(A)+(0.1,-0.03)$);
+\end{tikzpicture}

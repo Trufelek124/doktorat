@@ -1,0 +1,30 @@
+% !TeX root = ./../../main.tex
+% Galeria rekonstrukcji dziesięciu obrazów zbioru K10 (podrozdział 7.4.2, rys. fig:le:gallery).
+% UWAGA: rysunek jest w pliku rozdziału zakomentowany i czeka na zgodę autora na reprodukcję obrazów
+% (licencja kafli lotniczych nie jest wyjaśniona; w metadanych eksportu: Private). Do tego czasu pliku
+% le_gallery.png nie należy publikować.
+% Plik le_gallery.png złożono (PHD-TS-82) z obrazów wynikowych przebiegu H2 zapisanych w rozdzielczości 9x9 pikseli:
+%   <pakiet>/hw_run2_finetune/baseline/native/<obraz>__model_input_9x9.png   (wiersz 1: wejście modelu),
+%   <pakiet>/hw_run2_finetune/baseline/native/<obraz>__simulator_level_4.png (wiersz 2: symulator poziomu 4),
+%   <pakiet>/hw_run2_finetune/baseline/native/<obraz>__hardware.png          (wiersz 3: urządzenie, zadanie bazowe),
+% w kolejności obrazów z article/data/hw_results.json (run2_finetune.test_images); każdy piksel powiększono 12 razy
+% bez interpolacji (najbliższy sąsiad), odstęp między kaflami 8 pikseli, tło białe; niczego nie retuszowano.
+% Kafel ma 108 pikseli, krok siatki 116 pikseli, cały obraz 1152 x 340 pikseli (stąd ułamki w położeniach etykiet).
+% Wartości MAE na obraz: article/data/hw_results.json, run2_finetune.methods.sim_level4.mae_per_image
+% oraz run2_finetune.methods.hw_baseline_job.mae_per_image (zaokrąglone do trzech cyfr po przecinku).
+\begin{tikzpicture}[font=\scriptsize]
+\node[anchor=north west, inner sep=0pt] (g) at (0,0) {\includegraphics[width=12.6cm]{figures/chp_learned_encoding/le_gallery.png}};
+% etykiety wierszy
+\node[anchor=east, align=right] at ($(g.north west)!0.1588!(g.south west)+(-2mm,0)$) {wejście modelu\\($9\times9$ pikseli)};
+\node[anchor=east, align=right] at ($(g.north west)!0.5!(g.south west)+(-2mm,0)$) {symulator\\poziomu 4};
+\node[anchor=east, align=right] at ($(g.north west)!0.8412!(g.south west)+(-2mm,0)$) {urządzenie\\ibm\_fez};
+% MAE na obraz: symulator poziomu 4 (wyżej) i urządzenie (niżej)
+\foreach \c/\ms/\mh in {0/{0,068}/{0,087}, 1/{0,027}/{0,060}, 2/{0,049}/{0,073}, 3/{0,083}/{0,091}, 4/{0,091}/{0,123},
+                        5/{0,085}/{0,095}, 6/{0,080}/{0,104}, 7/{0,086}/{0,109}, 8/{0,084}/{0,090}, 9/{0,133}/{0,178}} {
+  \pgfmathsetmacro{\galpos}{(\c*116+54)/1152}
+  \node[anchor=north, inner sep=1pt] at ($(g.south west)!\galpos!(g.south east)+(0,-1.2mm)$) {\ms};
+  \node[anchor=north, inner sep=1pt] at ($(g.south west)!\galpos!(g.south east)+(0,-4.6mm)$) {\mh};
+}
+\node[anchor=north east, inner sep=1pt] at ($(g.south west)+(-2mm,-1.2mm)$) {MAE, symulator};
+\node[anchor=north east, inner sep=1pt] at ($(g.south west)+(-2mm,-4.6mm)$) {MAE, urządzenie};
+\end{tikzpicture}

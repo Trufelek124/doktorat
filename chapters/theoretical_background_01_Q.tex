@@ -2,50 +2,189 @@
 
 \section{Podstawy informatyki kwantowej}\label{sec:tb:quantum}
 \agentinfo{
-Cel: wprowadzić minimalny, ale kompletny aparat potrzebny do zrozumienia metod z rozdziałów 4--9.
-Poziom: czytelnik jest informatykiem bez przygotowania z mechaniki kwantowej.
-Źródła własne: \agentref{artykuły/magisterka_werner_final/chapters/01.tex} (sekcje: Notacja Diraca, Nowe sformułowanie mechaniki kwantowej, Podstawy informatyki kwantowej).
-Źródła podręcznikowe: Nielsen i Chuang oraz pozycje z bibliography/biblio.bib; brakujące pozycje dodać po weryfikacji.
-Rysunki (sfera Blocha, obwody) wykonać samodzielnie w TikZ i quantikz2, w katalogu figures/chp_theoretical_background.
+Uzgodnienia (PHD-TS-12): notacja według NielsenChuang2010; nazwy bramek pisane prosto (X, H, P, CNOT), macierze Pauliego jako sigma, jednostka urojona i liczba e prosto; faza lokalna phi, faza globalna chi (gamma zajęta przez funkcję referencyjną); hamiltonian i generator z daszkiem (makra ham, gen).
+Kanały, operatory Krausa, PTM i tomografia należą do podrozdziału o szumie, a próbkowanie, QCoSamp i PDO do podrozdziału o próbkowaniu kwantowym.
 }
+
+Podrozdział wprowadza, w zakresie potrzebnym w rozdziałach~\ref{chapter:pdu}--\ref{chapter:noise_structure}, aparat informatyki kwantowej z naciskiem na fazę lokalną, interferencję, statystykę pomiaru i wpływ transpilacji na błąd; notacja i pominięte dowody pochodzą z podręcznika~\cite{NielsenChuang2010}.
 
 \subsection{Kubit, rejestry kwantowe i notacja Diraca}\label{subsec:tb:qubit}
-\agentinfo{
-Bit a kubit, superpozycja, przestrzeń Hilberta, notacja Diraca, iloczyn tensorowy, rejestry wielokubitowe, splątanie, sfera Blocha.
-}
+
+\glsdisp{qubit}{Kubit} jest kwantowym odpowiednikiem bitu: układem o dwóch wyróżnionych stanach, realizowanym np. przez dwa najniższe poziomy energetyczne obwodu nadprzewodzącego~\cite{krantz_quantum_2019} albo polaryzację fotonu~\cite{NielsenChuang2010}.
+Jego stan jest wektorem jednostkowym przestrzeni Hilberta $\hilbert\cong\mathbb{C}^2$, zapisywanym w notacji Diraca~\cite{dirac_new_1939}: $\ket{\psi}$ (\emph{ket}) jest wektorem kolumnowym, $\bra{\psi}=\ket{\psi}^\dagger$ (\emph{bra}) wektorem wierszowym ($\dagger$ oznacza transpozycję ze sprzężeniem zespolonym), $\braket{\varphi|\psi}$ iloczynem skalarnym, a $\ket{\psi}\bra{\varphi}$ operatorem liniowym.
+W bazie obliczeniowej $\ket{0}=(1,0)^{\mathsf{T}}$, $\ket{1}=(0,1)^{\mathsf{T}}$
+\begin{equation}\label{eq:tb01:qubit}
+  \ket{\psi}=\alpha\ket{0}+\beta\ket{1},\qquad \alpha,\beta\in\mathbb{C},\qquad |\alpha|^2+|\beta|^2=1,
+\end{equation}
+a amplitudy wyznaczają prawdopodobieństwa $|\alpha|^2$ i $|\beta|^2$ wyników 0 i 1 pomiaru (podrozdział~\ref{subsec:tb:measurement}).
+Stan o obu amplitudach niezerowych jest \glsdisp{superposition}{superpozycją}, która nie wyraża niewiedzy o stanie kubitu: amplitudy, w odróżnieniu od prawdopodobieństw, mogą się znosić (podrozdział~\ref{subsec:tb:phase}).
+Po uwzględnieniu normalizacji i fazy globalnej $\chi$ każdy stan kubitu ma postać
+\begin{equation}\label{eq:tb01:bloch}
+  \ket{\psi}=\mathrm{e}^{\mathrm{i}\chi}\Bigl(\cos\tfrac{\theta}{2}\ket{0}+\mathrm{e}^{\mathrm{i}\varphi}\sin\tfrac{\theta}{2}\ket{1}\Bigr),\qquad \theta\in[0,\pi],\quad \varphi\in[0,2\pi),
+\end{equation}
+gdzie $\varphi$ jest fazą lokalną, a wektor Blocha $\blochvec=(\sin\theta\cos\varphi,\,\sin\theta\sin\varphi,\,\cos\theta)$ wskazuje punkt \glsdisp{bloch-sphere}{sfery Blocha} (rys.~\ref{fig:tb01:bloch:sphere}).
+Bieguny sfery odpowiadają stanom $\ket{0}$ i $\ket{1}$, a na równiku leżą stany różniące się tylko fazą lokalną, będącą azymutem wektora Blocha, m.in. $\ket{\pm}=(\ket{0}\pm\ket{1})/\sqrt{2}$ i $\ket{\pm\mathrm{i}}=(\ket{0}\pm\mathrm{i}\ket{1})/\sqrt{2}$.
+
+\begin{figure}[tb]
+  \centering
+  \input{figures/chp_theoretical_background/tb01_interference.tex}
+  \caption[Sfera Blocha i interferencja jednokubitowa]{(a)~Sfera Blocha, stan~\eqref{eq:tb01:bloch} dla $\theta=50^\circ$, $\varphi=60^\circ$; (b)~obwód z przykładu~\ref{ex:tb01:interference}; (c)~prawdopodobieństwa~\eqref{eq:tb01:interference} oraz $\prob(\ket{0})$ przy koherencjach stłumionych czynnikiem $v=0{,}6$ (podrozdział~\ref{subsec:tb:density}).
+  Opracowanie własne.}
+  \label{fig:tb01:bloch}
+\end{figure}
+
+Stan rejestru $n$ kubitów należy do iloczynu tensorowego $\hilbert^{\otimes n}\cong\mathbb{C}^{2^n}$ (dla wektorów jest to iloczyn Kroneckera), a stany bazowe oznacza się ciągami bitów, $\ket{x}=\ket{x_1}\otimes\dots\otimes\ket{x_n}\equiv\ket{x_1\dots x_n}$:
+\begin{equation}\label{eq:tb01:register}
+  \ket{\psi}=\sum_{x\in\{0,1\}^n}c_x\ket{x},\qquad \sum_{x}|c_x|^2=1.
+\end{equation}
+Stan, którego nie da się zapisać jako iloczynu stanów pojedynczych kubitów, jest \glsdisp{entanglement}{splątany}~\cite{bib:schrodinger-relations}; przykładami są stan Bella $\ket{\Phi^+}=(\ket{00}+\ket{11})/\sqrt{2}$ i jego $n$-kubitowe uogólnienie, stan GHZ $(\ket{0\dots0}+\ket{1\dots1})/\sqrt{2}$, używany w rozdziale~\ref{chapter:classification}.
 
 \subsection{Bramki i obwody kwantowe}\label{subsec:tb:gates}
-\agentinfo{
-Ewolucja unitarna, bramki jednokubitowe (Pauliego, Hadamarda, obroty), bramki przesunięcia fazy, bramki kontrolowane i wielokrotnie kontrolowane, obwód kwantowy, głębokość obwodu.
-Techniki używane dalej w pracy: phase kickback, uncomputation, definiowanie operatora macierzą i jego transpilacja do bramek natywnych urządzenia.
-Zwrócić uwagę, że transpilacja zmienia liczbę i rodzaj bramek, co wpływa na błąd; do tego odwołują się rozdziały 4 i 5.
-}
+
+Bramka kwantowa jest operatorem unitarnym ($U^\dagger U=\identity$), a więc odwracalnym i zachowującym normę stanu.
+Podstawowe bramki jednokubitowe to bramki Pauliego $\mathrm{X}$ (negacja), $\mathrm{Y}$, $\mathrm{Z}$ o macierzach
+\begin{equation}\label{eq:tb01:pauli}
+  \sigma_x=\begin{pmatrix}0&1\\1&0\end{pmatrix},\qquad
+  \sigma_y=\begin{pmatrix}0&-\mathrm{i}\\\mathrm{i}&0\end{pmatrix},\qquad
+  \sigma_z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}
+\end{equation}
+oraz bramka Hadamarda $\mathrm{H}=(\sigma_x+\sigma_z)/\sqrt{2}$, przeprowadzająca $\ket{0}$ i $\ket{1}$ w $\ket{+}$ i $\ket{-}$.
+Obroty wektora Blocha o kąt $\theta$ wokół osi $a\in\{x,y,z\}$ mają postać
+\begin{equation}\label{eq:tb01:rotation}
+  R_a(\theta)=\exp\Bigl(-\mathrm{i}\tfrac{\theta}{2}\sigma_a\Bigr)=\cos\tfrac{\theta}{2}\,\identity-\mathrm{i}\sin\tfrac{\theta}{2}\,\sigma_a.
+\end{equation}
+Szczególne znaczenie w pracy mają bramki przesunięcia fazy
+\begin{equation}\label{eq:tb01:phasegate}
+  \mathrm{P}(\varphi)=\begin{pmatrix}1&0\\0&\mathrm{e}^{\mathrm{i}\varphi}\end{pmatrix},\qquad
+  \mathrm{P}(\varphi)\bigl(\alpha\ket{0}+\beta\ket{1}\bigr)=\alpha\ket{0}+\mathrm{e}^{\mathrm{i}\varphi}\beta\ket{1},
+\end{equation}
+które zmieniają tylko fazę lokalną i są elementarnym nośnikiem danych w kodowaniu fazowym (podrozdziały~\ref{subsec:tb:qsamp:pdo} i~\ref{subsec:tb:qimg:lpiqe}); przypadkami szczególnymi są $\mathrm{Z}=\mathrm{P}(\pi)$, $\mathrm{S}=\mathrm{P}(\pi/2)$ i $\mathrm{T}=\mathrm{P}(\pi/4)$, a $\mathrm{P}(\varphi)=\mathrm{e}^{\mathrm{i}\varphi/2}R_z(\varphi)$.
+
+Bramka kontrolowana $\mathrm{C}U=\ket{0}\bra{0}\otimes\identity+\ket{1}\bra{1}\otimes U$ stosuje $U$ do kubitu docelowego w tych składowych superpozycji, w których kubit kontrolny jest w stanie $\ket{1}$, działając na wszystkie składowe jednocześnie, a nie jak instrukcja warunkowa.
+Przykładami są bramka $\mathrm{CNOT}$ ($U=\mathrm{X}$), która wytwarza splątanie, $\mathrm{CNOT}\,(\mathrm{H}\otimes\identity)\ket{00}=\ket{\Phi^+}$, oraz kontrolowane przesunięcie fazy $\mathrm{CP}(\varphi)=\mathrm{diag}(1,1,1,\mathrm{e}^{\mathrm{i}\varphi})$.
+Bramka $\mathrm{CNOT}$ z bramkami jednokubitowymi tworzy zbiór uniwersalny, na który rozkłada się także bramki wielokrotnie kontrolowane, np. bramkę Toffoliego~\cite{bib:quantum_gates}.
+Obwód kwantowy to ciąg bramek przedstawiany jako diagram (rys.~\ref{fig:tb01:techniques}), w którym linie odpowiadają kubitom, a czas biegnie od lewej do prawej; obwód z bramek $U_1,\dots,U_L$ realizuje operator $U_L\cdots U_1$, a jego głębokość, czyli liczba warstw bramek działających na rozłączne zbiory kubitów, wyznacza czas ekspozycji stanu na dekoherencję (podrozdział~\ref{subsec:tb:noise:sources}).
+
+\glsdisp{phase-kickback}{Przeniesienie fazy} (ang. \emph{phase kickback})~\cite{cleve_quantum_1998} zachodzi, gdy kubit docelowy bramki kontrolowanej jest w stanie własnym jej operatora, $U\ket{u}=\mathrm{e}^{\mathrm{i}\lambda}\ket{u}$:
+\begin{equation}\label{eq:tb01:kickback}
+  \mathrm{C}U\bigl(\alpha\ket{0}+\beta\ket{1}\bigr)\ket{u}=\bigl(\alpha\ket{0}+\mathrm{e}^{\mathrm{i}\lambda}\beta\ket{1}\bigr)\ket{u}.
+\end{equation}
+Wartość własna staje się fazą lokalną kubitu kontrolnego, którą interferencja zamienia na mierzalne prawdopodobieństwo (rys.~\ref{fig:tb01:techniques:kickback}); na tym schemacie opiera się estymacja fazy~\cite{cleve_quantum_1998}.
+\glsdisp{uncomputation}{Dekomputacja} (ang. \emph{uncomputation})~\cite{bennett_logical_1973} usuwa wyniki pośrednie, które obwód $U_f$ pozostawia w kubitach pomocniczych i które, splątane z wejściem, uniemożliwiają interferencję: wynik kopiuje się bramkami $\mathrm{CNOT}$ do czystego rejestru, a $U_f^\dagger$ przywraca kubity pomocnicze do stanu $\ket{0}$ (rys.~\ref{fig:tb01:techniques:uncompute}) kosztem około dwukrotnie większej liczby bramek.
+
+\begin{figure}[tb]
+  \centering
+  \input{figures/chp_theoretical_background/tb01_techniques.tex}
+  \caption[Przeniesienie fazy, dekomputacja i rozkład bramki $\mathrm{CP}(\varphi)$]{(a)~Przeniesienie fazy: dla $U\ket{u}=\mathrm{e}^{\mathrm{i}\lambda}\ket{u}$ wynik 0 ma prawdopodobieństwo $(1+\cos\lambda)/2$; (b)~dekomputacja: kubity pomocnicze wracają do $\ket{0}$, a ostatni kubit kończy w stanie $\ket{f(x)}$; (c)~rozkład bramki $\mathrm{CP}(\varphi)$ wykonywany podczas transpilacji.
+  Opracowanie własne.}
+  \label{fig:tb01:techniques}
+\end{figure}
+
+Urządzenie wykonuje tylko bramki natywne, a bramki dwukubitowe tylko między kubitami połączonymi fizycznie.
+\glsdisp{transpilation}{Transpilacja} przekształca obwód logiczny w równoważny obwód spełniający te ograniczenia; w bibliotece Qiskit obejmuje wybór kubitów fizycznych, trasowanie (wstawianie bramek $\mathrm{SWAP}$), tłumaczenie na bramki natywne, optymalizację i szeregowanie~\cite{javadi-abhari_quantum_2024,qiskit-optimization-level}.
+W procesorach IBM natywne bramki jednokubitowe to $R_z(\theta)$, $\mathrm{SX}=\sqrt{\mathrm{X}}$ i $\mathrm{X}$~\cite{raubitzek_quantum_noise}, a $R_z$ jest realizowana wirtualnie, przez zmianę fazy kolejnych impulsów sterujących, w zerowym czasie~\cite{McKay2017}; np. $\mathrm{H}=\mathrm{e}^{\mathrm{i}\pi/4}R_z(\pi/2)\,\mathrm{SX}\,R_z(\pi/2)$, a $\mathrm{P}(\varphi)$ zastępuje się przez $R_z(\varphi)$.
+Bramki dwukubitowe rozkłada się na natywną bramkę splątującą (np. ECR) i bramki jednokubitowe~\cite{qiskit-optimization-level}, jak w rozkładzie $\mathrm{CP}(\varphi)$ z rys.~\ref{fig:tb01:techniques:transpile}.
+Operator zadany macierzą, jak operatory kodowania obrazu w rozdziale~\ref{chapter:pdu_images}, jest rozkładany automatycznie: dla dwóch kubitów wystarczają trzy bramki $\mathrm{CNOT}$~\cite{VatanWilliams2004,Shende2004}, lecz ogólny operator na $n$ kubitach ma, z dokładnością do fazy globalnej, $4^n-1$ parametrów rzeczywistych i liczba bramek dwukubitowych w jego rozkładzie rośnie wykładniczo z $n$~\cite{shende_synthesis_2006}.
+Transpilacja wpływa więc na błąd wyniku, ponieważ zmienia liczbę bramek dwukubitowych, zwykle najistotniejszego źródła błędów, a jej rezultat zależy od poziomu optymalizacji i ziarna losowego heurystyk trasowania~\cite{qiskit-optimization-level}.
+Na przykład w dokumentacji Qiskit obwód złożony z losowego operatora dwukubitowego i bramki $\mathrm{SWAP}$ wymaga sześciu natywnych bramek dwukubitowych na poziomach optymalizacji 0--2 i trzech na poziomie 3, na którym usuwa się też bramki diagonalne tuż przed pomiarem, bo nie zmieniają jego wyniku~\cite{qiskit-optimization-level}.
+Znaczenie ma też wybór kubitów fizycznych: uwzględnienie bieżących danych kalibracyjnych przy rozmieszczaniu obwodu zwiększyło w pomiarach Muraliego i in. odsetek poprawnych wykonań średnio 2,9-krotnie względem ówczesnego kompilatora Qiskit~\cite{murali_noise-adaptive_2019}.
+Metody redukcji błędów wyznaczane eksperymentalnie, jak PDU (rozdział~\ref{chapter:pdu}), wymagają zatem, aby kalibracja i obliczenia korzystały z tych samych kubitów fizycznych i tej samej struktury obwodu po transpilacji.
 
 \subsection{Faza globalna i lokalna, interferencja}\label{subsec:tb:phase}
-\agentinfo{
-Rozróżnienie fazy globalnej (nieobserwowalnej) i lokalnej (względnej).
-Interferencja jako mechanizm zamiany informacji fazowej na prawdopodobieństwa pomiaru.
-To pojęcie jest fundamentem kodowania LPIQE i metody PDU, dlatego wymaga osobnego, starannego wprowadzenia z przykładem jednokubitowym.
-}
+
+\glsdisp{global-phase}{Faza globalna}, czyli czynnik $\mathrm{e}^{\mathrm{i}\chi}$ wspólny dla wszystkich składowych stanu, nie wpływa na wynik żadnego pomiaru, ponieważ $|\bra{a}\mathrm{e}^{\mathrm{i}\chi}\ket{\psi}|^2=|\braket{a|\psi}|^2$; dlatego operatory różniące się takim czynnikiem, jak $\mathrm{P}(\varphi)$ i $R_z(\varphi)$, opisują tę samą bramkę.
+Nie dotyczy to bramek kontrolowanych: $\mathrm{C}(\mathrm{e}^{\mathrm{i}\chi}U)=(\mathrm{P}(\chi)\otimes\identity)\,\mathrm{C}U$, więc faza globalna operatora docelowego staje się fazą lokalną kubitu kontrolnego, jak w~\eqref{eq:tb01:kickback}, a $\mathrm{CP}(\varphi)$ i $\mathrm{C}R_z(\varphi)$ są różnymi operacjami.
+
+\glsdisp{local-phase}{Faza lokalna} (względna) jest różnicą faz składowych superpozycji; w rejestrze~\eqref{eq:tb01:register} z amplitudami $c_x=|c_x|\mathrm{e}^{\mathrm{i}\varphi_x}$ znaczenie mają różnice $\varphi_x-\varphi_{x'}$.
+Stany $(\ket{0}+\mathrm{e}^{\mathrm{i}\varphi}\ket{1})/\sqrt{2}$ są dla różnych $\varphi$ różnymi punktami równika sfery Blocha, a dla $\varphi\in\{0,\pi\}$ nawet stanami ortogonalnymi, choć pomiar w bazie obliczeniowej daje dla każdego z nich wyniki 0 i 1 z prawdopodobieństwem $1/2$.
+Fazy lokalne stanów bazowych są nośnikiem danych w operatorze zniekształcenia fazy i w kodowaniu LPIQE (podrozdziały~\ref{subsec:tb:qsamp:pdo} i~\ref{subsec:tb:qimg:lpiqe}), a ich zniekształcenie przez szum jest przedmiotem korekty PDU (rozdział~\ref{chapter:pdu}).
+Fazę lokalną odczytuje się dzięki \glsdisp{interference}{interferencji}: amplituda wyniku jest sumą amplitud prowadzących do niego ścieżek obliczenia, a dla dwóch ścieżek $|a+b|^2=|a|^2+|b|^2+2|a||b|\cos(\arg b-\arg a)$, więc prawdopodobieństwo zależy od różnicy faz.
+
+\begin{Example}\label{ex:tb01:interference}
+Obwód z rys.~\ref{fig:tb01:interference:circuit} realizuje przekształcenie
+\begin{equation}\label{eq:tb01:hph}
+  \ket{0}\xrightarrow{\mathrm{H}}\frac{\ket{0}+\ket{1}}{\sqrt{2}}
+  \xrightarrow{\mathrm{P}(\varphi)}\frac{\ket{0}+\mathrm{e}^{\mathrm{i}\varphi}\ket{1}}{\sqrt{2}}
+  \xrightarrow{\mathrm{H}}\frac{1+\mathrm{e}^{\mathrm{i}\varphi}}{2}\ket{0}+\frac{1-\mathrm{e}^{\mathrm{i}\varphi}}{2}\ket{1}.
+\end{equation}
+Do wyniku 0 prowadzą dwie ścieżki o amplitudach $1/2$ i $\mathrm{e}^{\mathrm{i}\varphi}/2$, stąd
+\begin{equation}\label{eq:tb01:interference}
+  \prob(\ket{0})=\Bigl|\frac{1+\mathrm{e}^{\mathrm{i}\varphi}}{2}\Bigr|^2=\frac{1+\cos\varphi}{2},\qquad
+  \prob(\ket{1})=\frac{1-\cos\varphi}{2}.
+\end{equation}
+Faza lokalna zostaje zamieniona na prawdopodobieństwo wyniku (rys.~\ref{fig:tb01:interference:plot}), a obwód jest odpowiednikiem interferometru Macha--Zehndera z bramkami $\mathrm{H}$ w roli dzielników wiązki.
+\end{Example}
+
+Funkcja~\eqref{eq:tb01:interference} jest podstawą metody QCoSamp i funkcji referencyjnej metody PDU (podrozdział~\ref{subsec:tb:qsamp:qcosamp} i rozdział~\ref{chapter:pdu}).
+Zniekształcenie fazy $\varphi\mapsto\varphi+\delta\varphi$ zmienia wynik o $\delta\prob(\ket{0})\approx-\frac{1}{2}\sin\varphi\,\delta\varphi$, czyli najsilniej przy $\varphi=\pi/2$ i $3\pi/2$, a w pierwszym rzędzie wcale przy $\varphi\in\{0,\pi\}$; ten sam błąd fazy daje więc błąd wyniku zależny od argumentu, co jest jednym z powodów wyznaczania korekty PDU jako funkcji argumentu.
 
 \subsection{Pomiar i estymacja rozkładu wyników}\label{subsec:tb:measurement}
-\agentinfo{
-Postulat pomiaru, pomiar w bazie obliczeniowej, wartość oczekiwana.
-Wielokrotne wykonanie obwodu (shots), histogram wyników jako estymator rozkładu prawdopodobieństwa.
-Błąd statystyczny wynikający ze skończonej liczby powtórzeń i jego odróżnienie od błędu sprzętowego; to rozróżnienie jest potrzebne przy interpretacji wyników w rozdziałach 4--6 i 8.
-}
+
+Wielkość mierzalną opisuje obserwabla, czyli operator hermitowski $A=\sum_m a_m\Pi_m$ o wartościach własnych $a_m$ i rzutach $\Pi_m$ na podprzestrzenie własne; zgodnie z regułą Borna wynik $a_m$ pojawia się z prawdopodobieństwem $\prob(m)=\bra{\psi}\Pi_m\ket{\psi}$~\cite{NielsenChuang2010}.
+Urządzenia mierzą w bazie obliczeniowej, $\Pi_x=\ket{x}\bra{x}$, więc dla stanu~\eqref{eq:tb01:register}
+\begin{equation}\label{eq:tb01:born}
+  \prob(\ket{x})=|\braket{x|\psi}|^2=|c_x|^2,
+\end{equation}
+a pojedyncze wykonanie obwodu zwraca jeden ciąg $n$ bitów i niszczy superpozycję.
+Wartość oczekiwana wynosi $\langle A\rangle=\bra{\psi}A\ket{\psi}$, np. $\langle\sigma_z\rangle=\prob(\ket{0})-\prob(\ket{1})$, a pomiar w innej bazie realizuje się obrotem stanu przed pomiarem: bramka $\mathrm{H}$ daje dostęp do $\sigma_x$, a bramki $\mathrm{S}^\dagger$ i $\mathrm{H}$ do $\sigma_y$.
+Dla stanu~\eqref{eq:tb01:bloch} $(\langle\sigma_x\rangle,\langle\sigma_y\rangle,\langle\sigma_z\rangle)=\blochvec$, więc $\varphi=\arg(\langle\sigma_x\rangle+\mathrm{i}\langle\sigma_y\rangle)$; tak odczytuje fazę klasyfikator z rozdziału~\ref{chapter:classification}.
+
+Rozkład $\prob$ estymuje się, wykonując obwód $\nshots$ razy (ang. \emph{shots}) i zliczając wystąpienia $n_x$ każdego wyniku.
+Każde $n_x$ ma rozkład dwumianowy, więc częstość względna jest nieobciążonym estymatorem prawdopodobieństwa:
+\begin{equation}\label{eq:tb01:estimator}
+  \tilde{\prob}(\ket{x})=\frac{n_x}{\nshots},\qquad
+  \mathbb{E}\,\tilde{\prob}(\ket{x})=\prob(\ket{x}),\qquad
+  \mathrm{Var}\,\tilde{\prob}(\ket{x})=\frac{\prob(\ket{x})\bigl(1-\prob(\ket{x})\bigr)}{\nshots}.
+\end{equation}
+Odchylenie standardowe estymatora nie przekracza $1/(2\sqrt{\nshots})$, np. $0{,}005$ dla $\nshots=10^4$, a gdy $2^n$ stanów bazowych ma prawdopodobieństwa rzędu $2^{-n}$, błąd względny pojedynczej częstości wynosi około $\sqrt{2^n/\nshots}$, co ma znaczenie przy odtwarzaniu pikseli obrazu z prawdopodobieństw stanów bazowych (rozdziały~\ref{chapter:pdu_images} i~\ref{chapter:learned_encoding}).
+
+Niech $\prob_{\mathrm{id}}$ oznacza rozkład idealny~\eqref{eq:tb01:born}, a $\prob_{\mathrm{dev}}$ rozkład, z którego faktycznie losuje urządzenie obarczone szumem; wtedy
+\begin{equation}\label{eq:tb01:errordecomp}
+  \tilde{\prob}(\ket{x})-\prob_{\mathrm{id}}(\ket{x})
+  =\underbrace{\bigl(\tilde{\prob}(\ket{x})-\prob_{\mathrm{dev}}(\ket{x})\bigr)}_{\text{błąd statystyczny}}
+  +\underbrace{\bigl(\prob_{\mathrm{dev}}(\ket{x})-\prob_{\mathrm{id}}(\ket{x})\bigr)}_{\text{błąd sprzętowy}}.
+\end{equation}
+Błąd statystyczny jest losowy, ma wartość oczekiwaną zero, maleje jak $1/\sqrt{\nshots}$ i występuje także na symulatorze bez szumu.
+Błąd sprzętowy jest systematyczny, wynika ze źródeł opisanych w podrozdziale~\ref{sec:tb:noise}, zmienia się wraz z dryfem parametrów urządzenia i nie maleje ze wzrostem $\nshots$; błąd średniokwadratowy jest sumą jego kwadratu i wariancji~\eqref{eq:tb01:estimator}.
+Redukcja błędów, w tym metoda PDU, usuwa składową systematyczną, a składowa statystyczna wyznacza dolną granicę błędu po korekcie, przy czym sama korekta, wyznaczana z pomiarów kalibracyjnych, ma własny błąd statystyczny; z tego rozróżnienia korzystają rozdziały~\ref{chapter:pdu}--\ref{chapter:dl_error_reduction} i~\ref{chapter:classification}.
 
 \subsection{Stany mieszane i macierz gęstości}\label{subsec:tb:density}
-\agentinfo{
-Stany czyste i mieszane, macierz gęstości, ślad częściowy, wierność stanów.
-Wprowadzenie potrzebne do opisu szumu w kolejnym podrozdziale oraz do macierzy gęstości prezentowanych w rozdziale 4.
-}
+
+Gdy układ jest w stanie $\ket{\psi_i}$ z prawdopodobieństwem $w_i$, np. wskutek szumu albo splątania z innym układem, jego stan opisuje \glsdisp{density-matrix}{macierz gęstości}~\cite{NielsenChuang2010,bib:density_matrix_art}
+\begin{equation}\label{eq:tb01:density}
+  \rho=\sum_i w_i\ket{\psi_i}\bra{\psi_i},\qquad \rho^\dagger=\rho,\qquad \rho\succeq0,\qquad \Tr\rho=1.
+\end{equation}
+Stan jest czysty, gdy $\rho=\ket{\psi}\bra{\psi}$, czyli gdy $\Tr\rho^2=1$, a w przeciwnym razie mieszany; ewolucja ma postać $\rho\mapsto U\rho U^\dagger$, a pomiar daje $\prob(m)=\Tr(\Pi_m\rho)$ i $\langle A\rangle=\Tr(A\rho)$ (ogólne przekształcenia, czyli kanały kwantowe, opisano w podrozdziale~\ref{subsec:tb:noise:channels}).
+Elementy diagonalne $\rho_{xx}=\prob(\ket{x})$ są prawdopodobieństwami wyników, a pozadiagonalne, czyli koherencje, przechowują fazy lokalne; dla stanu~\eqref{eq:tb01:bloch} $\rho_{01}=\tfrac{1}{2}\sin\theta\,\mathrm{e}^{-\mathrm{i}\varphi}$.
+Każdą macierz gęstości kubitu można zapisać jako
+\begin{equation}\label{eq:tb01:blochrho}
+  \rho=\tfrac{1}{2}\bigl(\identity+r_x\sigma_x+r_y\sigma_y+r_z\sigma_z\bigr),\qquad r_a=\Tr(\rho\,\sigma_a)=\langle\sigma_a\rangle,\qquad \|\blochvec\|\le1,
+\end{equation}
+więc stany czyste leżą na sferze Blocha, a mieszane w jej wnętrzu; azymut $\blochvec$ jest fazą lokalną, długość rzutu na płaszczyznę $xy$, równa $2|\rho_{01}|$, mierzy zachowaną koherencję, a $\Tr\rho^2=(1+\|\blochvec\|^2)/2$.
+Z azymutu i długości wektora Blocha korzysta klasyfikator z rozdziału~\ref{chapter:classification}.
+Szum tłumiący koherencje ogranicza interferencję: jeśli w przykładzie~\ref{ex:tb01:interference} przed drugą bramką $\mathrm{H}$ koherencje zostaną pomnożone przez $v\in[0,1]$, to $\prob(\ket{0})=(1+v\cos\varphi)/2$, więc widoczność interferencji maleje $v$-krotnie, a ten sam błąd statystyczny daje większy błąd odczytanej fazy (rys.~\ref{fig:tb01:interference:plot}).
+
+Stan podukładu $A$ układu $AB$ opisuje ślad częściowy $\rho_A=\Tr_B\rho_{AB}=\sum_j(\identity\otimes\bra{j})\,\rho_{AB}\,(\identity\otimes\ket{j})$; dla stanu Bella $\rho_A=\identity/2$, więc całość jest w stanie czystym, a każdy kubit w maksymalnie mieszanym, i w ten sam sposób splątanie kubitu z otoczeniem prowadzi do dekoherencji (podrozdział~\ref{sec:tb:noise}).
+Zgodność dwóch stanów mierzy wierność~\cite{jozsa_fidelity_1994}
+\begin{equation}\label{eq:tb01:fidelity}
+  \fidelity(\rho_1,\rho_2)=\Bigl(\Tr\sqrt{\sqrt{\rho_1}\,\rho_2\sqrt{\rho_1}}\Bigr)^2\in[0,1],
+\end{equation}
+równa 1 tylko dla $\rho_1=\rho_2$ i równa $\bra{\psi}\rho\ket{\psi}$ dla czystego stanu docelowego $\ket{\psi}$; część autorów, m.in.~\cite{NielsenChuang2010}, definiuje ją bez kwadratu.
 
 \subsection{Bramki kwantowe jako elementy grup Liego}\label{subsec:tb:lie}
 \agentinfo{
-Grupy SU(2), SO(3), SU(3) i ich algebry Liego, generatory, mapa wykładnicza.
-Bramka obrotu jako eksponenta generatora: U(theta) = exp(-i theta G / 2).
-Jest to podstawa rozdziału 9 (zaburzenia generatorów, sieci oparte na grupach Liego), który jest krótkim omówieniem prac powiązanych, więc ten podrozdział ma zająć najwyżej około strony.
-Źródła: \agentref{artykuły/quantum_noise_elsevier_submission/main.tex} (sekcja Theoretical Foundations) \agentref{artykuły/noisy_lie_group_learners/main.tex} (sekcja Lie Groups, Lie Algebras, and Neural Network Layers).
-Zakres ograniczyć do tego, co faktycznie jest używane w rozdziale 9.
+Zakres: tylko to, z czego korzysta rozdział 9 i podrozdział o symetriach w sieciach neuronowych.
+Szczegóły i wyniki prac S. Raubitzka należą do rozdziału 9.
 }
+
+Grupa Liego jest grupą będącą zarazem gładką rozmaitością~\cite{hall2015lie}; w pracy występują grupy macierzowe $\mathrm{U}(d)$, $\mathrm{SU}(d)=\{U\in\mathrm{U}(d):\det U=1\}$ i $\mathrm{SO}(3)$ (obroty przestrzeni trójwymiarowej), a bramki jednokubitowe po pominięciu fazy globalnej należą do $\mathrm{SU}(2)$.
+Algebra Liego $\liealg{g}$ grupy $G$ jest przestrzenią styczną do $G$ w elemencie neutralnym, zamkniętą ze względu na komutator $[A,B]=AB-BA$, a mapa wykładnicza $\exp(X)=\sum_{k\ge0}X^k/k!$ przeprowadza ją w grupę~\cite{hall2015lie,higham2008functions}.
+Elementy $\liealg{su}(d)$ zapisuje się jako $-\mathrm{i}\gen$ z hermitowskim, bezśladowym generatorem $\gen$, co daje postać bramki
+\begin{equation}\label{eq:tb01:generator}
+  U(\theta)=\exp\Bigl(-\mathrm{i}\tfrac{\theta}{2}\gen\Bigr),
+\end{equation}
+zgodną z rozwiązaniem równania Schrödingera $U(t)=\exp(-\mathrm{i}\ham t/\hbar)$ dla hamiltonianu $\ham$ kształtowanego przez impulsy sterujące.
+Generatorami $\mathrm{SU}(2)$ są macierze Pauliego, $[\sigma_a,\sigma_b]=2\mathrm{i}\sum_c\epsilon_{abc}\sigma_c$ ($\epsilon_{abc}$ jest symbolem Leviego-Civity), a obroty~\eqref{eq:tb01:rotation} odpowiadają $\gen=\sigma_a$; przekształcenie $\rho\mapsto U\rho U^\dagger$ obraca wektor Blocha~\eqref{eq:tb01:blochrho} macierzą $R(U)\in\mathrm{SO}(3)$, przy czym $U$ i $-U$ dają ten sam obrót (nakrycie dwukrotne~\cite{hall2015lie}).
+Bazę $\liealg{so}(3)$ tworzą trzy rzeczywiste macierze antysymetryczne, a generatorami $\mathrm{SU}(3)$, grupy operacji na układach trójpoziomowych, jest osiem macierzy Gella-Manna~\cite{raubitzek_lie_group_manuscript}.
+Postać~\eqref{eq:tb01:generator} pozwala modelować błąd bramki zaburzeniem generatora, $\gen\mapsto\gen+\genpert$: zaburzenie hermitowskie zachowuje unitarność i odpowiada błędowi koherentnemu (odchyleniu osi lub kąta obrotu), a niehermitowskie daje operator nieunitarny, naśladujący efekty dyssypacyjne~\cite{raubitzek_quantum_noise}.
+Z tego opisu oraz z warstw sieci neuronowych działających na wektory cech elementami $\mathrm{SO}(3)$, $\mathrm{SU}(2)$ i $\mathrm{SU}(3)$, wyznaczonymi mapą wykładniczą ze współrzędnych w algebrze~\cite{raubitzek_lie_group_manuscript}, korzystają podrozdział~\ref{subsec:tb:ml:lie} i rozdział~\ref{chapter:noise_structure}.

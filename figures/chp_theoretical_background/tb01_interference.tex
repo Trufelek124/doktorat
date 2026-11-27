@@ -1,0 +1,47 @@
+% !TeX root = ./../../main.tex
+% Sfera Blocha i interferencja jednokubitowa (podrozdział 2.1, rys. fig:tb01:bloch).
+% (a) sfera Blocha (plik tb01_bloch_sphere.tex),
+% (b) obwód H - P(phi) - H z pomiarem,
+% (c) prawdopodobieństwa wyników w funkcji fazy lokalnej:
+%     p(0) = (1 + cos phi)/2, p(1) = (1 - cos phi)/2 oraz p(0) = (1 + v cos phi)/2 dla v = 0,6 (stłumione koherencje).
+\begin{subfigure}[c]{0.36\textwidth}
+  \centering
+  \input{figures/chp_theoretical_background/tb01_bloch_sphere.tex}
+  \caption{}\label{fig:tb01:bloch:sphere}
+\end{subfigure}\hfill
+\begin{minipage}[c]{0.6\textwidth}
+  \begin{subfigure}{\linewidth}
+    \centering
+    \begin{quantikz}[column sep=0.25cm]
+      \lstick{$\ket{0}$} & \gate{\mathrm{H}} & \gate{\mathrm{P}(\varphi)} & \gate{\mathrm{H}} & \meter{}
+    \end{quantikz}
+    \caption{}\label{fig:tb01:interference:circuit}
+  \end{subfigure}
+
+  \medskip
+  \begin{subfigure}{\linewidth}
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+          width=\linewidth, height=3.9cm,
+          xmin=0, xmax=6.2832, ymin=0, ymax=1.05,
+          xtick={0,1.5708,3.1416,4.7124,6.2832},
+          xticklabels={$0$,$\pi/2$,$\pi$,$3\pi/2$,$2\pi$},
+          ytick={0,0.2,0.5,0.8,1},
+          yticklabels={$0$,$0{,}2$,$0{,}5$,$0{,}8$,$1$},
+          xlabel={$\varphi$},
+          legend style={font=\footnotesize, at={(0.5,1.03)}, anchor=south, draw=none, legend columns=3},
+          tick label style={font=\footnotesize}, label style={font=\small},
+          samples=121, domain=0:6.2832,
+        ]
+        \addplot[thick, black] {(1+cos(deg(x)))/2};
+        \addlegendentry{$\prob(\ket{0})$}
+        \addplot[thick, gray] {(1-cos(deg(x)))/2};
+        \addlegendentry{$\prob(\ket{1})$}
+        \addplot[thick, black, densely dashed] {(1+0.6*cos(deg(x)))/2};
+        \addlegendentry{$\prob(\ket{0})$, $v=0{,}6$}
+      \end{axis}
+    \end{tikzpicture}
+    \caption{}\label{fig:tb01:interference:plot}
+  \end{subfigure}
+\end{minipage}

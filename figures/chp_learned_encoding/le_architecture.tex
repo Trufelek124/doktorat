@@ -1,0 +1,53 @@
+% !TeX root = ./../../main.tex
+% Schemat hybrydowego autoenkodera z uczonym kodowaniem (podrozdział 7.2, rys. fig:le:architecture).
+% Rysunek własny (PHD-TS-76), narysowany na podstawie kodu autoencoder7.py, hybrid_autoencoder7.py i circuit.py
+% z katalogu best_results_package; plik autoencoder_architecture.png był tylko wzorcem układu.
+% Odcienie szarości i rodzaje linii dobrano tak, aby rysunek był czytelny w druku czarno-białym.
+\begin{tikzpicture}[
+  font=\footnotesize,
+  >={Stealth[length=2mm]},
+  node distance=0.38cm,
+  box/.style={draw, rounded corners=2pt, align=center, minimum height=1.0cm, inner sep=2.5pt},
+  data/.style={box, fill=white},
+  cls/.style={box, fill=gray!12},
+  qnt/.style={box, fill=gray!35},
+  flow/.style={->, thick},
+  frame/.style={draw, dashed, rounded corners=3pt, gray!40!black},
+  lbl/.style={font=\scriptsize, align=center, text=gray!20!black, inner sep=1pt},
+]
+% --- wiersz górny: sieć klasyczna ---
+\node[data]                             (in)   {obraz $\mathbf{x}$\\$3\times W\times W$};
+\node[cls, dashed, right=0.55cm of in]  (conv) {splot $4\times4$\\+ ReLU};
+\node[cls, right=of conv]               (enc)  {część kodująca\\MLP + ReLU};
+\node[cls, very thick, right=of enc]    (bot)  {wąskie\\gardło};
+\node[cls, right=of bot]                (dec)  {wyznaczanie kątów\\MLP + ReLU};
+\node[cls, right=of dec]                (head) {normalizacja,\\$\tanh$, $\cdot\,\pi$};
+\draw[flow] (in) -- (conv);
+\draw[flow] (conv) -- (enc);
+\draw[flow] (enc) -- (bot);
+\draw[flow] (bot) -- (dec);
+\draw[flow] (dec) -- (head);
+\draw[frame] ($(conv.north west)+(-0.12,0.12)$) rectangle ($(head.south east)+(0.12,-0.12)$);
+\node[lbl, anchor=south] at ($(conv.north west)!0.5!(head.north east)+(0,0.16)$) {sieć klasyczna $\Theta_{\mathbf{w}}$ (uczona); splot na wejściu tylko w części konfiguracji};
+
+% --- wiersz dolny: obwód, pomiar, przetwarzanie końcowe ---
+\node[qnt, below=1.25cm of head.south east, anchor=north east] (circ) {obwód, $n+1$ kubitów:\\$\mathrm{H}$, $L$ bloków, $\mathrm{H}$};
+\node[qnt, left=of circ]            (meas) {pomiar,\\$\nshots$ powtórzeń};
+\node[cls, left=0.8cm of meas]      (read) {odczyt $\tilde{u}_j$\\(połowa $a=1$)};
+\node[cls, left=of read]            (smo)  {splot $3\times3$\\na kanał};
+\node[data]                         (out)  at (in |- circ) {obraz\\odtworzony};
+\draw[flow] (head.south) -- node[left, font=\scriptsize] {kąty $\boldsymbol{\theta}=\Theta_{\mathbf{w}}(\mathbf{x})\in(-\pi,\pi)^{4nL}$} (head.south |- circ.north);
+\draw[flow] (circ) -- (meas);
+\draw[flow] (meas) -- node[above, font=\scriptsize] {$\tilde{\prob}$} (read);
+\draw[flow] (read) -- (smo);
+\draw[flow] (smo) -- (out);
+\draw[frame] ($(meas.north west)+(-0.12,0.12)$) rectangle ($(circ.south east)+(0.12,-0.12)$);
+\node[lbl, anchor=north] at ($(meas.south west)!0.5!(circ.south east)+(0,-0.16)$) {obwód o stałej strukturze (symulator albo urządzenie)};
+\draw[frame] ($(smo.north west)+(-0.12,0.12)$) rectangle ($(read.south east)+(0.12,-0.12)$);
+% Podpis ramki przetwarzania końcowego stoi nad ramką, a podpis ramki obwodu pod ramką: umieszczone obok siebie pod dolnym wierszem
+% stykały się i czytały jak jeden napis (recenzja PHD-TS-85, ustalenie D23; poprawka PHD-TS-92).
+\node[lbl, anchor=south] at ($(smo.north west)!0.5!(read.north east)+(0,0.16)$) {przetwarzanie końcowe (30 parametrów)};
+
+% --- strata ---
+\draw[<->, dashed, thick, gray!40!black] (in.south) -- node[left, font=\scriptsize] {strata L1} (out.north);
+\end{tikzpicture}

@@ -1,0 +1,14 @@
+% !TeX root = ./../../main.tex
+% Obwód referencyjny metody PDU dla m = 4 i ciągu D = 0010 (x_D = -3/4 pi) -- rysunek fig:pdu:reference-circuit.
+% Rysunek własny, narysowany na nowo w quantikz2.
+% Układ bramek i kąty: artykuły/magisterka_werner_final/chapters/03.tex, listing lst:python_cos_phi
+% oraz rysunek graf/Eksperymenty/5_kubit_program.png (ten sam argument x = -3/4 pi; zrzut z IBM Quantum Composer nie został przeniesiony).
+% Ogólny obwód składnika QCoSamp znajduje się w figures/chp_theoretical_background/tb04_qcosamp_component.tex;
+% tutaj pokazano konkretny węzeł siatki i etapy, na których powstaje błąd wyznaczony.
+\begin{quantikz}[row sep=0.22cm, column sep=0.32cm, font=\small]
+\lstick{$x_0\colon\ket{0}$} & \gategroup[5,steps=2,style={dashed,rounded corners,inner sep=3pt},label style={label position=below,anchor=north,yshift=-0.2cm}]{\footnotesize (1) przygotowanie} & & \ctrl{4}\gategroup[5,steps=4,style={dashed,rounded corners,inner sep=3pt},label style={label position=below,anchor=north,yshift=-0.2cm}]{\footnotesize (2) kodowanie fazy} & & & & \gategroup[5,steps=2,style={dashed,rounded corners,inner sep=3pt},label style={label position=below,anchor=north,yshift=-0.2cm}]{\footnotesize (3) odczyt} & \\
+\lstick{$x_1\colon\ket{0}$} & & & & \ctrl{3} & & & & \\
+\lstick{$x_2\colon\ket{0}$} & \gate{\mathrm{X}} & & & & \ctrl{2} & & & \\
+\lstick{$x_3\colon\ket{0}$} & & & & & & \ctrl{1} & & \\
+\lstick{$a\colon\ket{0}$} & \gate{\mathrm{H}} & \gate{\mathrm{P}(-\pi)} & \gate{\mathrm{P}(\pi)} & \gate{\mathrm{P}\bigl(\tfrac{\pi}{2}\bigr)} & \gate{\mathrm{P}\bigl(\tfrac{\pi}{4}\bigr)} & \gate{\mathrm{P}\bigl(\tfrac{\pi}{8}\bigr)} & \gate{\mathrm{H}} & \meter{}
+\end{quantikz}

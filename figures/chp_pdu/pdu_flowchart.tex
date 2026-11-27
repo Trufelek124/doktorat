@@ -1,0 +1,48 @@
+% !TeX root = ./../../main.tex
+% Schemat blokowy procedury kalibracji i korekty metodą PDU (rysunek fig:pdu:flowchart).
+% Rysunek własny, narysowany na nowo w TikZ na potrzeby rozprawy.
+% Treść odpowiada algorytmom alg:pdu:calibration i alg:pdu:correction z chapters/pdu.tex.
+% Wymaga bibliotek TikZ: arrows.meta, calc, positioning (wczytane w config/my-settings.tex).
+\begin{tikzpicture}[
+  node distance=5mm and 10mm,
+  nohyph/.style={execute at begin node={\hyphenpenalty=10000\relax\exhyphenpenalty=10000\relax}},
+  box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, nohyph, minimum height=10mm, text width=52mm, inner sep=3pt},
+  qbox/.style={box, fill=black!10},
+  cbox/.style={box, fill=white},
+  arr/.style={-{Stealth[length=2mm]}, semithick},
+  lab/.style={font=\footnotesize\itshape, inner sep=1.5pt},
+]
+% --- faza kalibracji (lewa kolumna) ---
+\node[qbox] (phys) {Kalibracja fizyczna urządzenia\\(wykonuje dostawca)};
+\node[qbox, below=of phys] (run) {Wykonanie $2^{m}$ obwodów referencyjnych\\$\compcirc_{1,0}(D)$, każdy $\nshots$ razy};
+\node[cbox, below=of run] (err) {Wyznaczenie błędów\\$\pdu_D=\reffunexp(x_D)-\reffun(x_D)$};
+\node[cbox, below=of err] (int) {Interpolacja: funkcja PDU\\$\pdu=\mathcal{I}[\mathcal{V}_m]$, zapis chwili $t_0$};
+% --- faza korekty (prawa kolumna) ---
+% Kolejność jak w algorytmie alg:pdu:correction: najpierw sprawdzenie warunku ponownej kalibracji, potem korekta.
+\node[qbox, right=18mm of phys] (comp) {Wykonanie obwodu obliczeniowego:\\wynik $\tilde{f}$, znana faza $\varphi$};
+\coordinate (dc) at ($(comp.south)+(0,-18.5mm)$);
+\draw[fill=white] ($(dc)+(-29mm,0)$) coordinate (dW) -- ($(dc)+(0,14.5mm)$) coordinate (dN) -- ($(dc)+(29mm,0)$) coordinate (dE) -- ($(dc)+(0,-14.5mm)$) coordinate (dS) -- cycle;
+\node[align=center, font=\footnotesize, inner sep=0pt] at (dc) {Nowa kalibracja\\fizyczna, zmiana\\układu kubitów\\lub transpilacji?};
+\node[cbox, anchor=north] (corr) at ($(dS)+(0,-4mm)$) {Korekta po stronie klasycznej:\\$\hat{f}=\tilde{f}-\pdu(\varphi)$};
+\coordinate (low) at ($(corr.south)+(0,-3.5mm)$);
+\coordinate (rw) at ($(run.west)+(-6mm,0)$);
+% --- przepływ ---
+\draw[arr] (phys) -- (run);
+\draw[arr] (run) -- (err);
+\draw[arr] (err) -- (int);
+\draw[arr] (int.east) -- ++(9mm,0) |- (comp.west);
+\draw[arr] (comp.south) -- (dN);
+\draw[arr] (dS) -- (corr.north);
+\node[lab, anchor=north west] at ($(dS)+(0.5mm,0)$) {nie};
+\draw[arr] (corr.east) -- ++(4mm,0) |- (comp.east);
+\draw[arr] (dW) -- ++(-4mm,0) coordinate (t1) -- (t1 |- low) -- (rw |- low) -- (rw) -- (run.west);
+\node[lab, anchor=south east] at ($(dW)+(0,0.5mm)$) {tak};
+% --- nazwy faz ---
+\node[lab, anchor=south] at ($(phys.north)+(0,1.5mm)$) {faza kalibracji};
+\node[lab, anchor=south] at ($(comp.north)+(0,1.5mm)$) {faza korekty};
+% --- legenda ---
+\node[qbox, text width=6mm, minimum height=4mm, anchor=north west] (lq) at ($(phys.south west)+(0,-57mm)$) {};
+\node[font=\footnotesize, anchor=west] at (lq.east) {urządzenie kwantowe};
+\node[cbox, text width=6mm, minimum height=4mm, anchor=west] (lc) at ($(lq.east)+(36mm,0)$) {};
+\node[font=\footnotesize, anchor=west] at (lc.east) {komputer klasyczny};
+\end{tikzpicture}

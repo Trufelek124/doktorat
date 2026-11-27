@@ -1,0 +1,11 @@
+% !TeX root = ./../../main.tex
+% Trzykubitowy kod powtórzeniowy z pomiarem syndromu (podrozdział 2.3, rys. fig:tb03:repetition).
+% Rysunek własny (quantikz2): kodowanie, kanał szumu, pomiar parzystości Z1Z2 i Z2Z3
+% na dwóch kubitach pomocniczych, operacja naprawcza R sterowana klasycznie wynikiem syndromu.
+\begin{quantikz}[row sep={0.55cm,between origins}, column sep=0.34cm, font=\small]
+\lstick{$\ket{\psi}$} & \ctrl{1} & \ctrl{2} & \gate[3]{\channel} & \ctrl{3} &          &          &          &          & \gate[3]{R} & \rstick[3]{$\alpha\ket{000}+\beta\ket{111}$} \\
+\lstick{$\ket{0}$}    & \targ{}  &          &                    &          & \ctrl{2} & \ctrl{3} &          &          &             & \\
+\lstick{$\ket{0}$}    &          & \targ{}  &                    &          &          &          & \ctrl{2} &          &             & \\
+\lstick{$\ket{0}$}    &          &          &                    & \targ{}  & \targ{}  &          &          & \meter{} & \ctrl[vertical wire=c]{-1}\setwiretype{c} & \rstick{$s_1$} \\
+\lstick{$\ket{0}$}    &          &          &                    &          &          & \targ{}  & \targ{}  & \meter{} & \ctrl[vertical wire=c]{-1}\setwiretype{c} & \rstick{$s_2$}
+\end{quantikz}

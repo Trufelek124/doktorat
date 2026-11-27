@@ -1,0 +1,17 @@
+% !TeX root = ./../../main.tex
+% Obwód uczonego kodowania dla n = 8 (9 kubitów): warstwa H, blok U_l (powtarzany L razy), warstwa H, pomiar.
+% Rysunek własny (PHD-TS-76), narysowany na podstawie kodu circuit.py (funkcje add_layer_pennylane i create_qnode)
+% z katalogu best_results_package; pliki ansatz_block.png i circuit_overview.png były tylko wzorcem układu.
+% Blok: dla w = 0..n-1 kolejno U3 na kubicie w i CP między kubitami w i w+1; ostatni kubit nie ma bramki U3.
+% Kubit 0 (oznaczony a) jest kubitem pomocniczym odczytu (najstarszy bit wyniku).
+\begin{quantikz}[row sep={0.46cm,between origins}, column sep=0.14cm, font=\footnotesize]
+\lstick{$\ket{0}_{a}$} & \gate{\mathrm{H}} &  & \gate{\mathrm{U3}}\gategroup[9,steps=16,style={dashed,rounded corners,inner xsep=2pt,inner ysep=2pt},label style={label position=above,anchor=south,yshift=-2pt}]{\footnotesize blok $U_{\ell}$, $\ell=1,\dots,L$} & \ctrl{1} &  &  &  &  &  &  &  &  &  &  &  &  &  &  & \ \cdots\  & \gate{\mathrm{H}} & \meter{} \\
+\lstick{$\ket{0}_{1}$} & \gate{\mathrm{H}} &  &  & \control{} & \gate{\mathrm{U3}} & \ctrl{1} &  &  &  &  &  &  &  &  &  &  &  &  & \ \cdots\  & \gate{\mathrm{H}} & \meter{} \\
+\lstick{$\ket{0}_{2}$} & \gate{\mathrm{H}} &  &  &  &  & \control{} & \gate{\mathrm{U3}} & \ctrl{1} &  &  &  &  &  &  &  &  &  &  & \ \cdots\  & \gate{\mathrm{H}} & \meter{} \\
+\lstick{$\ket{0}_{3}$} & \gate{\mathrm{H}} &  &  &  &  &  &  & \control{} & \gate{\mathrm{U3}} & \ctrl{1} &  &  &  &  &  &  &  &  & \ \cdots\  & \gate{\mathrm{H}} & \meter{} \\
+\lstick{$\ket{0}_{4}$} & \gate{\mathrm{H}} &  &  &  &  &  &  &  &  & \control{} & \gate{\mathrm{U3}} & \ctrl{1} &  &  &  &  &  &  & \ \cdots\  & \gate{\mathrm{H}} & \meter{} \\
+\lstick{$\ket{0}_{5}$} & \gate{\mathrm{H}} &  &  &  &  &  &  &  &  &  &  & \control{} & \gate{\mathrm{U3}} & \ctrl{1} &  &  &  &  & \ \cdots\  & \gate{\mathrm{H}} & \meter{} \\
+\lstick{$\ket{0}_{6}$} & \gate{\mathrm{H}} &  &  &  &  &  &  &  &  &  &  &  &  & \control{} & \gate{\mathrm{U3}} & \ctrl{1} &  &  & \ \cdots\  & \gate{\mathrm{H}} & \meter{} \\
+\lstick{$\ket{0}_{7}$} & \gate{\mathrm{H}} &  &  &  &  &  &  &  &  &  &  &  &  &  &  & \control{} & \gate{\mathrm{U3}} & \ctrl{1} & \ \cdots\  & \gate{\mathrm{H}} & \meter{} \\
+\lstick{$\ket{0}_{8}$} & \gate{\mathrm{H}} &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  & \control{} & \ \cdots\  & \gate{\mathrm{H}} & \meter{}
+\end{quantikz}

@@ -1,0 +1,7 @@
+% !TeX root = ./../../main.tex
+% Obwód kodowania i rekonstrukcji LPIQE (podrozdział 2.5, rys. fig:tb:qimg:lpiqe).
+% Rysunek własny; wzorowany na definicji operatorów z pracy werner_error_reduction_2025.
+\begin{quantikz}[row sep={0.9cm,between origins}, column sep=0.4cm]
+\lstick{rejestr pozycji $\ket{0}^{\otimes n}$} & \qwbundle{n} & \gate{\mathrm{H}^{\otimes n}}\gategroup[2,steps=2,style={dashed,rounded corners,inner xsep=3pt},label style={label position=above,anchor=south,yshift=-2pt}]{\footnotesize kodowanie: $\Theta(\img)$} & \gate{\lpiqe(\img)} & & & \meter{} \\
+\lstick{kubit pomocniczy $\ket{0}$} & & \gate{\mathrm{H}} & \octrl{-1} & \gate{\mathrm{H}}\gategroup[1,steps=2,style={dashed,rounded corners,inner xsep=3pt},label style={label position=below,anchor=north,yshift=2pt}]{\footnotesize odczyt fazy} & \gate{\mathrm{X}} & \meter{}
+\end{quantikz}

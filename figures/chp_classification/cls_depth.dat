@@ -1,0 +1,16 @@
+# Dane rysunku fig:cls:noise-results (a): modele M1--M11, 100 probek testowych.
+# Zrodlo: /Users/krzysztofwerner/git/quantum-classifier/runs/<przebieg>/hardware_ibm_fez_*/{experiment,summary}.json i results.csv
+# (transpile.two_qubit_gates.mean; sources.sim_noisy.r_mean; sources.hardware.r_mean; prediction_agreement.hardware.sim_noisy).
+# Plik generuje eksperymenty/weryfikacja-liczb/rozdzial-8-skrypty/rysunki.py; nie edytowac recznie.
+model cz rsim rhw agree accsim acchw
+M1 1814 0.6911 0.0923 0.12 0.34 0.13
+M2 233 0.8416 0.3658 0.71 0.45 0.35
+M3 198 0.9029 0.5032 0.91 0.46 0.43
+M4 138 0.9233 0.6744 0.97 0.41 0.42
+M5 138 0.8830 0.6364 0.96 0.43 0.41
+M6 113 0.9055 0.6095 0.89 0.46 0.47
+M7 63 0.9198 0.7089 0.97 0.53 0.53
+M8 63 0.9527 0.7741 0.99 0.51 0.50
+M9 29 0.9461 0.7789 0.98 0.62 0.61
+M10 15 0.8750 0.8330 1.00 0.58 0.58
+M11 3 0.9885 0.9401 1.00 0.82 0.82

@@ -1,0 +1,14 @@
+% !TeX root = ./../../main.tex
+% Schemat blokowy obwodu realizującego szereg dwuskładnikowy (1/2)(kappa_{1,0} + kappa_{2,0}).
+% Rysunek własny (quantikz2); struktura zgodna z obwodem z pracy magisterskiej autora
+% (artykuły/magisterka_werner_final/graf/Eksperymenty/wiele_komp/uklad.png).
+% Obwód jest składany w pudełku i skalowany do szerokości otoczenia (\linewidth).
+\ifdefined\tbqsampbox\else\newsavebox{\tbqsampbox}\fi
+\begin{lrbox}{\tbqsampbox}
+\begin{quantikz}[row sep=0.2cm, column sep=0.2cm, font=\small]
+\lstick{$b\colon\ket{0}$} & \gate{\mathrm{H}} & \gate[2]{\compphase^{(b)}_{2,0}} & & \gate[3]{\bigl(\compphase^{(ab)}_{3,0}\bigr)^{\dagger}} & \ctrl{2} & & \\
+\lstick{$\ket{D}$} & \qwbundle{m} & & \gate[2]{\compphase^{(a)}_{1,0}} & & & & \\
+\lstick{$a\colon\ket{0}$} & \gate{\mathrm{H}} & & & & \targ{} & \gate{\mathrm{H}} & \meter{}
+\end{quantikz}
+\end{lrbox}
+\resizebox{\linewidth}{!}{\usebox{\tbqsampbox}}

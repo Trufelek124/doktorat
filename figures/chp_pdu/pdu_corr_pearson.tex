@@ -1,0 +1,86 @@
+% !TeX root = ./../../main.tex
+% Współczynnik korelacji Pearsona przed korektą i po korekcie funkcją PDU (rysunek fig:pdu:pearson).
+% Wykres odtworzony w pgfplots z danych liczbowych; żadna wartość nie została odczytana z wykresu źródłowego.
+% Dane (a), funkcje jednej zmiennej:
+%   zbiór z pracy magisterskiej: artykuły/magisterka_werner_final/chapters/03.tex, tabela tab:pearson_coefficients
+%     oraz zdanie pod tabelą (łącznie 10 086 próbek: 0.761 -> 0.987);
+%   zbiór z artykułu ICCS 2022: artykuły/Quantum_Errors_ICCS/imgs/pearson.png (wiersze ,,original results'' i ,,correction level'';
+%     wartość po korekcie = suma obu wierszy); plik pearson.png leży w katalogu artykułu, ale nie jest włączony w main.tex;
+%     wartości 0.876, 0.9707 i przyrosty dla Athens, Quito, Lima, Manila są też w tekście artykułu (sekcja Results).
+% Dane (b), funkcja dwóch zmiennych: artykuły/magisterka_werner_final/chapters/03.tex, tabela tab:pearson_coefficients_seven
+%   oraz zdanie nad tabelą (łącznie 21 760 próbek: 0.507 -> 0.418).
+% Wymaga: pgfplots z biblioteką groupplots (wczytane w config/my-settings.tex).
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=1.6cm},
+  height=4.6cm,
+  ymajorgrids,
+  grid style={black!15},
+  tick label style={font=\footnotesize},
+  label style={font=\footnotesize},
+  title style={font=\footnotesize, yshift=-1mm},
+  xticklabel style={rotate=40, anchor=east, font=\footnotesize},
+  yticklabel style={/pgf/number format/.cd, fixed, fixed zerofill, precision=1, use comma},
+  ylabel={współczynnik Pearsona $r$},
+]
+% ---------- (a) funkcje jednej zmiennej ----------
+\nextgroupplot[
+  width=0.60\textwidth,
+  title={(a) funkcje jednej zmiennej},
+  xmin=0.4, xmax=8.6,
+  ymin=0.6, ymax=1.02,
+  xtick={1,...,8},
+  xticklabels={Athens,Belem,Bogota,Lima,Manila,Quito,Santiago,łącznie},
+  ytick={0.6,0.7,0.8,0.9,1.0},
+  legend to name=pdupearsonlegend,
+  legend style={font=\footnotesize, legend columns=2, draw=none, /tikz/every even column/.append style={column sep=4mm}},
+]
+% odcinki łączące wartość przed korektą i po korekcie: praca magisterska
+\addplot[black, forget plot] coordinates {(0.82,0.978) (0.82,0.981)};
+\addplot[black, forget plot] coordinates {(1.82,0.836) (1.82,0.966)};
+\addplot[black, forget plot] coordinates {(2.82,0.646) (2.82,0.978)};
+\addplot[black, forget plot] coordinates {(3.82,0.892) (3.82,0.997)};
+\addplot[black, forget plot] coordinates {(4.82,0.855) (4.82,0.976)};
+\addplot[black, forget plot] coordinates {(5.82,0.913) (5.82,0.994)};
+\addplot[black, forget plot] coordinates {(6.82,0.875) (6.82,0.990)};
+\addplot[black, forget plot] coordinates {(7.82,0.761) (7.82,0.987)};
+% odcinki: artykuł ICCS 2022
+\addplot[black!55, forget plot] coordinates {(1.18,0.9787) (1.18,0.9819)};
+\addplot[black!55, forget plot] coordinates {(2.18,0.8364) (2.18,0.9661)};
+\addplot[black!55, forget plot] coordinates {(3.18,0.8866) (3.18,0.9712)};
+\addplot[black!55, forget plot] coordinates {(4.18,0.8983) (4.18,0.9711)};
+\addplot[black!55, forget plot] coordinates {(5.18,0.8203) (5.18,0.9641)};
+\addplot[black!55, forget plot] coordinates {(6.18,0.9538) (6.18,0.9836)};
+\addplot[black!55, forget plot] coordinates {(7.18,0.9785) (7.18,0.9884)};
+\addplot[black!55, forget plot] coordinates {(8.18,0.8760) (8.18,0.9707)};
+% praca magisterska: przed korektą i po korekcie
+\addplot[only marks, mark=o, mark size=2.2pt, black, fill=white] coordinates {(0.82,0.978) (1.82,0.836) (2.82,0.646) (3.82,0.892) (4.82,0.855) (5.82,0.913) (6.82,0.875) (7.82,0.761)};
+\addlegendentry{praca magisterska, przed korektą}
+\addplot[only marks, mark=*, mark size=2.2pt, black] coordinates {(0.82,0.981) (1.82,0.966) (2.82,0.978) (3.82,0.997) (4.82,0.976) (5.82,0.994) (6.82,0.990) (7.82,0.987)};
+\addlegendentry{praca magisterska, po korekcie}
+% artykuł ICCS 2022: przed korektą i po korekcie
+\addplot[only marks, mark=square, mark size=2pt, black!55] coordinates {(1.18,0.9787) (2.18,0.8364) (3.18,0.8866) (4.18,0.8983) (5.18,0.8203) (6.18,0.9538) (7.18,0.9785) (8.18,0.8760)};
+\addlegendentry{artykuł ICCS 2022, przed korektą}
+\addplot[only marks, mark=square*, mark size=2pt, black!55] coordinates {(1.18,0.9819) (2.18,0.9661) (3.18,0.9712) (4.18,0.9711) (5.18,0.9641) (6.18,0.9836) (7.18,0.9884) (8.18,0.9707)};
+\addlegendentry{artykuł ICCS 2022, po korekcie}
+% ---------- (b) funkcja dwóch zmiennych ----------
+\nextgroupplot[
+  width=0.38\textwidth,
+  title={(b) funkcja dwóch zmiennych},
+  xmin=0.4, xmax=5.6,
+  ymin=0.3, ymax=0.72,
+  xtick={1,...,5},
+  xticklabels={Lagos,Casablanca,Perth,Jakarta,łącznie},
+  ytick={0.3,0.4,0.5,0.6,0.7},
+  ylabel={},
+]
+\addplot[black, forget plot] coordinates {(1,0.378) (1,0.355)};
+\addplot[black, forget plot] coordinates {(2,0.691) (2,0.522)};
+\addplot[black, forget plot] coordinates {(3,0.525) (3,0.491)};
+\addplot[black, forget plot] coordinates {(4,0.506) (4,0.363)};
+\addplot[black, forget plot] coordinates {(5,0.507) (5,0.418)};
+\addplot[only marks, mark=o, mark size=2.2pt, black, fill=white] coordinates {(1,0.378) (2,0.691) (3,0.525) (4,0.506) (5,0.507)};
+\addplot[only marks, mark=*, mark size=2.2pt, black] coordinates {(1,0.355) (2,0.522) (3,0.491) (4,0.363) (5,0.418)};
+\end{groupplot}
+\node[anchor=north] at ($(group c1r1.south)!0.5!(group c2r1.south)+(0,-1.25cm)$) {\pgfplotslegendfromname{pdupearsonlegend}};
+\end{tikzpicture}

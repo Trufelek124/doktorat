@@ -3,45 +3,190 @@
 \chapter{Prace powiązane z udziałem autora: struktura szumu kwantowego}\label{chapter:noise_structure}
 
 \agentinfo{
-Krótki rozdział (około 5 stron) omawiający dwie prace współautorskie, których pierwszym autorem jest Sebastian Raubitzek (SBA Research, Wiedeń).
-Ustalenie autora z 2026-11-26: autor rozprawy implementował część kodu i uruchamiał eksperymenty.
-Prace są przedstawiane jako prace powiązane z udziałem autora, a nie jako wkład tej rozprawy; rozdział nie ma własnej tezy.
-Perspektywa uzupełniająca wobec rozdziałów 4--8: zamiast usuwać skutki szumu, opisuje się jego strukturę i możliwość jej wykorzystania.
+Stan: cały rozdział napisany 2026-11-27 w zadaniach PHD-TS-49 (analiza preprintu), PHD-TS-38 (sekcje 9.1 i 9.2), PHD-TS-61 (sekcja 9.3) i PHD-TS-65 (sekcja 9.4); czeka na przegląd autora i odpowiedzi na pytania zapisane w zadaniach pod sekcjami.
+Krótki rozdział (budżet około 5 stron) omawiający dwie prace współautorskie, których pierwszym autorem jest Sebastian Raubitzek (SBA Research, Wiedeń).
+Ustalenie autora z 2026-11-26: autor rozprawy implementował część kodu i uruchamiał eksperymenty; prace są przedstawiane jako prace powiązane z udziałem autora, a nie jako wkład tej rozprawy; rozdział nie ma własnej tezy ani numerowanego pytania badawczego.
+Perspektywa uzupełniająca wobec rozdziałów 4--8: opis struktury szumu zamiast usuwania jego skutków.
 
-Źródła:
-rekonstrukcja szumu z generatorów łamiących symetrię, opublikowana w APS Open Science \agentref{bib:raubitzek_quantum_noise} \agentref{artykuły/quantum_noise_elsevier_submission/main.tex},
-sieci neuronowe oparte na grupach Liego, preprint \agentref{bib:raubitzek_lie_group_manuscript} \agentref{artykuły/noisy_lie_group_learners/main.tex}.
+Źródła i ich wersje:
+(1) Praca o rekonstrukcji szumu \agentref{bib:raubitzek_quantum_noise}: wersja opublikowana (APS Open Science 1, 000109, 26 sierpnia 2026, 49 stron) pobrana 2026-11-27 jako PDF z adresu harvest.aps.org wskazanego w Crossref dla DOI 10.1103/hg15-cjnx; tekst wyodrębniony w \agentref{eksperymenty/_build/PHD-TS-38/work/pub/published.txt}. Wersja zgłoszeniowa: \agentref{artykuły/quantum_noise_elsevier_submission/main.tex}.
+Liczby zgodne w obu wersjach: 88 przebiegów, średnia macierz z urządzenia i jej odchylenia standardowe, dopasowane zaburzenia, macierz modelu i jej odchylenia, parametry algorytmu genetycznego i zespołów.
+Różnice: wersja opublikowana nie zawiera tabel wskaźnika z, macierzy obu zespołów losowych, zliczeń 12/16, 13/16 i 9/16 ani podsumowania wyników; zawiera za to dodatki A (notacja) i B (ekspresywność i ograniczenia modelu), porównanie z taksonomią generatorów błędu oraz liczne zastrzeżenia o fenomenologicznym charakterze modelu i braku odporności na błędy SPAM.
+Wskaźniki z dla modelu dopasowanego przeliczono z macierzy wersji opublikowanej skryptem \agentref{eksperymenty/_build/PHD-TS-38/work/scripts/zscores.py}; zgadzają się z tabelą wersji zgłoszeniowej z dokładnością do 0,01.
+(2) Preprint o sieciach opartych na grupach Liego \agentref{bib:raubitzek_lie_group_manuscript} \agentref{artykuły/noisy_lie_group_learners/main.tex}: to nie jest publikacja. Notatka z analizy i lokalizacjami: \agentref{eksperymenty/weryfikacja-liczb/rozdzial-9-grupy-liego.md}.
 Praca powiązana bez udziału autora rozprawy: raubitzek_obfuscation_2025.
-Wersja w katalogu artykuły/ jest wersją zgłoszeniową; przed cytowaniem liczb sprawdzić zgodność z wersją opublikowaną.
-Manuskrypt o grupach Liego jest bardzo obszerny; wybrać wyłącznie wątki związane z szumem i błędami.
-Sformułowania muszą odpowiadać temu, co faktycznie pokazano: sieci są klasyczne, a zaburzenie łamiące symetrię jest opcjonalnym elementem konstrukcji.
-Podstawy matematyczne są w zapleczu teoretycznym \agentref{chapters/theoretical_background_01_Q.tex} \agentref{chapters/theoretical_background_02_noise.tex}.
+
+Uzgodnienia redakcyjne: pojęcia (generator, zaburzenie, macierz transferu Pauliego i jej części, tomografia procesu, warstwa działania grupy) są zdefiniowane w rozdziale 2 i tutaj tylko przywoływane; sformułowania muszą odpowiadać temu, co faktycznie pokazano: sieci są klasyczne, a zaburzenie łamiące symetrię jest opcjonalnym elementem konstrukcji, nieużytym w raportowanych eksperymentach; nie pisać, że błąd jest stabilną cechą urządzenia, bez zastrzeżenia z sekcji 3.5 i 4.8; nie proponować nowych eksperymentów.
+Nowe elementy wspólne: makro zscore i dwa wiersze w wykazie symboli, wpis bibliograficzny blume-kohout_taxonomy_2022 (DOI 10.1103/PRXQuantum.3.020335, sprawdzony w Crossref i w streszczeniu arXiv:2103.01928).
+Objętość (prywatna kompilacja bez notatek, 2026-11-27): rozdział zajmuje 5 stron; sekcja 9.1 około 0,4 strony (na stronie otwierającej rozdział), 9.2 około 2,3 strony, 9.3 około 1,1 strony, 9.4 około 0,9 strony; zapas do granicy pięciu stron to kilka wierszy, więc każde dopisanie wymaga cięcia.
+Dla objętości usunięto tabelę zgodności modelu z urządzeniem według części macierzy (dane są w komentarzu źródłowym w sekcji 9.2).
 }
 
 \section{Zakres i udział autora}\label{sec:ns:scope}
 \agentinfo{
-Jawne określenie udziału autora rozprawy w obu pracach (które części kodu, które eksperymenty), zgodne z oświadczeniami współautorów.
-Uzasadnienie, dlaczego prace są omawiane: uzupełniają obraz szumu, z którym mierzą się metody z rozdziałów 4--8.
+Napisane w zadaniu PHD-TS-38 (2026-11-27).
+Udział autora opisano wyłącznie w zakresie ustalonym przez autora (implementacja części kodu, uruchamianie eksperymentów); szczegóły czekają na odpowiedź (zadanie niżej).
+Oświadczenia o wkładzie autorów w źródłach: praca o szumie, wersja opublikowana, część końcowa przed sekcją o dostępności danych (w wersji zgłoszeniowej wiersz 970): Kr.W.: main manuscript, numerical simulation, experiments, review; S.R.: mathematics, main manuscript, numerical simulation, validation, review. Preprint, wiersze 3583--3590: Kr.W.: numerical simulation, experiments, review; S.R.: mathematics, main manuscript, numerical simulation, validation, experiments, concepts, review; G.G.: mathematics, main manuscript.
+}
+
+Metody redukcji błędów badane w~rozdziałach~\ref{chapter:pdu}--\ref{chapter:classification} korygują wynik obwodu po pomiarze, a~ich punkt wyjścia, metoda PDU, traktuje obwód jako całość, bez modelu szumu bramek (założenie~(\ref{itm:pdu:Z2})).
+Ten rozdział przedstawia perspektywę uzupełniającą: pytanie o~strukturę szumu, czyli o~to, jak odstępstwo bramki od operacji idealnej zapisać na poziomie jej generatora i~jakie ślady zostawia ono w~wyniku tomografii procesu.
+Omawia dwie prace współautorskie, których pierwszym autorem jest S.~Raubitzek: opublikowany artykuł o~rekonstrukcji szumu z~generatorów łamiących symetrię~\cite{raubitzek_quantum_noise} (podrozdział~\ref{sec:ns:generators}) oraz preprint o~sieciach neuronowych opartych na grupach Liego~\cite{raubitzek_lie_group_manuscript} (podrozdział~\ref{sec:ns:lie}).
+Obie nawiązują do wcześniejszej pracy Raubitzka i~in. o~zaciemnianiu danych zaburzeniami generatorów grup Liego~\cite{raubitzek_obfuscation_2025}, która powstała bez udziału autora rozprawy.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcja II (Related work), akapit o pracy [19]; wersja zgłoszeniowa, wiersz 136. Preprint: artykuły/noisy_lie_group_learners/main.tex, wiersze 1427 i 3779.
+
+Prace te nie są wkładem rozprawy, a~rozdział nie formułuje własnej tezy ani pytania badawczego.
+Udział autora rozprawy polegał w~obu na implementacji części kodu i~uruchamianiu eksperymentów, czemu w~zamieszczonych w~nich oświadczeniach o~wkładzie autorów odpowiadają pozycje dotyczące symulacji numerycznych i~eksperymentów; koncepcja zaburzeń generatorów i~aparat matematyczny nie pochodzą od autora rozprawy.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, oświadczenie o wkładzie autorów (strona 000109-25); wersja zgłoszeniowa, wiersz 970. Preprint: wiersze 3583--3590.
+Pojęcia zdefiniowane w~rozdziale~\ref{chapter:theoretical_background} są tu stosowane bez powtarzania definicji.
+\agenttask{
+Pytania do autora (PHD-TS-38).
+(1) Które części kodu i które eksperymenty wykonał autor w każdej z dwóch prac: w pracy o szumie na przykład uruchamianie tomografii na urządzeniu ibm_brisbane, symulator tomografii, algorytm genetyczny, zespoły losowe; w preprincie które grupy eksperymentów. Po odpowiedzi uzupełnić zdanie o udziale.
+(2) Oświadczenie o wkładzie w pracy o szumie wymienia przy autorze także udział w tekście (main manuscript) i recenzję tekstu (review); czy wspomnieć o tym w rozprawie, czy pozostać przy ustaleniu z 2026-11-26.
+(3) Czy zostawić zdanie, że koncepcja zaburzeń generatorów i aparat matematyczny nie pochodzą od autora rozprawy (oparte na oświadczeniach o wkładzie: mathematics przy S.R., w preprincie także przy G.G., concepts przy S.R., oraz na tym, że konstrukcja pochodzi z pracy raubitzek_obfuscation_2025).
 }
 
 \section{Rekonstrukcja szumu z generatorów łamiących symetrię}\label{sec:ns:generators}
 \agentinfo{
-Bramka jako eksponenta generatora z addytywnym zaburzeniem; zaburzenie hermitowskie (błąd koherentny) i niehermitowskie (efektywna nieunitarność).
-Analityczna jednokubitowa tomografia procesu, model próbkowania, dopasowanie zaburzeń algorytmem genetycznym.
-Wynik: zaburzenia niehermitowskie odtwarzają macierz transferu Pauliego zmierzoną na urządzeniu IBM pełniej niż hermitowskie.
-Zwięźle, bez powtarzania wyprowadzeń.
+Napisane w zadaniu PHD-TS-38 (2026-11-27); omówienie, bez wyprowadzeń.
+Każda liczba ma komentarz ze wskazaniem źródła; pierwszeństwo ma wersja opublikowana.
+Wskaźniki z dla modelu dopasowanego (12 z 16 elementów i wartości w nawiasach) są obliczeniem własnym z macierzy podanych w pracy (równania 45, 46, 61 i 62 wersji opublikowanej); zestawienie według części macierzy jest w komentarzu przy zdaniu, a tabelę usunięto dla objętości.
+Oceny własne, a nie twierdzenia pracy (DO AKCEPTACJI AUTORA): stwierdzenie, że praca nie definiuje formalnie łamania symetrii, i odczytanie tego terminu z kontekstu; uwaga, że w mianowniku wskaźnika z jest rozrzut przebiegów, a nie błąd standardowy średniej; nazwanie rozbieżności elementu R00 formalną; uwaga o porównaniu zespołów (zgodność dzięki rozrzutowi zespołu); obserwacja, że pięć z 24 dopasowanych składowych leży na granicy przedziału.
+Pominięto dla objętości: postać dwunastu obwodów i wzory rekonstrukcji, wagi funkcji celu, rozmiar populacji i operatory algorytmu genetycznego, dopasowane macierze zaburzeń, dodatek B wersji opublikowanej poza wnioskami, wątek zaciemniania danych na poziomie sprzętu (w wersji opublikowanej oznaczony jako spekulacja).
+}
+
+\paragraph{Model zaburzonego generatora.}
+Praca~\cite{raubitzek_quantum_noise} sprawdza, czy małe addytywne zaburzenia generatorów bramek natywnych odtwarzają macierz transferu Pauliego (podrozdział~\ref{subsec:tb:noise:characterisation}) bramki zrekonstruowaną na rzeczywistym urządzeniu.
+Punktem wyjścia jest postać~\eqref{eq:tb01:generator}: każda z~trzech jednokubitowych bramek natywnych procesorów IBM otrzymuje własne zaburzenie $\genpert_k\in\mathbb{C}^{2\times2}$,
+\begin{equation}\label{eq:ns:perturbed}
+U_k(\theta_k)=\exp\Bigl[-\mathrm{i}\tfrac{\theta_k}{2}\bigl(\gen_k+\genpert_k\bigr)\Bigr],\qquad k\in\{R_z,\mathrm{SX},\mathrm{X}\},
+\end{equation}
+gdzie $\gen_k$ jest generatorem bramki idealnej, a~$\theta_k$ jej kątem obrotu.
+Zaburzenie hermitowskie pozostawia bramkę unitarną i~opisuje błąd koherentny, a~niehermitowskie daje operator nieunitarny, zmieniający normę stanu, którym autorzy naśladują skutki relaksacji, defazowania i~wycieku (podrozdziały~\ref{subsec:tb:lie} i~\ref{subsec:tb:noise:channels}).
+Łamanie symetrii nie ma w~pracy formalnej definicji; autorzy nazywają tak wszystkie zaburzenia generatorów, a~zwłaszcza niehermitowskie, przy których bramka traci unitarność, a~kanał zachowanie śladu i~unitalność.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcja I (wzór na U_Delta i jego omówienie), sekcja VI.A (,,They break exact unitarity, unitality, and trace preservation at the generator level'') i sekcja VII (,,coherent, gate-local symmetry violations'' o zaburzeniach dopasowanych); wersja zgłoszeniowa, wiersze 94--99, 888 i 940.
+Zaburzona bramka nie musi być kanałem kwantowym, bo model nie narzuca całkowitej dodatniości ani zachowania śladu; autorzy określają go jako ograniczony model fenomenologiczny.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcja I oraz dodatek B, punkty 4 i 8 (w wersji zgłoszeniowej tych zastrzeżeń nie ma).
+
+\paragraph{Tomografia analityczna i~dopasowanie zaburzeń.}
+Tomografię procesu z~dwunastu obwodów odtworzono analitycznie w~układzie zgodnym z~procedurą biblioteki Qiskit Experiments~\cite{QiskitTomographyDoc}.
+Zaburzone bramki występują we wszystkich częściach obwodów, także w~przygotowaniu stanów i~obrotach baz pomiarowych, więc rekonstruowana macierz obejmuje łącznie błąd badanej bramki oraz błędy przygotowania stanu i~pomiaru, tak jak w~tomografii na urządzeniu~\cite{Merkel2013}.
+Macierz wyznacza się przez inwersję liniową, bez narzucania zachowania śladu: pierwszy wiersz, czyli $R_{00}$ i~wiersz afiniczny $\ptmrow$ (równanie~\eqref{eq:tb:noise:ptm-blocks}), wynika z~łącznych prawdopodobieństw detekcji dla czterech stanów wejściowych, a~skończoną liczbę powtórzeń obwodu naśladuje dwustopniowe losowanie dwumianowe, najpierw zdarzeń zarejestrowanych, potem wyników w~każdej bazie.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcje III.A--III.C; wersja zgłoszeniowa, wiersze 375--391.
+Zaburzenia dopasowano do średniej macierzy z~urządzenia algorytmem genetycznym~\cite{Holland1975,Goldberg1989}: osobnik koduje 24 liczby rzeczywiste, czyli części rzeczywiste i~urojone elementów trzech macierzy $\genpert_k$, każdą ograniczoną co do modułu przez $0{,}05$, a~funkcją celu jest ważona suma kwadratów różnic elementów macierzy modelu i~urządzenia, obliczana z~symulacji o~$10^4$ powtórzeniach obwodu.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcja IV.A oraz równania (A99) i (A106); wersja zgłoszeniowa, wiersze 483 i 490--494. Pominięto wagę 3,5 dla elementów macierzy z urządzenia o module poniżej 0,05 (równania (A113)--(A115)) oraz rozmiar populacji 10^4 i liczbę pokoleń 3*10^4 (wiersz 496).
+Zgodność autorzy oceniają dla każdego elementu z~osobna, wskaźnikiem
+\begin{equation}\label{eq:ns:zscore}
+\zscore_{ab}=\frac{\bigl|\overline{R}^{\,\mathrm{mod}}_{ab}-\overline{R}^{\,\mathrm{urz}}_{ab}\bigr|}{\sqrt{\operatorname{sd}^2\bigl(R^{\mathrm{urz}}_{ab}\bigr)+\operatorname{sd}^2\bigl(R^{\mathrm{mod}}_{ab}\bigr)}},
+\end{equation}
+w~którym średnie i~odchylenia standardowe $\operatorname{sd}$ pochodzą z~serii przebiegów na urządzeniu (indeks $\mathrm{urz}$) i~z~powtórzonych symulacji (indeks $\mathrm{mod}$); element uznaje się za zgodny, gdy $\zscore_{ab}\le1$.
+W~mianowniku występuje rozrzut pojedynczych przebiegów, a~nie błąd standardowy średniej, więc kryterium oznacza zgodność w~granicach zmienności między przebiegami.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, równania (35), (68)--(71) i (A93) (odchylenie standardowe z próby po przebiegach); wersja zgłoszeniowa, wiersze 498--503 i 670--683.
+Drugi eksperyment porównuje dwa zespoły po $10^3$ losowych zestawów zaburzeń o~składowych z~przedziału $[-0{,}05;\,0{,}05]$: hermitowskich i~dowolnych zespolonych.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcja IV.B (rozkład jednostajny); wersja zgłoszeniowa, wiersze 510--512.
+
+\paragraph{Wyniki.}
+Dane odniesienia to 88 niezależnych wykonań tomografii procesu bramki $\mathrm{X}$ na jednym kubicie procesora nadprzewodzącego ibm\_brisbane, zbieranych przez kilka miesięcy.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, równanie (42) i sekcja IV; wersja zgłoszeniowa, wiersze 473 i 563. Czas zbierania: praca podaje ,,more than half a year'' (sekcja VII; wersja zgłoszeniowa, wiersz 942), a katalogi 88 przebiegów w repozytorium danych pracy mają daty od 2025-07-03 do 2025-10-15; rozbieżność zgłoszona autorowi, w tekście ,,kilka miesięcy''.
+W~średniej macierzy przekątna bloku unitalnego wynosi $0{,}904$, $-0{,}910$ i~$-0{,}908$ wobec $1$, $-1$ i~$-1$ dla bramki idealnej, wiersz afiniczny ma składowe $-0{,}044$, $0{,}046$ i~$-0{,}050$ przy odchyleniach standardowych między przebiegami od $0{,}026$ do $0{,}030$, a~składowe wektora przesunięcia nie przekraczają co do modułu $0{,}003$.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, równania (45) i (46); wersja zgłoszeniowa, wiersze 569--581 (wartości identyczne).
+Model z~dopasowanymi zaburzeniami, uśredniony po $1000$ symulowanych rekonstrukcjach, spełnia kryterium dla 12 z~16 elementów (obliczenie własne z~macierzy podanych w~pracy).
+% ŹRÓDŁO: obliczenie własne z równań (45), (46), (61) i (62) wersji opublikowanej (skrypt eksperymenty/_build/PHD-TS-38/work/scripts/zscores.py); zgodne z tabelą tab:zscores_2 wersji zgłoszeniowej (wiersze 697--700, różnice do 0,01 z zaokrągleń) i zliczeniem 12/16 (wiersz 828); wersja opublikowana tej tabeli nie zawiera. Według części macierzy: R00 0 z 1 (27,6); wiersz afiniczny 3 z 3 (0,39; 0,45; 0,55); wektor przesunięcia 2 z 3 (0,16; 2,83; 0,80); przekątna bloku unitalnego 1 z 3 (0,37; 2,08; 3,33); pozostałe elementy bloku 6 z 6 (najwyżej 0,18).
+Odtwarza wiersz afiniczny ($\zscore_{ab}$ od $0{,}39$ do $0{,}55$) i~pozadiagonalne elementy bloku unitalnego, czyli mieszanie osi, natomiast nie odtwarza skrócenia wektora Blocha wzdłuż osi $z$ (element $-1{,}000$ wobec $-0{,}908$ na urządzeniu, $\zscore_{ab}=3{,}3$), tylko częściowo odtwarza je wzdłuż osi $y$ ($-0{,}966$ wobec $-0{,}910$, $\zscore_{ab}=2{,}1$) i~zawyża moduł składowej $y$ wektora przesunięcia ($-0{,}025$ wobec $-0{,}003$, $\zscore_{ab}=2{,}8$).
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, równania (45) i (61); wersja zgłoszeniowa, wiersze 569--572 i 650--653; wskaźniki jak wyżej.
+Czwarta rozbieżność, elementu $R_{00}$, jest formalna: w~rekonstrukcji z~urządzenia jest on równy jedności z~zerowym rozrzutem, a~model daje $0{,}966$.
+Rozbieżności na przekątnej autorzy wiążą z~procesami dyssypacyjnymi, których model nie zawiera.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcja VI, akapit trzeci; wersja zgłoszeniowa, wiersze 713 i 854.
+
+W~porównaniu zespołów zaburzenia niehermitowskie dały większy odsetek elementów zgodnych z~urządzeniem niż hermitowskie, które z~konstrukcji dają zerowy wiersz afiniczny; według wersji zgłoszeniowej pracy było to 13 wobec 9 z~16 elementów, a~wersja opublikowana tego zestawienia nie zawiera.
+% ŹRÓDŁO: stwierdzenie jakościowe: raubitzek_quantum_noise, wersja opublikowana, sekcja VI, akapit czwarty, i sekcja VII. Liczby 13/16 i 9/16: wyłącznie wersja zgłoszeniowa, tabele tab:z_herm i tab:z_nonherm (wiersze 796--799 i 814--817) oraz wiersz 822; w tabeli zespołu hermitowskiego element (I,I) ma wartość 0,08, której nie da się odtworzyć z podanych macierzy (różnica 0 i rozrzut 0).
+Wynik ten wymaga ostrożności: do mianownika wskaźnika~\eqref{eq:ns:zscore} wchodzi rozrzut zespołu, więc zgodność oznacza, że średnia z~urządzenia mieści się w~rozrzucie losowych zaburzeń, a~nie, że zespół ją odtwarza.
+% ŹRÓDŁO: ocena własna; raubitzek_quantum_noise, wersja opublikowana, sekcja VI (,,The ensemble's standard deviation ... broadens sigma_comb''); w wersji zgłoszeniowej (wiersze 768--781) średni wiersz afiniczny zespołu niehermitowskiego to (-0,012; -0,018; 0,007) przy odchyleniach 0,063; 0,069; 0,025, wobec (-0,044; 0,046; -0,050) na urządzeniu.
+
+\paragraph{Ograniczenia.}
+Model ma 24 parametry przy 16 elementach dopasowywanej macierzy, więc zgodność nie wyznacza zaburzeń jednoznacznie; według autorów zaburzenia generatorów są jednym z~możliwych mechanizmów odtwarzających obserwowane odstępstwa, a~nie wykazaną przyczyną fizyczną.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, dodatek B, punkty 6, 8 i 10, oraz sekcja VII.
+Pięć z~24 dopasowanych składowych leży na granicy dopuszczalnego przedziału (moduł co najmniej $0{,}0497$), więc ograniczenie amplitudy było w~dopasowaniu aktywne.
+% ŹRÓDŁO: obserwacja własna z macierzy dopasowanych zaburzeń: wersja opublikowana, sekcja V.B; wersja zgłoszeniowa, wiersze 607--636 (składowe -0,04985; -0,04976; 0,04994; 0,04971; -0,05000).
+Inaczej niż taksonomia małych błędów markowowskich, która macierz procesu przekształca w~generator błędu i~rozkłada go na składowe elementarne~\cite{blume-kohout_taxonomy_2022}, model działa w~przód, od założonych zaburzeń do macierzy, i~nie jest zupełny.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcje I, II i VI; blume-kohout_taxonomy_2022, streszczenie, arXiv:2103.01928.
+Praca nie podaje liczby powtórzeń obwodu na urządzeniu i~nie rozdziela źródeł rozrzutu między przebiegami (próbkowanie, dryf, zmiany kalibracji), a~pomiarów nie da się powtórzyć, bo urządzenie przestało być dostępne.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcja IV (,,a fixed number of shots per circuit'') i sekcja VII (,,until IBM Brisbane was no longer available'').
+\agenttask{
+Pytania do autora (PHD-TS-38).
+(1) Wersja opublikowana pracy (PDF pobrany z harvest.aps.org, 49 stron) nie zawiera tabel wskaźnika z, macierzy zespołów losowych ani zliczeń 12/16, 13/16 i 9/16, które są w wersji zgłoszeniowej; materiałów dodatkowych wydawcy nie sprawdzano. Czy tabele usunięto w recenzji i czy liczby 13 wobec 9 z 16 wolno podawać w rozprawie (teraz podane z zastrzeżeniem o wersji), czy zostawić tylko stwierdzenie jakościowe z wersji opublikowanej.
+(2) Czas zbierania danych: praca podaje ponad pół roku, a katalogi 88 przebiegów w publicznym repozytorium pracy mają daty od 2025-07-03 do 2025-10-15 (około 3,5 miesiąca). W tekście napisano kilka miesięcy; która wartość jest właściwa.
+(3) Praca nie podaje liczby powtórzeń obwodu na urządzeniu ani numeru kubitu; czy autor chce je podać z danych.
+(4) Akceptacja ocen własnych wymienionych w konspekcie sekcji.
 }
 
 \section{Sieci oparte na grupach Liego i kontrolowane łamanie symetrii}\label{sec:ns:lie}
 \agentinfo{
-Warstwa działania grupy Liego: współrzędne w algebrze, mapa wykładnicza, lokalne działanie grupy.
-Opcjonalne addytywne zaburzenie wzorowane na szumie kwantowym jako dodatkowy stopień swobody uczenia.
-Sprawdzić w manuskrypcie, w których eksperymentach faktycznie użyto zaburzenia, i opisać tylko to, co wynika z danych.
+Napisane w zadaniu PHD-TS-61 (2026-11-27) na podstawie notatki \agentref{eksperymenty/weryfikacja-liczb/rozdzial-9-grupy-liego.md} (zadanie PHD-TS-49).
+Ustalenie analizy: zaburzenie jest w preprincie zdefiniowane (wiersze 1426--1478 i 3777--3998), ale w żadnym raportowanym eksperymencie nie podano, że było włączone, nie podano jego parametrów i nie ma porównania z zaburzeniem i bez niego; opisy eksperymentów mówią o macierzach unitarnych i o elementach grupy SU(3) (wiersze 2631, 2727, 2896, 3411, 3463).
+Poza preprintem: w publicznym repozytorium kodu wskazanym w preprincie (github.com/Raubkatz/Lie_Group_Learners, stan z 2026-06-02, rewizja 919d4addb1) zaburzenie jest zaimplementowane jako stała macierz losowana raz z rozkładu jednostajnego, a we wszystkich skryptach eksperymentów jego amplituda (noise_scale) wynosi 0.0.
+Tekst nie formułuje wniosku o korzyści z szumu i nie nazywa preprintu publikacją.
+Zapis warstwy jak w równaniu eq:tb:ml:lie rozdziału 2; w preprincie zaburzenie dodaje się do macierzy współrzędnych przed pomnożeniem przez czynnik -i/2 (grupy SU), co nie zmienia opisu.
+}
+
+Preprint~\cite{raubitzek_lie_group_manuscript} przenosi ten sam schemat (generator, mapa wykładnicza, działanie elementu grupy) do klasycznych sieci neuronowych: cechy dzieli się na bloki, a~warstwa działania grupy przekształca każdy blok macierzą z~grupy $\mathrm{SO}(3)$, $\mathrm{SU}(2)$ albo $\mathrm{SU}(3)$, wyznaczoną z~uczonych współrzędnych w~algebrze Liego (równanie~\eqref{eq:tb:ml:lie}).
+Sieci te są w~całości klasyczne, uczone propagacją wsteczną bez komputera kwantowego i~bez symulatora obwodów, a~ich związek z~kwantowym uczeniem maszynowym (podrozdział~\ref{subsec:tb:ml:qml}) jest strukturalny.
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, wiersze 488, 492, 3479 (klasyczny odpowiednik, bez sprzętu kwantowego) i 5409 (TensorFlow/Keras).
+
+Z~pracą o~szumie łączy preprint opcjonalny element konstrukcji: do elementu algebry można dodać macierz zaburzenia, wzorowaną według autorów na pracach~\cite{raubitzek_obfuscation_2025,raubitzek_quantum_noise},
+\begin{equation}\label{eq:ns:lie-perturbed}
+g_i^{\genpert}=\exp\Bigl(\sum_{a=1}^{\dim\liealg{g}}c_{i,a}B_a+\genpert_i\Bigr),\qquad \genpert_i=\genpert_i^{\liealg{g}}+\genpert_i^{\mathrm{r}},
+\end{equation}
+gdzie $\genpert_i^{\liealg{g}}$ jest kombinacją macierzy bazy $B_a$ o~losowych współczynnikach, a~$\genpert_i^{\mathrm{r}}$ resztą spoza algebry.
+Pierwsza składowa przesuwa jedynie współrzędne $c_{i,a}$, więc macierz pozostaje elementem grupy; druga wyprowadza argument eksponenty poza algebrę i~macierz przestaje być ortogonalna albo unitarna, co autorzy nazywają kontrolowanym łamaniem symetrii.
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, wiersze 1426--1478 (tekst główny) i 3777--3998 (dodatek z notacją).
+Zaburzenie to jest losowe i~nie pochodzi z~pomiarów żadnego urządzenia, a~preprint nie podaje rozkładu współczynników, wartości amplitudy ani tego, czy zaburzenie jest stałe, czy losowane w~trakcie uczenia.
+
+Preprint raportuje pięć grup eksperymentów (klasyfikację i~regresję na danych tabelarycznych, odszumianie syntetycznych sygnałów autoenkoderem, uczenie sieci GAN i~prognozowanie szeregów czasowych) oraz diagnostykę gradientów.
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, sekcje od wiersza 1946 (klasyfikacja, 6 zbiorów), 2243 (regresja, 6 zbiorów), 2547 (odszumianie), 2694 (GAN, cyfra 4 zbioru MNIST: wiersz 2702), 2836 (szeregi czasowe; pięć tabel od wiersza 2955) i 3140 (gradienty).
+W~żadnym z~nich zaburzenie nie występuje: części eksperymentalne i~dodatki z~architekturami nie podają jego parametrów ani wariantu modelu z~zaburzeniem, opisy mówią wprost o~przekształceniach unitarnych i~elementach grupy $\mathrm{SU}(3)$, a~porównania tego samego modelu z~zaburzeniem i~bez niego nie ma.
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex: symbole zaburzenia występują tylko w wierszach 1429--1478 i 3790--3993; ,,The resulting transformation is unitary'' (wiersz 2631); element grupy SU(3) (wiersze 2727 i 2896); ,,constrained to lie in the chosen group'' (wiersz 3411); ,,orthogonal or unitary'' (wiersz 3463).
+W~skryptach eksperymentów w~repozytorium kodu wskazanym w~preprincie amplituda zaburzenia jest we wszystkich konfiguracjach równa zeru (stan z~2~czerwca 2026~r.).
+% ŹRÓDŁO: poza preprintem: github.com/Raubkatz/Lie_Group_Learners, rewizja 919d4addb1; noise_scale=0.0 w skryptach A_01 (wiersze 762, 787, 812, 837, 931), B_01 (423, 446, 538), C_01 (235), D_01 (225), E_01 (308), G_01 (349, 396, 421, 446, 471); szczegóły w notatce eksperymenty/weryfikacja-liczb/rozdzial-9-grupy-liego.md.
+
+Raportowane wyniki dotyczą ścisłych warstw grupowych i~według autorów zależą od zbioru danych: w~klasyfikacji model z~takimi warstwami był najlepszy na dwóch z~sześciu zbiorów, a~na czterech las drzew ExtraTrees.
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, pierwsze wiersze tabel klasyfikacji (2020, 2048, 2076, 2105, 2135, 2165) i podsumowanie w wierszu 2190; ocena autorów: wiersze 247--249 i 3403.
+Najwyraźniejszą różnicę dało odszumianie: w~50 przebiegach autoenkoder z~warstwą $\mathrm{SU}(3)$ uzyskał błąd średniokwadratowy $0{,}061\pm0{,}008$ wobec $0{,}114\pm0{,}014$ dla autoenkodera klasycznego.
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, tabela tab:sine_denoising_results, wiersze 2603--2604 (średnia i odchylenie standardowe z 50 przebiegów).
+Szum oznacza tam zakłócenie dodane do sygnału wejściowego, a~w~eksperymencie z~siecią GAN szum dodawany do obrazów przy uczeniu dyskryminatora; żaden z~nich nie jest zaburzeniem generatorów.
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, wiersze 2555 (szum gaussowski i impulsowy sygnału), 2735 i 6283--6289 (szum obrazów w uczeniu dyskryminatora).
+Preprint nie zawiera zatem danych o~wpływie łamania symetrii na uczenie i~nie wynika z~niego, że szum wzorowany na kwantowym jest zasobem w~uczeniu.
+\agenttask{
+Pytania do autora (PHD-TS-49 i PHD-TS-61).
+(1) Czy w którymkolwiek z przebiegów, z których pochodzą liczby w tabelach preprintu, zaburzenie miało niezerową amplitudę; jeśli tak, w których i z jakimi parametrami. Preprint tego nie podaje, a w publicznym repozytorium amplituda wynosi zero.
+(2) Czy skrypty z publicznego repozytorium są tymi, którymi uzyskano raportowane wyniki, i czy zdanie o repozytorium ma zostać w tekście rozprawy (wykracza poza treść preprintu).
+(3) Czy istnieją niepublikowane przebiegi z zaburzeniem (ablacja). Bez nich sekcja stwierdza, że preprint nie zawiera danych o wpływie łamania symetrii na uczenie; ujęcie tego wątku jako uczenia wykorzystującego błędy kwantowe jako dodatkowy wymiar nie ma w preprincie pokrycia w wynikach.
+(4) Tekstu preprintu w wersji v1 (Preprints.org) nie porównywano z plikiem w katalogu artykuły; plik ma nagłówek czasopisma Quantum Machine Intelligence i wygląda na wersję po rewizji.
 }
 
 \section{Znaczenie dla redukcji błędów}\label{sec:ns:implications}
 \agentinfo{
-Sygnatury łamania symetrii jako wskaźnik diagnostyczny oraz zastrzeżenia (stabilność zaburzeń, pominięte źródła szumu).
-Wspólne założenie z metodą PDU: błąd jest stabilną, mierzalną cechą urządzenia.
-Ograniczenia: model jednokubitowy, jedno urządzenie, model fenomenologiczny.
+Napisane w zadaniu PHD-TS-65 (2026-11-27); pełni też rolę dyskusji i podsumowania rozdziału; bez nowych liczb poza ilorazem odchylenia standardowego i średniej składowych wiersza afinicznego (0,68; 0,56; 0,56; obliczenie własne z równań 45 i 46 wersji opublikowanej).
+Powiązanie z metodą PDU sformułowano zgodnie z sekcjami 3.5 i 4.8: stałość błędu do następnej kalibracji nie jest potwierdzona w postaci mocnej; omawiane prace tego nie rozstrzygają.
+Oceny własne (DO AKCEPTACJI AUTORA): opis na poziomie generatorów jest uzupełnieniem, a nie uzasadnieniem metody PDU; wspólna jest tylko przesłanka o składowej systematycznej wyznaczanej z pomiarów; nie ma podstaw, by dopasowane zaburzenia uznać za stabilną cechę urządzenia.
+Schemat scharakteryzować, uzupełnić, monitorować oraz zastrzeżenia autorów: wersja opublikowana, sekcja VI.B; wersja zgłoszeniowa, wiersze 911--918.
+Zgodnie z decyzją autora tekst nie proponuje nowych eksperymentów; rozdział nie ma tezy ani numerowanego pytania badawczego, więc nie wymaga uzupełnień po zatwierdzeniu numeracji.
 }
+
+Obie prace dotyczą systematycznego odstępstwa urządzenia od operacji idealnej, tak jak metody z~rozdziałów~\ref{chapter:pdu}--\ref{chapter:classification}, lecz żadna nie jest metodą redukcji błędów: w~pracy o~szumie nie skorygowano wyniku żadnego obliczenia, a~sieci z~preprintu są klasyczne.
+Praca~\cite{raubitzek_quantum_noise} pokazuje, że część tego odstępstwa daje się zapisać niewielką liczbą parametrów na poziomie generatorów bramek.
+Metoda PDU postępuje odwrotnie, bo wyznacza błąd wyniku całego obwodu bez modelu bramek (założenie~(\ref{itm:pdu:Z2})); opis na poziomie generatorów jest wobec niej uzupełnieniem, a~nie uzasadnieniem, a~wspólna jest tylko przesłanka, że odstępstwo ma składową systematyczną, którą można wyznaczyć z~pomiarów na urządzeniu.
+
+Autorzy proponują, by sygnatury łamania symetrii, zwłaszcza pierwszy wiersz macierzy i~wektor przesunięcia, służyły za wskaźniki diagnostyczne, i~szkicują schemat dla mitygacji i~korekcji błędów: scharakteryzować zaburzenia, uzupełnić o~nie etap kodowania albo odtwarzania stanu i~monitorować wskazane elementy macierzy.
+Schematu nie zrealizowano, a~autorzy zastrzegają, że wymaga on zaburzeń stabilnych, powtarzalnych i~mierzalnych w~skali czasu korekcji oraz że model może obejmować tylko część szumu.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcje VI.A i VI.B; wersja zgłoszeniowa, wiersze 885 i 911--918.
+Warunek stabilności jest odpowiednikiem założenia~(\ref{itm:pdu:Z4}) metody PDU.
+Przegląd literatury (podrozdział~\ref{sec:lr:noise}) i~dyskusja metody PDU (podrozdział~\ref{sec:pdu:discussion}) wskazują, że stałość błędu do następnej kalibracji urządzenia nie znajduje potwierdzenia w~postaci mocnej, a~jedynie w~słabszej, w~której korekta wyznaczona z~pomiaru zachowuje ważność przez czas rzędu godzin.
+Praca o~szumie tego obrazu nie zmienia: zaburzenia dopasowano do średniej z~przebiegów zbieranych przez kilka miesięcy, odchylenie standardowe składowych wiersza afinicznego między przebiegami przekracza połowę modułu ich średniej, a~udziału próbkowania, dryfu i~zmian kalibracji w~tym rozrzucie nie rozdzielono.
+% ŹRÓDŁO: obliczenie własne z równań (45) i (46) wersji opublikowanej: 0,02959/0,04382 = 0,68; 0,02583/0,04596 = 0,56; 0,02777/0,04950 = 0,56.
+Nie ma więc podstaw, by dopasowane zaburzenia uznać za stabilną cechę urządzenia; opisują one zachowanie średnie w~okresie zbierania danych.
+
+Preprint nie wnosi do tej oceny danych: zaburzenia nie użyto w~raportowanych eksperymentach, więc nie potwierdza on ani nie wyklucza, że łamanie symetrii wzorowane na szumie kwantowym pomaga w~uczeniu.
+Zakres wniosków ograniczają ponadto: jeden kubit, jedna bramka i~jedno, niedostępne już urządzenie, tomografia nieoddzielająca błędów przygotowania stanu i~pomiaru, fenomenologiczny i~niejednoznaczny model, klasyczny charakter sieci oraz ograniczony udział autora rozprawy w~obu pracach (podrozdział~\ref{sec:ns:scope}).
+Rozdział nie zmienia zatem wniosków rozdziałów~\ref{chapter:pdu}--\ref{chapter:classification}: pokazuje, jak błąd urządzenia opisuje się od strony bramek, i~wskazuje, że pytanie o~jego stabilność pozostaje otwarte także w~tym opisie.
+Wnioski całej pracy zbiera rozdział~\ref{chapter:summary}.

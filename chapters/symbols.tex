@@ -15,17 +15,28 @@ Symbol użyty w tekście musi mieć wiersz w tym wykazie.
 \textbf{Skrót} & \textbf{Znaczenie} \\
 \midrule
 \endhead
+BCE & binarna entropia krzyżowa (ang. \emph{Binary Cross-Entropy}) \\
+CDR & regresja na danych z obwodów Clifforda, metoda mitygacji błędów (ang. \emph{Clifford Data Regression}) \\
+CNN & splotowa sieć neuronowa (ang. \emph{Convolutional Neural Network}) \\
 CPTP & odwzorowanie całkowicie dodatnie i zachowujące ślad (ang. \emph{completely positive trace-preserving}) \\
+DD & dynamiczne odsprzęganie (ang. \emph{Dynamical Decoupling}) \\
+EPLG & błąd na bramkę w warstwie (ang. \emph{Error Per Layered Gate}) \\
+FBS & klasyfikator z odczytem fazowym; nazwa z manuskryptu roboczego (ang. \emph{Frame Bundle Section}) \\
+FCoSamp & funkcja otrzymywana z próbkowania operatora QCoSamp (ang. \emph{quantum cosine sampled function}) \\
 FRQI & \emph{Flexible Representation of Quantum Images} \\
 GAN & generatywna sieć przeciwstawna (ang. \emph{Generative Adversarial Network}) \\
+GEM & ogólna mitygacja błędów, metoda kalibrowana na obwodach tożsamościowych (ang. \emph{General Error Mitigation}) \\
+GHZ & stan Greenbergera--Horne'a--Zeilingera, $(\ket{0}^{\otimes n}+\ket{1}^{\otimes n})/\sqrt{2}$ \\
 LPIQE & \emph{Local Phase Image Quantum Encoding} \\
 MAE & średni błąd bezwzględny (ang. \emph{Mean Absolute Error}) \\
+MLP & perceptron wielowarstwowy (ang. \emph{Multilayer Perceptron}) \\
 MSE & błąd średniokwadratowy (ang. \emph{Mean Square Error}) \\
 NEQR & \emph{Novel Enhanced Quantum Representation} \\
 NISQ & \emph{Noisy Intermediate-Scale Quantum} \\
 PDF & funkcja rozkładu prawdopodobieństwa (ang. \emph{Probability Distribution Function}) \\
 PDO & operator zniekształcenia fazy (ang. \emph{Phase Distortion Operator}) \\
 PDU & funkcja odwracania zniekształceń fazy (ang. \emph{Phase Distortion Unraveling}) \\
+PEC & probabilistyczne znoszenie błędów (ang. \emph{Probabilistic Error Cancellation}) \\
 PSNR & szczytowy stosunek sygnału do szumu (ang. \emph{Peak Signal-to-Noise Ratio}) \\
 PTM & macierz transferu Pauliego (ang. \emph{Pauli Transfer Matrix}) \\
 QCoSamp & kwantowe próbkowanie szeregiem cosinusów (ang. \emph{Cosine Series Quantum Sampling}) \\
@@ -34,8 +45,14 @@ QEM & mitygacja błędów kwantowych (ang. \emph{Quantum Error Mitigation}) \\
 QML & kwantowe uczenie maszynowe (ang. \emph{Quantum Machine Learning}) \\
 QPT & tomografia procesu kwantowego (ang. \emph{Quantum Process Tomography}) \\
 QV & objętość kwantowa (ang. \emph{Quantum Volume}) \\
+RB & test z losowymi sekwencjami bramek (ang. \emph{Randomized Benchmarking}) \\
+REM & mitygacja błędów stanem referencyjnym (ang. \emph{Reference-State Error Mitigation}) \\
+ReLU & prostowana jednostka liniowa (ang. \emph{Rectified Linear Unit}) \\
 SPAM & błędy przygotowania stanu i pomiaru (ang. \emph{State Preparation and Measurement}) \\
+SSIM & miara podobieństwa strukturalnego obrazów (ang. \emph{Structural Similarity Index Measure}) \\
+TVD & odległość całkowitego wahania dwóch rozkładów prawdopodobieństwa (ang. \emph{Total Variation Distance}) \\
 VQC & wariacyjny obwód kwantowy (ang. \emph{Variational Quantum Circuit}) \\
+ZNE & ekstrapolacja do zerowego szumu (ang. \emph{Zero-Noise Extrapolation}) \\
 \bottomrule
 \end{longtable}
 
@@ -48,21 +65,100 @@ VQC & wariacyjny obwód kwantowy (ang. \emph{Variational Quantum Circuit}) \\
 \endhead
 $\hilbert$ & przestrzeń Hilberta \\
 $\ket{\psi}$ & wektor stanu układu kwantowego \\
+$\bra{\psi}$, $\braket{\varphi|\psi}$ & wektor dualny (bra) i iloczyn skalarny wektorów stanu \\
+$A^\dagger$ & sprzężenie hermitowskie macierzy $A$ (transpozycja i sprzężenie zespolone) \\
+$\otimes$ & iloczyn tensorowy (dla macierzy: iloczyn Kroneckera) \\
+$\varphi$, $\chi$ & faza lokalna (względna) i faza globalna stanu \\
+$\blochvec=(r_x,r_y,r_z)$ & wektor Blocha kubitu \\
+$\sigma_x$, $\sigma_y$, $\sigma_z$ & macierze Pauliego \\
+$\mathrm{X}$, $\mathrm{Y}$, $\mathrm{Z}$, $\mathrm{H}$, $\mathrm{S}$, $\mathrm{T}$, $\mathrm{SX}$ & bramki Pauliego, Hadamarda, S, T i pierwiastek z bramki X \\
+$\mathrm{P}(\varphi)$, $\mathrm{CP}(\varphi)$ & bramka przesunięcia fazy i kontrolowane przesunięcie fazy \\
+$R_x(\theta)$, $R_y(\theta)$, $R_z(\theta)$ & bramki obrotu o kąt $\theta$ wokół osi sfery Blocha \\
+$\mathrm{C}U$, $\mathrm{CNOT}$ & bramka $U$ kontrolowana jednym kubitem, bramka kontrolowanej negacji \\
+$\mathrm{U3}(\theta_1,\theta_2,\theta_3)$ & ogólna bramka jednokubitowa o trzech kątach, $\mathrm{e}^{\mathrm{i}(\theta_2+\theta_3)/2}R_z(\theta_2)R_y(\theta_1)R_z(\theta_3)$ \\
+$\ham$ & hamiltonian układu \\
+$\rho_A=\Tr_B\rho_{AB}$ & ślad częściowy: stan zredukowany podukładu $A$ \\
+$\fidelity(\rho_1,\rho_2)$ & wierność stanów kwantowych \\
 $\rho$ & macierz gęstości \\
 $\identity$ & operator identycznościowy \\
 $\channel$ & kanał kwantowy \\
+$\errch$, $\kraus_k$ & kanał błędu (bramka zaszumiona jest złożeniem $\errch$ z bramką idealną) i operatory Krausa kanału \\
+$\Tone$, $\Ttwo$, $\Tphi$ & czas relaksacji, czas koherencji i czas czystego defazowania kubitu \\
+$n$, $d=2^n$ & liczba kubitów i wymiar przestrzeni stanów rejestru (w opisie szumu) \\
+$\depolparam$, $\qdep$ & parametr kanału depolaryzującego w postaci $\rho\mapsto(1-\depolparam)\rho+\depolparam\identity/d$ oraz w parametryzacji Pauliego; dla jednego kubitu $\depolparam=\frac{4}{3}\qdep$ \\
+$\qamp$, $\qphase$, $q$ & parametr tłumienia amplitudy, parametr tłumienia fazy i prawdopodobieństwo błędu w kanale Pauliego \\
+$\cohangle$ & kąt błędu koherentnego (odstrojenie, nadmiarowy obrót) \\
+$\confmat$, $q_{y|x}$ & macierz błędu odczytu i jej elementy: prawdopodobieństwo odczytania wyniku $y$ dla stanu bazowego $\ket{x}$ \\
+$\ptm$, $R_{ab}$ & macierz transferu Pauliego kanału i jej elementy, $a,b\in\{0,x,y,z\}$ \\
+$\ptmblock$, $\ptmshift$, $\ptmrow$ & części jednokubitowej macierzy transferu Pauliego: blok unitalny $3\times3$, wektor przesunięcia (część nieunitalna) i wiersz afiniczny (zależność śladu od stanu) \\
+$\zeta$ & parametr zaniku w teście z losowymi sekwencjami bramek (RB) \\
 $\prob(\ket{x})$ & prawdopodobieństwo zmierzenia stanu bazowego $\ket{x}$ \\
+$\nshots$ & liczba pomiarów (powtórzeń obwodu) \\
+$\tilde{\prob}(\ket{x})$ & częstość względna stanu bazowego $\ket{x}$ w $\nshots$ pomiarach (estymator $\prob(\ket{x})$) \\
+$\prob_{\mathrm{id}}$, $\probnoisy$ & rozkład idealny i rozkład, z którego losuje urządzenie obarczone szumem \\
+$\distshrink$, $v$ & współczynnik skurczenia rozkładu wyników ($\distshrink=1-\depolparam$ dla depolaryzacji całego rejestru) i widoczność interferencji \\
+$\ket{0_L}$, $\ket{1_L}$ & stany bazowe kubitu logicznego w kodzie korekcyjnym \\
+$[[n,k,d]]$, $\stabgroup$ & parametry kodu kwantowego (liczba kubitów fizycznych, liczba kubitów logicznych, dystans kodu) i grupa stabilizatorów kodu \\
+$p$, $\pth$, $\plog$ & prawdopodobieństwo błędu operacji fizycznej, jego wartość progowa i prawdopodobieństwo błędu logicznego \\
+$c_j$, $E(c)$, $\beta_j$ & współczynnik skalowania szumu, wartość obserwabli przy poziomie szumu $c$ i wagi ekstrapolacji Richardsona (ekstrapolacja do zerowego szumu) \\
+$\omega_i$, $\pecnorm$ & współczynniki quasi-prawdopodobieństw i koszt próbkowania w probabilistycznym znoszeniu błędów, $\pecnorm=\sum_i|\omega_i|$ \\
+$\coscomp_{n,r}(x)$ & składnik cosinusowy metody QCoSamp o częstotliwości $n$ i fazie $r$: $\coscomp_{n,r}(x)=\frac{1}{2}(1+\cos(nx+r))$ \\
+$\cosseries(x)$, $\cosseries_N(x)$ & szereg wieloskładnikowy (kombinacja wypukła składników cosinusowych) i funkcja FCoSamp o $N$ harmonicznych \\
+$\compcirc_{n,r}(D)$, $\compphase_{n,r}$ & operator obwodu składnika cosinusowego dla ciągu bitów $D$ i jego blok fazowy \\
+$m$ & liczba kubitów rejestru argumentu w obwodach QCoSamp (rozdzielczość argumentu wynosi $2^m$) \\
+$\pdo(\boldsymbol{\varphi})$ & operator zniekształcenia fazy (PDO) o fazach $\boldsymbol{\varphi}=(\varphi_0,\dots,\varphi_{M-1})$ \\
 $\reffun(x)$ & funkcja referencyjna o znanych wartościach oczekiwanych \\
 $\reffunexp(x)$ & funkcja referencyjna wyznaczona eksperymentalnie \\
 $\pdu(x)$ & funkcja PDU: $\pdu(x)=\reffunexp(x)-\reffun(x)$ \\
+$x_D$, $\pdu_D$ & argument zakodowany ciągiem bitów $D$ (węzeł siatki kalibracyjnej) i błąd wyznaczony w tym węźle \\
+$X_m$, $\mathcal{V}_m$ & w metodzie PDU: siatka $2^m$ węzłów kalibracyjnych (ich liczbę oznacza się w rozdziale~\ref{chapter:pdu} także literą $K$) i zbiór błędów wyznaczonych \\
+$\mathcal{I}$, $\iota(x)$ & operator interpolacji, którym ze zbioru $\mathcal{V}_m$ otrzymuje się funkcję PDU, i błąd interpolacji \\
+$\reffuncorr(x)$, $\hat{f}$ & funkcja referencyjna i wynik obliczenia po korekcie funkcją PDU: $\hat{f}=\tilde{f}-\pdu(\varphi)$ \\
+$\bar{\pdu}(x)$, $\delta_t(x)$, $\xi_t(x)$, $t_0$ & składowa systematyczna błędu wyniku w chwili $t_0$ kalibracji funkcji PDU, jej dryf od tej chwili i błąd statystyczny wyniku w chwili $t$ \\
 $H, W$ & wysokość i szerokość obrazu w pikselach \\
 $\img$ & obraz jako macierz intensywności pikseli \\
+$p_j$, $\tilde{p}_j$ & intensywność $j$-tego piksela obrazu zwektoryzowanego, $p_j\in[0,1]$, oraz intensywność odtworzona z pomiarów \\
+$M$ & liczba stanów bazowych rejestru pozycji w reprezentacji obrazu ($M=WH$ dla $W$, $H$ będących potęgami dwójki) \\
 $\lpiqe(\img)$ & operator kodowania LPIQE \\
 $\reconst(\img)$ & operator rekonstrukcji obrazu \\
+$\Theta(\img)$ & operator kodowania LPIQE sterowany kubitem pomocniczym, część operatora $\reconst(\img)$ \\
+$\sigma_e$ & odchylenie standardowe błędu: pikseli obrazu odtworzonego, a w rozdziale~\ref{chapter:pdu} wartości funkcji w węzłach siatki \\
+$L$, $U_\ell$ & w uczonym kodowaniu obrazów: liczba bloków obwodu i operator bloku $\ell$; obwód na $n+1$ kubitach ma $4nL$ kątów \\
+$u_j$, $\tilde{u}_j$ & w uczonym kodowaniu obrazów: wartość $j$-tej intensywności odczytana z rozkładu wyników przed splotem końcowym, $u_j=2^n\,\prob(\ket{1}_a\ket{j})$, i jej oszacowanie z $\nshots$ pomiarów \\
+$\hfid$, $d_{\mathrm{H}}$ & wierność Hellingera dwóch rozkładów wyników pomiaru i odległość Hellingera, $d_{\mathrm{H}}=\sqrt{1-\sqrt{\hfid}}$ \\
+$c_{\mathrm{kal}}$ & współczynnik skali modelu szumu zbudowanego z danych kalibracyjnych ($c_{\mathrm{kal}}=1$: błędy jak w kalibracji) \\
+$r$ & współczynnik korelacji liniowej Pearsona \\
+$\tau$, $r_{\mathrm{S}}$ & współczynniki korelacji rangowej Kendalla i Spearmana \\
 $\liealg{g}$ & algebra Liego grupy $G$ \\
+$\mathrm{U}(d)$, $\mathrm{SU}(d)$, $\mathrm{SO}(3)$ & grupa unitarna, specjalna grupa unitarna, grupa obrotów przestrzeni trójwymiarowej \\
+$[A,B]$ & komutator $AB-BA$ \\
+$\gen$ & hermitowski generator bramki, $U(\theta)=\exp(-\mathrm{i}\theta\gen/2)$ \\
 $\genpert$ & addytywne zaburzenie generatora bramki \\
+$\zscore_{ab}$ & wskaźnik zgodności elementu $R_{ab}$ macierzy transferu Pauliego modelu i urządzenia: moduł różnicy średnich podzielony przez pierwiastek z sumy kwadratów odchyleń standardowych \\
 $\dataset$ & zbiór danych \\
 $\trainset$, $\valset$, $\testset$ & zbiór treningowy, walidacyjny i testowy \\
 $\symloss$ & funkcja straty \\
+$(\mathbf{x}_i,\mathbf{y}_i)$ & próbka i jej wartość docelowa (etykieta klasy albo obraz odniesienia) \\
+$f_{\mathbf{w}}$, $\mathbf{w}$, $\hat{\mathbf{y}}$ & model uczony, wektor jego parametrów (wag) i predykcja modelu \\
+$\ell$; $\ell_{\mathrm{L1}}$, $\ell_{\mathrm{CE}}$, $\ell_{\mathrm{BCE}}$ & strata pojedynczej próbki; średni błąd bezwzględny (strata L1), entropia krzyżowa i binarna entropia krzyżowa \\
+$d$ & w podrozdziale o uczeniu maszynowym: liczba składowych wektora (np. pikseli obrazu albo bloku cech) \\
+$K$, $\mathbf{C}=[C_{kl}]$ & liczba klas i macierz pomyłek klasyfikatora \\
+$\mathrm{ACC}$, $P_k$, $R_k$, $\mathrm{F1}_k$ & dokładność oraz precyzja, czułość i miara F1 klasy $k$ \\
+$h_j$, $w_{ji}$, $b_j$, $a$, $u$ & wyjście neuronu, waga połączenia, przesunięcie, funkcja aktywacji i jej argument \\
+$\alpha$ & nachylenie funkcji $\mathrm{LeakyReLU}_{\alpha}$ dla ujemnych argumentów \\
+$\mathbf{g}_t$, $\mathbf{m}_t$, $\mathbf{v}_t$, $\hat{\mathbf{m}}_t$, $\hat{\mathbf{v}}_t$ & gradient oraz estymaty pierwszego i drugiego momentu gradientu (bez korekty i z korektą obciążenia) w kroku $t$ optymalizatora Adam \\
+$\eta$, $\beta_1$, $\beta_2$, $\epsilon$ & współczynnik uczenia, współczynniki zaniku momentów i stała stabilizująca optymalizatora Adam \\
+$q$, $s$ & rozmiar jądra splotu i krok splotu \\
+$\netG$, $\netD$ & generator i dyskryminator sieci GAN \\
+$\mathbf{z}$, $p_{\mathbf{z}}$, $p_{\mathrm{data}}$ & wektor losowy na wejściu generatora, jego rozkład oraz rozkład danych \\
+$V$, $V_{\mathrm{c}}$, $\lambda$ & funkcja wartości sieci GAN i warunkowej sieci GAN oraz waga składnika L1 w funkcji celu modelu pix2pix \\
+$\boldsymbol{\theta}$, $\Theta_{\mathbf{w}}$ & wektor kątów bramek obwodu o stałej strukturze i sieć klasyczna, która je wyznacza, $\boldsymbol{\theta}=\Theta_{\mathbf{w}}(\mathbf{x})$ \\
+$\langle O\rangle_{\boldsymbol{\theta}}$, $\mathbf{e}_j$ & wartość oczekiwana obserwabli $O$ na wyjściu obwodu $U(\boldsymbol{\theta})$; $j$-ty wektor bazy standardowej \\
+$\mathcal{K}(\mathbf{x},\mathbf{x}')$ & jądro kwantowe: kwadrat modułu iloczynu skalarnego stanów kodujących próbki $\mathbf{x}$ i $\mathbf{x}'$ \\
+$\blochvec_j$, $\varphi_j$, $\bar{\varphi}_j$, $r_{j,xy}$ & w klasyfikatorze z odczytem fazowym: wektor Blocha stanu zredukowanego $j$-tego kubitu, jego azymut, azymut obcięty do przedziału $(-\frac{\pi}{2},\frac{\pi}{2})$ i długość rzutu wektora na płaszczyznę $xy$; liczbę bloków obwodu klasyfikatora oznacza $L$, jak w uczonym kodowaniu obrazów \\
+$\blochvec_j'$, $\hat{\blochvec}_j$, $\phaseerr_j^{\mathrm{o}}$, $\phaseerr_j^{\mathrm{z}}$, $\nnodes$, $\mathbf{B}_j$, $\mathbf{b}_j$ & w korekcie odczytu klasyfikatora: zmierzony i skorygowany wektor Blocha $j$-tego kubitu (azymuty $\varphi_j'$ i $\hat{\varphi}_j$), funkcja błędu fazy kubitu wyznaczona względem fazy oczekiwanej i względem fazy zmierzonej, liczba jej węzłów oraz macierz i wektor regresji wektora odniesienia na wektor zmierzony \\
+$T_g$, $T'_g$ & działanie elementu $g$ grupy na przestrzeni wejść i na przestrzeni cech \\
+$\mathbf{h}_i$, $g_i$, $c_{i,a}$, $B_a$ & w warstwie działania grupy Liego: blok cech, macierz z grupy działająca na blok, uczone współrzędne w algebrze Liego i macierze bazy algebry \\
+$\genpert_i$, $\genpert_i^{\liealg{g}}$, $\genpert_i^{\mathrm{r}}$ & w warstwie działania grupy Liego: opcjonalne zaburzenie elementu algebry dla bloku $i$, jego składowa należąca do algebry i reszta spoza algebry \\
 \bottomrule
 \end{longtable}

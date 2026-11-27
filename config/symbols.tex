@@ -6,21 +6,62 @@
 \newcommand{\hilbert}{\mathcal{H}}                 % przestrzeń Hilberta
 \newcommand{\identity}{\mathbf{1}}                 % operator identycznościowy
 \newcommand{\prob}{\mathfrak{p}}                   % prawdopodobieństwo wyniku pomiaru
+\newcommand{\nshots}{N_{\mathrm{s}}}               % liczba pomiarów (powtórzeń obwodu)
 \newcommand{\channel}{\mathcal{E}}                 % kanał kwantowy
+\newcommand{\Tr}{\operatorname{Tr}}                % ślad macierzy; \Tr_B -- ślad częściowy po podukładzie B
+\newcommand{\blochvec}{\mathbf{r}}                 % wektor Blocha
+\newcommand{\fidelity}{F}                          % wierność stanów (postać z kwadratem, Jozsa 1994)
+\newcommand{\ham}{\hat{H}}                         % hamiltonian (odróżniony od bramki Hadamarda \mathrm{H})
+
+% --- Szum i kanały kwantowe (podrozdział 2.2) ---
+\newcommand{\errch}{\Lambda}                       % kanał błędu: bramka zaszumiona = \errch \circ bramka idealna
+\newcommand{\kraus}{K}                             % operator Krausa: \kraus_k
+\newcommand{\Tone}{T_1}                            % czas relaksacji
+\newcommand{\Ttwo}{T_2}                            % czas koherencji (zaniku fazy)
+\newcommand{\Tphi}{T_{\varphi}}                    % czas czystego defazowania
+\newcommand{\depolparam}{\lambda}                  % parametr kanału depolaryzującego: rho -> (1 - lambda) rho + lambda 1/d
+\newcommand{\qdep}{q_{\mathrm{d}}}                 % kanał depolaryzujący w parametryzacji Pauliego (każda z bramek X, Y, Z z prawd. q_d/3); lambda = 4 q_d / 3
+\newcommand{\qamp}{q_{\mathrm{a}}}                 % parametr tłumienia amplitudy (nie gamma: gamma to funkcja referencyjna)
+\newcommand{\qphase}{q_{\varphi}}                  % parametr tłumienia fazy
+\newcommand{\cohangle}{\vartheta}                  % kąt błędu koherentnego (odstrojenie, nadmiarowy obrót); nie epsilon: epsilon to funkcja PDU
+\newcommand{\confmat}{Q}                           % macierz błędu odczytu: Q_{yx} = q_{y|x} = prawd. odczytania y dla stanu x
+\newcommand{\probnoisy}{\prob_{\mathrm{dev}}}      % rozkład, z którego losuje zaszumione urządzenie (zapis jak w równaniu eq:tb01:errordecomp podrozdziału 2.1)
+\newcommand{\distshrink}{s}                        % współczynnik skurczenia rozkładu wyników (s = 1 - lambda dla globalnej depolaryzacji)
+\newcommand{\ptm}{\mathbf{R}}                      % macierz transferu Pauliego (PTM); elementy R_{ij}
+\newcommand{\ptmblock}{\mathbf{T}}                 % blok unitalny PTM (3x3): obrót i skrócenie wektora Blocha
+\newcommand{\ptmshift}{\mathbf{t}}                 % wektor przesunięcia PTM (pierwsza kolumna): część nieunitalna
+\newcommand{\ptmrow}{\mathbf{a}}                   % wiersz afiniczny PTM (pierwszy wiersz bez R_{00}): zależność śladu od stanu wejściowego
+
+% --- Korekcja i mitygacja błędów (podrozdział 2.3) ---
+\newcommand{\stabgroup}{\mathcal{S}}               % grupa stabilizatorów kodu kwantowego
+\newcommand{\pth}{p_{\mathrm{th}}}                 % próg błędu operacji fizycznej w twierdzeniu progowym
+\newcommand{\plog}{p_{L}}                          % prawdopodobieństwo błędu logicznego (indeks L jak w stanach |0_L>, |1_L>)
+\newcommand{\pecnorm}{\Omega}                      % koszt próbkowania PEC: suma modułów współczynników quasi-prawdopodobieństw omega_i (nie gamma ani kappa: są zajęte)
 
 % --- Próbkowanie kwantowe i metoda PDU ---
 \newcommand{\reffun}{\gamma}                       % funkcja referencyjna
 \newcommand{\reffunexp}{\tilde{\gamma}}            % funkcja referencyjna wyznaczona eksperymentalnie
 \newcommand{\pdu}{\varepsilon}                     % funkcja PDU (błąd)
+\newcommand{\reffuncorr}{\hat{\gamma}}             % funkcja referencyjna po korekcie funkcją PDU
+\newcommand{\coscomp}{\kappa}                      % składnik cosinusowy QCoSamp: \coscomp_{n,r}(x) = (1 + cos(nx + r))/2
+\newcommand{\cosseries}{\mu}                       % szereg wieloskładnikowy / funkcja FCoSamp
+\newcommand{\compcirc}{\Gamma}                     % operator obwodu składnika: \compcirc_{n,r}(D)
+\newcommand{\compphase}{\Phi}                      % blok fazowy obwodu składnika: \compphase_{n,r}
+\newcommand{\pdo}{\mathcal{Z}}                     % operator zniekształcenia fazy (PDO); \mathcal{D} i \mathcal{E} są zajęte
+\newcommand{\phaseerr}{\nu}                        % funkcja błędu fazy kubitu w korekcie odczytu klasyfikatora (podrozdział 8.4.2): \phaseerr_j^{\mathrm{o}}, \phaseerr_j^{\mathrm{z}}; nie epsilon: epsilon to funkcja PDU
+\newcommand{\nnodes}{N_{\mathrm{w}}}               % liczba węzłów funkcji błędu fazy \phaseerr (nie K: w rozdziale 8 litera K oznacza liczbę klas)
 
 % --- Kwantowe reprezentacje obrazów ---
 \newcommand{\img}{I_m}                             % obraz (macierz intensywności)
 \newcommand{\lpiqe}{\mathcal{L}}                   % operator kodowania LPIQE
 \newcommand{\reconst}{\mathcal{R}}                 % operator rekonstrukcji obrazu
+\newcommand{\hfid}{F_{\mathrm{H}}}                 % wierność Hellingera dwóch rozkładów wyników pomiaru (rozdział 7)
 
 % --- Szum na poziomie generatorów ---
 \newcommand{\liealg}[1]{\mathfrak{#1}}             % algebra Liego, np. \liealg{su}(2)
 \newcommand{\genpert}{\Delta}                      % zaburzenie generatora
+\newcommand{\gen}{\hat{G}}                         % hermitowski generator bramki, U = exp(-i theta \gen / 2)
+\newcommand{\zscore}{z}                            % wskaźnik zgodności elementu PTM modelu i urządzenia (rozdział 9): \zscore_{ab}; nie mylić z wektorem losowym \mathbf{z} sieci GAN
 
 % --- Uczenie maszynowe ---
 \newcommand{\dataset}{\mathcal{D}}
@@ -28,3 +69,5 @@
 \newcommand{\testset}{\dataset_{\mathrm{test}}}
 \newcommand{\valset}{\dataset_{\mathrm{val}}}
 \newcommand{\symloss}{\mathcal{L}_{\mathrm{loss}}} % funkcja straty (odróżniona od operatora LPIQE)
+\newcommand{\netG}{\mathsf{G}}                     % generator sieci GAN (odróżniony od grupy G)
+\newcommand{\netD}{\mathsf{D}}                     % dyskryminator sieci GAN (odróżniony od zbioru danych)

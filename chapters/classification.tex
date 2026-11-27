@@ -6,6 +6,7 @@
 Rozdział bada, jak szum wpływa na klasyfikację prowadzoną z użyciem obwodów kwantowych i czy klasyczna redukcja błędów ją poprawia.
 Spina tytuł pracy z rozdziałami 4--7.
 Docelowa objętość: około 16 stron.
+Decyzja autora z 2026-11-27: rozdział nie ma własnej tezy (robocza teza T4 odpada); odpowiada na pytanie badawcze o wpływ szumu i klasycznej korekty wyniku na klasyfikację, a odpowiedź jest warunkowa (sekcja 8.4.2). W sekcjach 8.1 i 8.5 nie odwoływać się do tezy, tylko do pytania badawczego; numer pytania uzgodnić po zatwierdzeniu wprowadzenia.
 Struktura przyjęta przez autora 2026-11-26; eksperymenty E0--E4 są zadaniami w infokuźni (epika Eksperymenty uzupełniające).
 
 Materiał istniejący: repozytorium /Users/krzysztofwerner/git/quantum-classifier (tylko do odczytu; nie czytać plików .env).
@@ -24,42 +25,589 @@ Oryginalnego kodu potoku LPIQE, PDU i pix2pix nie ma na komputerze autora; potok
 
 Zagrożenia do usunięcia przed użyciem wyników: jedno ziarno losowe, brak zbioru walidacyjnego (dobór hiperparametrów i punktu kontrolnego na zbiorze testowym), standaryzacja liczona przed podziałem danych.
 Klasyfikator FBS jest słabszy od sieci MLP we wszystkich przypadkach; w rozprawie jest środowiskiem do badania szumu i redukcji błędów, a nie propozycją konkurencyjnego klasyfikatora, i należy to napisać wprost.
+Doprecyzowanie po sprawdzeniu plików (PHD-TS-78): zdanie o przewadze sieci MLP jest prawdziwe dla dokładności na pełnym zbiorze testowym w dziesięciu modelach M2--M11 (różnica od 0,011 do 0,081, czyli od 22 do 161 próbek z 2000; pliki experiment.json przebiegów testowych); na podzbiorach 100 próbek klasyfikator bywa lepszy (M9: 0,62 wobec 0,55; M11: 0,82 wobec 0,80), a manuskrypt podaje dwa wyjątki poza tymi modelami (komórka 5 klas, 300 cech, wariant Pauliego w zestawieniu symulatorowym oraz wariant z enkoderem transformerowym).
+Rozstrzygnięcie na plikach (PHD-TS-79, opisane w 8.4.1): oba wyjątki potwierdzone (0,631 wobec 0,624 przy 37 z 50 zbiorów na korzyść klasyfikatora; 0,5555 wobec 0,5195 dla odmiany z siecią typu transformer); w zestawieniu symulatorowym klasyfikator ma niższą średnią w 31 z 32 konfiguracji i jest słabszy w 1239 z 1600 porównań na pojedynczych zbiorach, przy czym odniesieniem jest tam sieć MLP o jednej warstwie ukrytej z 64 neuronami, a nie sieć o warstwach klasyfikatora; sformułowanie we wszystkich przypadkach jest więc za mocne, właściwe jest: w porównaniach z siecią o tych samych warstwach na pełnym zbiorze testowym.
+
+Stan (PHD-TS-88, 2026-11-27): sekcje 8.1--8.3 i podrozdziały 8.4.1--8.4.2 napisane, czekają na przegląd autora; podrozdział 8.4.3 napisany 2026-11-27 na prośbę autora z eksperymentu E2 (X5 i X5b), razem z akapitem metodyki w 8.3 i zdaniem o zakresie w 8.1; podrozdział 8.4.4 i sekcje 8.5--8.6 do napisania (czekają na eksperymenty).
+Ustalenia nazewnicze dla sekcji 8.4--8.6:
+Model: klasyfikator z odczytem fazowym, w skrócie klasyfikator FBS (nazwa z manuskryptu); klasyczny punkt odniesienia: sieć MLP o tych samych warstwach ukrytych.
+Symbole: K liczba klas, d liczba cech, n liczba kubitów, L liczba bloków (jak w rozdziale 7; uwaga: w manuskrypcie i w kodzie jest odwrotnie, L oznacza tam liczbę klas, a K liczbę bloków), makro nshots liczba pomiarów na bazę; wektor Blocha j-tego kubitu to makro blochvec z indeksem j, jego azymut varphi_j, azymut obcięty varphi_j z kreską, rzut na płaszczyznę xy r_{j,xy}, promień to norma wektora; siły szumu na blok to makra cohangle (odstrojenie), qphase (tłumienie fazy), qdep (depolaryzacja), współczynnik skrócenia 1 - 4 qdep / 3 to makro distshrink.
+Nie używać dla szumu liter epsilon, gamma i p z kodu i z plików README eksperymentów: epsilon to funkcja PDU, gamma to funkcja referencyjna.
+Litera K oznacza liczbę klas, więc liczbę węzłów funkcji korekty (w README: K) oznacza w 8.4.2 makro nnodes; funkcję błędu fazy klasyfikatora oznacza makro phaseerr (litera nu, nie epsilon).
+Warianty korekty odczytu (8.4.2): FO i FZ to funkcja błędu fazy odczytywana dla fazy oczekiwanej i dla fazy zmierzonej, AO to odwrócenie odwzorowania afinicznego, AR to regresja wektora odniesienia na wektor zmierzony (w plikach eksperymentów: a_pdu, a2_pdu_slepa, b_afin, b2_afin_wprost); wariant FO wprowadza do korekty informację o odpowiedzi i jest podawany tylko z wynikiem kontroli.
+Modele: M1--M11 według tabeli tab:cls:models (kolejność malejącej liczby bramek CZ), z identyfikatorami katalogów eksperymentów o budowie c7_f200_q3_b13 (klasy, cechy, kubity, bloki); odpowiedniki w manuskrypcie: model A = M1, model B = M2, model C = M6; M2 jako jedyny odczytuje dwie współrzędne z kubitu (przyrostek _d2).
+Warianty bloku: wariant Pauliego (w kodzie pauli) i wariant uniwersalny (w kodzie universal).
+Zbiory: typ problemu to para (K, d); seria trudności to 50 zbiorów jednego typu (katalog Dif_compl_data); modele M1--M11 uczono na pierwszym zbiorze serii (dataset_00); w danych jest też seria 50 zbiorów losowych (Rand_data), użyta tylko w 2 z 58 przebiegów wsadowych i w rozdziale pominięta.
+Poziomy szumu: poziomy stopniowane (0; 0,01; 0,05; 0,10), poziom ibm_fez (trójka z kalibracji stanami GHZ, kolumny tabeli tab:cls:models), krotność poziomu ibm_fez (przebieg mieszany), siatka sił eksperymentu symulacyjnego (0,005--0,5).
+Przebiegi na urządzeniu: przebieg testowy (100 próbek testowych), przebieg kalibracyjny (400 próbek uczących, pierwsza runda dostrajania, model niezmieniony), dostrajanie na urządzeniu (trzy rundy).
+Eksperymenty: E0 to w tekście eksperyment na zapisanych pomiarach, E1 to eksperyment symulacyjny, E2 to eksperyment porównawczy (konfiguracja płytka = konfiguracja przeglądu szumu, konfiguracja głęboka = model M2 uczony od nowa); E4 nie ma jeszcze nazwy w tekście.
+Miary: dokładność, zgodność predykcji, odległość wektorów Blocha, średni promień, błąd azymutu, odzysk; wartości dokładne oznaczają granicę nieskończonej liczby pomiarów.
+Terminologia: korekta odczytu (nie korekcja); zagrożenia trafności mają etykiety itm:cls:ZT1 do itm:cls:ZT5 (ZT1 wybór modelu i standaryzacja z udziałem zbioru testowego, ZT2 jedno ziarno i jeden zbiór, ZT3 mała próba z urządzenia, ZT4 model szumu, ZT5 kalibracja korekty na próbkach uczących i względem symulatora).
+Etykiety dodane w sekcjach 8.1--8.3: fig:cls:model (panele fig:cls:circuit i fig:cls:readout), eq:cls:readout, eq:cls:azimuth-noise, eq:cls:noise-frame, tab:cls:models, itm:cls:ZT1 do itm:cls:ZT5.
+Etykiety dodane w 8.4.1: tab:cls:hw-results (modele M1--M11: symulator, urządzenie, dostrajanie), fig:cls:noise-results (panel a: promień i zgodność predykcji a liczba bramek CZ; panel b: przegląd szumu); nazwa wprowadzona w 8.4.1: przegląd szumu (64 przebiegi uczenia jednej konfiguracji przy kombinacjach poziomów stopniowanych).
+Objętość sekcji 8.1--8.3 w kompilacji bez notatek: około 6,9 strony (8.1: 0,9; 8.2: 2,4; 8.3: 3,6; planowano łącznie około 5); kandydaci do cięcia, jeśli budżet rozdziału tego wymaga: tabela tab:cls:models do dodatku (0,4 strony), opis kalibracji GHZ, lista zagrożeń trafności zapisana jako jeden akapit, szczegóły siatki eksperymentu symulacyjnego przeniesione do sekcji 8.4.2.
+Objętość podrozdziału 8.4.1 w kompilacji bez notatek: około 3,7 strony (tekst 2,9; tabela tab:cls:hw-results 0,4; rysunek 0,35; planowano około 3); kandydaci do cięcia: tabela do dodatku (0,4 strony), zdania o symulacji na fałszywym urządzeniu i o współczynniku determinacji odwzorowań (0,15), zdanie o stanach przygotowanych jedną warstwą obrotów (0,1), opis rundy dostrajania (0,15).
+Etykiety dodane w 8.4.2: eq:cls:corrections (cztery warianty korekty), tab:cls:pdu-recovery (odzysk na progu spadku dokładności, modele M1--M3), fig:cls:pdu-curves (krzywe modelu M2).
+Objętość podrozdziału 8.4.2 w kompilacji bez notatek: około 3,7 strony (tekst 3,1; tabela 0,27; rysunek 0,33; planowano około 3); kandydaci do cięcia są w konspekcie podrozdziału.
+Odwołania zapisywać jak w pozostałych rozdziałach, słowem i poleceniem ref (cleveref nie ma polskich nazw i nie jest w rozprawie używany).
 }
 
 \section{Cel i zakres rozdziału}\label{sec:cls:scope}
 \agentinfo{
-Pytanie badawcze rozdziału: PB5.
-Odniesienie do roboczej tezy T4; wynik może być negatywny i wtedy tezę trzeba przeformułować, a nie naginać wyniki.
+Pytanie rozdziału sformułowano opisowo, bez numeru i bez brzmienia tezy: robocze oznaczenia PB5 i T4 z konspektu wprowadzenia nie są zatwierdzone przez autora.
+Wynik może być negatywny i wtedy tezę trzeba przeformułować, a nie naginać wyniki.
+Zakres obejmuje tylko materiał istniejący i eksperymenty wykonane (E0, E1, E2); eksperymentu E4 tekst nie opisuje.
+Podział wkładu oparto na oznaczeniach w manuskrypcie (fragmenty z komentarzem Filled in by K. Werner: sekcje 3.1, 3.5--3.7, 4.2--4.6 oraz część 3.2 o sieci MLP); manuskrypt nie ma listy autorów, więc nazwisk nie podano.
 }
+
+Rozdziały~\ref{chapter:pdu}--\ref{chapter:learned_encoding} dotyczyły obliczeń, których wynik jest wielkością ciągłą, a miarą jakości był błąd tego wyniku.
+W klasyfikacji wynik obliczenia kwantowego jest krokiem pośrednim, a ocenie podlega decyzja, czyli klasa przypisana próbce.
+Rozdział odpowiada na pytanie, jak szum obwodu i skończona liczba pomiarów wpływają na skuteczność klasyfikacji prowadzonej z użyciem obwodu kwantowego oraz czy klasyczna korekta wyniku, kalibrowana eksperymentalnie na wzór funkcji PDU (rozdział~\ref{chapter:pdu}), tę skuteczność przywraca; jest to jedno z pytań badawczych postawionych w podrozdziale~\ref{sec:introduction:theses}.
+Odpowiedź nie jest przesądzona: decyzja jest wielkością dyskretną, więc błąd wyniku, który nie przenosi próbki przez granicę decyzyjną, nie obniża dokładności, a jego usunięcie niczego wtedy nie poprawia.
+Rozdział dopuszcza zatem wynik negatywny i raportuje go na równi z pozytywnym.
+\agenttask{Po zatwierdzeniu przez autora numeracji i brzmienia pytań badawczych oraz tez (robocze PB5 i T4 w konspekcie chapters/introduction.tex) uzgodnić z wprowadzeniem akapit powyżej: podać numer pytania i odwołać się do właściwej tezy. Robocze brzmienie PB5 mówi o klasyfikacji obrazów, a istniejące wyniki dotyczą danych tabelarycznych; rozbieżność zniknie dopiero po eksperymencie E4 albo po zmianie brzmienia pytania.}
+
+Badania prowadzi się na hybrydowym klasyfikatorze z odczytem fazowym (podrozdział~\ref{sec:cls:classifier}), w którym klasę odczytuje się z faz lokalnych kubitów, a więc z wielkości, której zniekształcenia są przedmiotem metody PDU.
+Klasyfikator nie jest propozycją metody konkurencyjnej wobec klasyfikatorów klasycznych: we wszystkich dziesięciu modelach, dla których wyznaczono klasyczny punkt odniesienia, jego dokładność na zbiorze testowym jest o $0{,}011$ do $0{,}081$ niższa od dokładności sieci MLP o tych samych warstwach ukrytych.
+% ŹRÓDŁO: /Users/krzysztofwerner/git/quantum-classifier/runs/*/hardware_ibm_fez_*/experiment.json modeli M2--M11, pola checkpoint.test_accuracy i mlp.best_test_accuracy (pełny zbiór testowy, 2000 próbek); skrajne różnice: M11 0,8065 wobec 0,8175 (22 próbki, 0,011) oraz M2 0,4390 wobec 0,5195 (161 próbek, 0,0805, po zaokrągleniu 0,081).
+Służy wyłącznie jako układ, w którym wpływ szumu na decyzję i działanie korekty można zmierzyć na symulatorze i na rzeczywistym urządzeniu.
+
+Zakres rozdziału obejmuje istniejące wyniki klasyfikatora na symulatorze z modelem szumu, zapisane wyniki przebiegów na urządzeniu ibm\_fez oraz trzy eksperymenty wykonane na potrzeby rozprawy: korektę odczytu dopasowaną i ocenioną na zapisanych pomiarach z urządzenia, krzywe degradacji dokładności przy rosnącym szumie na symulatorze, z korektą i bez niej, oraz porównanie korekty z treningiem w szumie na pięciu ziarnach losowych.
+Dane są syntetyczne i tabelaryczne, a nowych przebiegów na urządzeniu nie wykonywano.
+\agenttask{Po wykonaniu eksperymentu E4 (klasyfikacja obrazów po redukcji błędów; nierozpoczęty) dopisać go do akapitu o zakresie i uzupełnić zdanie o danych. Do tego czasu nie opisywać go jako wykonanego. Eksperyment E2 dopisano 2026-11-27.}
+
+Klasyfikator opisano w nieopublikowanym manuskrypcie roboczym, przygotowywanym przez autora rozprawy wspólnie z innymi osobami: geometryczne sformułowanie zadania klasyfikacji jest wkładem współautora, zbiory danych dostarczyli współpracownicy, a udziałem autora rozprawy są implementacja modelu, model szumu i jego kalibracja oraz eksperymenty na symulatorze i na urządzeniu.
+Wkładem tego rozdziału jest analiza klasyfikatora od strony redukcji błędów: zestawienie odczytu fazowego z założeniami metody PDU, eksperymenty z korektą odczytu, w tym jej porównanie z treningiem w szumie, i jawne wskazanie zagrożeń trafności istniejących wyników.
+\agenttask{Pytania do autora w sprawie autorstwa (źródła tego nie rozstrzygają): 1. Kto jest autorem części teoretycznej manuskryptu (rozmaitość stanów klasyfikacji, reprezentacja Delta, wiązka reperów) i jak go wskazać w tekście? 2. Czyim pomysłem są odczyt klasy z azymutu wektora Blocha, promień jako miara pewności i budowa bloku ansatzu (dokument docs/design-proposal.md w repozytorium klasyfikatora przypisuje je projektowi implementacji)? 3. Jak cytować manuskrypt: czy dodać wpis typu unpublished do bibliography/own_publications.bib (potrzebne tytuł i lista autorów)? 4. Kto wygenerował zbiory danych i jakim narzędziem?}
 
 \section{Klasyfikator z odczytem fazowym}\label{sec:cls:classifier}
 \agentinfo{
-Idea: klasa odczytywana z azymutu wektora Blocha, promień wektora jako miara pewności; obwód o stałej strukturze z kątami przewidywanymi przez sieć klasyczną.
-Opis zwięzły, w zakresie potrzebnym do zrozumienia wpływu szumu; geometrię modelu przypisać współautorowi.
-Związek z metodą PDU: wynik jest zapisany w fazie, więc zniekształcenie fazy bezpośrednio przesuwa decyzję klasyfikatora.
+Opis zwięzły, w zakresie potrzebnym do zrozumienia wpływu szumu; geometria modelu przypisana współautorowi manuskryptu (nazwisko do uzupełnienia przez autora).
+Źródła: kod \agentref{/Users/krzysztofwerner/git/quantum-classifier/torus_classifier/circuit.py} oraz moduły readout.py, simplex.py, losses.py i encoder.py z tego samego katalogu; manuskrypt roboczy w katalogu \agentref{/Users/krzysztofwerner/git/quantum-classifier}, plik Quantum_Specific_Classification_working_draft_v4_kw.tex (sekcje 2.3, 2.4, 2.7 i 3.6).
+Liczby kątów na blok pochodzą z kodu (circuit.n_block_params); dla n = 6 jest to 78 (wariant Pauliego) i 198 (wariant uniwersalny); wzór M = 3KQ^2 z sekcji 3.6 manuskryptu (część niepisana przez autora rozprawy) nie zgadza się z kodem i nie jest używany.
+Zapis odczytu: w kodzie i w manuskrypcie współrzędna nazywa się delta i jest azymutem podzielonym przez pi; w rozprawie wzory zapisano wprost przez azymut, bo litera delta oznacza w rozdziale 4 dryf błędu.
+Azymut obcina się w implementacji z marginesem 0,001 pi od krańców przedziału; sieć klasyczna ma funkcję aktywacji ReLU; składnik fazowy straty liczy się ze składowych wektora, bez funkcji arg (te szczegóły pominięto w tekście dla budżetu stron).
+Dodane w rozprawie, nieobecne w źródłach (do akceptacji autora): oszacowanie niepewności azymutu eq:cls:azimuth-noise oraz zestawienie odczytu fazowego z założeniami Z3 i Z7 metody PDU.
+Definicje wariantów korekty odczytu należą do sekcji 8.4.2; tutaj jest tylko uzasadnienie, dlaczego warianty są potrzebne.
 }
+
+Klasyfikator pochodzi z nieopublikowanego manuskryptu roboczego, w którym nosi nazwę FBS (ang. \english{Frame Bundle Section}).
+Jego punktem wyjścia jest geometryczne sformułowanie zadania klasyfikacji, będące wkładem współautora manuskryptu: rozkład prawdopodobieństwa $K$ klas ma $K-1$ niezależnych współrzędnych, każdą z nich zamienia się na kąt, a klasyfikator opisuje się lokalnie jako cięcie wiązki reperów nad rozmaitością stanów klasyfikacji.
+Rozprawa korzysta tylko z obliczeniowej konsekwencji tego sformułowania: $K-1$ kątów można zapisać w fazach lokalnych $K-1$ kubitów i odczytać z kierunków ich wektorów Blocha.
+
+\paragraph{Sieć klasyczna i obwód.}
+Model jest \glslink{hybrid-model}{modelem hybrydowym} z obwodem o stałej strukturze (podrozdział~\ref{subsec:tb:ml:qml}, rysunek~\ref{fig:tb:ml:hybrid}): sieć klasyczna $\Theta_{\mathbf{w}}$, perceptron wielowarstwowy z wyjściem $\pi\tanh(\cdot)$, zamienia wektor $d$ cech próbki na kąty wszystkich bramek, $\boldsymbol{\theta}=\Theta_{\mathbf{w}}(\mathbf{x})$.
+Obwód nie zawiera bramek kodujących dane ani własnych parametrów uczonych, więc próbka wpływa na stan kwantowy wyłącznie przez kąty.
+Na $n$ kubitów w stanie $\ket{0}$ działają kolejno warstwa bramek Hadamarda, $L$ bloków o jednakowej budowie i druga warstwa bramek Hadamarda (rysunek~\ref{fig:cls:circuit}).
+Blok składa się z bramki jednokubitowej o trzech kątach na każdym kubicie oraz, dla każdej uporządkowanej pary kubitów, dwóch bramek dwukubitowych sterowanych w przeciwnych kierunkach, razem $2n(n-1)$ bramek dwukubitowych.
+W wariancie Pauliego bramkami są złożenie obrotów $R_x$, $R_y$, $R_z$ i kontrolowane przesunięcie fazy $\mathrm{CP}$, co daje $n(2n+1)$ kątów na blok, a w wariancie uniwersalnym ogólny obrót jednokubitowy (bramka $\mathrm{U3}$ z dokładnością do fazy globalnej) i jego wersja kontrolowana, czyli $3n(2n-1)$ kątów; wszystkie modele uruchomione na urządzeniu (tabela~\ref{tab:cls:models}) używają wariantu uniwersalnego.
+% ŹRÓDŁO: /Users/krzysztofwerner/git/quantum-classifier/torus_classifier/circuit.py (funkcje ansatz_block i n_block_params) oraz encoder.py (wyjście pi * tanh).
+
+\begin{figure}[tb]
+\centering
+\begin{subfigure}[c]{0.47\textwidth}
+\centering
+\input{figures/chp_classification/cls_circuit.tex}
+\caption{}\label{fig:cls:circuit}
+\end{subfigure}\hfill
+\begin{subfigure}[c]{0.52\textwidth}
+\centering
+\input{figures/chp_classification/cls_readout.tex}
+\caption{}\label{fig:cls:readout}
+\end{subfigure}
+\caption[Klasyfikator z odczytem fazowym: obwód i odczyt klasy]{Klasyfikator z odczytem fazowym. (a)~Obwód dla $n=2$ kubitów ($K=3$ klasy): $U$ oznacza bramkę jednokubitową, $V$ bramkę dwukubitową sterowaną zaznaczonym kubitem, a kanał błędu $\errch$ występuje tylko w symulacji z modelem szumu. (b)~Odczyt klasy z kierunku wektora Blocha $j$-tego kubitu w rzucie na płaszczyznę $xy$: punkty na osi $r_{j,y}$ są kierunkami wzorcowymi, gruba linia przerywana ($\varphi_j=0$) granicą decyzji dla $K=2$, w obszarze zacienionym azymut jest obcinany, a kółka oznaczają schematycznie niepewność statystyczną składowych. Opracowanie własne.}
+\label{fig:cls:model}
+\end{figure}
+
+\paragraph{Odczyt klasy.}
+Dla każdego kubitu wyznacza się wartości oczekiwane trzech macierzy Pauliego, czyli wektor Blocha $\blochvec_j=(r_{j,x},r_{j,y},r_{j,z})$ jego stanu zredukowanego (równanie~\eqref{eq:tb01:blochrho}), a z niego azymut $\varphi_j=\arg(r_{j,x}+\mathrm{i}\,r_{j,y})$, długość rzutu na płaszczyznę $xy$, $r_{j,xy}=(r_{j,x}^2+r_{j,y}^2)^{1/2}$, i promień $\|\blochvec_j\|$.
+W odczycie podstawowym $n=K-1$.
+Azymuty obcina się do przedziału $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$, co daje wartości $\bar{\varphi}_j$, i zamienia na rozkład prawdopodobieństwa klas:
+\begin{equation}\label{eq:cls:readout}
+\hat{y}_k=\Bigl(\frac{1}{2}-\frac{\bar{\varphi}_k}{\pi}\Bigr)\prod_{i=1}^{k-1}\Bigl(\frac{1}{2}+\frac{\bar{\varphi}_i}{\pi}\Bigr)\quad\text{dla } k<K,\qquad
+\hat{y}_K=\prod_{i=1}^{K-1}\Bigl(\frac{1}{2}+\frac{\bar{\varphi}_i}{\pi}\Bigr),
+\end{equation}
+a predykcją jest klasa o największej wartości $\hat{y}_k$.
+Czynnik $\tfrac{1}{2}-\bar{\varphi}_j/\pi$ jest prawdopodobieństwem warunkowym przynależności do klasy $j$, jeśli próbka nie należy do klas o niższych numerach, więc wzorcem uczącym klasy $k<K$ są azymuty $\varphi_k=-\tfrac{\pi}{2}$ i $\varphi_i=+\tfrac{\pi}{2}$ dla $i\neq k$, a klasy $K$ wszystkie azymuty równe $+\tfrac{\pi}{2}$ (rysunek~\ref{fig:cls:readout}); dla $K=2$ granicą decyzji jest $\varphi_1=0$.
+W modelu M2 z każdego kubitu odczytuje się dwie współrzędne: rolę kolejnych azymutów we wzorze~\eqref{eq:cls:readout} pełnią wielkości $2\theta_j-\pi$, gdzie $\theta_j$ jest kątem biegunowym wektora $\blochvec_j$, i siedem klas mieści się na trzech kubitach.
+% ŹRÓDŁO: torus_classifier/readout.py (expectations_to_delta, polar_delta, bloch_to_readout), simplex.py (delta_to_prob), losses.py (labels_to_delta).
+Strata próbki jest sumą składnika fazowego $\sum_j\bigl[1-\cos(\varphi_j-\varphi_j^{\ast})\bigr]$, w którym $\varphi_j^{\ast}$ jest azymutem wzorcowym, składnika $\sum_j(1-\|\blochvec_j\|)^2$ z wagą $0{,}01$ i entropii krzyżowej rozkładu~\eqref{eq:cls:readout} z wagą $0{,}5$, a uczenie prowadzi się na symulatorze PennyLane~\cite{bergholm_pennylane_2018}, na dokładnych wartościach oczekiwanych (granica $\nshots\to\infty$).
+% ŹRÓDŁO: torus_classifier/losses.py (CompositeTorusLoss) i config.py (lambda_conf = 0.01, lambda_ce = 0.5); wartości potwierdzone w plikach experiment.json modeli M1--M11.
+
+\paragraph{Promień jako miara pewności.}
+Rozkład~\eqref{eq:cls:readout} zależy wyłącznie od kierunków wektorów Blocha, a promień, mniejszy od jedności, gdy kubit jest splątany z pozostałymi albo gdy stan został zaszumiony (podrozdział~\ref{subsec:tb:density}), określa jedynie, jak pewnie można decyzję odczytać.
+Każdą składową wektora estymuje się z $\nshots$ pomiarów z odchyleniem standardowym nie większym niż $1/\sqrt{\nshots}$ (równanie~\eqref{eq:tb01:estimator}), więc w przybliżeniu liniowym estymator azymutu $\tilde{\varphi}_j$ ma odchylenie standardowe
+\begin{equation}\label{eq:cls:azimuth-noise}
+\sqrt{\mathrm{Var}\,\tilde{\varphi}_j}\;\lesssim\;\frac{1}{r_{j,xy}\sqrt{\nshots}},
+\end{equation}
+czyli około $0{,}31$~rad ($18^{\circ}$) dla $\nshots=1024$ i $r_{j,xy}=0{,}1$.
+% ŹRÓDŁO: obliczenie własne: Var(phi) = (x^2 Var(y) + y^2 Var(x)) / r_xy^4 <= 1/(N r_xy^2) dla niezależnych estymatorów składowych; 1/(0,1 * 32) = 0,3125 rad = 17,9 stopnia.
+Szum, który tylko skraca wektor, zwiększa więc rozrzut azymutu, a szum zmieniający kierunek wektora przesuwa azymut systematycznie (rysunek~\ref{fig:cls:readout}).
+
+\paragraph{Związek z metodą PDU.}
+W obwodzie referencyjnym metody PDU argument funkcji jest zapisany w fazie lokalnej kubitu odczytu, a wynikiem jest prawdopodobieństwo, w które tę fazę zamienia interferencja (podrozdział~\ref{sec:pdu:reference}).
+W klasyfikatorze wynikiem jest sama faza: jej zniekształcenie przesuwa wprost współrzędną, od której zależy decyzja, podczas gdy utrata czystości stanu zmienia tylko promień.
+Klasyfikator jest dzięki temu naturalnym układem do sprawdzenia, czy korekta wyniku kalibrowana eksperymentalnie przenosi się na zadanie decyzyjne, ale odczyt fazowy nie spełnia dwóch założeń metody (podrozdział~\ref{sec:pdu:assumptions}).
+Po pierwsze, wartości oczekiwane nie są znane niezależnie od obwodu (założenie~\ref{itm:pdu:Z3}): odniesieniem może być tylko klasyczna symulacja tego samego obwodu, wykonalna dla badanych rejestrów o co najwyżej siedmiu kubitach, a wyznaczony błąd jest odchyleniem od symulatora, nie od wartości idealnej.
+Po drugie, nie jest znany argument korekty (założenie~\ref{itm:pdu:Z7}): faza kubitu zależy od danych i jest wielkością, którą odczyt ma dopiero wyznaczyć, co odpowiada przypadkowi wyłączonemu z rozważań w podrozdziale~\ref{par:pdu:known-argument}.
+Funkcję błędu można więc odczytywać albo dla fazy oczekiwanej z symulacji ocenianej próbki, co wprowadza do korekty informację o poprawnej odpowiedzi, albo dla fazy zmierzonej, obarczonej błędem, który ma zostać usunięty, a kalibrować ją trzeba nie na zaprojektowanej siatce argumentów, lecz na próbkach danych, których fazy skupiają się wokół kierunków wzorcowych.
+Warianty korekty odczytu wynikające z tych wyborów definiuje podrozdział~\ref{subsec:cls:results:pdu}.
 
 \section{Metodyka badań eksperymentalnych}\label{sec:cls:methodology}
 \agentinfo{
-Dane tabelaryczne (syntetyczne) i obrazowe (zbiór z etykietami w rozdzielczości 8x8 lub 16x16).
-Modele szumu: odstrojenie, tłumienie fazy i depolaryzacja po każdym bloku; poziomy skalibrowane stanami GHZ.
-Sprzęt: zapisane przebiegi z urządzenia ibm_fez.
-Poprawiona metodyka: zbiór walidacyjny, standaryzacja po podziale, wiele ziaren, przedziały ufności.
-Miary: dokładność, zgodność predykcji między symulatorem a sprzętem, odległość wektorów Blocha.
+Sekcja opisuje metodykę wyników istniejących oraz eksperymentów wykonanych E0, E1 i E2; metodyka poprawiona (zbiór walidacyjny, standaryzacja po podziale, pięć ziaren) dotyczy tylko eksperymentu E2 (akapit Eksperyment porównawczy, dopisany 2026-11-27).
+Dane obrazowe (eksperyment E4) nie są jeszcze opisane.
+Wszystkie parametry sprawdzono w kodzie i w plikach JSON przebiegów, nie tylko w manuskrypcie: \agentref{/Users/krzysztofwerner/git/quantum-classifier/torus_classifier/data.py} oraz config.py, hardware.py, hardware_training.py i ibm_fez_ghz_calibrations.json z tego samego katalogu, pliki hyperparameters.json i experiment.json przebiegów modeli M1--M11, pliki case_info.txt i complexity.csv w katalogu data.
+Metodyka eksperymentów E0 i E1: \agentref{eksperymenty/pdu-ibm-fez/klasyfikator/README.md} \agentref{eksperymenty/krzywe-degradacji/klasyfikator/README.md}.
+Rozbieżności manuskrypt--kod (w tekście użyto wartości z kodu i danych): manuskrypt podaje 1800 zbiorów w 18 typach (2--7 klas, 100--300 cech, po 100 zbiorów) i podział 80:20, a w danych i kodzie są 32 typy (3--10 klas, 100--400 cech) po 50 zbiorów serii trudności i 50 zbiorów losowych oraz podział 60:40; manuskrypt mówi o zbiorze walidacyjnym, którego w kodzie nie ma; manuskrypt mówi o tomografii stanu GHZ, a wierność wyznaczono metodą koherencji wielokwantowych.
+Pominięte w tekście dla budżetu stron: problem dwuklasowy otrzymany z trójklasowego przez usunięcie jednej klasy (katalog Case_F100_C2_from_C3_pair01); zakresy dopasowanych sił szumu (depolaryzacja 0,0030--0,0053, odstrojenie 1,3--9,0 mrad, tłumienie fazy 0 z wyjątkiem 0,00015 dla trzech kubitów); daty kalibracji GHZ (10 września 2026 dla sześciu kubitów, 5 listopada 2026 dla pozostałych); szczegóły symulatorów odniesienia w przebiegu testowym (wartości dokładne i 1024 pomiary).
+Procedurę kalibracji GHZ opisano na podstawie części manuskryptu napisanej przez autora rozprawy (sekcja 3.5) i komentarzy w config.py; kodu projektu GHZ (katalog poza repozytorium klasyfikatora) nie czytano.
+Do opisania w sekcji 8.4.1 (tu pominięte dla budżetu stron): parametry uczenia (współczynnik uczenia 0,001 zmniejszany o połowę po pięciu epokach bez poprawy straty testowej, wsady po 32 próbki, ziarno 42) oraz przebieg rundy dostrajania na urządzeniu (pomiar 400 próbek uczących losowanych warstwowo z części uczącej, kontrola akceptacji na stracie zmierzonej, odwzorowanie afiniczne wektora Blocha symulowanego w zmierzony dopasowane na kubit metodą najmniejszych kwadratów, pięć epok optymalizatorem Adam ze współczynnikiem 0,0001, ponowny pomiar 100 próbek testowych); źródło: torus_classifier/hardware_training.py.
+Wzór eq:cls:noise-frame wyprowadzono w rozprawie i sprawdzono rachunkiem na macierzach 2x2 (zgodność do 1e-15); README eksperymentu E1 podaje tę samą własność opisowo.
+Podrozdział 2.2 (akapit o modelu warstwowym) podaje, że model używany w rozdziałach 7 i 8 zawiera błąd odczytu; w kodzie klasyfikatora błędu odczytu nie ma, co zaznaczono w tekście.
 }
+
+\paragraph{Dane i uczenie.}
+Klasyfikator uczono na syntetycznych zbiorach tabelarycznych dostarczonych przez współpracowników.
+Każdy zbiór ma $5000$ próbek, a typ problemu określają liczba cech $d\in\{100,200,300,400\}$ i liczba klas $K$ od $3$ do $10$; według metadanych $35$ cech jest informatywnych i $25$ redundantnych, a każdą klasę tworzą dwa skupienia.
+Dla każdego typu dostępna jest seria $50$ zbiorów o stopniowanej trudności, w której separacja klas rośnie liniowo od $0{,}6$ do $1{,}1$, a udział losowo zmienionych etykiet maleje od $0{,}08$ do $0{,}01$; seria jest gradientem trudności, a nie zbiorem niezależnych powtórzeń.
+Istniejące wyniki obejmują zestawienie symulatorowe, w którym jedną konfigurację modelu uczono kolejno na wszystkich zbiorach serii, oraz jedenaście modeli M1--M11 (tabela~\ref{tab:cls:models}), uczonych na pierwszym, najtrudniejszym zbiorze serii i uruchomionych na urządzeniu.
+% ŹRÓDŁO: /Users/krzysztofwerner/git/quantum-classifier/data/Case_F*_C*/case_info.txt i complexity.csv (jednakowe dla wszystkich typów); pole data w plikach hyperparameters.json modeli M1--M11 (Dif_compl_data/dataset_00.npz); pliki summary.json przebiegów wsadowych runs/batch_* (n_datasets = 50, 56 z 58 przebiegów na serii Dif_compl_data).
+\agenttask{Uzupełnić opis generatora danych po uzyskaniu informacji od autora albo współpracowników: nazwy parametrów w metadanych (class_sep, flip_y, cechy informatywne i redundantne, skupienia na klasę) odpowiadają funkcji make_classification biblioteki scikit-learn, ale kodu generatora nie ma w repozytorium, więc narzędzia nie nazwano i nie cytowano. Potrzebne także liczności klas.}
+Cechy standaryzuje się średnią i odchyleniem standardowym policzonymi na całym zbiorze, po czym zbiór dzieli się losowo, z ziarnem $42$, na część uczącą ($3000$ próbek) i testową ($2000$ próbek); zbioru walidacyjnego nie ma.
+% ŹRÓDŁO: torus_classifier/data.py, funkcja load_dataset (splits=(0.6, 0.4), seed=42); n_train i n_test w plikach hyperparameters.json.
+Modele uczono optymalizatorem Adam (równanie~\eqref{eq:tb:ml:adam}) z jednym ziarnem generatora liczb losowych, a harmonogram współczynnika uczenia, punkt kontrolny i hiperparametry, czyli budowę sieci $\Theta_{\mathbf{w}}$ i w części modeli liczbę bloków, wybierano według wyniku na zbiorze testowym.
+Klasycznym punktem odniesienia modeli M2--M11 jest sieć MLP o tych samych warstwach ukrytych i wyjściu softmax, uczona i wybierana tak samo; w zestawieniu symulatorowym odniesieniem jest sieć MLP o jednej warstwie ukrytej z $64$ neuronami, a model M1 nie ma własnego odniesienia.
+% ŹRÓDŁO: pliki hyperparameters.json modeli M1--M11 (optimizer Adam, learning_rate 0.001, batch_size 32, scheduler ReduceLROnPlateau o współczynniku 0.5 i cierpliwości 5 epok na stracie testowej, seed 42); README.md repozytorium klasyfikatora, sekcje Data splits oraz Run artifacts and checkpoints (punkt kontrolny o najwyższej dokładności testowej, cel przeszukiwania hiperparametrów: dokładność testowa); pole mlp w plikach experiment.json.
+
+\paragraph{Model szumu i jego poziomy.}
+W symulacjach stosowano model warstwowy z podrozdziału~\ref{subsec:tb:noise:models}, bez błędu odczytu: po każdym bloku na każdy kubit działają odstrojenie $R_z(\cohangle)$, tłumienie fazy o parametrze $\qphase$ i kanał depolaryzujący o parametrze $\qdep$ (tabela~\ref{tab:tb:noise:channels}).
+Szum działa przed końcową warstwą bramek Hadamarda, która zamienia osie $x$ i $z$, więc w modelu jednoblokowym zmierzony wektor Blocha $\blochvec_j'$ jest obrazem wektora bez szumu w odwzorowaniu postaci~\eqref{eq:tb:noise:affine}:
+\begin{equation}\label{eq:cls:noise-frame}
+r_{j,x}'=\distshrink r_{j,x},\quad
+r_{j,y}'=\distshrink c_{\varphi}(r_{j,y}\cos\cohangle-r_{j,z}\sin\cohangle),\quad
+r_{j,z}'=\distshrink c_{\varphi}(r_{j,y}\sin\cohangle+r_{j,z}\cos\cohangle),
+\end{equation}
+gdzie $\distshrink=1-\tfrac{4}{3}\qdep$ i $c_{\varphi}=\sqrt{1-\qphase}$.
+Depolaryzacja nie zmienia zatem azymutu, tłumienie fazy przyciąga go do osi $x$, leżącej w połowie między kierunkami wzorcowymi, a odstrojenie jest obrotem wokół osi $x$ i zmienia azymut w stopniu zależnym od składowej $r_{j,z}$; przy większej liczbie bloków szum wcześniejszych bloków przekształcają kolejne bramki dwukubitowe i odwzorowanie nie jest już lokalne.
+
+Siły składowych zadawano na dwa sposoby: jako poziomy stopniowane $0$, $0{,}01$, $0{,}05$ i $0{,}10$, używane w zestawieniu symulatorowym, oraz jako poziom ibm\_fez, wyznaczony z kalibracji stanami GHZ, $(\ket{0}^{\otimes n}+\ket{1}^{\otimes n})/\sqrt{2}$.
+Stany te przygotowano na urządzeniu ibm\_fez dla $n$ od $2$ do $7$ i zmierzono z $8192$ powtórzeniami każdego obwodu, bez mitygacji błędów; wierność wyznaczono metodą koherencji wielokwantowych~\cite{wei_verifying_2020}, a trójkę $(\cohangle,\qphase,\qdep)$ dobrano tak, by symulacja obwodu przygotowującego stan, z szumem po początkowej bramce Hadamarda i po każdej bramce CNOT, odtwarzała zmierzoną wierność.
+Wierność wynosi od $0{,}985$ dla dwóch kubitów do $0{,}863$ dla siedmiu, a dopasowane siły podaje tabela~\ref{tab:cls:models}: modele M1, M2 i M6 uczono z trójką dla $n=6$, pozostałe z trójką dla własnej liczby kubitów.
+% ŹRÓDŁO: torus_classifier/config.py (GRADED_NOISE_LEVELS, IBM_FEZ_GHZ6_CALIBRATION) i torus_classifier/ibm_fez_ghz_calibrations.json; opis procedury: manuskrypt, sekcja 3.5 (część napisana przez autora rozprawy).
+W obwodach GHZ dawka szumu następuje po każdej bramce CNOT, a w klasyfikatorze po całym bloku zawierającym $2n(n-1)$ bramek dwukubitowych, więc poziom ibm\_fez nie jest modelem urządzenia dla obwodów klasyfikatora, lecz punktem odniesienia na osi siły szumu.
+
+\paragraph{Przebiegi na urządzeniu.}
+Zapisane wyniki pochodzą z procesora ibm\_fez ($156$ kubitów, rodzina Heron~r2), z przebiegów wykonanych od września do listopada 2026~r. bez mitygacji błędów, losowej kompilacji bramek (ang. \english{twirling}) i dynamicznego odsprzęgania.
+W przebiegu testowym losowano z części testowej, warstwowo względem klas, $100$ próbek; dla każdej z nich obwód o kątach wyznaczonych przez nauczoną sieć odtwarzano w Qiskit~\cite{javadi-abhari_quantum_2024} bez operacji modelu szumu, transpilowano na poziomie optymalizacji~3 na ustalone kubity fizyczne i wykonywano w trzech bazach pomiarowych, $\sigma_x$, $\sigma_y$ i $\sigma_z$, po $1024$ pomiary.
+Te same próbki oceniano na symulatorze z szumem uczenia, na symulatorze bez szumu i, z wyjątkiem modelu M1, siecią MLP.
+Modele M2--M11 poddano następnie dostrajaniu na urządzeniu w trzech rundach, z których każdą otwiera pomiar $400$ próbek uczących w protokole przebiegu testowego.
+Pierwszy z tych pomiarów, nazywany dalej przebiegiem kalibracyjnym, wykonano tym samym, jeszcze niezmienionym modelem co przebieg testowy i na tych samych kubitach fizycznych, dlatego może on służyć do kalibracji korekty odczytu ocenianej na próbkach testowych.
+% ŹRÓDŁO: torus_classifier/hardware.py i hardware_training.py (stałe DEFAULT_*); pliki experiment.json przebiegów (n_samples, shots, opt_level, backend_info, sampler_options, transpile); zgodność modelu i kubitów obu przebiegów: eksperymenty/pdu-ibm-fez/klasyfikator/wyniki/metadane.json, klucz kontrole_spojnosci.
+
+\begin{table}[tb]
+\centering
+\caption[Modele klasyfikatora użyte w przebiegach na urządzeniu i w eksperymentach z korektą odczytu]{Modele klasyfikatora uruchomione na urządzeniu, w kolejności malejącej liczby bramek dwukubitowych CZ po transpilacji. $K$: liczba klas, $d$: liczba cech, $n$: liczba kubitów, $L$: liczba bloków; $\cohangle$ i $\qdep$: poziom ibm\_fez, z którym model uczono ($\qphase=0$, w modelu M10 $1{,}5\cdot10^{-4}$). ZP i S: udział w eksperymencie na zapisanych pomiarach i w eksperymencie symulacyjnym; (u) oznacza analizę uzupełniającą.}
+\label{tab:cls:models}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llrrrrrrrcc@{}}
+\toprule
+Model & Identyfikator & $K$ & $d$ & $n$ & $L$ & CZ & $\cohangle$ [mrad] & $\qdep$ [$10^{-3}$] & ZP & S \\
+\midrule
+M1 & \texttt{c7\_f200\_q6\_b15} & 7 & 200 & 6 & 15 & 1814 & 1{,}28 & 2{,}98 & (u) & tak \\
+M2 & \texttt{c7\_f200\_q3\_b13\_d2} & 7 & 200 & 3 & 13 & 233 & 1{,}28 & 2{,}98 & tak & tak \\
+M3 & \texttt{c6\_f300\_q5\_b3} & 6 & 300 & 5 & 3 & 198 & 5{,}98 & 4{,}33 & tak & tak \\
+M4 & \texttt{c8\_f200\_q7\_b1} & 8 & 200 & 7 & 1 & 138 & 5{,}66 & 3{,}63 & tak & -- \\
+M5 & \texttt{c8\_f300\_q7\_b1} & 8 & 300 & 7 & 1 & 138 & 5{,}66 & 3{,}63 & tak & -- \\
+M6 & \texttt{c7\_f200\_q6\_b1} & 7 & 200 & 6 & 1 & 113 & 1{,}28 & 2{,}98 & tak & tak \\
+M7 & \texttt{c6\_f100\_q5\_b1} & 6 & 100 & 5 & 1 & 63 & 5{,}98 & 4{,}33 & tak & -- \\
+M8 & \texttt{c6\_f300\_q5\_b1} & 6 & 300 & 5 & 1 & 63 & 5{,}98 & 4{,}33 & tak & -- \\
+M9 & \texttt{c5\_f300\_q4\_b1} & 5 & 300 & 4 & 1 & 29 & 3{,}94 & 5{,}25 & tak & -- \\
+M10 & \texttt{c4\_f400\_q3\_b1} & 4 & 400 & 3 & 1 & 15 & 3{,}70 & 3{,}81 & tak & tak \\
+M11 & \texttt{c3\_f200\_q2\_b1} & 3 & 200 & 2 & 1 & 3 & 9{,}02 & 4{,}89 & tak & tak \\
+\bottomrule
+\end{tabular}
+\end{table}
+% ŹRÓDŁO tabeli: pliki experiment.json przebiegów testowych (config: n_classes, n_features, n_qubits, n_blocks, deltas_per_qubit, noise_strengths; transpile.two_qubit_gates) w katalogach wymienionych w eksperymenty/pdu-ibm-fez/klasyfikator/wyniki/metadane.json i punkty_odniesienia.json; udział w eksperymentach: pliki README.md obu eksperymentów.
+
+\paragraph{Eksperymenty z korektą odczytu.}
+Na potrzeby rozprawy wykonano dwa eksperymenty, oba bez nowych przebiegów na urządzeniu i bez ponownego uczenia modeli.
+W eksperymencie na zapisanych pomiarach korektę odczytu dopasowano do par wektorów Blocha z przebiegu kalibracyjnego, zmierzonego i symulowanego z szumem uczenia, a oceniono na $100$ próbkach przebiegu testowego modeli M2--M11; model M1 nie ma przebiegu kalibracyjnego i występuje tylko w analizie uzupełniającej.
+Przebieg testowy poprzedzał kalibracyjny o czas od kilkunastu minut do pięciu i pół doby, więc założenie stabilności błędu~(\ref{itm:pdu:Z4}) jest w tych danych spełnione w różnym stopniu.
+W eksperymencie symulacyjnym dla sześciu modeli wyznaczono na symulatorze macierzy gęstości dokładność w funkcji siły szumu: każdej składowej osobno, na siatce dziesięciu wartości od $0{,}005$ do $0{,}5$ i na poziomie ibm\_fez, oraz wszystkich trzech łącznie, jako krotności od $1$ do $50$ poziomu ibm\_fez, dla wartości dokładnych oraz dla $8192$ i $1024$ pomiarów na bazę.
+Korektę kalibrowano na $400$ próbkach uczących, a oceniano na całej części testowej, w dziesięciu powtórzeniach z nowym podzbiorem kalibracyjnym i nową realizacją szumu próbkowania; odniesieniem był symulator bez szumu, a odpowiednikiem dryfu urządzenia korekta skalibrowana przy innej sile szumu niż ta, przy której jest stosowana.
+W obu eksperymentach korekta nie korzysta z etykiet klas, jej parametry swobodne wybiera walidacja krzyżowa wewnątrz próbek kalibracyjnych, a wynik sprawdzają dwie kontrole negatywne: korekta dopasowana do par o losowo przestawionym przyporządkowaniu oraz ocena na pomiarach przestawionych losowo między próbkami.
+% ŹRÓDŁO: eksperymenty/pdu-ibm-fez/klasyfikator/README.md (sekcje Dane, Metoda, Czas pomiarów) i eksperymenty/krzywe-degradacji/klasyfikator/README.md (sekcje Modele i dane, Metoda); w modelu M1 eksperymentu symulacyjnego podzbiór kalibracyjny jest ustalony (400 próbek).
+
+\paragraph{Eksperyment porównawczy.}
+Trzeci eksperyment porównuje korektę odczytu z treningiem w szumie i usuwa część zagrożeń trafności wymienionych niżej.
+Konfigurację przeglądu szumu ($K=3$, $n=2$, $L=7$) i model M2 uczono od nowa, z ich dotychczasowymi hiperparametrami ($35$ i $75$ epok), bez szumu i na trzech poziomach stopniowanych, z wszystkimi składowymi na tym samym poziomie.
+Dla każdego z pięciu ziaren zbiór dzieli się losowo na część uczącą ($3000$ próbek), walidacyjną ($1000$) i testową ($1000$), a parametry standaryzacji liczy się tylko na części uczącej; ziarno wyznacza też wagi początkowe i kolejność próbek, więc modele jednego ziarna różnią się wyłącznie szumem w uczeniu.
+Harmonogram współczynnika uczenia i punkt kontrolny wybiera się na części walidacyjnej, a część testowa służy tylko do oceny wyuczonych modeli przy każdym poziomie szumu testu, przy każdej składowej osobno i, w modelu M2, przy poziomie ibm\_fez.
+Korektę odczytu w wariantach FZ i AR (podrozdział~\ref{subsec:cls:results:pdu}) kalibruje się bez etykiet na próbkach uczących, a odniesieniem jest ten sam model w szumie, w którym go uczono, na wartościach dokładnych.
+Odczyt ocenia się dla wartości dokładnych i dla $1024$ pomiarów na bazę, w dwudziestu realizacjach szumu próbkowania, a w modelu M2 także dla $8192$ pomiarów.
+Porównania są sparowane po ziarnach: podaje się średnią różnicę z $95$-procentowym przedziałem ufności z rozkładu t~Studenta i test t o czterech stopniach swobody, a poprawkę Holma stosuje się w rodzinie pięciu porównań głównych, ustalonej przed obliczeniami; pozostałe porównania mają charakter opisowy.
+Klasycznym punktem odniesienia jest sieć MLP o tych samych warstwach ukrytych, uczona i wybierana na tych samych podziałach.
+% ŹRÓDŁO: eksperymenty/trening-w-szumie/OPIS.md, IMPLEMENTACJA.md i README.md oraz gleboka/OPIS.md, IMPLEMENTACJA.md i README.md (ziarna 42--46; podział z permutacji torch.randperm z ziarnem, części 0,6 / 0,2 / 0,2; korekty a2 = FZ i b2 = AR kalibrowane na 3000 próbkach uczących, analiza czułości na 1000 walidacyjnych; 20 realizacji szumu próbkowania; uzupełniająco test permutacyjny ze zmianą znaku i test McNemara w obrębie ziarna). Kod modułów klasyfikatora zmieniono tylko w podziale danych i wyborze punktu kontrolnego (roznice_wzgledem_oryginalu.diff); niezmieniona kopia kodu odtwarza oryginalne przebiegi co do bitu (kontrole w obu katalogach).
+
+\paragraph{Miary i analiza statystyczna.}
+Podstawową miarą jest dokładność (równanie~\eqref{eq:tb:ml:metrics}), a uzupełniają ją zgodność predykcji, czyli odsetek próbek, którym dwa źródła wyników (na przykład urządzenie i symulator) przypisują tę samą klasę, odległość euklidesowa wektorów Blocha z dwóch źródeł uśredniona po próbkach i kubitach, średni promień i średni bezwzględny błąd azymutu.
+W eksperymencie symulacyjnym skuteczność korekty wyraża odzysk, czyli stosunek przyrostu dokładności po korekcie do jej spadku wywołanego szumem, podawany dla spadków nie mniejszych niż $0{,}02$.
+Porównania są sparowane, na tych samych próbkach, z przedziałami ufności $95\%$ wyznaczanymi metodą bootstrap~\cite{efron_bootstrap_1979}; w eksperymencie na zapisanych pomiarach stosuje się dokładny test McNemara~\cite{mcnemar_note_1947} dla dokładności i zgodności, test Wilcoxona~\cite{bib:statistics_wilc} dla odległości oraz poprawkę Holma w rodzinie dwudziestu testów głównych.
+Przy $100$ próbkach błąd standardowy dokładności sięga $0{,}05$, więc w danych z urządzenia wykrywalne są tylko różnice rzędu $0{,}1$.
+\agenttask{Dodać cytowanie poprawki Holma (S. Holm, A simple sequentially rejective multiple test procedure, Scandinavian Journal of Statistics 6, 1979, s. 65--70): pozycja nie ma numeru DOI, a strona JSTOR nie pozwala na automatyczną weryfikację, więc wpisu nie utworzono; do potwierdzenia przez autora albo zastąpienia podręcznikiem z bazy.}
+
+\paragraph{Zagrożenia trafności.}
+Istniejące wyniki nie powstały z myślą o rozprawie i mają ograniczenia wpływające na interpretację liczb z podrozdziału~\ref{sec:cls:results}.
+\begin{enumerate}
+\renewcommand{\theenumi}{ZT\arabic{enumi}}
+\renewcommand{\labelenumi}{(\theenumi)}
+\item\label{itm:cls:ZT1} \emph{Wybór modelu na zbiorze testowym.}
+Harmonogram uczenia, punkt kontrolny i hiperparametry wybrano na zbiorze testowym, a parametry standaryzacji policzono z udziałem jego próbek; ten \glslink{data-leakage}{przeciek danych} (podrozdział~\ref{subsec:tb:ml:supervised}) zawyża dokładności bezwzględne, także sieci MLP.
+\item\label{itm:cls:ZT2} \emph{Jedno ziarno i jeden zbiór.}
+Każdy z modeli M1--M11 ma jeden przebieg uczenia na jednym zbiorze, a średnie po $50$ zbiorach w zestawieniu symulatorowym opisują rozrzut wzdłuż gradientu trudności, nie niepewność estymacji.
+\item\label{itm:cls:ZT3} \emph{Mała próba z urządzenia.}
+Wyniki z urządzenia opierają się na $100$ próbkach testowych na model, wspólnych dla modeli uczonych na tym samym zbiorze.
+\item\label{itm:cls:ZT4} \emph{Model szumu.}
+Dawka szumu na blok nie zależy od liczby bramek w bloku, model nie zawiera błędu odczytu, relaksacji ani przesłuchu, a kalibrację stanami GHZ wykonano w innym dniu niż przebiegi klasyfikatora i, w dziewięciu z dziesięciu modeli M2--M11, na innych kubitach fizycznych.
+\item\label{itm:cls:ZT5} \emph{Kalibracja korekty.}
+Korektę odczytu kalibruje się na próbkach, które sieć widziała w uczeniu, a jej odniesieniem jest symulator, nie wartości idealne.
+\end{enumerate}
+Porównania sparowane, z korektą i bez niej na tych samych próbkach tego samego modelu, są na zagrożenie (\ref{itm:cls:ZT1}) mało wrażliwe, natomiast dokładności bezwzględne i porównania z siecią MLP należy czytać z tym zastrzeżeniem.
+Eksperyment porównawczy usuwa w obu swoich konfiguracjach przeciek danych z zagrożenia (\ref{itm:cls:ZT1}), bo punkt kontrolny i standaryzację wyznacza bez części testowej, oraz zastępuje jeden przebieg uczenia pięcioma ziarnami (\ref{itm:cls:ZT2}); budowa sieci i liczba bloków pochodzą jednak nadal ze strojenia na zbiorze testowym, a każdą konfigurację uczy się na jednym zbiorze.
+\agenttaskDONE{Wykonane 2026-11-27 (akapit Eksperyment porównawczy i zdanie o zagrożeniach ZT1 i ZT2 powyżej). Treść zadania: po wykonaniu eksperymentu E2 dopisać akapit o jego metodyce w zakresie faktycznie zastosowanym i zaktualizować zagrożenia ZT1 i ZT2, wskazując, które z nich ten eksperyment usuwa i dla jakich modeli.}
+\agenttask{Po wykonaniu eksperymentu E4 (klasyfikacja obrazów po redukcji błędów; nierozpoczęty) dopisać do akapitu o danych opis zbioru obrazów, a do metodyki opis potoku LPIQE, PDU i pix2pix oraz rozłączności danych użytych do uczenia sieci pix2pix i do testu klasyfikatora.}
 
 \section{Wyniki}\label{sec:cls:results}
 
 \subsection{Wpływ szumu i głębokości obwodu na dokładność}\label{subsec:cls:results:noise}
 \agentinfo{
-Wyniki istniejące: dokładność na symulatorze i na ibm_fez w funkcji liczby bramek dwukubitowych; spadek promienia wektora Blocha przy zachowanej dokładności; niedopasowanie poziomu szumu między treningiem a testem.
+Napisane w zadaniu PHD-TS-79 (2026-11-27) wyłącznie z plików wynikowych repozytorium klasyfikatora; pełne zestawienie liczb ze wskazaniem pliku i pola: \agentref{eksperymenty/weryfikacja-liczb/rozdzial-8.md} oraz rozdzial-8.csv i skrypty w katalogu rozdzial-8-skrypty (tam też generator danych rysunku i wierszy tabeli).
+Liczby manuskryptu zgadzają się z plikami; testy sparowane i przedziały ufności (bootstrap, 10 000 losowań) policzono w rozprawie z zapisanych predykcji na próbkę.
+Zaokrąglenia: połówki w górę (na przykład 0,3775 to 0,378; manuskrypt podaje 0,377).
+Nazwy wprowadzone tutaj: przegląd szumu (64 przebiegi uczenia z katalogu noisesweep), odmiana modelu M6 z siecią typu transformer.
+Ustalenia interpretacyjne: odporność odczytu na skrócenie wektora Blocha jest przedstawiona jako zgodna z pracą larose_robust_2020, a nie jako wynik nowy; zmian po dostrajaniu nie nazywa się efektem, bo żaden przedział nie wyklucza zera; grupa obu modeli wieloblokowych (14 próbek zyskało, 5 straciło, p = 0,064) jest wyodrębniona po obejrzeniu wyników.
+Pominięte dla budżetu stron, dostępne w plikach i w zestawieniu liczb: eksperyment z głowicą klasyczną na zamrożonej sieci (katalog encoder_head modelu M2, liczb nie weryfikowano), skrócenie i obrót odwzorowania afinicznego na kubit (device_model.json), czas pracy procesora w dostrajaniu, porównanie bez szumu i z szumem dla K = 3 i d = 200 (0,825 wobec 0,823), zestawienie symulatorowe dla K = 7 (dwa pełne przebiegi wsadowe bez odniesienia MLP), zakres dokładności przeglądu szumu w epoce o najwyższej dokładności testowej (0,761--0,818), różnica 0,142 między modelem M1 a siecią MLP modeli M2 i M6, zmiana dokładności symulowanej na pełnym zbiorze testowym po dostrajaniu (od -0,036 do +0,010), promień około 0,05 przypisywany stanowi maksymalnie mieszanemu przy 1024 pomiarach.
+Symulacja modelu M2 na fałszywym urządzeniu (fake_fez, Qiskit Aer) używa migawki kalibracyjnej dołączonej do biblioteki, a nie kalibracji z dnia pomiaru; plik uv.lock repozytorium przypina qiskit-ibm-runtime 0.49.0 (migawka z 26 lutego 2025 według podrozdziału 2.2), ale pliki przebiegu z 23 września 2026 nie zapisują wersji biblioteki, więc w tekście nie podano daty migawki ani cytowania.
+Wykres i tabela: dane rysunku w plikach cls_depth.dat i cls_noise_sweep.dat (katalog figures/chp_classification), generowane skryptem rysunki.py; po zmianie danych źródłowych uruchomić skrypt ponownie.
 }
 
+Podrozdział zestawia istniejące wyniki klasyfikatora odczytane z plików wynikowych przebiegów; testy sparowane i przedziały ufności policzono na potrzeby rozprawy z zapisanych predykcji.
+Modele uczono ze współczynnikiem uczenia $0{,}001$, zmniejszanym o połowę po pięciu epokach bez poprawy straty testowej, na wsadach po $32$ próbki i z ziarnem $42$; punkty kontrolne modeli M1--M11 pochodzą z epok od $16$ do $41$, w których dokładność na części uczącej wynosi już od $0{,}90$ do $0{,}99$.
+% ŹRÓDŁO: /Users/krzysztofwerner/git/quantum-classifier/runs/<przebieg>/hyperparameters.json (learning_rate, batch_size, seed, scheduler, epochs) i metrics.json (best.epoch, train_accuracy) modeli M1--M11; hyperparameters.json przebiegów wsadowych (35--50 epok) i przeglądu szumu (35 epok); modele M1--M11: 50 albo 75 epok; eksperymenty/weryfikacja-liczb/rozdzial-8.csv, grupa H.
+
+\paragraph{Dokładność na symulatorze na tle sieci MLP.}
+Zestawienie symulatorowe obejmuje $16$ typów problemu ($K$ od $3$ do $6$, $d$ od $100$ do $400$) w obu wariantach bloku, czyli $32$ konfiguracje uczone osobno na każdym z $50$ zbiorów serii trudności; punktem odniesienia jest w nim sieć MLP o jednej warstwie ukrytej z $64$ neuronami, a nie sieć o warstwach klasyfikatora.
+Średnia dokładność klasyfikatora po $50$ zbiorach wynosi od $0{,}42$ do $0{,}87$ i w $31$ z $32$ konfiguracji jest niższa od średniej sieci MLP, przeciętnie o $0{,}034$, a najwyżej o $0{,}075$; wyjątkiem jest wariant Pauliego dla $K=5$ i $d=300$ ($0{,}631$ wobec $0{,}624$), lepszy na $37$ z $50$ zbiorów.
+Na pojedynczych zbiorach klasyfikator jest lepszy w $347$, równy w $14$ i słabszy w $1239$ z $1600$ porównań.
+Odchylenie standardowe po zbiorach (od $0{,}04$ do $0{,}14$, dla sieci MLP od $0{,}02$ do $0{,}05$) opisuje rozrzut wzdłuż gradientu trudności~(\ref{itm:cls:ZT2}), a nie niepewność tych średnich.
+% ŹRÓDŁO: runs/batch_*/summary.json (aggregates.test_accuracy, datasets[].test_accuracy; 48 przebiegów: 32 klasyfikatora i 16 sieci MLP) oraz dataset_00/hyperparameters.json (hidden = [64] w przebiegach batch_64_mlp_*, noise_strengths, n_blocks); parowanie po nazwie zbioru w skrypcie macierz.py; rozdzial-8.csv, grupa A. Odchylenie w plikach liczone z dzielnikiem 50 (manuskrypt nazywa je odchyleniem z próby). Wariant uniwersalny ma wyższą średnią w 8 z 16 typów.
+
+Dla modeli M1--M11 odniesieniem jest sieć MLP o tych samych warstwach ukrytych (tabela~\ref{tab:cls:hw-results}).
+Na pełnym zbiorze testowym klasyfikator jest od niej słabszy we wszystkich dziesięciu modelach M2--M11, o $0{,}011$ do $0{,}081$; model M1 nie ma takiego odniesienia.
+Na podzbiorach $100$ próbek nie ustępuje jej w dwóch modelach (M9: $0{,}62$ wobec $0{,}55$, M11: $0{,}82$ wobec $0{,}80$), lecz żadna z dziesięciu różnic nie jest istotna (dokładny test McNemara, $p\geq 0{,}07$).
+Lepsza od sieci MLP na pełnym zbiorze testowym jest tylko odmiana modelu M6, w której perceptron $\Theta_{\mathbf{w}}$ zastąpiono siecią typu transformer~\cite{vaswani2017attention} ($0{,}556$ wobec $0{,}520$), różniąca się od odniesienia budową sieci klasycznej.
+Stwierdzenie o przewadze sieci MLP z podrozdziału~\ref{sec:cls:scope} dotyczy zatem porównań z siecią o tych samych warstwach na pełnym zbiorze testowym.
+% ŹRÓDŁO: runs/<przebieg>/hardware_ibm_fez_*/experiment.json (checkpoint.test_accuracy, mlp.best_test_accuracy, mlp.hidden) i results.csv (sim_noisy_correct, mlp_correct) modeli M1--M11; runs/run_1_tf256x4h4p200dr20_torus_c7_f200_universal_noise444_01-10-2026-10-56-52/metrics.json (best.test_accuracy = 0,5555, epoka 76) i hyperparameters.json; rozdzial-8.csv, grupy B, C i G. Model M1 jest o 0,142 słabszy od sieci MLP modeli M2 i M6 (ten sam zbiór, inne warstwy).
+
+\begin{table}[tb]
+\centering
+\caption[Modele M1--M11 na symulatorze i na urządzeniu ibm\_fez przed dostrajaniem i po nim]{Modele M1--M11 na symulatorze i na urządzeniu ibm\_fez. CZ: liczba bramek dwukubitowych po transpilacji. Pełny zbiór: dokładność klasyfikatora (FBS, symulator) i sieci MLP o tych samych warstwach ukrytych na $2000$ próbkach testowych. S: symulator z szumem uczenia (wartości dokładne), U: urządzenie; zg.: zgodność predykcji obu źródeł; S/U: liczba próbek poprawnych tylko na symulatorze i tylko na urządzeniu; $+/-$: liczba próbek, które po dostrajaniu stały się poprawne i błędne; $p$: $p$-wartość dokładnego testu McNemara.}
+\label{tab:cls:hw-results}
+\footnotesize
+\setlength{\tabcolsep}{3.6pt}
+\begin{tabular}{@{}lrcccccccccccc@{}}
+\toprule
+ & & \multicolumn{2}{c}{Pełny zbiór} & \multicolumn{5}{c}{Przebieg testowy, $100$ próbek} & \multicolumn{2}{c}{Średni promień} & \multicolumn{3}{c}{Po dostrajaniu} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-9}\cmidrule(lr){10-11}\cmidrule(l){12-14}
+Model & CZ & FBS & MLP & S & U & zg. & S/U & $p$ & S & U & U & $+/-$ & $p$ \\
+\midrule
+M1 & 1814 & $0{,}378$ & -- & $0{,}34$ & $0{,}13$ & $0{,}12$ & 29/8 & $<0{,}001$ & $0{,}69$ & $0{,}09$ & -- & -- & -- \\
+M2 & 233 & $0{,}439$ & $0{,}520$ & $0{,}45$ & $0{,}35$ & $0{,}71$ & 14/4 & $0{,}03$ & $0{,}84$ & $0{,}37$ & $0{,}41$ & 11/5 & $0{,}21$ \\
+M3 & 198 & $0{,}455$ & $0{,}509$ & $0{,}46$ & $0{,}43$ & $0{,}91$ & 4/1 & $0{,}38$ & $0{,}90$ & $0{,}50$ & $0{,}46$ & 3/0 & $0{,}25$ \\
+M4 & 138 & $0{,}425$ & $0{,}477$ & $0{,}41$ & $0{,}42$ & $0{,}97$ & 0/1 & $1$ & $0{,}92$ & $0{,}67$ & $0{,}46$ & 6/2 & $0{,}29$ \\
+M5 & 138 & $0{,}327$ & $0{,}400$ & $0{,}43$ & $0{,}41$ & $0{,}96$ & 2/0 & $0{,}50$ & $0{,}88$ & $0{,}64$ & $0{,}39$ & 3/5 & $0{,}73$ \\
+M6 & 113 & $0{,}455$ & $0{,}520$ & $0{,}46$ & $0{,}47$ & $0{,}89$ & 1/2 & $1$ & $0{,}91$ & $0{,}61$ & $0{,}48$ & 5/4 & $1$ \\
+M7 & 63 & $0{,}606$ & $0{,}660$ & $0{,}53$ & $0{,}53$ & $0{,}97$ & 1/1 & $1$ & $0{,}92$ & $0{,}71$ & $0{,}51$ & 5/7 & $0{,}77$ \\
+M8 & 63 & $0{,}503$ & $0{,}524$ & $0{,}51$ & $0{,}50$ & $0{,}99$ & 1/0 & $1$ & $0{,}95$ & $0{,}77$ & $0{,}49$ & 3/4 & $1$ \\
+M9 & 29 & $0{,}568$ & $0{,}605$ & $0{,}62$ & $0{,}61$ & $0{,}98$ & 1/0 & $1$ & $0{,}95$ & $0{,}78$ & $0{,}58$ & 3/6 & $0{,}51$ \\
+M10 & 15 & $0{,}624$ & $0{,}648$ & $0{,}58$ & $0{,}58$ & $1{,}00$ & 0/0 & $1$ & $0{,}88$ & $0{,}83$ & $0{,}60$ & 6/4 & $0{,}75$ \\
+M11 & 3 & $0{,}807$ & $0{,}818$ & $0{,}82$ & $0{,}82$ & $1{,}00$ & 0/0 & $1$ & $0{,}99$ & $0{,}94$ & $0{,}81$ & 0/1 & $1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+% ŹRÓDŁO tabeli: przebiegi testowe runs/<przebieg>/hardware_ibm_fez_*/ modeli M1--M11: experiment.json (transpile.two_qubit_gates, checkpoint.test_accuracy, mlp.best_test_accuracy), summary.json (sources.sim_noisy.r_mean, sources.hardware.r_mean), results.csv (kolumny sim_noisy_correct, hardware_correct, sim_noisy_pred, hardware_pred); dostrajanie: runs/<przebieg>/hwtrain_ibm_fez_*/eval/final_hardware/results.csv (hardware_correct). Katalogi przebiegów: eksperymenty/weryfikacja-liczb/rozdzial-8-skrypty/common.py. Wiersze wygenerował skrypt rysunki.py; testy McNemara policzono w rozprawie.
+
+\paragraph{Głębokość obwodu na urządzeniu.}
+Tabela~\ref{tab:cls:hw-results} i rysunek~\ref{fig:cls:noise-results}a zestawiają przebiegi testowe z symulatorem na tych samych $100$ próbkach.
+W ośmiu modelach jednoblokowych, od $3$ do $138$ bramek CZ, dokładność na urządzeniu różni się od symulowanej najwyżej o $0{,}02$ i w żadnym z nich różnica nie jest istotna, a predykcje obu źródeł są identyczne dla $776$ z $800$ próbek (łączna różnica dokładności $-0{,}003$, $95$-procentowy przedział ufności $[-0{,}010;\,+0{,}005]$).
+W modelach wieloblokowych różnica rośnie z liczbą bramek: $-0{,}03$ $[-0{,}08;\,+0{,}01]$ w modelu M3 ($198$ bramek CZ), $-0{,}10$ $[-0{,}18;\,-0{,}02]$ w modelu M2 ($233$) i $-0{,}21$ $[-0{,}32;\,-0{,}10]$ w modelu M1 ($1814$), który klasyfikuje na urządzeniu poprawnie $13$ próbek na $100$ przy $14$ oczekiwanych dla wyboru losowego.
+Średni promień na urządzeniu maleje przy tym od $0{,}94$ do $0{,}09$.
+% ŹRÓDŁO: results.csv i summary.json przebiegów testowych (jak w tabeli); przedziały bootstrap (10 000 losowań, ziarno 20261127) i zestawienie łączne ośmiu modeli jednoblokowych M4--M11 (urządzenie 0,5425, symulator 0,5450, różnica -0,0025): skrypty modele.py i dostrajanie.py; rozdzial-8.csv, grupy B i C.
+Liczba bloków nie była zmieniana niezależnie od typu problemu i terminu pomiaru, ale ten sam obraz dają modele uczone na tym samym zbiorze (M6, M2 i M1 oraz M8 i M3); model jednoblokowy jest w obu grupach najlepszy także na symulatorze, więc większa głębokość nie daje zysku równoważącego stratę na urządzeniu.
+
+\begin{figure}[tb]
+\centering
+\input{figures/chp_classification/cls_noise_results.tex}
+\caption[Promień wektora Blocha i zgodność predykcji a liczba bramek oraz dokładność a promień w przeglądzie szumu]{Szum a stan odczytu i decyzja klasyfikatora. (a)~Średni promień wektora Blocha na symulatorze z szumem uczenia i na urządzeniu ibm\_fez oraz zgodność predykcji obu źródeł w funkcji liczby bramek CZ po transpilacji; modele M1--M11, po $100$ próbek testowych. (b)~Dokładność na części testowej a średni promień w ostatniej epoce uczenia dla $64$ kombinacji poziomów stopniowanych w przeglądzie szumu ($K=3$, $d=200$, $n=2$, $L=7$, wartości dokładne); znacznik oznacza siłę depolaryzacji $\qdep$. Opracowanie własne.}
+\label{fig:cls:noise-results}
+\end{figure}
+
+\paragraph{Odporność odczytu kierunkowego.}
+W przeglądzie szumu jedną konfigurację ($K=3$, $d=200$, $n=2$, $L=7$, wariant Pauliego) uczono od nowa dla każdej z $64$ kombinacji poziomów stopniowanych trzech składowych szumu, na zbiorze spoza serii trudności, i oceniano w szumie uczenia na wartościach dokładnych.
+Dokładność na części testowej w ostatniej epoce wynosi od $0{,}758$ do $0{,}815$, choć średni promień maleje od $0{,}99$ do $0{,}25$ (rysunek~\ref{fig:cls:noise-results}b), a współczynnik korelacji obu wielkości to $-0{,}05$.
+Na kolejnych poziomach depolaryzacji średnia dokładność wynosi $0{,}793$, $0{,}795$, $0{,}795$ i $0{,}799$ przy średnim promieniu $0{,}84$, $0{,}77$, $0{,}52$ i $0{,}31$; z rosnącą siłą szumu średnia dokładność maleje monotonicznie dla odstrojenia, z $0{,}802$ do $0{,}786$ przy prawie niezmienionym promieniu ($0{,}62$ i $0{,}60$), oraz słabiej dla tłumienia fazy, z $0{,}798$ do $0{,}792$ przy promieniu malejącym z $0{,}69$ do $0{,}50$.
+% ŹRÓDŁO (dopisek orkiestratora, 2026-11-27): średnie po 16 przebiegach na poziom, przeliczone niezależnie z tego samego pliku results.csv; tłumienie fazy: 0,7977; 0,7973; 0,7948; 0,7920; odstrojenie: 0,8021; 0,7994; 0,7939; 0,7864.
+% ŹRÓDŁO: runs/noisesweep_7_435_331_187_286_202_torus_c3_f200_29-07-2026-16-26-05/results.csv (final_test_accuracy, test_r_mean; 64 wiersze, status ok; w epoce o najwyższej dokładności testowej, kolumna best_test_accuracy, zakres wynosi 0,761--0,818), summary.json i noise000/hyperparameters.json (zbiór data/synthetic_dataset_3class_5000x200.npz, 3000 i 2000 próbek, 35 epok), noise000/architecture.txt (warstwa wyjściowa 70 = 7 bloków po 10 kątów, czyli wariant Pauliego dla n = 2); średnie po poziomach i korelacja: skrypt uczenie.py; błąd standardowy pojedynczej dokładności na 2000 próbkach: 0,009; rozdzial-8.csv, grupa D.
+Jest to zgodne z równaniem~\eqref{eq:cls:noise-frame}: depolaryzacja skraca wektor Blocha bez zmiany azymutu, a decyzja według wzoru~\eqref{eq:cls:readout} zależy tylko od azymutów.
+Nie jest to obserwacja nowa: LaRose i~Coyle~\cite{larose_robust_2020} udowodnili, że decyzji binarnego klasyfikatora progowego nie zmienia depolaryzacja, a przy ograniczeniu prawdopodobieństw błędów także inne kanały Pauliego.
+Twierdzenia te, podobnie jak przegląd szumu, dotyczą dokładnych prawdopodobieństw; przy skończonej liczbie pomiarów skrócenie wektora zwiększa rozrzut azymutu zgodnie z oszacowaniem~\eqref{eq:cls:azimuth-noise}.
+Przy $1024$ pomiarach na bazę odporność potwierdzają modele jednoblokowe na urządzeniu: średni promień wynosi w nich od $0{,}61$ do $0{,}94$, a zgodność predykcji z symulatorem od $0{,}89$ do $1{,}00$; w modelu M7, zmierzonym dwukrotnie w odstępie około piętnastu godzin na tych samych kubitach fizycznych, promień wyniósł $0{,}62$ i $0{,}71$, a wszystkie $100$ predykcji było identycznych.
+% ŹRÓDŁO: przebiegi modelu M7 hardware_ibm_fez_06-11-2026-09-40-05 i hardware_ibm_fez_07-11-2026-00-27-30: summary.json (sources.hardware.r_mean = 0,6177 i 0,7089), results.csv (hardware_pred), experiment.json (physical_qubits, created_at); rozdzial-8.csv, grupa G. Twierdzenia pracy larose_robust_2020: notatka eksperymenty/przeglad-literatury/sekcja-3.7-klasyfikacja.md (Tw. 1, 3 i 5; praca czytana w pełnym tekście).
+
+\paragraph{Niedopasowanie poziomu szumu.}
+Przegląd szumu dotyczy modeli ocenianych w szumie, w którym je uczono, dlatego model M2, uczony na poziomie ibm\_fez, oceniono także bez ponownego uczenia na symulatorze z trzema składowymi szumu ustawionymi jednocześnie na $0{,}01$, $0{,}05$ i $0{,}10$.
+Dokładność na $100$ próbkach spada wtedy z $0{,}45$ do $0{,}43$, $0{,}40$ i $0{,}21$, a średni promień z $0{,}84$ do $0{,}65$, $0{,}20$ i $0{,}06$.
+Istotny jest tylko ostatni spadek, $-0{,}24$ $[-0{,}36;\,-0{,}12]$; dla siły $0{,}05$ różnica wynosi $-0{,}05$ $[-0{,}11;\,+0{,}01]$.
+Sam promień tej straty nie tłumaczy: stany produktowe o tych samych kierunkach wektorów Blocha, przygotowane jedną warstwą obrotów jednokubitowych i poddane trzynastu dawkom szumu o sile $0{,}10$, dają dokładność $0{,}42$ przy promieniu $0{,}12$ (różnica $-0{,}03$ $[-0{,}09;\,+0{,}03]$), przy czym szum działa w nich tuż przed pomiarem, w innym układzie osi niż w klasyfikatorze.
+Wskazuje to, że o stracie decyduje szum wcześniejszych bloków, który kolejne bramki dwukubitowe przekształcają w zmianę kierunku wektorów Blocha (podrozdział~\ref{sec:cls:methodology}) i do którego sieć uczona przy $\cohangle=1{,}3$~mrad i $\qphase=0$ nie mogła się dostosować.
+Jest to wynik jednego modelu na jednym zbiorze~(\ref{itm:cls:ZT2}, \ref{itm:cls:ZT3}); zależność od każdej składowej osobno bada eksperyment symulacyjny (podrozdział~\ref{subsec:cls:results:pdu}).
+% ŹRÓDŁO: runs/run_13_512_512_256_128_256_torus_c7_f200_d2_universal_noise444_23-09-2026-09-49-24/replay_sim_23-09-2026-22-39-53, -22-39-55 i -22-39-57: experiment.json (experiment_noise_strengths, deep_noise_layers = 13), summary.json (sources.trained_noisy, sources.trained_noisy_levels, sources.replay_noisy_deep: accuracy, r_mean; prediction_agreement.trained_noisy) i results.csv (kolumny *_correct, testy sparowane w skrypcie powtorzenia.py); opis źródeł: torus_classifier/bloch_replay.py; rozdzial-8.csv, grupa E.
+
+\paragraph{Model szumu a urządzenie.}
+Poziom ibm\_fez prawie nie zmienia stanów modeli jednoblokowych: średni promień na symulatorze z szumem jest najwyżej o $0{,}007$ mniejszy niż bez szumu, a na urządzeniu jest od symulowanego mniejszy o $0{,}04$ do $0{,}30$ (w modelach wieloblokowych o $0{,}40$ do $0{,}60$).
+Model szumu zaniża zatem utratę czystości stanu, zgodnie z zagrożeniem~(\ref{itm:cls:ZT4}): dawka szumu skalibrowana na jedną bramkę CNOT przypada w nim na cały blok.
+Symulacja modelu M2 w Qiskit Aer z modelem szumu na poziomie bramek, zbudowanym z migawki kalibracyjnej ibm\_fez dołączonej do biblioteki, daje średni promień $0{,}38$ wobec $0{,}37$ na urządzeniu, ale dokładność $0{,}47$ i zgodność z symulatorem uczenia $0{,}92$ wobec $0{,}35$ i $0{,}71$: odtwarza utratę czystości, lecz nie zmianę decyzji.
+Odchylenie urządzenia od symulatora jest przy tym w dużej części systematyczne: odwzorowanie afiniczne wektora Blocha symulowanego w zmierzony, dopasowane dla każdego kubitu w pierwszej rundzie dostrajania, ma współczynnik determinacji $R^2$ od $0{,}91$ do $0{,}996$ w modelach M3--M11 i $0{,}78$ w modelu M2, a odwzorowanie tożsamościowe od $0{,}99$ (M10, M11) przez $0{,}38$ (M4) do wartości ujemnych (M2, M3).
+% ŹRÓDŁO: summary.json przebiegów testowych (sources.sim_noiseless.r_mean, sources.sim_noisy.r_mean, sources.hardware.r_mean); runs/run_13_..._d2_universal_noise444_23-09-2026-09-49-24/hardware_fake_fez_23-09-2026-22-13-31/summary.json (sources.hardware: accuracy 0,47, r_mean 0,3790; prediction_agreement.hardware.sim_noisy 0,92) i experiment.json (backend fake_fez); runs/<przebieg>/hwtrain_ibm_fez_*/experiment.json, history[0].device_model (r2_mean, r2_identity_mean; 400 próbek uczących); rozdzial-8.csv, grupy B, E i F.
+
+\paragraph{Dostrajanie na urządzeniu.}
+Każda z trzech rund dostrajania zaczyna się pomiarem $400$ próbek uczących, wylosowanych warstwowo z części uczącej; jeśli zmierzona strata wzrosła względem ostatniego zaakceptowanego pomiaru, poprzednią aktualizację sieci cofa się, a współczynnik uczenia i liczbę epok zmniejsza o połowę.
+Następnie dla każdego kubitu dopasowuje się metodą najmniejszych kwadratów odwzorowanie afiniczne wektora Blocha symulowanego w zmierzony i przez pięć epok uczy sieć na tych samych próbkach (Adam, współczynnik uczenia $10^{-4}$), licząc odczyt z obrazu wektora symulowanego w tym odwzorowaniu; po trzeciej rundzie ponownie mierzy się $100$ próbek testowych.
+% ŹRÓDŁO: torus_classifier/hardware_training.py (docstring modułu, funkcje acceptance, fit_device_model, train_epochs, prepare_setup; stałe DEFAULT_ROUNDS = 3, DEFAULT_EPOCHS_PER_ROUND = 5, DEFAULT_LR = 1e-4, DEFAULT_N_TRAIN = 400) i pola rounds, epochs_per_round, lr, train w plikach experiment.json dostrajania.
+Na próbkach uczących procedura działa: zmierzona strata zmalała we wszystkich dziesięciu modelach, od $1{,}2$ do $2{,}8$ razy, a z $20$ pomiarów następujących po aktualizacji odrzucono trzy.
+Na próbkach testowych zysku nie widać (tabela~\ref{tab:cls:hw-results}): zmiany dokładności mieszczą się między $-0{,}03$ a $+0{,}06$ i w żadnym modelu nie są istotne ($p\geq 0{,}21$), a w ośmiu modelach jednoblokowych $31$ próbek zyskało i $33$ straciły (różnica $-0{,}003$ $[-0{,}023;\,+0{,}018]$).
+Dodatni znak mają zmiany w obu modelach wieloblokowych, w których urządzenie odbiegało od symulatora, $+0{,}06$ $[-0{,}02;\,+0{,}14]$ w modelu M2 i $+0{,}03$ $[0{,}00;\,+0{,}07]$ w modelu M3 (łącznie $14$ próbek zyskało, $5$ straciło, $p=0{,}064$), lecz grupę tę wyodrębniono po obejrzeniu wyników i dane nie rozstrzygają, czy dostrajanie pomaga tam, gdzie urządzenie odbiega od symulatora.
+Skalę zmienności przypadkowej pokazuje powtórzenie całej sekwencji dla modelu M7: z tej samej dokładności $0{,}53$ dostrajanie dało $0{,}48$ w pierwszym i $0{,}51$ w drugim wykonaniu.
+W płytkich obwodach nie ma czego odzyskiwać, bo urządzenie zgadza się z symulatorem, a dostrajanie obniża stratę na próbkach, które sieć klasyfikuje już niemal bezbłędnie (zmierzona dokładność w pierwszej rundzie od $0{,}945$ do $0{,}9925$ w modelach M3--M11).
+% ŹRÓDŁO: runs/<przebieg>/hwtrain_ibm_fez_*/experiment.json (history[].hardware.loss i accuracy, history[].decision.accepted, history[-1].final_epoch.sim_test_full_accuracy) oraz eval/final_hardware/results.csv i results.csv przebiegów testowych (hardware_correct; testy sparowane w skrypcie dostrajanie.py); osiem modeli jednoblokowych łącznie: 0,5425 przed i 0,5400 po; dokładność symulowana na pełnym zbiorze testowym zmieniła się o -0,036 do +0,010; model M7: hwtrain_ibm_fez_06-11-2026-17-45-59 i hwtrain_ibm_fez_07-11-2026-00-58-36 (hardware_evaluations[].hardware_accuracy); rozdzial-8.csv, grupy F i G.
+
+Poza zagrożeniami (\ref{itm:cls:ZT1})--(\ref{itm:cls:ZT5}) wyniki tego podrozdziału mają dwa ograniczenia własne: przegląd szumu i ocena przy innym poziomie szumu nie obejmują szumu próbkowania, a testy podano bez poprawki na wielokrotne porównania, więc mają charakter opisowy.
+\agenttaskDONE{Wykonane przez orkiestratora 2026-11-27 (zdanie w podrozdziale 8.3 doprecyzowano po potwierdzeniu pola hidden w plikach przebiegów batch_64_mlp). Treść zgłoszenia: zdanie w akapicie Dane i uczenie podrozdziału 8.3, że klasycznym punktem odniesienia jest sieć MLP o tych samych warstwach ukrytych, jest prawdziwe tylko dla modeli M2--M11; w zestawieniu symulatorowym odniesieniem jest sieć o jednej warstwie ukrytej z 64 neuronami (pliki hyperparameters.json przebiegów batch_64_mlp, pole hidden), a model M1 nie ma własnego odniesienia. Podrozdział 8.4.1 podaje to wprost; warto uzgodnić brzmienie w 8.3.}
+
 \subsection{Korekta odczytu typu PDU}\label{subsec:cls:results:pdu}
-\agentinfo{Eksperymenty E0 i E1. Pisać po ich wykonaniu.}
+\agentinfo{
+Napisane w zadaniu PHD-TS-88 (2026-11-27) z plików wynikowych eksperymentów E0 \agentref{eksperymenty/pdu-ibm-fez/klasyfikator/README.md} i E1 \agentref{eksperymenty/krzywe-degradacji/klasyfikator/README.md}; liczby policzone dodatkowo odtwarza skrypt \agentref{eksperymenty/weryfikacja-liczb/rozdzial-8-skrypty/korekta_odczytu.py}.
+Nazwy wariantów w tekście i ich odpowiedniki w plikach: FO = (a) a_pdu, FZ = (a2) a2_pdu_slepa, AO = (b) b_afin, AR = (b2) b2_afin_wprost; warianty z funkcją błędu kąta biegunowego (a_pdu_polar, a2_pdu_slepa_polar, tylko model M2) pominięto.
+Wariant FO podawać wyłącznie z wynikiem kontroli, w której pomiary przestawiono między próbkami; wnioski opierać na wariantach FZ, AO i AR.
+W eksperymencie E0 rodzinę 20 testów głównych tworzą warianty FO i AO (tak eksperyment zaplanowano), a FZ i AR są tam eksploracyjne; tekst mówi to wprost i nie należy tego wygładzać.
+Notacja: wektor zmierzony ma znak prim jak w eq:cls:noise-frame, wynik skorygowany daszek jak w rozdziale 4, funkcja błędu fazy to makro phaseerr (litera nu, nie epsilon), liczba jej węzłów to makro nnodes (nie K), macierze wariantu AO to makra ptmblock i ptmshift z indeksem kubitu.
+Policzone dodatkowo z pliku wyniki/predykcje.csv eksperymentu E0 (pliki zbiorcze tego nie zawierają): wynik zbiorczy wariantów FZ i AR na 1000 predykcji (bootstrap warstwowy po modelach, 10 000 losowań, ziarno 20261127, dokładny test McNemara) oraz liczby próbek o zmienionej poprawności w ośmiu modelach jednoblokowych.
+Zaokrąglenia: połówki w górę, jak w 8.4.1.
+Rozbieżność README--pliki (drobna): README eksperymentu E1 podaje, że przy depolaryzacji 0,5 i 1024 pomiarach dokładność modeli jednoblokowych zmienia się najwyżej o 0,002, a w pliku krzywe.csv spadek dla modelu M11 wynosi 0,00265; w tekście tej liczby nie użyto.
+Objętość w kompilacji bez notatek (2026-11-27): około 3,7 strony (tekst 3,1; tabela 0,27; rysunek 0,33) przy planowanych około 3; kandydaci do dalszego cięcia: tabela tab:cls:pdu-recovery do dodatku (0,27), analiza uzupełniająca modelu M1 (0,13), zdanie o kalibracji na odłożonej połowie części testowej (0,08), zdanie o literaturze (0,07).
+Pominięte dla budżetu stron, z liczbami zapisanymi w komentarzach źródłowych przy odpowiednich zdaniach: walidacja krzyżowa w obrębie przebiegu kalibracyjnego modelu M2 (FZ i AR podnoszą tam dokładność z 0,795 do 0,890 i 0,963 na próbkach uczących; jedyny sygnał dodatni z urządzenia, eksploracyjny), wiersze przebiegu mieszanego w tabeli, niestabilność wariantu AO między powtórzeniami kalibracji, niedopasowanie kalibracji w modelu M1, porównanie promienia z urządzeniem (krotność 11 poziomu ibm_fez w modelu M2), liczba 99,7 procent faz przy kierunkach wzorcowych, zliczenia próbek w modelach jednoblokowych.
+Pominięte i niezapisane w komentarzach, dostępne w plikach: krzywe modeli M1 i M3, wyniki dla 8192 pomiarów i wartości dokładnych poza zdaniami w tekście, pełne macierze niedopasowania (także dla tłumienia fazy i depolaryzacji), czułość na liczbę węzłów, druga para przebiegów modelu M7, skutki uboczne korekty przy braku spadku dokładności, kontrola z przestawionymi parami w eksperymencie E1.
+Kontekst literaturowy: wyłącznie prace oznaczone w notatce \agentref{eksperymenty/przeglad-literatury/sekcja-3.7-klasyfikacja.md} jako czytane w pełnym tekście (peters_machine_2021, singh_benchmarking_2026), bez liczb; zdanie o normalizacji wyników pomiaru (wang_quantumnat_2022) usunięto dla budżetu stron.
+Etykiety dodane: eq:cls:corrections, tab:cls:pdu-recovery, fig:cls:pdu-curves.
+Rysunek: dane w plikach cls_pdu_m2_*.csv (katalog figures/chp_classification) są niezmienionymi kopiami plików wyniki/pgfplots eksperymentu E1 dla modelu M2; po ponownym uruchomieniu eksperymentu skopiować je ponownie.
+}
+
+\paragraph{Warianty korekty odczytu.}
+Niech $\blochvec_j'$ i $\varphi_j'$ oznaczają zmierzony wektor Blocha $j$-tego kubitu i jego azymut, a $\blochvec_j$ i $\varphi_j$ wektor i azymut odniesienia z klasycznej symulacji tego samego obwodu (z szumem uczenia w eksperymencie na zapisanych pomiarach, bez szumu w symulacyjnym).
+Korektę dopasowuje się dla każdego kubitu do par $(\blochvec_j',\blochvec_j)$ próbek kalibracyjnych w czterech wariantach:
+\begin{equation}\label{eq:cls:corrections}
+\begin{aligned}
+\text{FO:}\quad&\hat{\varphi}_j=\varphi_j'-\phaseerr_j^{\mathrm{o}}(\varphi_j), &\qquad \text{AO:}\quad&\hat{\blochvec}_j=\ptmblock_j^{-1}\bigl(\blochvec_j'-\ptmshift_j\bigr),\\
+\text{FZ:}\quad&\hat{\varphi}_j=\varphi_j'-\phaseerr_j^{\mathrm{z}}(\varphi_j'), &\qquad \text{AR:}\quad&\hat{\blochvec}_j=\mathbf{B}_j\blochvec_j'+\mathbf{b}_j.
+\end{aligned}
+\end{equation}
+W wariantach fazowych funkcja błędu fazy $\phaseerr_j$ jest odpowiednikiem funkcji PDU kubitu (definicja~\ref{def:pdu:function}): jej wartością w każdym z $\nnodes$ równoodległych węzłów jest ważona średnia kołowa błędów $\varphi_j'-\varphi_j$ próbek kalibracyjnych o argumencie najbliższym temu węzłowi, między węzłami interpoluje się liniowo, a liczbę $\nnodes\leq 32$ wybiera walidacja krzyżowa; argumentem jest faza oczekiwana $\varphi_j$ (FO) albo zmierzona $\varphi_j'$ (FZ).
+W wariancie AO dopasowuje się metodą najmniejszych kwadratów odwzorowanie~\eqref{eq:tb:noise:affine}, $\blochvec_j'\approx\ptmblock_j\blochvec_j+\ptmshift_j$, i odwraca je, a w wariancie AR dopasowuje się od razu regresję wektora odniesienia na wektor zmierzony.
+% ŹRÓDŁO: eksperymenty/pdu-ibm-fez/klasyfikator/README.md (sekcja Metoda) i eksperymenty/krzywe-degradacji/klasyfikator/korekta.py (funkcje pdu_fit, pdu_eval, select_K, affine, fit, apply; K_GRID, N_FOLDS = 5). Szczegóły pominięte w tekście: liczbę węzłów wybiera się ze zbioru 1, 2, 4, 8, 16, 32; błąd azymutu sprowadza się do przedziału (-pi, pi]; węzły leżą w punktach -pi/2 + 2 pi k / N_w; wagą jest iloczyn długości rzutów obu wektorów na płaszczyznę xy; uśrednia się i interpoluje wskazy, nie kąty; do każdego węzła dodaje się jedną pseudoobserwację o globalnym błędzie kubitu; stratą walidacji krzyżowej jest ważone 1 - cos reszty fazy; w wariancie AO używa się pseudoodwrotności; warianty fazowe obracają wektor wokół osi z, więc nie zmieniają jego długości ani kąta biegunowego.
+
+W chwili korekty warianty FZ, AO i AR wymagają tylko pomiaru, a wariant FO fazy oczekiwanej ocenianej próbki, czyli symulacji każdego ocenianego obwodu; ponieważ decyzja~\eqref{eq:cls:readout} jest funkcją samych azymutów, argument ten zawiera predykcję odniesienia i wprowadza do korekty informację o poprawnej odpowiedzi.
+Wariant FO ma postać wyniku skorygowanego z definicji~\ref{def:pdu:correction}, lecz nie spełnia założenia~(\ref{itm:pdu:Z7}), a wariant FZ zastępuje znany argument zmierzonym, co jest przypadkiem wyłączonym w podrozdziale~\ref{par:pdu:known-argument}; w obu odniesieniem jest symulator (wbrew założeniu~\ref{itm:pdu:Z3}), a węzły nie tworzą zaprojektowanej siatki, bo fazy próbek kalibracyjnych skupiają się przy kierunkach wzorcowych.
+% ŹRÓDŁO: eksperymenty/pdu-ibm-fez/klasyfikator/wyniki/metadane.json, pole modele[].udzial_faz_sym_dalej_niz_30st_od_pm90.uczace (najwyżej 0,0029 w dziesięciu modelach, czyli ponad 99,7% faz oczekiwanych próbek kalibracyjnych leży nie dalej niż 30 stopni od kierunków wzorcowych).
+Wyniki wariantu FO podaje się dalej wyłącznie z wynikiem kontroli, w której pomiary przestawiono między próbkami, a wnioski opierają się na pozostałych wariantach.
+
+\paragraph{Zapisane pomiary z urządzenia.}
+Rodzinę dwudziestu testów głównych tworzą warianty FO i AO w modelach M2--M11; warianty FZ i AR zdefiniowano przed obejrzeniem wyników na próbkach testowych, lecz poza tą rodziną, więc ich wyniki są w tym eksperymencie eksploracyjne.
+Żaden wariant nie zmienia dokładności, która na $1000$ predykcji wynosi przed korektą $0{,}512$: zmiana z $95$-procentowym przedziałem ufności to $0{,}000$ $[-0{,}005;\,+0{,}005]$ (FO), $+0{,}001$ $[-0{,}013;\,+0{,}015]$ (AO), $+0{,}003$ $[-0{,}003;\,+0{,}009]$ (FZ) i $+0{,}006$ $[-0{,}003;\,+0{,}016]$ (AR), a $p$-wartości testów głównych dla dokładności są po poprawce Holma równe jedności.
+% ŹRÓDŁO: eksperymenty/pdu-ibm-fez/klasyfikator/wyniki/zbiorczo.csv (warianty a_pdu i b_afin: dokl_przed, dokl_delta, dokl_delta_ci_lo, dokl_delta_ci_hi) i per_model.csv (dokl_p_mcnemar_holm20 = 1 w 20 wierszach); warianty FZ i AR policzono dodatkowo z pliku predykcje.csv (kolumny etykieta, pred_sprzet, pred_a2_pdu_slepa, pred_b2_afin_wprost) skryptem eksperymenty/weryfikacja-liczb/rozdzial-8-skrypty/korekta_odczytu.py: FZ 0,515 (7 zysków, 4 straty, p = 0,55), AR 0,518 (15 zysków, 9 strat, p = 0,31); bootstrap warstwowy po modelach, 10 000 losowań, ziarno 20261127; ten sam skrypt odtwarza wiersze pliku zbiorczo.csv dla FO i AO z dokładnością do losowości bootstrapu (krańce przedziałów różnią się najwyżej o 0,001).
+W ośmiu modelach jednoblokowych, w których urządzenie zgadza się z symulatorem w $776$ z $800$ predykcji (podrozdział~\ref{subsec:cls:results:noise}), nie ma czego korygować: warianty FO, FZ i AR zmieniają tam poprawność najwyżej trzech predykcji.
+% ŹRÓDŁO: policzone dodatkowo z pliku predykcje.csv (modele M4--M11) skryptem korekta_odczytu.py: zyski i straty FO 0/0, FZ 0/1, AR 1/2, AO 8/15.
+W modelach M6 i M2 wariant AO jest źle uwarunkowany (wskaźnik uwarunkowania macierzy $\ptmblock_j$ sięga $31$ i $93$) i obniża zgodność predykcji z symulatorem z $0{,}89$ do $0{,}64$ oraz z $0{,}71$ do $0{,}52$ ($p=0{,}0002$ i $p=0{,}049$ po poprawce Holma).
+% ŹRÓDŁO: per_model.csv, wiersze b_afin (zgod_przed, zgod_po, zgod_p_mcnemar_holm20; w ośmiu pozostałych modelach wariant zmniejsza odległość wektorów Blocha od symulatora o 13--52%, kolumny odl_przed i odl_po, bez zmiany dokładności); metadane.json, pola modele[].b_afin_cond_A (największe: 31,06 i 93,21) oraz sym_min_odch_std_PCA_na_kubit.uczace (0,0137--0,0392, czyli tyle co niepewność statystyczna składowej, sigma_strzalowa_srednia 0,025--0,030: wektory odniesienia próbek kalibracyjnych leżą prawie na jednej osi i jedna kolumna macierzy jest wyznaczona przez szum próbkowania).
+
+W modelu M2, jedynym z przebiegiem kalibracyjnym, w którym urządzenie odbiega od symulatora ($0{,}35$ wobec $0{,}45$), warianty FZ i AR podnoszą dokładność o $0{,}04$ i $0{,}05$, z przedziałami ufności $[-0{,}02;\,+0{,}10]$ i $[-0{,}03;\,+0{,}13]$, czego przy stu próbkach nie da się odróżnić od zera ($p=0{,}34$ i $p=0{,}33$).
+Przebieg kalibracyjny tego modelu wykonano pięć i pół doby po testowym, a średni błąd fazy pierwszego kubitu wynosi w nich $-9{,}3^{\circ}$ i $-26{,}0^{\circ}$, więc założenie stabilności~(\ref{itm:pdu:Z4}) nie jest spełnione.
+% ŹRÓDŁO: eksperymenty/pdu-ibm-fez/klasyfikator/wyniki/uzupelniajace.csv, model c7_f200_q3_b13_d2, analiza test (warianty a2_pdu_slepa i b2_afin_wprost: dokl_delta, przedział, dokl_p_mcnemar); pominięte w tekście: analiza cv_w_przebiegu_uczacym tego modelu (zagnieżdżona walidacja krzyżowa na 400 próbkach uczących tej samej sesji: dokładność 0,795 rośnie do 0,89 dla FZ i 0,9625 dla AR, przyrosty +0,095 [+0,065; +0,125] i +0,1675 [+0,125; +0,210], a wariant AO obniża ją do 0,6175; są to próbki znane sieci z uczenia); metadane.json, pola modele[0].odstep_test_kalibracja_min (7851,7--7860,9 min) i blad_globalny_fazy_st (uczace -9,31; testowe -26,0 dla kubitu 0).
+
+Korekta dopasowana do par o przestawionym przyporządkowaniu obniża dokładność w każdym modelu i wariancie (do $0{,}12$--$0{,}35$), a po przestawieniu pomiarów między próbkami zgodność z symulatorem nie rośnie po korekcie o więcej niż $0{,}01$, z wyjątkiem modelu M2 (z $0{,}19$ do $0{,}23$--$0{,}25$ w wariantach FO, FZ i AR).
+W modelu M1, w którym z braku przebiegu kalibracyjnego korektę dopasowano w walidacji krzyżowej na stu próbkach testowych, wariant FO podnosi dokładność z $0{,}13$ do $0{,}26$, a zgodność z symulatorem z $0{,}12$ do $0{,}66$, lecz zgodność $0{,}66$ daje także dla pomiarów przestawionych: poprawa pochodzi z fazy oczekiwanej podanej jako argument, a warianty FZ i AR niczego nie odzyskują ($0{,}17$ i $0{,}15$; $p\geq 0{,}58$).
+% ŹRÓDŁO: eksperymenty/pdu-ibm-fez/klasyfikator/wyniki/kontrole.csv (kontrola tasowane_pary: dokl_srednia 0,12--0,349 wobec 0,35--0,82 bez korekty; kontrola tasowany_sprzet: zgod_srednia wariantu bez_korekty i wariantów korekty, różnice od -0,03 do +0,005 w dziewięciu modelach, w modelu c7_f200_q3_b13_d2 0,193 wobec 0,232; 0,246 i 0,234; model c7_f200_q6_b15: 0,655 dla a_pdu, 0,340 dla a2_pdu_slepa, 0,360 dla b2_afin_wprost przy zgodności dla pomiarów prawdziwych 0,66; 0,33 i 0,36) i uzupelniajace.csv, analiza cv_w_100_testowych_modelu_15_blokow (a_pdu: +0,13 [+0,03; +0,23]; średni promień na urządzeniu 0,09 według punkty_odniesienia.json).
+
+\begin{table}[tb]
+\centering
+\caption[Korekta odczytu na progu spadku dokładności w eksperymencie symulacyjnym]{Korekta odczytu na progu spadku dokładności w eksperymencie symulacyjnym (modele wieloblokowe, $\nshots=1024$). Próg: siła składowej, przy której dokładność bez korekty spada o $0{,}05$; poziom: pierwszy poziom siatki, na którym spadek osiąga $0{,}05$, i średni promień wektora Blocha na tym poziomie. Dokładność bez szumu obwodu wynosi $0{,}377$ (M1), $0{,}437$ (M2) i $0{,}453$ (M3); w nawiasach odzysk w procentach.}
+\label{tab:cls:pdu-recovery}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llrrrcccc@{}}
+\toprule
+ & & & & & & \multicolumn{3}{c}{Dokładność po korekcie (odzysk)} \\
+\cmidrule(l){7-9}
+Model & Składowa & Próg & Poziom & Promień & Bez korekty & FZ & AO & AR \\
+\midrule
+M1 & odstrojenie & $0{,}107$ & $0{,}2$ & $0{,}30$ & $0{,}142$ & $0{,}218$ ($32$) & $0{,}211$ ($29$) & $0{,}319$ ($75$) \\
+ & tłumienie fazy & $0{,}146$ & $0{,}2$ & $0{,}25$ & $0{,}285$ & $0{,}352$ ($73$) & $0{,}312$ ($29$) & $0{,}363$ ($85$) \\
+ & depolaryzacja & $0{,}040$ & $0{,}05$ & $0{,}09$ & $0{,}290$ & $0{,}318$ ($32$) & $0{,}241$ ($-57$) & $0{,}304$ ($16$) \\
+\addlinespace
+M2 & odstrojenie & $0{,}067$ & $0{,}07$ & $0{,}85$ & $0{,}378$ & $0{,}384$ ($11$) & $0{,}421$ ($74$) & $0{,}427$ ($83$) \\
+ & tłumienie fazy & $0{,}186$ & $0{,}2$ & $0{,}41$ & $0{,}383$ & $0{,}383$ ($-1$) & $0{,}416$ ($61$) & $0{,}412$ ($53$) \\
+ & depolaryzacja & $0{,}071$ & $0{,}1$ & $0{,}07$ & $0{,}279$ & $0{,}301$ ($14$) & $0{,}220$ ($-37$) & $0{,}262$ ($-11$) \\
+\addlinespace
+M3 & odstrojenie & $0{,}237$ & $0{,}3$ & $0{,}90$ & $0{,}329$ & $0{,}366$ ($30$) & $0{,}454$ ($100$) & $0{,}453$ ($100$) \\
+ & tłumienie fazy & \multicolumn{7}{l}{próg nieosiągnięty: do siły $0{,}5$ zmiana dokładności poniżej $0{,}002$} \\
+ & depolaryzacja & $0{,}309$ & $0{,}5$ & $0{,}01$ & $0{,}192$ & $0{,}155$ ($-14$) & $0{,}181$ ($-4$) & $0{,}154$ ($-14$) \\
+\bottomrule
+\end{tabular}
+\end{table}
+% ŹRÓDŁO tabeli: eksperymenty/krzywe-degradacji/klasyfikator/wyniki/progi.csv (2000 próbek testowych, średnie z dziesięciu powtórzeń; siła progowa z interpolacji liniowej w logarytmie siły), wiersze o strzaly = 1024 modeli c7_f200_q6_b15 (M1), c7_f200_q3_b13_d2 (M2) i c6_f300_q5_b3 (M3): sila_progowa, poziom_siatki, promien_analityczny, dokl_zero_szumu, dokl_bez_korekty, dokl_a2 i odzysk_a2, dokl_b i odzysk_b, dokl_b2 i odzysk_b2; te same wartości z większą liczbą cyfr w pliku krzywe.csv (dokl, odzysk_dokl); wiersz M3, tłumienie fazy: progi.csv, spadek_przy_sile_maks = -0,0016. Zaokrąglenia połówek w górę (na przykład 0,31885 to 0,319). Pominięte dla budżetu stron wiersze przebiegu mieszanego (siła = krotność poziomu ibm_fez; próg, poziom, promień, bez korekty, FZ, AO, AR z odzyskiem w procentach): M1 12,7; 20; 0,06; 0,234; 0,260 (18); 0,201 (-23); 0,238 (3); M2 22,6; 50; 0,02; 0,169; 0,160 (-3); 0,165 (-1); 0,155 (-5); M3 28,6; 50; 0,19; 0,309; 0,378 (47); 0,446 (95); 0,452 (99).
+
+\begin{figure}[tb]
+\centering
+\input{figures/chp_classification/cls_pdu_curves.tex}
+\caption[Dokładność modelu M2 w funkcji siły szumu bez korekty odczytu i z korektą]{Dokładność modelu M2 w eksperymencie symulacyjnym w funkcji siły jednej składowej szumu ($\nshots=1024$), bez korekty odczytu i z korektą w wariantach FZ i AR. Linia szara: bez korekty, wartości dokładne; linia kropkowana: najlepsza stała predykcja; pionowa linia przerywana: poziom ibm\_fez. Opracowanie własne.}
+\label{fig:cls:pdu-curves}
+\end{figure}
+
+\paragraph{Symulacja: krzywe degradacji.}
+Na poziomie ibm\_fez żaden z sześciu modeli nie traci dokładności (zmiana najwyżej o $0{,}001$ przy $1024$ pomiarach), a w modelach jednoblokowych M6, M10 i M11 żadna składowa o sile do $0{,}5$ nie obniża jej o więcej niż $0{,}017$: zgodnie z równaniem~\eqref{eq:cls:noise-frame} szum działa tam raz, tuż przed pomiarem, a depolaryzacja nie zmienia azymutu.
+% ŹRÓDŁO: eksperymenty/krzywe-degradacji/klasyfikator/wyniki/krzywe.csv, wariant bez_korekty: wiersze ibm_fez = 1 i strzaly = 1024 (spadek_dokl od -0,0012 do +0,0012) oraz największy spadek_dokl modeli jednoblokowych (0,01675: c7_f200_q6_b1, odstrojenie 0,5, strzaly 8192; w modelach c4_f400_q3_b1 i c3_f200_q2_b1 najwyżej 0,0027).
+W modelach wieloblokowych M1, M2 i M3 dokładność spada o $0{,}05$ przy siłach podanych w tabeli~\ref{tab:cls:pdu-recovery}, a krzywe modelu M2 przedstawia rysunek~\ref{fig:cls:pdu-curves}.
+Liczba pomiarów ma znaczenie dopiero przy małym promieniu, zgodnie z oszacowaniem~\eqref{eq:cls:azimuth-noise}: w modelu M2 przy $\qdep=0{,}1$ (promień $0{,}07$) dokładność wynosi $0{,}394$ dla wartości dokładnych, $0{,}380$ przy $8192$ i $0{,}279$ przy $1024$ pomiarach, a bez szumu obwodu skończona liczba pomiarów zmienia ją najwyżej o $0{,}002$.
+% ŹRÓDŁO: krzywe.csv, wariant bez_korekty: model c7_f200_q3_b13_d2, depolaryzacja 0,1 (dokl 0,3935; 0,37965; 0,279 dla strzaly 0, 8192 i 1024; promien_analityczny 0,073); wiersze skladowa = zero wszystkich modeli (dokl dla strzaly 0 i 1024, różnica najwyżej 0,0019).
+
+\paragraph{Symulacja: odzysk dokładności.}
+Przy odstrojeniu wariant AR odzyskuje na poziomie progowym $83\%$ (M2), $75\%$ (M1) i $100\%$ (M3) utraconej dokładności, a przedziały ufności przyrostów, $[+0{,}031;\,+0{,}066]$, $[+0{,}153;\,+0{,}202]$ i $[+0{,}100;\,+0{,}146]$, nie zawierają zera; wariant FZ odzyskuje $11\%$, $32\%$ i $30\%$ (w modelu M2 nie koryguje on kąta biegunowego, z którego korzysta odczyt tego modelu).
+Zgodnie z równaniem~\eqref{eq:cls:noise-frame} odstrojenie jest obrotem wokół osi $x$, więc przesunięcie azymutu zależy od składowej $r_{j,z}$: funkcja samego azymutu tej zależności nie opisuje, a odwzorowanie całego wektora tak.
+Tłumienie fazy ściska w tym równaniu składowe $y$ i $z$ w sposób deterministyczny, dlatego przy promieniu $0{,}25$--$0{,}41$ wariant AR odzyskuje $53\%$ (M2) i $85\%$ (M1), a wariant FZ $-1\%$ i $73\%$.
+Depolaryzacji korekta nie odwraca: próg spadku wypada tam, gdzie promień maleje poniżej $0{,}1$, odzysk wariantów AR i FZ mieści się między $-14\%$ a $+32\%$, wariant AO pogarsza wynik, a odzysk $67\%$, który wariant AR daje w modelu M2 dla wartości dokładnych ($\qdep=0{,}2$, promień $0{,}007$), nie jest osiągalny w pomiarze.
+% ŹRÓDŁO: progi.csv, strzaly = 1024 (odzysk_a2, odzysk_b, odzysk_b2, delta_b2_ci_lo, delta_b2_ci_hi, promien_analityczny); pominięte w tekście: w przebiegu mieszanym decyduje składowa, która pierwsza obniża dokładność (M3: odstrojenie, odzysk AR 99%; M1 i M2: depolaryzacja, odzysk AR 3% i -5%); dla strzaly 8192 i 0 odzysk wariantu AR przy odstrojeniu wynosi 75--99%; krzywe.csv, model c7_f200_q3_b13_d2, depolaryzacja 0,2, wariant b2_afin_wprost: strzaly 0 (dokl 0,3934, odzysk_dokl 0,668, promien_analityczny 0,0072) i strzaly 1024 (dokl 0,153 i zgod 0,4455, czyli stała predykcja, tak samo w kontroli z przestawionymi pomiarami w pliku kontrole.csv).
+Kalibracja wariantu AR na odłożonej połowie części testowej zamiast na próbkach uczących zmienia jego dokładność przy odstrojeniu i tłumieniu fazy o $-0{,}010$ do $+0{,}003$, więc zagrożenie~(\ref{itm:cls:ZT5}) nie wpływa na te wyniki.
+% ŹRÓDŁO: czulosc_kalibracji.csv, wariant b2_afin_wprost, strzaly 1024, poziomy progowe z tabeli: zbior_kalibracyjny uczacy (n_kal 400) oraz testowy_krzyzowo (n_kal 400); różnice policzone skryptem korekta_odczytu.py (ten sam skrypt: kalibracja na 100 zamiast 400 próbek uczących zmienia dokładność najwyżej o 0,009). Pominięte w tekście: wariant AO jest w modelu M2 niestabilny między powtórzeniami kalibracji (krzywe.csv, dokl_sd_powt do 0,0647 wobec 0,0078 dla wariantu AR).
+Po przestawieniu pomiarów między próbkami testowymi zgodność predykcji wariantu FO przewyższa zgodność najlepszej stałej predykcji o ponad $0{,}02$ w $12$, $31$ i $1$ ze $117$ ustawień modeli M2, M1 i M3, a pozostałych wariantów w żadnym, więc jego pozornie najlepszy odzysk w modelu M1 ($90\%$ przy odstrojeniu) nie jest wynikiem korekty pomiaru.
+% ŹRÓDŁO: kontrole.csv (zgod_tasowany_pomiar wariantu minus większa z wartości zgod_tasowany_pomiar wariantu bez_korekty i zgod_stala_predykcja; największe nadwyżki 0,209; 0,597 i 0,106; zliczenia skryptem korekta_odczytu.py, zgodne z tabelą 6b w README eksperymentu); progi.csv, odzysk_a = 0,90 (c7_f200_q6_b15, odstrojenie).
+
+\paragraph{Niedopasowanie kalibracji.}
+Wariant AR skalibrowany przy odstrojeniu do dwóch razy słabszym od rzeczywistego zachowuje zysk, a skalibrowany przy silniejszym traci go i szkodzi tam, gdzie szum jest słaby: w modelu M2 przy $\cohangle=0{,}1$ (bez korekty $0{,}225$) kalibracja przy $0{,}05$ i $0{,}1$ daje $0{,}422$, a przy $0{,}2$ daje $0{,}282$, natomiast przy $\cohangle=0{,}02$ (bez korekty $0{,}440$) kalibracja przy $0{,}2$ daje $0{,}167$.
+% ŹRÓDŁO: eksperymenty/krzywe-degradacji/klasyfikator/wyniki/niedopasowanie.csv, skladowa odstrojenie, strzaly 1024, warianty b2_afin_wprost i bez_korekty, kolumny sila_kalibracji, sila_testu, dokl (5 powtórzeń); pominięte w tekście: w modelu c7_f200_q6_b15 zysk znika już na sąsiednim poziomie siatki (przy sile 0,2: bez korekty 0,142, kalibracja zgodna 0,321, kalibracja przy 0,1 i 0,3 daje 0,166 i 0,195); model c7_f200_q3_b13_d2 przy sile 0,1: kalibracja przy 0,03 daje 0,371, przy 0,07 daje 0,427; model c6_f300_q5_b3 przy sile 0,3 (bez korekty 0,328): kalibracja przy 0,1--0,3 daje 0,453--0,459, przy 0,5 daje 0,412.
+Nieaktualna korekta bywa więc gorsza od braku korekty, co odpowiada warunkowi~\eqref{eq:pdu:criterion}.
+
+\paragraph{Wynik.}
+Odpowiedź na drugą część pytania rozdziału (podrozdział~\ref{sec:cls:scope}) jest warunkowa, a w odniesieniu do urządzenia negatywna: na zapisanych pomiarach korekta odczytu nie zmieniła dokładności w żadnym z dziesięciu modeli, bo w modelach płytkich urządzenie zgadzało się z symulatorem, a w jedynym głębszym modelu z danymi kalibracyjnymi przyrost $0{,}04$--$0{,}05$ nie odróżnia się od zera.
+W symulacji korekta przywraca dokładność tylko wtedy, gdy szum zmienia kierunek wektora Blocha systematycznie, a promień pozostaje mierzalny, czyli przy odstrojeniu i częściowo przy tłumieniu fazy; nie odwraca utraty czystości stanu przy skończonej liczbie pomiarów, a skalibrowana przy innym szumie niż rzeczywisty może szkodzić.
+Skuteczna jest przy tym regresja całego wektora Blocha, a nie funkcja błędu fazy: wariant FZ, najbliższy funkcji PDU spośród wariantów niekorzystających z informacji o odpowiedzi, odzyskuje przy odstrojeniu $11$--$32\%$ utraconej dokładności, więc funkcja PDU w postaci z rozdziału~\ref{chapter:pdu} nie przenosi się wprost na klasyfikator z odczytem fazowym; przenosi się zasada klasycznej korekty kalibrowanej z pomiaru.
+Brak poprawy na urządzeniu jest zgodny z pracami, w których sama mitygacja błędu odczytu nie dała spójnej poprawy klasyfikacji~\cite{peters_machine_2021,singh_benchmarking_2026}.
+% ŹRÓDŁO: eksperymenty/przeglad-literatury/sekcja-3.7-klasyfikacja.md, tabela E (prace czytane w pełnym tekście: peters_machine_2021, dod. E; singh_benchmarking_2026, tab. 4).
+Poza zagrożeniami (\ref{itm:cls:ZT1})--(\ref{itm:cls:ZT5}) korekta ma dwa ograniczenia własne: każdy wariant wymaga klasycznej symulacji obwodów kalibracyjnych, a wynik z urządzenia opiera się na jednej realizacji przebiegu kalibracyjnego, wykonanego po przebiegu testowym.
+% Pominięte w tekście (zagrożenie ZT4 opisuje to ogólnie): eksperymenty/krzywe-degradacji/klasyfikator/wyniki/porownanie_ze_sprzetem.csv, model c7_f200_q3_b13_d2: promień zmierzony na urządzeniu odpowiada krotności 11,17 poziomu ibm_fez (krotnosc_rownowazna), przy której symulowana zgodność z predykcją bez szumu wynosi 0,933 (zgod_sym_przy_krotnosci_rownowaznej_1024) wobec 0,71 na urządzeniu (zgod_sprzet_z_sym_bez_szumu).
 
 \subsection{Trening w szumie a korekta po fakcie}\label{subsec:cls:results:training}
-\agentinfo{Eksperyment E2. Pisać po jego wykonaniu.}
+\agentinfo{
+Napisane 2026-11-27 na prośbę autora z wyników eksperymentu E2 w dwóch konfiguracjach: X5 (konfiguracja płytka) \agentref{eksperymenty/trening-w-szumie/README.md} i X5b (konfiguracja głęboka) \agentref{eksperymenty/trening-w-szumie/gleboka/README.md}; wszystkie trzy etapy obu eksperymentów (opis, implementacja, wynik) zaakceptował autor.
+Liczby pochodzą z plików wyniki/komorki.csv, porownania.csv, dokladnosc.csv i mlp.csv obu katalogów; zaokrąglenia jak w 8.4.1.
+Nazwa w tekście: eksperyment porównawczy (opis metodyki w akapicie sekcji 8.3); konfiguracja płytka = konfiguracja przeglądu szumu (K = 3, n = 2, L = 7), konfiguracja głęboka = model M2 uczony od nowa.
+Odpowiedniki nazw z plików: poziom T/E 1, 2, 3 = poziomy stopniowane 0,01; 0,05; 0,10 wszystkich trzech składowych; E4 = poziom ibm_fez; wariant 1 = bez działań, wariant 2 = korekta po fakcie, wariant 3 = trening w szumie, wariant 4 = oba; a2 = FZ, b2 = AR, a3 = FZB (nowy wariant X5b: FZ uzupełniony o funkcję błędu kąta biegunowego z argumentem zmierzonym, tylko analiza uzupełniająca).
+Rodzina główna była ustalona w opisach przed obliczeniami: dla konfiguracji płytkiej poziom 0,10, dla głębokiej 0,05; wyraźne efekty przy 0,10 w konfiguracji głębokiej są analizą uzupełniającą i tak je opisano; nie przenosić ich do rodziny głównej.
+Etykieta dodana: tab:cls:training.
+Objętość w kompilacji bez notatek (2026-11-27): podrozdział 8.4.3 około 3 strony (str. 106--108, z tabelą około 0,5 strony), akapit Eksperyment porównawczy w 8.3 około 0,4 strony; rozdział 8 ma teraz 20 stron (str. 91--110) przy budżecie 16, a podrozdział 8.4.4 i sekcje 8.5--8.6 są puste; skracanie czeka na sygnał autora. Kandydaci do cięcia w 8.4.3: wiersze składowych w tabeli (0,15 strony), akapit Punkt odniesienia klasyczny (przenieść jedno zdanie do 8.4.1; 0,1), zdania o ziarnach w akapicie Rodzina główna (0,15), zdanie o koszcie treningu w szumie (0,05).
+Pominięte dla budżetu stron (dostępne w plikach): kalibracja na części walidacyjnej (w konfiguracji głębokiej zysk AR przy 0,05 znika: +0,001), pełne macierze niedopasowania, wariant FZB poza zdaniem o odstrojeniu, kontrole negatywne poza jednym zdaniem, testy McNemara poza dwoma ziarnami.
+}
+
+Eksperyment porównawczy (podrozdział~\ref{sec:cls:methodology}) zestawia korektę odczytu z dwóch poprzednich podrozdziałów z drugą strategią obrony przed szumem: uczeniem sieci $\Theta_{\mathbf{w}}$ z modelem szumu w obwodzie, tak by sama nauczyła się go kompensować.
+Obie strategie porównano na dwóch konfiguracjach uczonych od nowa na pięciu ziarnach: płytkiej, czyli konfiguracji przeglądu szumu ($K=3$, $d=200$, $n=2$, $L=7$, wariant Pauliego), i głębokiej, czyli modelu M2 ($K=7$, $d=200$, $n=3$, $L=13$, wariant uniwersalny, dwie współrzędne z kubitu).
+Przy szumie testu o danym poziomie porównywano cztery strategie: bez działań (model uczony bez szumu), korektę po fakcie (ten sam model z korektą odczytu FZ albo AR), trening w szumie (model uczony na poziomie szumu testu) oraz obie naraz.
+Rodzinę główną pięciu porównań ustalono przed obliczeniami dla $\nshots=1024$: na poziomie $0{,}10$ w konfiguracji płytkiej i $0{,}05$ w głębokiej, bo według danych modelu M2 z podrozdziału~\ref{subsec:cls:results:noise} rzut wektora Blocha na płaszczyznę $xy$ maleje przy $0{,}10$ do około $0{,}05$, czyli do wielkości porównywalnej z niepewnością statystyczną składowej ($1/\sqrt{1024}\approx0{,}03$).
+% ŹRÓDŁO: eksperymenty/trening-w-szumie/OPIS.md (punkt 9) i gleboka/OPIS.md (punkt 9, uzasadnienie wyboru poziomu 0,05: summary.json odtworzeń modelu M2, m_mean 0,149 i 0,047 przy poziomach 0,05 i 0,10).
+
+\paragraph{Spadek dokładności bez działań.}
+W konfiguracji płytkiej poziomy $0{,}01$ i $0{,}05$ zmieniają dokładność modelu uczonego bez szumu najwyżej o $0{,}001$, a poziom $0{,}10$ obniża ją średnio o $0{,}048$ $[-0{,}156;\,+0{,}060]$, przy czym spadek pochodzi niemal w całości z jednego ziarna, w którym błąd azymutu wynosi $45^{\circ}$ wobec $13^{\circ}$--$18^{\circ}$ w pozostałych, a dokładność $0{,}556$ wobec $0{,}781$ bez szumu (wartości dokładne).
+W konfiguracji głębokiej poziom $0{,}01$ i poziom ibm\_fez nie zmieniają dokładności (najwyżej o $0{,}001$), poziom $0{,}05$ obniża ją o $0{,}053$ $[-0{,}113;\,+0{,}007]$ w czterech z pięciu ziaren, a poziom $0{,}10$ o $0{,}202$ $[-0{,}249;\,-0{,}155]$ we wszystkich, do $0{,}163$ wobec $1/7\approx 0{,}143$ dla wyboru losowego.
+Potwierdza to na pięciu ziarnach i pełnej części testowej wynik pojedynczego modelu M2 z podrozdziału~\ref{subsec:cls:results:noise}.
+Dokładności bezwzględne są niższe niż w tabeli~\ref{tab:cls:hw-results} ($0{,}364$ wobec $0{,}439$), bo punkt kontrolny wybiera się tu na części walidacyjnej, a część testowa jest inna~(\ref{itm:cls:ZT1}).
+% ŹRÓDŁO: eksperymenty/trening-w-szumie/wyniki/porownania.csv, rodzina warunek_wstepny_H0, tryb strzaly (E1 -0,0002; E2 -0,0012; E3 -0,0482 [-0,1563; +0,0599]) i dokladnosc.csv (T0, tryb dokladny, ziarno 43: E0 0,781, E3 0,556, faza_st 44,9; pozostałe ziarna przy E3: faza_st 13,3--17,5); gleboka/wyniki/porownania.csv, warunek_wstepny_H0, strzaly (E1 -0,0002; E2 -0,0526 [-0,1126; +0,0074], 1/4 ziaren; E3 -0,2024 [-0,2493; -0,1554], 0/5; E4 -0,0010) i komorki.csv (T0, strzaly, E3 0,1626; T0, dokladny, E0 0,3638).
+
+\paragraph{Rodzina główna.}
+W żadnej konfiguracji żadne z pięciu porównań nie ma przedziału ufności bez zera, a $p$-wartości po poprawce Holma wynoszą $1$ w konfiguracji płytkiej i od $0{,}45$ do $0{,}62$ w głębokiej (tabela~\ref{tab:cls:training}).
+Względem braku działań trening w szumie daje $+0{,}046$ $[-0{,}070;\,+0{,}162]$ i $+0{,}059$ $[-0{,}025;\,+0{,}143]$, wariant AR $+0{,}049$ $[-0{,}059;\,+0{,}156]$ i $+0{,}026$ $[-0{,}025;\,+0{,}076]$, a wariant FZ $+0{,}031$ $[-0{,}045;\,+0{,}107]$ i $-0{,}003$ $[-0{,}021;\,+0{,}014]$ (kolejno konfiguracja płytka i głęboka); trening w szumie różni się od wariantu AR o $-0{,}003$ $[-0{,}047;\,+0{,}041]$ i $+0{,}033$ $[-0{,}008;\,+0{,}075]$.
+Na poziomach rodziny głównej spadek bez działań jest mały i niejednolity, a obie strategie zależą od ziarna.
+W konfiguracji płytkiej w ziarnie ze spadkiem każda strategia istotnie poprawia wynik, ale model uczony w szumie jest w innym ziarnie gorszy od modelu bez działań (wartości dokładne: $0{,}740$ wobec $0{,}783$; dokładny test McNemara w obrębie ziarna: $69$ próbek zyskało, $112$ straciło, $p=0{,}033$ po poprawce Holma).
+W konfiguracji głębokiej jedno ziarno nie traci dokładności przy $0{,}05$, a wariant AR obniża ją w nim z $0{,}427$ do $0{,}398$ ($17$ zysków, $46$ strat, $p=0{,}007$).
+% ŹRÓDŁO: eksperymenty/trening-w-szumie/wyniki/porownania.csv i gleboka/wyniki/porownania.csv, rodzina glowna (roznica, ci95_lo, ci95_hi, p_t_holm_w_rodzinie_glownej; płytka: 3-2a2 +0,015 [-0,036; +0,066]; głęboka: 3-2a2 +0,062 [-0,016; +0,140]) oraz rodzina mcnemar_w_ziarnie, tryb dokładny (płytka: E3, ziarno 43: zyski wszystkich trzech strategii 304/78, 260/40, 291/63; ziarno 45, wariant 3 - wariant 1: 69/112, p Holma 0,033; dokladnosc.csv, ziarno 45, dokladny, E3: T3 0,740, T0 0,783; głęboka: E2, ziarno 45, wariant 2 b2 - wariant 1: 17/46, p Holma 0,0071; dokladnosc.csv, ziarno 45, dokladny, E2: bez działań 0,427, b2 0,398; przy 1024 pomiarach 0,421 i 0,387).
+
+\begin{table}[tb]
+\centering
+\caption[Trening w szumie a korekta po fakcie: dokładność na pięciu ziarnach]{Trening w szumie a korekta po fakcie w eksperymencie porównawczym: dokładność na części testowej ($1000$ próbek na ziarno), średnia $\pm$ odchylenie standardowe po pięciu ziarnach, $\nshots=1024$, w wierszach oznaczonych (d) wartości dokładne. Szum testu: wszystkie trzy składowe na poziomie stopniowanym albo jedna składowa o sile $0{,}10$. Bez działań: model uczony bez szumu; FZ i AR: ten sam model z korektą odczytu kalibrowaną na $3000$ próbkach uczących; trening w szumie: model uczony na poziomie szumu testu. Konfiguracja płytka: $K=3$, $n=2$, $L=7$; głęboka: model M2, $K=7$, $n=3$, $L=13$; odstr.: odstrojenie, depol.: depolaryzacja. Wiersze rodziny głównej oznaczono gwiazdką.}
+\label{tab:cls:training}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+Konf. & Szum testu & Bez działań & FZ & AR & Trening w szumie \\
+\midrule
+płytka & brak & $0{,}785\pm0{,}012$ & -- & -- & -- \\
+ & $0{,}01$ & $0{,}785\pm0{,}012$ & $0{,}785\pm0{,}012$ & $0{,}785\pm0{,}012$ & $0{,}781\pm0{,}006$ \\
+ & $0{,}05$ & $0{,}783\pm0{,}010$ & $0{,}783\pm0{,}010$ & $0{,}785\pm0{,}012$ & $0{,}786\pm0{,}021$ \\
+ & $0{,}10$\,$^{\ast}$ & $0{,}737\pm0{,}089$ & $0{,}768\pm0{,}029$ & $0{,}786\pm0{,}012$ & $0{,}783\pm0{,}024$ \\
+ & odstr. $0{,}10$ & $0{,}770\pm0{,}026$ & $0{,}782\pm0{,}007$ & $0{,}785\pm0{,}013$ & -- \\
+ & depol. $0{,}10$ & $0{,}784\pm0{,}012$ & $0{,}784\pm0{,}012$ & $0{,}786\pm0{,}012$ & -- \\
+\addlinespace
+głęboka & brak & $0{,}365\pm0{,}039$ & -- & -- & -- \\
+(M2) & $0{,}01$ & $0{,}365\pm0{,}039$ & $0{,}364\pm0{,}038$ & $0{,}364\pm0{,}038$ & $0{,}374\pm0{,}032$ \\
+ & $0{,}05$\,$^{\ast}$ & $0{,}312\pm0{,}071$ & $0{,}309\pm0{,}060$ & $0{,}338\pm0{,}043$ & $0{,}371\pm0{,}041$ \\
+ & $0{,}10$ & $0{,}163\pm0{,}018$ & $0{,}177\pm0{,}028$ & $0{,}171\pm0{,}010$ & $0{,}310\pm0{,}043$ \\
+ & $0{,}10$ (d) & $0{,}187\pm0{,}063$ & $0{,}246\pm0{,}098$ & $0{,}334\pm0{,}043$ & $0{,}367\pm0{,}055$ \\
+ & odstr. $0{,}10$ & $0{,}187\pm0{,}056$ & $0{,}229\pm0{,}043$ & $0{,}360\pm0{,}043$ & -- \\
+ & depol. $0{,}10$ & $0{,}223\pm0{,}037$ & $0{,}239\pm0{,}040$ & $0{,}217\pm0{,}039$ & -- \\
+ & depol. $0{,}10$ (d) & $0{,}346\pm0{,}040$ & $0{,}347\pm0{,}038$ & $0{,}357\pm0{,}034$ & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+% ŹRÓDŁO tabeli: eksperymenty/trening-w-szumie/wyniki/komorki.csv (konfiguracja płytka) i eksperymenty/trening-w-szumie/gleboka/wyniki/komorki.csv (głęboka): tryb strzaly albo dokladny, kalibracja uczaca, T = 0 (bez działań, FZ = korekta a2, AR = korekta b2) albo T = poziom testu (trening w szumie, korekta brak), E = E0, E1, E2, E3, det3, dep3; kolumny dokl_srednia, dokl_sd.
+
+\paragraph{Składowe szumu.}
+Każdą składową o sile $0{,}10$ podawano też osobno, bez nowego uczenia (analiza uzupełniająca, $p$ bez poprawki).
+W obu konfiguracjach szkodzi przede wszystkim odstrojenie, czyli błąd koherentny, a wariant AR usuwa jego skutek całkowicie: w konfiguracji głębokiej dokładność rośnie z $0{,}187$ do $0{,}360$ (o $0{,}174$ $[+0{,}100;\,+0{,}247]$, we wszystkich ziarnach), przy błędzie azymutu $34^{\circ}$ i kąta biegunowego $41^{\circ}$ oraz prawie niezmienionym promieniu ($0{,}79$).
+Wariant FZ odzyskuje tu tylko $0{,}04$, bo nie zmienia kąta biegunowego, a odstrojenie jest obrotem wokół osi $x$ (równanie~\eqref{eq:cls:noise-frame}); dopisany do niego wariant FZB, w którym funkcję błędu z argumentem zmierzonym wyznacza się także dla kąta biegunowego, odzyskuje $0{,}12$.
+Depolaryzacja skraca wektor w konfiguracji płytkiej do promienia $0{,}31$, prawie bez zmiany decyzji, a w głębokiej do $0{,}06$; tam decyzję zmienia głównie szum próbkowania: dokładność wynosi $0{,}346$ dla wartości dokładnych, $0{,}308$ przy $8192$ i $0{,}223$ przy $1024$ pomiarach, a żaden wariant korekty jej nie przywraca.
+Tłumienie fazy o sile $0{,}10$ obniża dokładność najwyżej o $0{,}007$.
+Odpowiada to wynikom eksperymentu symulacyjnego (tabela~\ref{tab:cls:pdu-recovery}), tym razem na pięciu ziarnach.
+% ŹRÓDŁO: gleboka/wyniki/porownania.csv, rodzina kanaly_osobno, strzaly, det3 (b2: +0,1736 [+0,1001; +0,2471], 5/0; a2: +0,0424; a3: +0,1241), dep3 (b2: -0,0062); gleboka/wyniki/tabela.md, tabela 7 (det3: błąd azymutu 33,6, kąta biegunowego 41,2, r 0,787; dep3: r 0,062); komorki.csv, dep3 bez korekty: dokladny 0,3458, strzaly8192 0,3078, strzaly 0,2230; deph3: 0,358 (strzaly, głęboka) wobec 0,365 przy E0; konfiguracja płytka: README.md, tabela mechanizmu (depolaryzacja poziom 3: r 0,306; dokl. 0,785) i komorki.csv (det3, deph3, dep3).
+
+\paragraph{Silny szum w konfiguracji głębokiej.}
+Przy wszystkich trzech składowych o sile $0{,}10$ i $1024$ pomiarach pomaga tylko trening w szumie: $0{,}310$ wobec $0{,}163$ bez działań (o $0{,}147$ $[+0{,}095;\,+0{,}199]$, we wszystkich ziarnach), podczas gdy obie korekty zostają przy wyborze losowym ($0{,}177$ i $0{,}171$; analiza uzupełniająca).
+Informacja o klasie nie znika jednak ze stanów: dla wartości dokładnych wariant AR podnosi dokładność do $0{,}334$, a przy $8192$ pomiarach do $0{,}244$.
+Ten zysk wymaga prawdziwego powiązania odczytów, bo korekta AR dopasowana do par o przestawionym przyporządkowaniu daje wybór losowy ($0{,}151$), natomiast część zysku wariantu FZ ($0{,}187\to0{,}246$) daje także korekta dopasowana do par przestawionych ($0{,}221$).
+Rzut wektora na płaszczyznę $xy$ wynosi wtedy około $0{,}045$, więc według oszacowania~\eqref{eq:cls:azimuth-noise} niepewność azymutu przy $1024$ pomiarach sięga około $0{,}7$~rad, a takiego rozrzutu korekta kalibrowana po fakcie nie odwraca.
+Model uczony w szumie zachowuje $0{,}310$, choć jego wektory są niewiele dłuższe ($0{,}082$ wobec $0{,}049$); przyczyny tej różnicy eksperyment nie rozstrzyga.
+Korekta AR dodana do treningu w szumie obniża wtedy wynik do $0{,}262$.
+Trening w silnym szumie ma też koszt: model uczony na poziomie $0{,}10$ ma bez szumu dokładność $0{,}278$ wobec $0{,}365$, a uczony na poziomie $0{,}05$ zachowuje $0{,}367$ bez szumu i $0{,}371$ przy $0{,}05$, lecz przy $0{,}10$ spada do $0{,}276$.
+% ŹRÓDŁO: gleboka/wyniki/tabela.md, tabela 8 (kontrole negatywne, model T0, tryb dokładny, E3: bez korekty 0,187; a2 po korekcie 0,246, tasowane pary 0,221; b2 po korekcie 0,334, tasowane pary 0,151; tasowany odczyt 0,140--0,149) i kontrole.csv; gleboka/wyniki/porownania.csv, rodzina uzupelniajace, strzaly, uczaca, E3, wariant 3 - wariant 1 (+0,1468 [+0,0950; +0,1986], 5/0); komorki.csv: E3 dokladny b2 0,3340; strzaly8192 b2 0,2442; strzaly T3 b2 0,2620; tryb strzaly: T3 przy E0 0,27765, T0 przy E0 0,36504, T2 przy E0 0,36687, przy E2 0,3713 i przy E3 0,2763; dokladnosc.csv, średnie m i r modelu T0 przy E3 (0,045; 0,049) i T3 przy E3 (r 0,082), tryb dokladny; 1/(0,045 * 32) = 0,69 rad.
+
+\paragraph{Punkt odniesienia klasyczny.}
+Sieć MLP o tych samych warstwach ukrytych, uczona i wybierana na tych samych podziałach, osiąga $0{,}793\pm0{,}016$ w konfiguracji płytkiej i $0{,}496\pm0{,}018$ w głębokiej, wobec $0{,}785\pm0{,}012$ i $0{,}364\pm0{,}040$ klasyfikatora bez szumu.
+W konfiguracji płytkiej jest lepsza w czterech z pięciu ziaren (o $0{,}008$, $p=0{,}44$), w głębokiej we wszystkich (o $0{,}132$ $[+0{,}080;\,+0{,}184]$, $p=0{,}002$).
+% ŹRÓDŁO: wyniki/mlp.csv obu katalogów (dokl_testowa, klasyfikator_kwantowy_T0_E0_dokladny); test t sparowany po ziarnach policzony dodatkowo (głęboka: różnice 0,126; 0,184; 0,159; 0,113; 0,076, p = 0,0021); płytka: README.md (różnica +0,008, p = 0,44).
+
+\paragraph{Wynik.}
+Testy zaplanowane z góry nie rozstrzygają, która strategia lepiej chroni klasyfikator: na poziomach rodziny głównej szum obniża dokładność słabo i niejednolicie, a obie strategie poprawiają wynik w części ziaren i pogarszają w innych.
+Analizy uzupełniające pokazują podział zadań zgodny z podrozdziałem~\ref{subsec:cls:results:pdu}: korekta po fakcie w wariancie AR usuwa błąd koherentny, dopóki rzut wektora Blocha jest wyraźnie większy od niepewności statystycznej, a gdy depolaryzacja w głębokim obwodzie skraca wektor do wielkości tej niepewności, pomaga tylko trening w szumie, kosztem dokładności przy słabszym szumie.
+Wariant FZ, najbliższy funkcji PDU, jest najsłabszy, bo koryguje sam azymut.
+Wnioski dotyczą symulatora z uproszczonym modelem szumu~(\ref{itm:cls:ZT4}), dwóch konfiguracji uczonych na jednym zbiorze każda i pięciu ziaren; architektury i hiperparametry pochodzą ze strojenia na zbiorze testowym~(\ref{itm:cls:ZT1}), a wyraźne efekty przy poziomie $0{,}10$ w konfiguracji głębokiej są analizą uzupełniającą, bo rodzinę główną tej konfiguracji ustalono na poziomie $0{,}05$.
 
 \subsection{Klasyfikacja obrazów po redukcji błędów}\label{subsec:cls:results:images}
 \agentinfo{Eksperyment E4. Pisać po jego wykonaniu. Zwrócić uwagę na rozłączność danych użytych do treningu sieci pix2pix i do testu klasyfikatora.}

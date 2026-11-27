@@ -10,68 +10,606 @@ Docelowa objętość: około 12 stron.
 Źródło: katalog /Users/krzysztofwerner/Downloads/Quantum/best_results_package (tylko do odczytu; nie czytać plików .env).
 Manuskrypt roboczy article/main.tex jest współautorski i nieopublikowany; wkład autora rozprawy trzeba oddzielić od wkładu współautorów.
 Liczby brać z plików wynikowych (article/data/eval_results.json, article/data/hw_results.json, output/hw_run1/analysis/report.md, hw_run2_finetune/baseline/summary.md), a nie z tekstu manuskryptu.
+Zweryfikowany zestaw 363 liczb ze wskazaniem pliku i pola (zadanie PHD-TS-77): \agentref{eksperymenty/weryfikacja-liczb/rozdzial-7.md} \agentref{eksperymenty/weryfikacja-liczb/rozdzial-7.csv}.
 
 Akcent rozdziału: charakterystyka szumu urządzenia, budżet błędu i redukcja błędów, a nie jakość samego kodowania.
-Model jest tylko nieznacznie lepszy od obrazu średniego, a na sprzęcie gorszy od niego; należy to napisać wprost.
+Dwa punkty odniesienia, których nie wolno mylić (model 9x9, 10 niewidzianych obrazów, MAE): obraz średni zbioru uczącego 0,1329 oraz płaski obraz w średnim kolorze danego obrazu 0,0833.
+Od obrazu średniego model jest lepszy: 0,0787 w symulatorze z szumem i 0,1009 na sprzęcie.
+Od płaskiego obrazu własnego koloru jest w symulatorze lepszy tylko nieznacznie (różnica -0,0046, przedział ufności obejmuje zero, p = 0,34), a na sprzęcie gorszy na wszystkich 10 obrazach; należy to napisać wprost.
+Płaski obraz własnego koloru odpowiada przekazaniu trzech liczb na obraz; opisać, co to porównanie mówi o informacji przenoszonej przez kodowanie.
 Wyniki negatywne i nierozstrzygające (trening w szumie, dostrajanie na sprzęcie) są pełnoprawną treścią rozdziału.
 
-Zagrożenia do usunięcia przed użyciem liczb: duplikaty obrazów między zbiorem walidacyjnym a uczącym (rzetelna ocena na 10 niewidzianych obrazach), wybór punktu kontrolnego na zbiorze, na którym raportowano wynik, bardzo mała próba, jedno urządzenie i jedno ziarno losowe.
-Miarą główną w źródle jest MAE, a w rozdziałach 5 i 6 MSE i korelacja Pearsona; podać obie grupy miar.
+Zagrożenia do opisania przy liczbach: duplikaty obrazów między zbiorem walidacyjnym a uczącym (4 z 14; rzetelna ocena na 10 niewidzianych obrazach), nakładanie się kafli o 50 pikseli (8 z 10 obrazów testowych przebiegu H2 nakłada się z kaflami uczącymi), wszystkie kafle z dwóch klatek, wybór punktu kontrolnego oraz dobór hiperparametrów i wariantu 16x16 na zbiorze, na którym raportowano wynik, model szumu dopasowany na obwodach testowych, bardzo mała próba, jedno urządzenie i jedno ziarno losowe.
+Miarą główną w źródle jest MAE; korelacji Pearsona nie ma w plikach wynikowych, a MSE jest tylko dla przebiegu H2 i modelu 9x9.
+
+Stan: sekcje 7.1--7.3 napisane w zadaniu PHD-TS-76 (2026-11-27); podrozdziały 7.4.1--7.4.3 z tabelami i rysunkami napisane w zadaniach PHD-TS-81 i PHD-TS-82 (2026-11-27); podrozdział 7.4.4 z rysunkiem fig:le:pdu:curves oraz sekcje 7.5 i 7.6 napisane w zadaniu PHD-TS-83 (2026-11-27); cały rozdział ma treść, czeka na przegląd autora i na odpowiedzi na pytania zapisane w zadaniach.
+Poprawki po niezależnej recenzji (zadanie PHD-TS-85, plik \agentref{eksperymenty/recenzje/rozdzial-7.md}) wprowadzono w zadaniu PHD-TS-92 (2026-11-27); tabela statusów ustaleń: \agentref{eksperymenty/recenzje/rozdzial-7-poprawki.md}.
+Na autora czekają: podział wkładu (zadanie w sekcji 7.1), pochodzenie kafli lotniczych i parametrów poziomu 4 (zadania w sekcji 7.3), galeria rekonstrukcji (zadanie w 7.4.2), tabela wariantów korekty w dodatku i skracanie rozdziału (zadanie w 7.4.4).
+Objętość po poprawkach jest taka sama jak przed nimi (14,81 strony bez notatek: strony 75--89, ostatnia zapełniona w 0,81), bo dopisane zdania skompensowano skróceniem powtórzeń; do przywrócenia po decyzji o objętości nadają się: (a) w 7.2 pełniejsze porównanie z FRQI, NEQR i LPIQE (dokładne odtwarzanie bez szumu i przy nieskończonej liczbie pomiarów, zależność obwodu kodującego od obrazu, zajęcie 3W^2 stanów bazowych przez obraz barwny) i dwa zdania powtarzające podrozdział 2.6.4; (b) w 7.4.1 zdanie, że w zbiorze KITTI płaski obraz własnego koloru (0,2039) jest gorszy od obrazu średniego (0,1861), a A16K lepszy od obu (liczby są w tabeli tab:le:sim); (c) w 7.4.2 zdanie przejściowe do 7.4.4 o tym, że składnik depolaryzacyjny ma w przybliżeniu postać ze wzoru eq:le:noise, a jego odwrócenie wzmacnia szum próbkowania; (d) w 7.4.3 uwaga, że trening z szumem nie zapobiegł wzrostowi błędu o 28 procent; (e) w 7.4.4 szczegóły: 50 losowych podziałów, liczby TVD i wierności kontroli syntetycznej, skład kalibracji z tego samego dnia (wagi zmieniane między zadaniami), przedział ufności dla korekty addytywnej na obrazach KITTI, udział około trzech czwartych w mierze MAE; (f) w 7.5 akapit porównania z reprezentacjami zadanymi wzorem (teraz jedno zdanie z odesłaniem do 7.2) i zdanie, że pomiary nie wykluczają zmiany błędu obrazu o mniej niż około 0,003; (g) w 7.6 piąte zdanie podsumowania.
+Ustalenia nazewnicze z sekcji 7.1--7.3, obowiązujące w wynikach:
+(0) Oznaczenia konfiguracji zmieniono w zadaniu PHD-TS-92 z M8, M9, M16, M16K na A8, A9, A16, A16K, bo kolidowały z modelami klasyfikatora M1--M11 z rozdziału 8 (tabela tab:cls:models); stare oznaczenia występują jeszcze poza rozprawą w recenzji (eksperymenty/recenzje/rozdzial-7.md) i w jej plikach roboczych. Litery A w oznaczeniu konfiguracji nie mylić ze zbiorem A eksperymentu na symulatorze (punkt 2).
+(1) Konfiguracje (tabele tab:le:configs i tab:le:data): A8 = RGB 8x8, 9 kubitów, 8 bloków, bez szumu w treningu (klucz c8 w eval_results.json, punkt kontrolny run_2026-08-12_21-21-32); A9 = RGB 9x9, 9 kubitów, 8 bloków, trening z szumem poziomu 4 (run_2026-10-13_09-57-33); A16 = RGB 16x16, 11 kubitów, 12 bloków (klucz c16_best); A16K = KITTI 16x16, 11 kubitów, 13 bloków (klucz c16_kitti2000).
+(2) Zbiory oceny: K16 = 16 kafli części testowej eksportu (A8); K12 = 12 kafli walidacyjnych podziału losowego (A16); K10 = 10 kafli walidacyjnych bez kopii w części uczącej (A9), zarazem zbiór testowy przebiegu H2 i część testowa zbioru A w eksperymentach sekcji 7.4.4; dla KITTI 1500 obrazów testowych. Wartości na nominalnych 14 obrazach walidacyjnych A9 (np. MAE 0,0732) nie raportować jako wyniku.
+(3) Symulatory: symulator bezszumowy; symulator poziomu 4 (odstrojenie 0,0012756 rad i depolaryzacja 0,0029837 na kubit po każdym bloku, bez tłumienia fazy i bez błędu odczytu); bliźniak (model warstwowy z samą depolaryzacją dopasowaną do zliczeń z urządzenia; wartość dopasowana jest wynikiem i należy do sekcji 7.4.2). Skończona liczba pomiarów: losowanie z rozkładu symulatora, średnia z 3 losowań (wyjątek w plikach H2: wiersz ,,poziom 4, 16 384 pomiary'' to jedno losowanie).
+(4) Przebiegi: H1 (sierpień 2026, A8, 228 pomiarów rejestrów, 9 łańcuchów, obrazy KITTI spoza rozkładu; w podrozdziałach 7.4.1--7.4.3 tylko miary rozkładu, w 7.4.4 MAE obrazu wyłącznie do porównania wariantów korekty, z dolną granicą 0,154) i H2 (3 listopada 2026, A9, 5 łańcuchów, K10; zadanie bazowe, pięć zadań dostrajania, zadanie końcowe).
+(5) Punkty odniesienia: obraz średni (średnia po obrazach części uczącej, osobno dla piksela i kanału) oraz płaski obraz własnego koloru (stała w każdym kanale równa średniej tego kanału w obrazie ocenianym; trzy liczby na obraz). Trzeciego wariantu z plików H2, płaskiego obrazu w średnim kolorze części uczącej (MAE 0,1333), nie używać. Dla KITTI obraz średni w eval_article.py policzono z innej losowej próby 2000 obrazów uczących niż użyta w treningu.
+(6) Miary: MAE na wyjściu nieobciętym; PSNR i SSIM na wyjściu obciętym do przedziału od 0 do 1, liczone na obraz i uśredniane; SSIM z oknem Gaussa 5x5 o odchyleniu 1, stałe 0,01^2 i 0,03^2 (wartości z eval_results.json i hw_results.json, nie z summary.csv ani summary.md); MSE tylko dla A9 i H2 (summary.csv, wyjście nieobcięte); wierność Hellingera (makro hfid, etykieta eq:le:hellinger), TVD, odległość Hellingera, wierność znormalizowana; porównania sparowane: bootstrap 10 000 losowań i dokładny dwustronny test znaków.
+(7) Notacja: kubity numerowane od 0 do n, kubit 0 to kubit pomocniczy a (litera q jest zajęta przez parametry kanałów); liczba bloków L; kąty bloku jako składowe wektora theta; wartość odczytana u_j przed splotem i intensywność odtworzona po splocie; współczynnik skali modelu kalibracyjnego c_kal (w plikach H1 nazywany lambda, ale lambda jest w pracy parametrem depolaryzacji); parametry modelu warstwowego jak w podrozdziale 2.2 (makra qdep, cohangle, qphase).
+(8) Odchylenia standardowe w plikach: H1 z mianownikiem n, H2 z mianownikiem n-1.
+(9) Odwołania przez ref z polskim rzeczownikiem, jak w pozostałych rozdziałach: pakiet cleveref nie ma polskich nazw i w pracy nie jest używany.
+(10) Etykiety wyników z podrozdziałów 7.4.1--7.4.3, do odwołań w 7.4.4 i w dyskusji: tab:le:sim (symulator, cztery konfiguracje, oba odniesienia), fig:le:shots (MAE w funkcji liczby pomiarów), tab:le:hw (K10: symulatory, bliźniak, urządzenie, sieć dostrojona, odniesienia; tu także MSE), tab:le:paired (wszystkie porównania sparowane na K10 z przedziałami ufności), fig:le:gap (składniki różnicy urządzenie minus symulator); fig:le:gallery jest zakomentowany do czasu zgody autora.
+(11) W wynikach parametr depolaryzacji modelu warstwowego podaje się jako qdep na blok i kubit (parametryzacja PennyLane, ta sama w treningu, w dopasowaniach H1 i w bliźniaku H2); wartości zmierzone: 0,0202 (H1, sama depolaryzacja), 0,0181 (H1, dopasowanie łączne), 0,015 (H2, bliźniak) wobec 0,0030 w poziomie 4.
+(12) Podrozdział 7.4.4 (etykieta rysunku fig:le:pdu:curves; wzory wariantów są w tekście, bez numerów): warianty korekty nazywają się korekta addytywna, odwrócenie krzywej błędu, odwrócenie depolaryzacji, kontrola bez pomiaru, kontrole z tasowaniem i korekta uczona (odpowiedniki w plikach wynikowych podaje konspekt podrozdziału); wynik skorygowany oznacza się daszkiem nad symbolem rozkładu, jak wynik skorygowany w rozdziale 4; błąd względem rekonstrukcji bezszumowej to błąd wniesiony przez szum i próbkowanie, w odróżnieniu od błędu względem obrazu wejściowego.
 }
 
 \section{Cel i zakres rozdziału}\label{sec:le:scope}
 \agentinfo{
-Pytanie badawcze rozdziału: PB6 (jak uczone kodowanie obrazów znosi szum rzeczywistego urządzenia i czy korekta kalibracyjna zmniejsza lukę między symulatorem a sprzętem).
-Odniesienie do tezy T1 w wersji uogólnionej: korekta oparta na pomiarze poza obliczeniami QCoSamp.
+Pytanie rozdziału sformułowano opisowo, bez numeru: numeracja pytań badawczych i tez (robocze PB6 i T1 w wersji uogólnionej) nie jest zatwierdzona przez autora.
+Manuskrypt roboczy (plik article/main.tex w katalogu best_results_package) jest współautorski i nieopublikowany: w tekście nie jest cytowany ani nazywany publikacją i nie ma wpisu w bazie bibliograficznej.
+}
+
+W rozdziałach~\ref{chapter:pdu_images} i~\ref{chapter:dl_error_reduction} zbadano kodowanie i rekonstrukcję obrazu przy reprezentacji zadanej wzorem oraz korektę wyniku po pomiarze.
+Ten rozdział jest kolejnym etapem tej linii badań: obraz jest zapisywany w \glslink{learned-encoding}{uczonym kodowaniu}, w którym sieć klasyczna wyznacza kąty bramek płytkiego obwodu o stałej strukturze, a intensywności pikseli odczytuje się z rozkładu wyników pomiaru (podrozdziały~\ref{subsec:tb:qimg:scheme} i~\ref{subsec:tb:ml:qml}); obwód wykonano także na 156-kubitowym procesorze ibm\_fez.
+
+Pytanie rozdziału dotyczy szumu, a nie jakości kodowania: jak uczone kodowanie obrazów znosi szum rzeczywistego urządzenia, jakie składniki ma różnica między wynikiem z symulatora a wynikiem ze sprzętu i którą jej część może usunąć klasyczna korekta wyniku wyznaczona z pomiarów.
+\agenttask{
+Po zatwierdzeniu przez autora tez i pytań badawczych we wprowadzeniu (sekcja sec:introduction:theses) dopisać tutaj numer pytania badawczego (roboczo PB6) i zdanie wiążące rozdział z tezą o redukcji błędów opartej na pomiarze (roboczo T1 w wersji uogólnionej poza obliczenia QCoSamp); do tego czasu nie przytaczać brzmienia tez.
+}
+Autoenkoder jest więc obiektem pomiaru, a nie proponowaną metodą kompresji.
+Jego błąd podaje się zawsze na tle dwóch punktów odniesienia (podrozdział~\ref{sec:le:methodology}) i rozdziela na błąd samego modelu, obecny także bez szumu, \glslink{shot-noise}{szum próbkowania} oraz błąd wnoszony przez urządzenie (równanie~\eqref{eq:tb01:errordecomp}).
+Wyniki negatywne i nierozstrzygające są pełnoprawną częścią materiału.
+
+Zakres obejmuje obrazy RGB o boku 8, 9 i 16 pikseli, symulację bez szumu, z modelem szumu i ze skończoną liczbą pomiarów oraz dwa przebiegi na procesorze ibm\_fez, oznaczane H1 i H2, wykonane bez mitygacji błędów (definicja~\ref{def:tb03:qem}) i trwające łącznie 203 sekundy czasu procesora.
+
+Architektura, kod treningu, oba przebiegi sprzętowe i podstawowa analiza ich wyników (punkty odniesienia, porównania sparowane, bliźniak, rozkład różnicy) pochodzą z badań prowadzonych przez autora rozprawy wspólnie ze współautorami nieopublikowanego manuskryptu roboczego.
+W rozprawie liczby odczytano ponownie z plików wynikowych i zapisanych zliczeń, bez nowych przebiegów na sprzęcie, dodano analizę nakładania się kafli i wyboru punktu kontrolnego oraz eksperymenty z korektą kalibracyjną typu PDU (podrozdział~\ref{subsec:le:results:pdu}), których manuskrypt nie obejmuje.
+\agenttask{
+Pytanie do autora o podział wkładu, którego nie da się ustalić ze źródeł: (1) kto zaprojektował architekturę i ansatz oraz napisał kod treningu (pliki circuit.py, autoencoder7.py, hybrid_autoencoder7.py i train_autoencoder7.py mają komentarze po ukraińsku, a README podaje polecenia dla systemu Windows); (2) kto zaprojektował, uruchomił i przeanalizował przebiegi H1 i H2 (katalogi output/hw_experiment, hw_finetune, article/scripts); (3) kto wykonał dobór hiperparametrów i trening modelu z szumem; (4) czy współautorów manuskryptu wolno wymienić z nazwiska i czy manuskrypt ma dostać wpis w bibliography/own_publications.bib jako praca nieopublikowana; (5) kto zaprojektował analizę wyników obecną już w pakiecie: płaski obraz własnego koloru jako punkt odniesienia, porównania sparowane (bootstrap i test znaków), bliźniaka i rozkład różnicy urządzenie-symulator oraz wykrywanie kopii obrazów (pliki article/scripts/eval_hardware.py, hw_finetune/core.py i manuskrypt article/main.tex).
+Recenzja (PHD-TS-85, ustalenie I7) wykazała, że analizy z punktu (5) są w skryptach pakietu i w manuskrypcie, więc dwa zdania powyżej przypisują je wspólnym badaniom; własne dla rozprawy są: analiza nakładania kafli, oszacowanie wpływu wyboru epoki, kilka porównań przeliczonych z wartości na obraz (wiersze z obrazem średnim w tabeli tab:le:paired, przedział dla przesłuchu, różnica urządzenie-bliźniak bez próbkowania) oraz cały podrozdział 7.4.4.
+Po odpowiedzi zastąpić dwa zdania powyżej jawnym rozdzieleniem wkładu autora rozprawy i współautorów.
 }
 
 \section{Hybrydowy autoenkoder z uczonym kodowaniem}\label{sec:le:architecture}
 \agentinfo{
-Sieć klasyczna zamienia obraz na kąty stałego ansatzu (warstwa Hadamarda, bloki bramek jednokubitowych i kontrolowanych przesunięć fazy na łańcuchu liniowym, warstwa Hadamarda); obwód nie ma własnych parametrów.
-Odczyt: piksel jako przeskalowane prawdopodobieństwo stanu bazowego; po odczycie uczony splot wygładzający.
-Konfiguracje: obrazy RGB 8x8 i 9x9 na 9 kubitach, 16x16 na 11 kubitach.
-Porównanie z LPIQE, FRQI i NEQR: kodowanie przybliżone i stratne nawet bez szumu, ale płytkie i zgodne z topologią urządzenia.
+Opis sprawdzono w kodzie (circuit.py, autoencoder7.py, hybrid_autoencoder7.py), a liczby parametrów i bramek w plikach architecture.txt przebiegów, article/data/eval_results.json i output/hw_run1/experiment.json (rejestr A8 po translacji na bramki natywne: 128 CZ, 330 SX, 531 RZ).
+Głębokości w tabeli tab:le:configs policzono samodzielnie (harmonogram najwcześniejszego wykonania bramek; skrypt w komentarzu do zadania PHD-TS-76); dla 9 kubitów zgadzają się z manuskryptem roboczym.
+Wzory w równaniu eq:le:noise są wyprowadzeniem własnym z równań eq:tb01:estimator i eq:tb:noise:shrink; drugi dotyczy depolaryzacji całego rejestru, a nie modelu warstwowego, więc jest przybliżeniem (wyniki sekcji 7.4.4 pokazują skurczenie niejednorodne).
+Nazewnictwo (po recenzji PHD-TS-85, ustalenie D24): koder i dekoder oznaczają wyłącznie części autoenkodera w sensie podrozdziału 2.6.4 (sieć z obwodem; pomiar z przetwarzaniem końcowym); części samej sieci klasycznej nazywają się część kodująca i część wyznaczająca kąty, a jej najwęższa warstwa wąskim gardłem (reprezentacją pośrednią jest w podrozdziale 2.6.4 stan kwantowy).
+Szczegóły pominięte dla objętości, do wykorzystania w razie potrzeby: sploty części kodującej zachowują rozmiar obrazu (dopełnienie niesymetryczne dla jądra 4x4); część wyznaczająca kąty ma przed warstwą wyjściową warstwę o podwojonej szerokości; splot końcowy jest inicjalizowany filtrem uśredniającym; indeks stanu bazowego to numer kanału razy W^2 plus numer wiersza razy W plus numer kolumny; z 2^n stanów połowy a=1 wykorzystuje się N (192 albo 243 z 256, 768 z 1024); przy wszystkich kątach równych zeru obwód zwraca stan zerowy (obraz czarny); w A8 i A9 kątów jest więcej niż wartości (256 wobec 192 i 243).
+Wariantów kodu nieużytych w raportowanych konfiguracjach (tryb łat z patch_autoencoder.py, odczyt falkowy, obrazy w skali szarości) rozdział nie opisuje; wyniku 32x32 z pliku README nie da się zweryfikować.
 }
+
+Model jest autoenkoderem hybrydowym opisanym w podrozdziale~\ref{subsec:tb:ml:qml} (\gls{hybrid-model}; rys.~\ref{fig:le:architecture}): po zakończeniu uczenia zakodowanie nowego obrazu wymaga jednego przejścia przez sieć klasyczną $\Theta_{\mathbf{w}}$, a na urządzeniu wykonuje się tylko obwód o kątach $\boldsymbol{\theta}=\Theta_{\mathbf{w}}(\mathbf{x})$.
+
+\begin{figure}[tb]
+\centering
+\input{figures/chp_learned_encoding/le_architecture.tex}
+\caption[Hybrydowy autoenkoder z uczonym kodowaniem]{Hybrydowy autoenkoder z uczonym kodowaniem. Uczone są wagi sieci klasycznej i splotu końcowego, a obwód ma stałą strukturę. Opracowanie własne.}
+\label{fig:le:architecture}
+\end{figure}
+
+Wejściem jest obraz RGB o boku $W$ pikseli, czyli $N=3W^2$ intensywności $p_j\in[0,1]$.
+Część kodująca sieci $\Theta_{\mathbf{w}}$ składa się z opcjonalnych warstw splotowych o jądrze $4\times4$ i z perceptronu wielowarstwowego z funkcją ReLU, zakończonego warstwą nazywaną dalej wąskim gardłem.
+Część wyznaczająca kąty ma te same szerokości warstw w odwrotnej kolejności i $4nL$ wyjść, które są normalizowane w obrębie warstwy~\cite{ba_layer_2016}, przekształcane funkcją $\tanh$ i mnożone przez $\pi$.
+
+Rejestr ma $n+1$ kubitów ułożonych w łańcuch i ponumerowanych $w=0,\dots,n$, gdzie $n$ jest najmniejszą liczbą spełniającą $2^n\ge N$, a kubit $0$ jest kubitem pomocniczym, oznaczanym $a$.
+Między dwiema warstwami bramek Hadamarda działa $L$ bloków, z których każdy przechodzi wzdłuż łańcucha (rys.~\ref{fig:le:circuit}):
+\begin{equation}\label{eq:le:state}
+\begin{gathered}
+\ket{\psi(\boldsymbol{\theta})}=\mathrm{H}^{\otimes(n+1)}\,U_L\cdots U_1\,\mathrm{H}^{\otimes(n+1)}\ket{0}^{\otimes(n+1)},
+\qquad
+U_\ell=G_{\ell,n-1}\cdots G_{\ell,1}G_{\ell,0},
+\\
+G_{\ell,w}=\mathrm{CP}_{w,w+1}(\theta_{\ell,w,4})\,\mathrm{U3}_{w}(\theta_{\ell,w,1},\theta_{\ell,w,2},\theta_{\ell,w,3}),
+\end{gathered}
+\end{equation}
+gdzie $\mathrm{U3}(\theta_1,\theta_2,\theta_3)=\mathrm{e}^{\mathrm{i}(\theta_2+\theta_3)/2}R_z(\theta_2)R_y(\theta_1)R_z(\theta_3)$ jest ogólną bramką jednokubitową, a $\mathrm{CP}$ kontrolowanym przesunięciem fazy (podrozdział~\ref{subsec:tb:gates}).
+Obwód ma $4nL$ kątów i $nL$ bramek $\mathrm{CP}$, z których każda wymaga dwóch natywnych bramek CZ (rys.~\ref{fig:tb01:techniques:transpile}), i nie potrzebuje bramek $\mathrm{SWAP}$ na żadnym łańcuchu połączonych kubitów, jak w ansatzach dopasowanych do sprzętu~\cite{kandala_hardware-efficient_2017}.
+Kolejny blok zaczyna się, zanim poprzedni dotrze do końca łańcucha, więc głębokość rośnie o około trzy warstwy na blok (tabela~\ref{tab:le:configs}).
+
+\begin{figure}[tb]
+\centering
+\input{figures/chp_learned_encoding/le_circuit.tex}
+\caption[Obwód uczonego kodowania z jednym blokiem ansatzu]{Obwód uczonego kodowania dla $n=8$. Blok $U_\ell$ (32 kąty) powtarza się $L$ razy z innymi kątami; połączone kropki oznaczają bramkę $\mathrm{CP}$, a indeks $a$ kubit pomocniczy. Opracowanie własne.}
+\label{fig:le:circuit}
+\end{figure}
+
+Mierzy się wszystkie kubity, a wartości pikseli odczytuje z tej połowy rozkładu, w której kubit pomocniczy dał wynik 1:
+\begin{equation}\label{eq:le:readout}
+u_j=2^n\,\prob(\ket{1}_a\ket{j}),\qquad j=0,\dots,N-1,
+\end{equation}
+gdzie $\ket{j}$ jest stanem bazowym kubitów $1,\dots,n$, a indeks $j$ numeruje kolejno kanały barwne, wiersze i kolumny.
+Rozkład jednostajny odpowiada szarości $u_j=\tfrac{1}{2}$, a prawdopodobieństwo wyniku $a=0$ jest dowolne, więc jasność obrazu nie jest ustalona przez normalizację rozkładu.
+Wartości $u_j$ przechodzą przez uczony splot $3\times3$, osobny dla każdego kanału (30 parametrów), dający odtworzone intensywności $\tilde{p}_j$; wyjścia się nie obcina.
+
+Odczyt jest liniowy względem prawdopodobieństw, więc oba składniki błędu z równania~\eqref{eq:tb01:errordecomp} przenoszą się na piksele wprost.
+Dla wartości $\tilde{u}_j=2^n\,\tilde{\prob}(\ket{1}_a\ket{j})$ odczytanej z $\nshots$ pomiarów z wariancji~\eqref{eq:tb01:estimator} wynika pierwszy, a z depolaryzacji całego rejestru~\eqref{eq:tb:noise:shrink} drugi z wzorów
+\begin{equation}\label{eq:le:noise}
+\sigma(\tilde{u}_j)\approx\sqrt{2^n u_j/\nshots},
+\qquad
+u_j^{\mathrm{dev}}=\distshrink\,u_j+\tfrac{1}{2}(1-\distshrink).
+\end{equation}
+Szum próbkowania wynosi więc $0{,}125$ dla $n=8$ i $0{,}25$ dla $n=10$ przy $u_j=\tfrac{1}{2}$ i $\nshots=8192$, zanim splot uśredni sąsiednie piksele.
+Depolaryzacja ściąga obraz ku jednolitej szarości i zmniejsza jego kontrast w stosunku $\distshrink$; korekta odwracająca to skurczenie dzieli przez $\distshrink$, a zatem wzmacnia szum próbkowania (podrozdział~\ref{subsec:tb:noise:models}).
+Drugi wzór jest przybliżeniem, bo w modelu warstwowym skurczenie zależy od składowej obrazu (podrozdział~\ref{subsec:le:results:pdu}).
+
+\begin{table}[tb]
+\centering
+\caption[Badane konfiguracje autoenkodera]{Badane konfiguracje autoenkodera (obrazy RGB). Głębokość w warstwach bramek logicznych i, po ukośniku, bramek CZ. Sieć klasyczna: liczby kanałów splotów i szerokości warstw ukrytych części kodującej, w nawiasie wymiar wąskiego gardła.}
+\label{tab:le:configs}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llrrrrrllr@{}}
+\toprule
+Konf. & Obraz & $N$ & $n+1$ & $L$ & Kąty & CZ & Głębokość & Sieć klasyczna & Wagi \\
+\midrule
+A8 & $8\times8$ & 192 & 9 & 8 & 256 & 128 & 39 / 44 & MLP 512 (23) & 911\,157 \\
+A9 & $9\times9$ & 243 & 9 & 8 & 256 & 128 & 39 / 44 & MLP 512 (256) & 1\,176\,094 \\
+A16 & $16\times16$ & 768 & 11 & 12 & 480 & 240 & 55 / 64 & splot 64; MLP 64 (64) & 1\,131\,326 \\
+A16K & $16\times16$ & 768 & 11 & 13 & 520 & 260 & 58 / 68 & sploty 16, 32; MLP 64, 128 (64) & 642\,982 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Tabela~\ref{tab:le:configs} zestawia cztery badane konfiguracje: obrazy o boku 8 i 9 pikseli korzystają z tego samego obwodu na 9 kubitach, a w A16 i A16K kątów jest mniej niż odtwarzanych wartości, więc kompresję wymusza tam już sam obwód.
+Reprezentacje FRQI, NEQR i LPIQE (podrozdział~\ref{sec:tb:qimg}) zadaje wzór: nie mają błędu modelu, lecz liczba bramek dwukubitowych w rozkładzie ich obwodu rośnie z liczbą pikseli (podrozdział~\ref{subsec:tb:gates}).
+Uczone kodowanie odwraca ten kompromis: liczba bramek CZ wynosi $2nL$ niezależnie od obrazu, a obwód jest zgodny z topologią urządzenia, ale kodowanie jest stratne także bez szumu, wymaga treningu i jest dopasowane do rozkładu obrazów uczących.
+W budżecie błędu pojawia się więc składnik nieobecny w rozdziale~\ref{chapter:pdu_images}: błąd samego modelu.
 
 \section{Metodyka badań eksperymentalnych}\label{sec:le:methodology}
 \agentinfo{
-Dane: kafle lotnicze z pojazdami oraz obrazy KITTI; opisać pochodzenie, licencję i podział.
-Trening: strata L1, optymalizator Adam, dobór hiperparametrów.
-Symulator bez szumu, symulator z szumem (depolaryzacja i odstrojenie na warstwę), skończona liczba pomiarów.
-Sprzęt: urządzenie ibm_fez, dwa przebiegi (228 rejestrów; 10 obrazów), bez mitygacji błędów.
-Miary: MAE, MSE, PSNR, SSIM, wierność Hellingera, korelacja Pearsona.
+Parametry sprawdzono w kodzie i plikach wynikowych (train_autoencoder7.py, dataset_loader.py, hpo_autoencoder.py, fast_mixed_sim.py, hw_finetune/core.py i cli.py, output/hw_experiment/run_hardware.py, chains.py i fit_noise_combo.py, article/scripts/eval_article.py i eval_hardware.py, hw_run2_finetune/plan.json, output/hw_run1/experiment.json), a liczby dotyczące danych i przecieków w zestawie \agentref{eksperymenty/weryfikacja-liczb/rozdzial-7.md}.
+Akapity mają etykiety par:le:data, par:le:leakage, par:le:training, par:le:simulators, par:le:hardware, par:le:metrics, par:le:baselines i par:le:validity (wszystkie wskazują numer podrozdziału 7.3); wyniki mają się do nich odwoływać zamiast powtarzać opis.
+Symulatory tego rozdziału nie mają błędu odczytu; zaznaczono to w tekście, a zdanie o modelu warstwowym w podrozdziale 2.2 i zdanie o miarach w podrozdziale 2.5 (współczynnika korelacji r nie ma w plikach wynikowych) orkiestrator poprawił 2026-11-27.
+Limit 10 minut czasu procesora na 28 dni i oznaczenie generacji procesora (Heron r2) pochodzą z opisu eksperymentu w pakiecie (output/hw_experiment/EXPERIMENT.md).
+Szczegóły pominięte dla objętości, do wykorzystania w wynikach: (a) nakładanie kafli to pas 50 pikseli, czyli jedna czwarta powierzchni kafla; średnie pokrycie obrazu K10 przez kafle uczące 0,375, najwyższe 0,750; (b) liczby prób Optuny: 278 = 89 zakończonych, 186 odciętych, 1 nieudana, 2 przerwane, w trzech przeszukiwaniach (28, 200 i 50 prób; próbnik TPE, odcinanie medianowe), celem była MAE na K12; (c) symulacja: PennyLane default.qubit (wektor stanu) i default.mixed (macierz gęstości), podwójna precyzja, ziarno 42, epoka A9 trwała 330 s wobec 3,7 s dla A8, cały trening A9 36,7 godziny; (d) bliźniak: siatka parametru od 0 do 0,05 z krokiem 0,0025, wsadowy symulator macierzy gęstości w PyTorch zgodny z default.mixed; (e) skończona liczba pomiarów: 256, 1024, 4096, 8192, 32768 i 131072, średnia z trzech losowań; (f) łańcuchy wybierano według sumy -ln(1-e) po bramkach i odczycie obwodu, zachłannie, rozłączne i bez wspólnej krawędzi (co najmniej jeden nieużywany kubit między łańcuchami); kilka rejestrów w jednym obwodzie stosowano dlatego, że czas procesora zależy od liczby pomiarów, a nie od szerokości obwodu; (g) H1: 12 rejestrów pojedynczych na najlepszym łańcuchu, 216 obrazów testowych KITTI 8x8 w 24 obwodach po 9 rejestrów, z czego 12 powtarza obrazy pojedyncze na tym samym łańcuchu (ocena przesłuchu); modele warstwowe dopasowane do H1: sam kanał depolaryzujący, samo odwrócenie fazy oraz łącznie depolaryzacja, odwrócenie fazy i odstrojenie; cel dopasowania łącznego liczono na 12 rejestrach pojedynczych, a oceniano na wszystkich 228; w modelu kalibracyjnym czasy T1 i T2 dzielono przez współczynnik skali; (h) H2: 9 zadań (próbne, bazowe, pięć epok dostrajania, kontrola walidacji, końcowe); w dostrajaniu sieć uczy się na rozkładzie bliźniaka powiększonym o stałą różnicę między pomiarem a bliźniakiem, mierzoną raz na epokę; Adam, współczynnik uczenia 0,0001 dla sieci i 0,002 dla splotu końcowego, paczka 8; (i) SSIM jest średnią po położeniach okna bez dopełniania brzegów i po kanałach; PSNR to średnia wartości liczonych na obraz; (j) bootstrap: percentyle 2,5 i 97,5 z 10 000 losowań obrazów ze zwracaniem, ziarno 0, bez poprawki na wielokrotne porównania; (k) estymator wierności: w raporcie H1 notatka podaje obciążenie około 0,031, a z tabeli tego raportu wynika 0,036; (l) komentarz w pliku circuit.py nazywa parametry poziomu 4 dopasowanymi do rzeczywistego sprzętu; wartości są równe (po zaokrągleniu do pięciu cyfr znaczących) trójce z kalibracji GHZ dla sześciu kubitów w repozytorium klasyfikatora, gdzie opisują szum po jednej bramce CNOT, co sekcja 7.3 podaje jako równość wartości z pytaniem do autora o pochodzenie; niezgodność z pomiarami na urządzeniu należy do sekcji 7.4.2 i tam można ją powiązać z tym, że dawkę wyznaczoną dla jednej bramki zastosowano do całego bloku; (m) gradient w treningu pochodzi z automatycznego różniczkowania symulacji obwodu, a 10 000 losowań bootstrapu dotyczy obrazów.
 }
+
+\paragraph{Dane i przecieki danych.}\label{par:le:data}\label{par:le:leakage}
+Podstawowym zbiorem są kafle lotnicze: 122 różne obrazy RGB o boku 200 pikseli, wycięte z krokiem 150 pikseli z dwóch zdjęć lotniczych i wyeksportowane z serwisu Roboflow jako zbiór do wykrywania pojazdów z częściami uczącą, walidacyjną i testową (85, 21 i 16 kafli).
+\agenttask{
+Pytanie do autora o kafle lotnicze: kto i czym wykonał zdjęcia (platforma, wysokość, miejsce, rozdzielczość terenowa), kto je oznaczał i na jakich warunkach wolno je wykorzystać oraz reprodukować w rozprawie.
+W metadanych eksportu (plik data.yaml) licencja jest oznaczona jako Private, a projekt należy do prywatnej przestrzeni roboczej serwisu Roboflow; innych informacji o pochodzeniu w pakiecie nie ma (manuskrypt roboczy ma w tym miejscu znacznik do uzupełnienia).
+Po odpowiedzi dopisać jedno zdanie o pochodzeniu i licencji po pierwszym zdaniu akapitu.
+}
+Drugim zbiorem jest KITTI~\cite{geiger_kitti_2012}: obrazy lewej kamery barwnej z zadania wykrywania obiektów (7481 uczących i 7518 testowych, licencja CC BY-NC-SA 3.0).
+Obrazy skaluje się do $W\times W$ pikseli z interpolacją dwuliniową, a podział podaje tabela~\ref{tab:le:data}; zbiory oceny złożone z kafli oznacza się K16, K12 i K10.
+
+\begin{table}[tb]
+\centering
+\caption[Dane, podział i trening konfiguracji autoenkodera]{Dane, podział i trening konfiguracji z tabeli~\ref{tab:le:configs}. A8 uczono na częściach uczącej i walidacyjnej eksportu, a oceniano na testowej; w A9 i A16 pliki katalogu podzielono losowo w stosunku 9:1; w A16K wylosowano podzbiory obu części zbioru KITTI. Epoki: budżet i, w nawiasie, epoka wybranego punktu kontrolnego; czas: średni czas epoki.}
+\label{tab:le:data}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lllllr@{}}
+\toprule
+Konf. & Uczenie & Ocena & Szum w treningu & Epoki & Czas [s] \\
+\midrule
+A8 & 106 kafli & K16: 16 kafli & brak & 400 (96) & 3,7 \\
+A9 & 129 ze 143 plików & K10: 10 z 14 plików & poziom 4 & 400 (198) & 330 \\
+A16 & 110 ze 122 kafli & K12: 12 kafli & brak & 2000 (102) & 7,0 \\
+A16K & 2000 z 7481 obrazów & 1500 z 7518 obrazów & brak & 300 (59) & 423 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Podział obciążają trzy \glslink{data-leakage}{przecieki danych} (podrozdział~\ref{subsec:tb:ml:supervised}).
+W katalogu danych 21 kafli części walidacyjnej eksportu występuje dwukrotnie (143 pliki o 122 różnych treściach), a losowy podział plików w A9 rozdzielił cztery pary kopii: cztery z 14 obrazów walidacyjnych mają identyczną kopię w części uczącej.
+% ŹRÓDŁO: skróty SHA-256 plików w positive/positive/{train,valid,test}/images pakietu: 106, 21 i 16 plików, 122 różne treści, 21 treści wspólnych dla train i valid (przeliczone ponownie w zadaniu PHD-TS-92); liczby 14 i 4: eksperymenty/weryfikacja-liczb/rozdzial-7.md.
+Wyniki A9 podaje się dlatego tylko na zbiorze K10, czyli na dziesięciu obrazach bez takiej kopii (porównanie skrótów SHA-256 plików), które są też zbiorem testowym przebiegu H2.
+Sąsiednie kafle nakładają się pasem 50 pikseli, więc fragment wspólny z kaflem uczącym ma 8 z 10 obrazów K10, 12 z 16 obrazów K16 i 10 z 12 obrazów K12, a ocena dotyczy uogólniania w obrębie dwóch scen.
+Zbiór oceny służył też w każdej konfiguracji do wyboru punktu kontrolnego i sterował harmonogramem współczynnika uczenia, a K12 był też celem doboru hiperparametrów; sam wybór epoki zmienia MAE względem ostatniej epoki o najwyżej $0{,}00015$ dla kafli i $0{,}0011$ dla KITTI, a wpływu pozostałych czynników nie da się oszacować.
+
+\paragraph{Trening i symulatory.}\label{par:le:training}\label{par:le:simulators}
+Sieć klasyczną i splot końcowy uczono łącznie, różniczkując przez symulację obwodu w bibliotece PennyLane~\cite{bergholm_pennylane_2018}, ze stratą L1 (podrozdział~\ref{subsec:tb:ml:supervised}) i optymalizatorem Adam~\eqref{eq:tb:ml:adam} o współczynniku uczenia $10^{-3}$, zmniejszanym o połowę po pięciu epokach bez poprawy straty walidacyjnej, w paczkach po 8 obrazów i z jednym ziarnem.
+Raportuje się punkt kontrolny o najmniejszej stracie walidacyjnej, a architekturę A16 wybrano po 278 próbach doboru hiperparametrów w bibliotece Optuna~\cite{akiba_optuna_2019}.
+\emph{Symulator bezszumowy} zwraca dokładny rozkład $\prob_{\mathrm{id}}$.
+\emph{Symulator poziomu 4}, nazwany tak od numeru zestawu parametrów w kodzie, to model warstwowy z podrozdziału~\ref{subsec:tb:noise:models} bez błędu odczytu i tłumienia fazy: po każdym bloku na każdy kubit działa odstrojenie $\cohangle=0{,}0012756$~rad i kanał depolaryzujący $\qdep=0{,}0029837$; z tym modelem od początku uczono A9 (podrozdział~\ref{subsec:tb:ml:qml}).
+Obie wartości są, z dokładnością do zaokrąglenia, równe parametrom wyznaczonym z kalibracji sześciokubitowym stanem GHZ w badaniach klasyfikatora (rozdział~\ref{chapter:classification}, tabela~\ref{tab:cls:models}: modele klasyfikatora M1, M2 i M6), gdzie odpowiadają szumowi po jednej bramce CNOT, a nie po całym bloku obwodu.
+% ŹRÓDŁO: rozprawa/chapters/classification.tex, tabela tab:cls:models, wiersze M1, M2 i M6 (stan z 2026-11-27; oznaczenia M1--M11 należą do rozdziału 8 i nie są konfiguracjami autoenkodera); wartości pełne: /Users/krzysztofwerner/git/quantum-classifier/torus_classifier/ibm_fez_ghz_calibrations.json, klucz 6, pola depolarizing_p i detuning_eps_rad.
+\agenttask{
+Pytanie do autora: czy parametry poziomu 4 (depolaryzacja 0,0029837 i odstrojenie 0,0012756 w pliku circuit.py pakietu autoenkodera) przeniesiono z kalibracji GHZ dla sześciu kubitów z repozytorium klasyfikatora (plik torus_classifier/ibm_fez_ghz_calibrations.json: 0,002983733868759053 i 0,0012755623024203887, data 2026-09-10)?
+Zgodność liczb stwierdził orkiestrator 2026-11-27; samo pochodzenie nie jest zapisane w żadnym z pakietów, więc zdanie powyżej podaje tylko równość wartości.
+}
+\emph{Bliźniak} urządzenia to model warstwowy z samym kanałem depolaryzującym, którego parametr dopasowuje się metodą największej wiarygodności do zliczeń z urządzenia.
+Skończoną liczbę pomiarów odtwarza się, losując $\nshots$ wyników z rozkładu symulatora.
+
+\paragraph{Urządzenie i przebiegi sprzętowe.}\label{par:le:hardware}
+Oba przebiegi wykonano na procesorze ibm\_fez (156 kubitów nadprzewodzących, natywna bramka dwukubitowa CZ, pakiet qiskit-ibm-runtime~\cite{qiskit_ibm_runtime_2026}) przy limicie 10 minut czasu procesora na 28 dni; każdy przebieg wykonano raz.
+Nie stosowano mitygacji błędów (definicja~\ref{def:tb03:qem}) ani technik ich tłumienia: dynamiczne odsprzęganie oraz randomizacja bramek i pomiaru były wyłączone, a analizie poddano surowe zliczenia, bez korekty błędu odczytu.
+Rejestr zajmuje łańcuch dziewięciu połączonych kubitów, wybrany według danych kalibracyjnych, a jeden obwód fizyczny niesie kilka rejestrów na rozłącznych łańcuchach.
+
+Przebieg H1 (sierpień 2026~r., model A8, dziewięć łańcuchów, 67 sekund) charakteryzuje szum urządzenia: 12 rejestrów pojedynczych po 8192 pomiary i 24 obwody po 9 rejestrów po 4096 pomiarów dają 228 pomiarów rejestrów z rozkładem odniesienia; osobno zmierzono 12 obwodów echa, złożonych z obwodu i jego odwrotności.
+Obwody H1 kodują obrazy KITTI, czyli obrazy spoza rozkładu, na którym uczono A8, dlatego pochodzą z niego tylko miary rozkładu, a MAE obrazu służy wyłącznie do porównania wariantów korekty w podrozdziale~\ref{subsec:le:results:pdu}.
+Do jego zliczeń dopasowano modele szumu: kalibracyjny, czyli zbudowany z danych kalibracyjnych (podrozdział~\ref{subsec:tb:noise:models}) i o błędach pomnożonych przez wspólny współczynnik skali $c_{\mathrm{kal}}$, oraz warstwowe, minimalizując odległość Hellingera między zliczeniami a próbą z symulatora o tej samej liczbie pomiarów.
+
+Przebieg H2 (3~listopada 2026~r., model A9, pięć łańcuchów, 136 sekund) mierzy błąd rekonstrukcji i sprawdza dostrajanie sieci na urządzeniu.
+Zadanie bazowe mierzy obrazy K10 po 16\,384 pomiary, pięć zadań dostrajania mierzy po 8192 pomiary 35 obrazów uczących i 5 walidacyjnych z części uczącej pierwotnego treningu, a zadanie końcowe mierzy K10 dla sieci pierwotnej i dostrojonej na tych samych łańcuchach.
+W dostrajaniu sieć uczy się na rozkładzie bliźniaka dopasowanego do zliczeń zadania bazowego, przesuniętym o różnicę między pomiarem a bliźniakiem, wyznaczaną raz na epokę, a gradient pochodzi z bliźniaka~\cite{wright_deep_2022}; epokę wybrano według MAE zmierzonego na obrazach walidacyjnych.
+% ŹRÓDŁO (opis zgodny z kodem, recenzja PHD-TS-85, ustalenie I8): hw_finetune/core.py, klasa ResidualTwinLayer (wyjście = bliźniak + stała poprawka); hw_finetune/cli.py, cmd_finetune (jeden pomiar zbioru uczącego na epokę dla wag z jej początku, residual = train_hw - twin_probs) i train_one_epoch (kroki epoki na stałej poprawce).
+
+\paragraph{Miary i punkty odniesienia.}\label{par:le:metrics}\label{par:le:baselines}
+Miarą główną jest MAE~\eqref{eq:tb:qimg:errors}; MAE i MSE liczy się na nieobciętym wyjściu modelu, tak jak stratę w treningu, a MSE jest w plikach wynikowych tylko dla A9.
+PSNR i SSIM liczy się na wyjściu obciętym do $[0,1]$, osobno dla każdego obrazu, i uśrednia; SSIM~\eqref{eq:tb:qimg:ssim} ma okno gaussowskie $5\times5$ o odchyleniu standardowym 1 (okno $11\times11$ z pracy~\cite{wang_image_2004} nie mieści się w obrazie o boku 8 pikseli) i stałe $C_1=0{,}01^2$, $C_2=0{,}03^2$.
+Zgodność rozkładu zmierzonego $\tilde{\prob}$ z idealnym $\prob_{\mathrm{id}}$ mierzą \gls{hellinger-fidelity} i odległość całkowitego wahania,
+\begin{equation}\label{eq:le:hellinger}
+\hfid=\Bigl(\sum_{x}\sqrt{\tilde{\prob}(\ket{x})\,\prob_{\mathrm{id}}(\ket{x})}\Bigr)^{2},
+\qquad
+\mathrm{TVD}=\frac{1}{2}\sum_{x}\bigl|\tilde{\prob}(\ket{x})-\prob_{\mathrm{id}}(\ket{x})\bigr|,
+\end{equation}
+a odległość Hellingera wynosi $d_{\mathrm{H}}=\sqrt{1-\sqrt{\hfid}}$.
+Wysoką wierność $\hfid^{\mathrm{u}}$ ma względem szerokich rozkładów idealnych nawet rozkład jednostajny, dlatego podaje się też wierność znormalizowaną $(\hfid-\hfid^{\mathrm{u}})/(1-\hfid^{\mathrm{u}})$~\cite{lubinski_application-oriented_2023}, obciętą w zerze.
+% ŹRÓDŁO: output/hw_experiment/common.py, funkcja normalized_fidelity (max(..., 0) dla każdego rejestru); stąd średnia 0,478, a nie iloraz średnich.
+Przy 512 możliwych wynikach i kilku tysiącach pomiarów estymator $\hfid$ jest ponadto obciążony w dół, więc każdą wierność z urządzenia zestawia się z wartością dla obwodu bezszumowego próbkowanego tak samo.
+Metody ocenione na tych samych obrazach porównuje się parami: średnią różnicą MAE z 95-procentowym przedziałem ufności metodą bootstrap (przy tak małej próbie optymistycznym) i dokładnym dwustronnym testem znaków, którego p-wartość przy 10 obrazach nie może być mniejsza niż $0{,}002$.
+% ŹRÓDŁO uwagi o szerokości przedziałów: przeliczenie przedziałów t-Studenta dla wierszy tabeli tab:le:paired z wartości na obraz (eksperymenty/recenzje/_robocze/PHD-TS-85/03_t_przedzialy.py, uruchomione ponownie w PHD-TS-92): przedziały percentylowe są węższe o 15--30 procent, żaden wniosek się nie zmienia.
+
+Błąd modelu odnosi się do dwóch rekonstrukcji trywialnych, których nie wolno mylić.
+\emph{Obraz średni} to średnia po obrazach części uczącej danej konfiguracji, liczona osobno dla każdego piksela i kanału; nie zależy od obrazu ocenianego, więc model, który nie jest od niego lepszy, nie koduje treści pojedynczego obrazu.
+\emph{Płaski obraz własnego koloru} ma w każdym kanale stałą wartość, równą średniej intensywności tego kanału w obrazie ocenianym; odpowiada kodowi przenoszącemu trzy liczby na obraz, a model, który nie jest od niego lepszy w MAE, nie odtwarza obrazu dokładniej niż taki kod.
+
+\paragraph{Zagrożenia trafności.}\label{par:le:validity}
+Siłę wniosków ograniczają, poza przeciekami danych, zbiory oceny liczące od 10 do 16 kafli z dwóch scen, jedno ziarno treningu oraz jednokrotne wykonanie obu przebiegów, na jednym urządzeniu.
+Bliźniaka dopasowano ponadto do zliczeń tych samych dziesięciu obwodów, na których ocenia się rekonstrukcję, a epokę dostrajania wybrano na pięciu obrazach znanych sieci z pierwotnego treningu.
+Obrazy są barwne, więc błędów nie należy porównywać liczbowo z wynikami rozdziałów~\ref{chapter:pdu_images}~i~\ref{chapter:dl_error_reduction}.
 
 \section{Wyniki}\label{sec:le:results}
 
 \subsection{Jakość rekonstrukcji na symulatorze}\label{subsec:le:results:sim}
-\agentinfo{Wyniki bez szumu i przy skończonej liczbie pomiarów, na tle obrazu średniego jako odniesienia.}
+\agentinfo{
+Napisane w zadaniu PHD-TS-81, tabela tab:le:sim i rysunek fig:le:shots w zadaniu PHD-TS-82 (2026-11-27); liczby z zestawu \agentref{eksperymenty/weryfikacja-liczb/rozdzial-7.csv} (wiersze 001-116), źródła podano w komentarzach po zdaniach.
+Spoza zestawu: przedział ufności różnicy między A9 bez szumu a płaskim obrazem własnego koloru w tabeli tab:le:sim, wyliczony z wartości na obraz (plik article/data/hw_results.json, pola run2_finetune.methods.sim_ideal.mae_per_image i flat_own_colour.mae_per_image) tą samą metodą co pozostałe.
+Dla A8, A16 i A16K pliki wynikowe nie mają wartości na obraz dla porównania z obrazem średnim ani MSE, więc podano tylko względne zmniejszenie MAE; MSE dla A9 jest w tabeli tab:le:hw.
+Średnie przy skończonej liczbie pomiarów nie mają w plikach przedziałów ufności (średnia z 3 losowań).
+Różnicy przyrostu MAE przy 8192 pomiarach między A16 a A16K (0,0237 wobec 0,0079 przy tym samym rejestrze) nie wyjaśniono; tekst mówi to wprost.
+Pominięto dla objętości (widoczne na rysunku fig:le:shots): przy 256 pomiarach każda konfiguracja jest gorsza od obrazu średniego, a poniżej jego błędu schodzi od 1024 pomiarów (A16 od 4096); A8 osiąga błąd płaskiego obrazu własnego koloru przy 4096 pomiarach.
+}
+
+Tabela~\ref{tab:le:sim} zestawia błąd rekonstrukcji czterech konfiguracji na symulatorze, każdy na tle obu punktów odniesienia z podrozdziału~\ref{par:le:baselines}.
+Względem obrazu średniego model zmniejsza MAE o $51\%$ (A8), $42\%$ (A16 i A16K) i $41\%$ (A9, na każdym z 10 obrazów; tabela~\ref{tab:le:paired}), a więc koduje treść pojedynczego obrazu, a nie tylko średnią zbioru.
+% ŹRÓDŁO: article/data/eval_results.json, c8 / c16_best / c16_kitti2000: model.mae i mean_baseline.mae; article/data/hw_results.json, run2_finetune.methods.sim_level4 i mean_train_image (mae, mae_per_image) (zestaw: wiersze 009, 030, 051, 104).
+
+Porównanie z płaskim obrazem własnego koloru jest ostrzejsze, bo ten punkt odniesienia zna średnią barwę obrazu ocenianego.
+A8 i A16 są od niego lepsze o $0{,}0175$ i $0{,}0159$, czyli o około jedną piątą jego błędu, a przedziały ufności tych różnic nie obejmują zera; w A16 miara SSIM płaskiego obrazu ($0{,}400$) nie jest przy tym mniejsza niż SSIM modelu ($0{,}394$).
+% ŹRÓDŁO: article/data/hw_results.json, own_colour_baseline.c8 i .c16_best: own_colour.mae, own_colour.ssim, model_vs_own_colour (mean_diff, ci95); article/data/eval_results.json, c16_best.model.ssim (zestaw: wiersze 010-012, 028, 031-033).
+A9, jedyna konfiguracja, której błąd rekonstrukcji zmierzono potem na urządzeniu, jest od płaskiego obrazu lepsza tylko nieznacznie: o $0{,}0046$ ($5{,}6\%$), na 7 z 10 obrazów, z przedziałem ufności $[-0{,}0135;\,+0{,}0039]$ obejmującym zero (test znaków: $p=0{,}34$).
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.paired.sim_level4_vs_flat_own_colour (zestaw: wiersze 105, 106).
+W mierze MAE rekonstrukcji A9 nie da się więc na zbiorze K10 odróżnić od kodu przenoszącego trzy liczby na obraz, choć sieć steruje 256 kątami obwodu: w tej mierze kodowanie nie daje więcej niż znajomość średniej barwy, a SSIM modelu jest wyższy nieznacznie ($0{,}315$ wobec $0{,}296$).
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.methods.sim_level4.ssim i flat_own_colour.ssim (zestaw: wiersze 230, 238); MSE: hw_run2_finetune/baseline/summary.csv, wiersze symulatora poziomu 4 (0,011683) i płaskiego obrazu własnego koloru (jak w tabeli tab:le:hw); dla SSIM i MSE pliki nie podają przedziałów ufności.
+Różnicy między A8 a A9 nie można przypisać treningowi z szumem, bo konfiguracje różnią się też rozmiarem obrazu, wąskim gardłem i zbiorem oceny.
+% USUNIĘTE W PHD-TS-92 DLA KOMPENSACJI OBJĘTOŚCI (liczby są w tabeli tab:le:sim): ,,W zbiorze KITTI płaski obraz własnego koloru (0,2039) jest gorszy od obrazu średniego (0,1861), a A16K jest lepszy od obu.'' ŹRÓDŁO: article/data/hw_results.json, own_colour_baseline.c16_kitti2000; article/data/eval_results.json, c16_kitti2000.mean_baseline.mae (zestaw: wiersze 046, 052, 054).
+
+\begin{table}[tb]
+\centering
+\caption[Błąd rekonstrukcji na symulatorze na tle dwóch punktów odniesienia]{Błąd rekonstrukcji na symulatorze na tle dwóch punktów odniesienia (zbiory oceny z tabeli~\ref{tab:le:data}; szum: model szumu w ocenie). PSNR w dB; MSE tylko dla A9 (tabela~\ref{tab:le:hw}). Przedział: 95-procentowy przedział ufności różnicy MAE; lepszy: liczba obrazów z mniejszym MAE modelu i liczność zbioru; ostatnia kolumna: średnia z trzech losowań. Obraz średni dla A16K policzono z innej próby 2000 obrazów uczących niż w treningu.}
+\label{tab:le:sim}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llrrrrrcrr@{}}
+\toprule
+ & & \multicolumn{3}{c}{Model} & \multicolumn{2}{c}{MAE odniesień} & \multicolumn{2}{c}{Model $-$ płaski obraz} & MAE, \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+Konf. & Szum & MAE & PSNR & SSIM & średni & płaski & przedział & lepszy & $\nshots=8192$ \\
+\midrule
+% ŹRÓDŁO wierszy A8, A16, A16K: article/data/eval_results.json (c8, c16_best, c16_kitti2000: n_eval, model, mean_baseline, shots_mae['8192']) i article/data/hw_results.json (own_colour_baseline.<klucz>).
+% ŹRÓDŁO wierszy A9: article/data/hw_results.json, run2_finetune.methods (sim_ideal, sim_level4, mean_train_image, flat_own_colour), paired.sim_level4_vs_flat_own_colour, shots_mae_level4['8192']; przedział w wierszu A9 bez szumu wyliczony z mae_per_image (spoza zestawu zweryfikowanego).
+A8 & brak & 0,0644 & 21,84 & 0,495 & 0,1323 & 0,0819 & $[-0{,}0260;\,-0{,}0100]$ & 15/16 & 0,0720 \\
+A9 & brak & 0,0795 & 20,06 & 0,302 & 0,1329 & 0,0833 & $[-0{,}0139;\,+0{,}0058]$ & 7/10 & --- \\
+A9 & poziom 4 & 0,0787 & 20,22 & 0,315 & 0,1329 & 0,0833 & $[-0{,}0135;\,+0{,}0039]$ & 7/10 & 0,0853 \\
+A16 & brak & 0,0736 & 19,80 & 0,394 & 0,1261 & 0,0895 & $[-0{,}0247;\,-0{,}0090]$ & 12/12 & 0,0973 \\
+A16K & brak & 0,1078 & 17,01 & 0,457 & 0,1861 & 0,2039 & $[-0{,}0982;\,-0{,}0940]$ & 1497/1500 & 0,1157 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Skończona liczba pomiarów dodaje do błędu modelu szum próbkowania (rys.~\ref{fig:le:shots}).
+Przy $\nshots=8192$ MAE rośnie względem wartości dokładnej o $0{,}0076$ (A8), $0{,}0066$ (A9), $0{,}0079$ (A16K) i $0{,}0237$ (A16); trzykrotnej różnicy między A16 a A16K, o takim samym rejestrze, pliki wynikowe nie pozwalają wyjaśnić.
+% ŹRÓDŁO: article/data/eval_results.json, <klucz>.shots_mae['8192'] minus <klucz>.model.mae; article/data/hw_results.json, run2_finetune.shots_mae_level4['8192'] minus methods.sim_level4.mae (zestaw: wiersze 021, 042, 063, 114).
+Przy 8192 pomiarach MAE konfiguracji A9 i A16 ($0{,}0853$ i $0{,}0973$) jest już większy od błędu płaskiego obrazu własnego koloru ($0{,}0833$ i $0{,}0895$), a w średniej z trzech losowań spada poniżej niego dopiero przy 32\,768 pomiarach.
+% ŹRÓDŁO: article/data/eval_results.json, c16_best.shots_mae; article/data/hw_results.json, run2_finetune.shots_mae_level4 (zestaw: wiersze 039, 040, 110, 111) oraz odniesienia jak w tabeli.
+Przy 8192 pomiarach sam szum próbkowania zużywa zatem cały zapas, jaki A9 ma nad kodem trzech liczb, a przy 16\,384, jak w przebiegu H2, około dwóch trzecich.
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.methods.sim_level4_sampled.mae = 0,081864 (jedno losowanie, 16 384 pomiary), sim_level4.mae = 0,078697, flat_own_colour.mae = 0,083346; (0,0819 - 0,0787)/(0,0833 - 0,0787) = 0,68 (obliczenie własne).
+Liczby te obciążają zagrożenia opisane w podrozdziale~\ref{par:le:leakage}, a średnie z losowań nie mają w plikach wynikowych przedziałów ufności.
+
+\begin{figure}[tb]
+\centering
+\input{figures/chp_learned_encoding/le_shots.tex}
+\caption[Błąd rekonstrukcji w funkcji liczby pomiarów]{MAE rekonstrukcji w funkcji liczby pomiarów $\nshots$ (oś pozioma; średnia z trzech losowań, obie osie logarytmiczne, zakres osi pionowej osobny dla każdego panelu) na tle wartości dokładnej i obu punktów odniesienia; znacznik pusty: jedno losowanie przy 16\,384 pomiarach, jak w przebiegu H2. Opracowanie własne.}
+\label{fig:le:shots}
+\end{figure}
 
 \subsection{Degradacja na rzeczywistym urządzeniu}\label{subsec:le:results:hardware}
 \agentinfo{
-Wierność rozkładów na sprzęcie, równoważna depolaryzacja na warstwę, wzrost błędu rekonstrukcji względem symulatora wraz z przedziałem ufności.
-Dekompozycja luki między symulatorem a sprzętem: szum śrutowy, jednorodna depolaryzacja, reszta o nieznanej strukturze.
+Napisane w zadaniu PHD-TS-81, tabele tab:le:hw i tab:le:paired oraz rysunek fig:le:gap w zadaniu PHD-TS-82 (2026-11-27); liczby z zestawu \agentref{eksperymenty/weryfikacja-liczb/rozdzial-7.csv} (wiersze 117-253), źródła podano w komentarzach po zdaniach.
+Spoza zestawu, wyliczone z zapisanych wartości metodą z sekcji 7.3 (bootstrap 10 000 losowań, ziarno 0, dokładny test znaków): (a) przedział ufności różnicy wierności w ocenie przesłuchu, [-0,0038; +0,0061], wzrost w 7 z 12 par, p = 0,77 (plik output/hw_run1/analysis/report.json, pole crosstalk_packed_vs_alone.per_image); (b) różnica MAE między urządzeniem a bliźniakiem bez próbkowania, +0,0141 z przedziałem [+0,0083; +0,0198], 10 z 10 obrazów (plik article/data/hw_results.json, pola run2_finetune.methods.hw_baseline_job.mae_per_image i sim_fitted.mae_per_image).
+Odległości Hellingera między zliczeniami H1 a modelami szumu podano według jednej oceny, z pliku combo_fit.json (wszystkie 228 rejestrów: model kalibracyjny przy współczynniku 1,25 daje 0,219, dopasowanie łączne 0,227, sama depolaryzacja 0,228, samo odwrócenie fazy 0,231, dwie próby z modelu 0,185); druga ocena, z report.json, różni się o najwyżej 0,002.
+Powiązanie niedoszacowania depolaryzacji w poziomie 4 z dawką wyznaczoną dla jednej bramki CNOT podano jako hipotezę: pochodzenie parametrów czeka na potwierdzenie autora (pytanie w sekcji 7.3).
+Wierności znormalizowanej dla H2 nie ma w plikach wynikowych; dla H2 punktem odniesienia wierności jest symulator poziomu 4 próbkowany tak samo (0,984).
+Rozkład różnicy na składniki jest sekwencyjny i zależy od kolejności; zastrzeżenia są w tekście.
+Pominięto dla objętości: średnia wierność bez dwóch najgorszych łańcuchów 0,863 (dla najgorszego dane kalibracyjne przewidywały wierność bliską zeru), wierność rejestrów pojedynczych 0,871, zakres różnic w ocenie przesłuchu od -0,0124 do +0,0183, trzy oszacowania współczynnika skali modelu kalibracyjnego (1,33 z minimum odległości, 1,76 z dopasowania średniej wierności, 1,45 z obwodów echa), odstrojenie w poziomie 4 około 2,8 razy silniejsze od dopasowanego, spadek PSNR o 1,9 dB.
+Galeria rekonstrukcji (pliki le_gallery.tex i le_gallery.png) jest przygotowana, ale zakomentowana do czasu zgody autora na reprodukcję obrazów.
 }
+
+W przebiegu H1 średnia wierność Hellingera~\eqref{eq:le:hellinger} 228 zmierzonych rozkładów względem rozkładów idealnych wynosi $0{,}832$ (odchylenie standardowe $0{,}068$), podczas gdy obwód bezszumowy próbkowany tak samo daje $0{,}964$, a rozkład jednostajny $0{,}683$ (podrozdział~\ref{par:le:metrics}).
+% ŹRÓDŁO: article/data/hw_results.json, run1_fidelity.fidelity_all (mean, sd, uniform_output_mean) i run1_fidelity.fidelity_noiseless_same_shots (zestaw: wiersze 117, 122, 123, 125, 127).
+Urządzeniu należy więc przypisać stratę wierności $0{,}132$, a wierność znormalizowana $0{,}478$ oznacza, że zmierzony rozkład leży mniej więcej w połowie drogi między rozkładem jednostajnym a idealnym.
+% ŹRÓDŁO: article/data/hw_results.json, run1_fidelity.fidelity_all.normalized_mean; strata wyliczona jako 0,9644 - 0,8323 (zestaw: wiersze 124, 128).
+Wynik zależy od łańcucha: na siedmiu z dziewięciu łańcuchów średnia wierność mieści się między $0{,}853$ a $0{,}879$, a na dwóch pozostałych wynosi $0{,}776$ i $0{,}656$, czyli w drugim przypadku mniej niż dla rozkładu jednostajnego.
+% ŹRÓDŁO: article/data/hw_results.json, run1_fidelity.fidelity_packed_per_chain (zestaw: wiersze 131-139).
+Umieszczenie dziewięciu rejestrów w jednym obwodzie nie zmienia natomiast wyniku w mierzalny sposób.
+Dla 12 obrazów zmierzonych na tym samym łańcuchu osobno i wśród ośmiu innych rejestrów różnica wierności wynosi, przy wyrównanej liczbie pomiarów, średnio $+0{,}0011$ (przedział ufności $[-0{,}0038;\,+0{,}0061]$).
+Porównanie dotyczy \glslink{crosstalk}{przesłuchu} między rejestrami, a nie między sąsiednimi kubitami jednego rejestru.
+% ŹRÓDŁO: output/hw_run1/analysis/report.json, crosstalk_packed_vs_alone (mean_delta_F_packed_minus_alone, per_image) (zestaw: wiersz 156); przedział ufności wyliczony z per_image, spoza zestawu.
+
+Siłę szumu wyraża parametr modelu warstwowego dopasowanego do zliczeń (podrozdział~\ref{par:le:simulators}).
+Sam kanał depolaryzujący najlepiej odtwarza zliczenia H1 przy $\qdep=0{,}0202$ na blok i kubit, a dopasowanie łączne daje $\qdep=0{,}0181$ przy pomijalnym prawdopodobieństwie odwrócenia fazy i odstrojeniu $\cohangle=4{,}6\cdot10^{-4}$~rad; bliźniak dopasowany do zliczeń H2 ma $\qdep=0{,}015$.
+% ŹRÓDŁO: output/hw_run1/analysis/report.json, depol_p_star_distance_match; output/hw_run1/analysis/combo_fit.json, fitted_params; hw_run2_finetune/baseline/twin_fit.json, depolarizing_p (zestaw: wiersze 143, 157-159, 247).
+% ŹRÓDŁO nazwy kanału: output/hw_experiment/fit_noise_combo.py używa w dopasowaniach H1 kanału odwrócenia fazy (PhaseFlip; fitted_params.dephasing_p = 9,2e-5), a symulator treningu (circuit.py) kanału tłumienia fazy (PhaseDamping); są to różne kanały z tabeli w podrozdziale 2.2, dlatego nie ujednolicono nazw (recenzja, ustalenie D24c).
+Symulator poziomu 4, z którym uczono A9, zakłada $\qdep=0{,}0030$, czyli depolaryzację od 5 do 7 razy słabszą od zmierzonej.
+% ŹRÓDŁO: ilorazy wyliczone z powyższych wartości i z article/data/hw_results.json, run2_finetune.noise_level4 (zestaw: wiersze 165-167).
+Możliwym wyjaśnieniem jest pochodzenie tych wartości: są równe parametrom opisującym szum po jednej bramce CNOT (podrozdział~\ref{par:le:simulators}), a w jednym bloku obwodu~\eqref{eq:le:state} każdy wewnętrzny kubit uczestniczy w czterech bramkach CZ; żaden plik tego pochodzenia nie dokumentuje, więc pozostaje to hipotezą.
+Model kalibracyjny wymaga pomnożenia błędów z danych kalibracyjnych przez $c_{\mathrm{kal}}$ od $1{,}33$ do $1{,}76$, zależnie od kryterium dopasowania, a żaden z modeli nie odtwarza zliczeń w granicach szumu próbkowania: odległość Hellingera między zliczeniami a próbą z modelu wynosi od $0{,}219$ do $0{,}231$ wobec $0{,}185$ dla dwóch prób z tego samego modelu.
+% ŹRÓDŁO: output/hw_run1/analysis/report.json, lambda_star_distance_match, lambda_fidelity_crossing, echo.lambda_crossing; output/hw_run1/analysis/combo_fit.json, evaluation_all_registers (combo, depol_only, dephase_only, lambda_model(1.25), combo.floor) (zestaw: wiersze 141, 142, 155, 160-164).
+
+\begin{table}[tb]
+\centering
+\caption[Rekonstrukcja obrazów zbioru K10 na symulatorach i na urządzeniu]{Rekonstrukcja obrazów zbioru K10 przez model A9 według źródła rozkładu wyników (przebieg H2; próbkowanie i urządzenie: 16\,384 pomiary). MAE z odchyleniem standardowym po obrazach, miary jak w tabeli~\ref{tab:le:sim}, $\hfid$ i TVD względem rozkładu idealnego tej samej sieci. Próbkowanie z poziomu 4 to jedno losowanie, a z bliźniaka średnia z trzech, dla której zapisano tylko MAE; wiersze bez dopisku dotyczą sieci pierwotnej.}
+\label{tab:le:hw}
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{@{}lcrrrrr@{}}
+\toprule
+Źródło rozkładu wyników & MAE & MSE & PSNR & SSIM & $\hfid$ & TVD \\
+\midrule
+% ŹRÓDŁO: MAE, odchylenie, MSE, wierność, TVD: hw_run2_finetune/baseline/summary.csv i hw_run2_finetune/final_best/summary.csv; PSNR i SSIM (okno Gaussa 5x5): article/data/hw_results.json, run2_finetune.methods.*; bliźniak z próbkowaniem: run2_finetune.sim_fitted_sampled_mae (zestaw: wiersze 182-242, 277-317).
+symulator bezszumowy & $0{,}0795\pm0{,}026$ & 0,0119 & 20,06 & 0,302 & 1,000 & 0,000 \\
+symulator poziomu 4 & $0{,}0787\pm0{,}028$ & 0,0117 & 20,22 & 0,315 & 0,991 & 0,054 \\
+symulator poziomu 4, próbkowanie & $0{,}0819\pm0{,}026$ & 0,0123 & 19,85 & 0,278 & 0,984 & 0,083 \\
+bliźniak ($\qdep=0{,}015$) & $0{,}0869\pm0{,}029$ & 0,0133 & 19,49 & 0,322 & 0,928 & 0,192 \\
+bliźniak, próbkowanie & $0{,}0894$\phantom{${}\pm0{,}000$} & --- & --- & --- & --- & --- \\
+urządzenie, zadanie bazowe & $0{,}1009\pm0{,}032$ & 0,0171 & 18,31 & 0,233 & 0,905 & 0,225 \\
+\midrule
+urządzenie, zadanie końcowe & $0{,}1026\pm0{,}031$ & 0,0178 & 18,10 & 0,205 & 0,900 & 0,233 \\
+urządzenie, zadanie końcowe, sieć dostrojona & $0{,}0995\pm0{,}031$ & 0,0168 & 18,45 & 0,242 & 0,887 & 0,252 \\
+symulator poziomu 4, sieć dostrojona & $0{,}0997\pm0{,}021$ & 0,0175 & 17,85 & 0,241 & 0,990 & 0,057 \\
+\midrule
+płaski obraz własnego koloru & $0{,}0833\pm0{,}038$ & 0,0134 & 20,10 & 0,296 & --- & --- \\
+obraz średni & $0{,}1329\pm0{,}045$ & --- & 16,80 & 0,286 & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Błąd rekonstrukcji mierzy przebieg H2 (tabela~\ref{tab:le:hw}).
+Na urządzeniu MAE modelu A9 na zbiorze K10 wynosi $0{,}1009$ wobec $0{,}0787$ na symulatorze poziomu 4: wzrost o $0{,}0222$ ($28\%$), z przedziałem ufności $[+0{,}0153;\,+0{,}0295]$, występuje na wszystkich 10 obrazach, a test znaków daje najmniejszą możliwą przy tej liczności wartość $p=0{,}002$ (tabela~\ref{tab:le:paired}).
+% ŹRÓDŁO: hw_run2_finetune/baseline/hardware_vs_simulator.json (mean_diff, ci95, n_higher, sign_test_p); hw_run2_finetune/baseline/summary.csv, wiersz IBM hardware, kolumna mae_vs_reference_pct (zestaw: wiersze 243, 244).
+MSE rośnie z $0{,}0117$ do $0{,}0171$, a wierność Hellingera rozkładów wynosi $0{,}905$ wobec $0{,}984$ dla symulatora poziomu 4 próbkowanego tak samo.
+% ŹRÓDŁO: hw_run2_finetune/baseline/summary.csv (mse, hellinger) (zestaw: wiersze 191, 201, 212, 215).
+Od obrazu średniego wynik z urządzenia jest średnio lepszy o $0{,}0320$ ($24\%$), czyli nadal zależy od obrazu ocenianego, choć lepszy jest tylko na 7 z 10 obrazów.
+% ŹRÓDŁO: wyliczone z article/data/hw_results.json, run2_finetune.methods.hw_baseline_job.mae_per_image i mean_train_image.mae_per_image (zestaw: wiersz 246 i rozdzial-7.md, tabela porównań sparowanych H2).
+Od płaskiego obrazu własnego koloru jest jednak gorszy o $0{,}0176$ (przedział ufności $[+0{,}0112;\,+0{,}0247]$), na wszystkich 10 obrazach: trzy liczby na obraz odtwarzają go dokładniej niż 16\,384 pomiary dziewięciokubitowego rejestru.
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.paired.hw_vs_flat_own_colour (zestaw: wiersz 245).
+Nie ma zatem podstaw, by twierdzić, że na urządzeniu kodowanie przenosi coś ponad średnią barwę obrazu, a i ją przenosi z błędem, bo depolaryzacja ściąga ku szarości także barwę średnią (wzór~\eqref{eq:le:noise}; na symulatorze o około jedną trzecią, podrozdział~\ref{subsec:le:results:pdu}).
+% ŹRÓDŁO: eksperymenty/krzywe-degradacji/autoenkoder/wyniki/skurczenie.csv, konfiguracja A, p=0.018: s_srednia_kanalu = 0,679, czyli skurczenie barwy o 0,32 (tylko symulator; na zliczeniach z urządzenia nie liczono).
+
+% RYSUNEK ZAKOMENTOWANY (PHD-TS-82, punkt 5): galeria rekonstrukcji czeka na zgodę autora na reprodukcję obrazów, patrz zadanie pod blokiem.
+%\begin{figure}[tb]
+%\centering
+%\input{figures/chp_learned_encoding/le_gallery.tex}
+%\caption[Rekonstrukcje obrazów zbioru K10 na symulatorze i na urządzeniu]{Rekonstrukcje dziesięciu obrazów zbioru K10 w przebiegu H2: wejście modelu po przeskalowaniu do $9\times9$ pikseli, wynik symulatora poziomu 4 i wynik z urządzenia ibm\_fez przy 16\,384 pomiarach, z wartościami MAE dla każdego obrazu. Zachowana jest głównie barwa dominująca obrazu, a jego układ przestrzenny w większości ginie już na symulatorze. Opracowanie własne z obrazów wynikowych przebiegu H2.}
+%\label{fig:le:gallery}
+%\end{figure}
+\agenttask{
+Galeria rekonstrukcji (wejście modelu, symulator poziomu 4, urządzenie; 10 obrazów K10 z wartościami MAE) jest przygotowana w pliku figures/chp_learned_encoding/le_gallery.tex, a środowisko figure z podpisem i etykietą fig:le:gallery jest zakomentowane tuż nad tym zadaniem.
+Plik graficzny le_gallery.png orkiestrator przeniósł 2026-11-27 poza repozytorium rozprawy, do katalogu eksperymenty/rozdzial-7-galeria, żeby nie trafił do zdalnego repozytorium przed decyzją autora; po zgodzie przenieść go z powrotem do figures/chp_learned_encoding.
+Rysunek czeka na zgodę autora na reprodukcję obrazów: licencja kafli lotniczych nie jest wyjaśniona (pytanie w sekcji 7.3; w metadanych eksportu licencja Private).
+Po zgodzie: odkomentować środowisko figure, dodać w akapicie o przebiegu H2 odwołanie do rysunku i skompilować; przy braku zgody usunąć oba pliki le_gallery i zakomentowany blok.
+Do czasu decyzji nie publikować pliku le_gallery.png.
+}
+
+Różnicę $0{,}0222$ rozkłada się na składniki, wstawiając między symulator poziomu 4 a urządzenie dwa stany pośrednie (rys.~\ref{fig:le:gap}).
+Losowanie 16\,384 wyników z rozkładu symulatora poziomu 4 podnosi MAE o $0{,}0032$ ($14\%$ różnicy), zastąpienie poziomu 4 bliźniakiem przy tej samej liczbie pomiarów o dalsze $0{,}0075$ ($34\%$), a pozostałe $0{,}0115$ ($52\%$) dzieli bliźniaka od urządzenia.
+% ŹRÓDŁO: wyliczone z article/data/hw_results.json, run2_finetune.methods.sim_level4.mae, sim_level4_sampled.mae, hw_baseline_job.mae i run2_finetune.sim_fitted_sampled_mae (zestaw: wiersze 248-252).
+Szum próbkowania i jednorodna depolaryzacja wyjaśniają więc łącznie około połowy różnicy, a druga połowa ma strukturę, której te pomiary nie rozdzielają: bliźniak nie zawiera błędu odczytu, zróżnicowania błędów między kubitami i bramkami, błędów koherentnych, przesłuchu wewnątrz rejestru ani dryfu (podrozdział~\ref{subsec:tb:noise:models}).
+Reszta nie jest artefaktem próbkowania: urządzenie różni się od bliźniaka bez próbkowania o $+0{,}0141$ (przedział ufności $[+0{,}0083;\,+0{,}0198]$), a odchylenie standardowe średniego MAE wynikające z samego próbkowania wynosi $0{,}0007$.
+% ŹRÓDŁO: różnica wyliczona z article/data/hw_results.json, run2_finetune.methods.hw_baseline_job.mae_per_image i sim_fitted.mae_per_image (spoza zestawu); run2_finetune.shot_noise_sd_of_mean_mae.test_10_images_16384_shots (zestaw: wiersz 326).
+Rozkład ma cztery zastrzeżenia: udziały zależą od kolejności składników, bo MAE nie jest addytywny; parametr bliźniaka dopasowano do tych samych dziesięciu obwodów (podrozdział~\ref{par:le:validity}), więc udział depolaryzacji jest oszacowaniem optymistycznym; składnik próbkowania pochodzi z jednego losowania i ma niepewność około $0{,}001$; przebiegi H1 i H2 były jednokrotne i odległe o ponad dwa miesiące, więc wartości $\qdep$ od $0{,}015$ do $0{,}020$ nie można traktować jako stałej urządzenia.
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.methods.sim_level4_sampled (jedno losowanie) i sim_fitted_sampled_mae (średnia z trzech); odchylenie standardowe średniego MAE od próbkowania 0,00072 (shot_noise_sd_of_mean_mae.test_10_images_16384_shots), dla różnicy jednego losowania i średniej z trzech około 0,0008 (obliczenie własne).
+
+\begin{figure}[tb]
+\centering
+\input{figures/chp_learned_encoding/le_gap.tex}
+\caption[Składniki różnicy błędu rekonstrukcji między urządzeniem a symulatorem]{Rozkład różnicy MAE między urządzeniem a symulatorem poziomu 4 (przebieg H2, zbiór K10) na szum próbkowania, jednorodną depolaryzację ponad poziom 4 i resztę o nieznanej strukturze; linie przerywane: punkty odniesienia. Opracowanie własne.}
+\label{fig:le:gap}
+\end{figure}
+
+\begin{table}[tb]
+\centering
+\caption[Porównania sparowane na zbiorze K10]{Porównania sparowane na zbiorze K10 (model A9): średnia różnica MAE, jej 95-procentowy przedział ufności, liczba obrazów, na których odjemna ma mniejszy MAE (,,niżej''), i p-wartość testu znaków, bez poprawki na wielokrotne porównania. Płaski obraz: płaski obraz własnego koloru; urządzenie bez dopisku: zadanie bazowe.}
+\label{tab:le:paired}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrcrr@{}}
+\toprule
+Porównanie & Różnica & Przedział ufności & Niżej & $p$ \\
+\midrule
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.paired.* (te same wartości w hw_run2_finetune/baseline/hardware_vs_simulator.json i final_best/original_vs_finetuned.json); wiersze z obrazem średnim wyliczone z run2_finetune.methods.*.mae_per_image (zestaw: wiersze 106, 243, 245, 318, 321-323 i tabele w rozdzial-7.md).
+symulator poziomu 4 $-$ obraz średni & $-0{,}0542$ & $[-0{,}0787;\,-0{,}0352]$ & 10/10 & 0,002 \\
+symulator poziomu 4 $-$ płaski obraz & $-0{,}0046$ & $[-0{,}0135;\,+0{,}0039]$ & 7/10 & 0,34 \\
+urządzenie $-$ symulator poziomu 4 & $+0{,}0222$ & $[+0{,}0153;\,+0{,}0295]$ & 0/10 & 0,002 \\
+urządzenie $-$ obraz średni & $-0{,}0320$ & $[-0{,}0569;\,-0{,}0129]$ & 7/10 & 0,34 \\
+urządzenie $-$ płaski obraz & $+0{,}0176$ & $[+0{,}0112;\,+0{,}0247]$ & 0/10 & 0,002 \\
+\midrule
+urządzenie, zadanie końcowe: sieć dostrojona $-$ pierwotna & $-0{,}0032$ & $[-0{,}0076;\,+0{,}0016]$ & 7/10 & 0,34 \\
+urządzenie, sieć pierwotna: zadanie końcowe $-$ bazowe & $+0{,}0017$ & $[-0{,}0004;\,+0{,}0036]$ & 2/10 & 0,11 \\
+symulator poziomu 4: sieć dostrojona $-$ pierwotna & $+0{,}0210$ & $[+0{,}0120;\,+0{,}0306]$ & 0/10 & 0,002 \\
+urządzenie, sieć dostrojona $-$ płaski obraz & $+0{,}0161$ & $[+0{,}0081;\,+0{,}0250]$ & 0/10 & 0,002 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Trening w szumie i dostrajanie na sprzęcie}\label{subsec:le:results:training}
 \agentinfo{
-Trening z modelem szumu słabszym niż rzeczywisty szum urządzenia oraz dostrajanie z pomiarem na sprzęcie i gradientem z symulowanego bliźniaka.
-Wynik statystycznie nierozstrzygający; podać przedziały ufności i wpływ dryfu między zadaniami.
+Napisane w zadaniu PHD-TS-81 (2026-11-27); liczby z zestawu \agentref{eksperymenty/weryfikacja-liczb/rozdzial-7.csv} (wiersze 254-343), źródła podano w komentarzach po zdaniach, a porównania sparowane zebrano w tabeli tab:le:paired.
+Oba wyniki przedstawiono jako nierozstrzygające: przedział ufności zmiany po dostrojeniu obejmuje zero, a dla treningu z szumem nie ma wariantu kontrolnego (wszystkie trzy przebiegi treningu 9x9 w katalogu runs mają szum poziomu 4, co sprawdzono w nagłówkach plików training_log.txt).
+Spoza zestawu: różnica MAE tych samych wag z szumem poziomu 4 i bez szumu, -0,0008 z przedziałem [-0,0022; +0,0007], wyliczona z wartości na obraz (plik article/data/hw_results.json, pola run2_finetune.methods.sim_level4.mae_per_image i sim_ideal.mae_per_image).
+Pominięto dla objętości: MAE na 35 obrazach uczących w kolejnych epokach (0,0937, 0,0886, 0,0868, 0,0844, 0,0862); wielkość zmiany sieci (wagi części kodującej i części wyznaczającej kąty 0,5 procent, wagi splotu końcowego 6,9 procent, kąty średnio 0,032 rad); spadek wierności Hellingera po dostrojeniu z 0,900 do 0,887; wymianę części sieci (pole run2_finetune.swap, same średnie bez przedziałów ufności); p-wartość 0,75 w próbie generalnej.
 }
+
+Uczenie z modelem szumu (podrozdział~\ref{subsec:tb:ml:qml}) zastosowano w A9, uczonym od początku z symulatorem poziomu 4 (podrozdział~\ref{par:le:training}).
+Szum tego poziomu jest dla modelu prawie niewidoczny: te same wagi dają bez szumu MAE $0{,}0795$, a z szumem $0{,}0787$ (różnica $-0{,}0008$, przedział ufności $[-0{,}0022;\,+0{,}0007]$), przy wierności Hellingera rozkładów próbkowanych jak na urządzeniu $0{,}984$ wobec $0{,}905$ zmierzonych.
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.methods.sim_ideal i sim_level4 (mae, hellinger), sim_level4_sampled.hellinger = 0,9837, hw_baseline_job.hellinger (zestaw: wiersze 182, 189, 194, 215); różnica sparowana wyliczona z mae_per_image, spoza zestawu.
+Trening objął więc depolaryzację od 5 do 7 razy słabszą od zmierzonej, a czy cokolwiek dał, nie da się rozstrzygnąć, bo w materiale nie ma wariantu kontrolnego: modelu o tej samej architekturze uczonego bez szumu albo z szumem o sile zmierzonej.
+
+Dostrajanie na urządzeniu (podrozdział~\ref{par:le:hardware}) korzysta z poprawki zmierzonej raz na epokę i z gradientu bliźniaka o $\qdep=0{,}015$.
+MAE zmierzony na 5 obrazach walidacyjnych wynosił przed dostrajaniem $0{,}0816$, a po kolejnych epokach $0{,}0802$, $0{,}0810$, $0{,}0760$, $0{,}0785$ i $0{,}0814$ (odchylenie standardowe średniej od samego próbkowania: $0{,}0013$).
+% ŹRÓDŁO: hw_run2_finetune/finetune/history.json (val_mae); article/data/hw_results.json, run2_finetune.shot_noise_sd_of_mean_mae.val_5_images_8192_shots (zestaw: wiersze 265, 267, 269, 271, 273-275, 325).
+Wybrano epokę trzecią; spadek o $0{,}0056$ przekracza skutek samego wyboru najlepszego z pięciu pomiarów przy takim szumie (około $0{,}0016$), lecz błąd wraca potem do wartości początkowej, a zmienności między zadaniami nie zmierzono, więc minimum nie dowodzi poprawy.
+% ŹRÓDŁO: spadek 0,08164 - 0,07604 = 0,0056 (history.json); wybór spośród epok 1--5: hw_finetune/cli.py, cmd_finetune (candidates = range(1, epochs + 1)); oczekiwane minimum z pięciu niezależnych losowań rozkładu normalnego leży 1,163 odchylenia standardowego poniżej średniej (całkowanie numeryczne, PHD-TS-92), czyli 1,163 * 0,00134 = 0,0016.
+W zadaniu końcowym, które mierzy obie sieci na tych samych łańcuchach, sieć dostrojona ma na zbiorze K10 MAE $0{,}0995$, a pierwotna $0{,}1026$ (tabela~\ref{tab:le:hw}).
+Różnica $-0{,}0032$ ($3{,}1\%$) ma przedział ufności $[-0{,}0076;\,+0{,}0016]$, który obejmuje zero; błąd maleje na 7 z 10 obrazów, a test znaków daje $p=0{,}34$.
+Dla MSE różnica wynosi $-0{,}00096$ z przedziałem $[-0{,}00200;\,+0{,}00021]$.
+% ŹRÓDŁO: hw_run2_finetune/final_best/original_vs_finetuned.json (mae, mse); hw_run2_finetune/final_best/summary.csv (zestaw: wiersze 277, 284, 318-320).
+Nie jest to zatem wykazana poprawa, lecz wynik nierozstrzygający.
+Jego skalę wyznacza zmienność między zadaniami (dryf i szum próbkowania): ta sama sieć pierwotna, zmierzona w zadaniu bazowym i w zadaniu końcowym na tych samych kubitach, różni się o $+0{,}0017$ (przedział ufności $[-0{,}0004;\,+0{,}0036]$, wzrost na 8 z 10 obrazów), czyli o około połowę zmiany przypisywanej dostrajaniu.
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.paired.drift_original_between_jobs (zestaw: wiersz 321).
+Sieć dostrojona pozostaje gorsza od płaskiego obrazu własnego koloru na wszystkich 10 obrazach, a na symulatorze poziomu 4 jest gorsza od pierwotnej o $0{,}0210$ (tabela~\ref{tab:le:paired}), więc dostrajanie przesunęło model ku innemu punktowi pracy, a nie poprawiło kodowania.
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.paired.hw_finetuned_vs_flat_own_colour i finetuned_vs_original_sim (zestaw: wiersze 322, 323).
+Próba generalna na symulatorze, w której urządzenie zastąpiono jednorodną depolaryzacją $\qdep=0{,}018$, a bliźniak odtworzył ją jako $0{,}0175$, dała zmianę $-0{,}0004$ (przedział ufności $[-0{,}0051;\,+0{,}0055]$), zatem niedokładność bliźniaka nie jest jedynym ograniczeniem tej procedury.
+% ŹRÓDŁO: hw_run_rehearsal/plan.json (local_depol), hw_run_rehearsal/baseline/twin_fit.json (depolarizing_p), hw_run_rehearsal/final_best/original_vs_finetuned.json (mae) (zestaw: wiersze 338, 339, 341).
+
+Przy 10 obrazach połowa szerokości przedziału ufności wynosi około $0{,}005$, czyli $5\%$ błędu, więc mniejszego efektu ten jednokrotny eksperyment nie mógł ani wykryć, ani wykluczyć (podrozdział~\ref{par:le:validity}).
+Żaden z dwóch sposobów uwzględnienia szumu w uczeniu nie zmniejszył zatem błędu na urządzeniu w sposób wykazany, co uzasadnia pytanie o korektę wyniku po stronie klasycznej, podjęte w podrozdziale~\ref{subsec:le:results:pdu}.
 
 \subsection{Korekta kalibracyjna typu PDU}\label{subsec:le:results:pdu}
 \agentinfo{
-Nowy eksperyment na zapisanych danych sprzętowych (bez nowych przebiegów): korekta dopasowana na części łańcuchów kubitów i oceniona na pozostałych.
-Uzupełnienie na symulatorze: jakość rekonstrukcji przy rosnącym szumie, z korektą i bez niej.
-Sekcję pisać po wykonaniu eksperymentów.
+Napisane w zadaniu PHD-TS-83 (2026-11-27) z wyników dwóch eksperymentów wykonanych na potrzeby rozprawy; każdą liczbę sprawdzono w pliku wynikowym, źródła podano w komentarzach po zdaniach (ścieżki względem katalogu eksperymenty/).
+Zapisane pomiary z urządzenia (zadanie PHD-TS-68, bez nowych przebiegów): \agentref{eksperymenty/pdu-ibm-fez/autoenkoder/README.md}, protokół ustalony przed analizą w pliku PROTOKOL.md, liczby w katalogu wyniki (h1_podsumowanie.csv, h1_porownania_metod.csv, h1_podsumowanie_bez_slabych_lancuchow.csv, h1_rzut_na_sympleks.csv, blizniaki_podsumowanie.csv, h2_podsumowanie.csv, wyniki.json).
+Symulator (zadanie PHD-TS-71): \agentref{eksperymenty/krzywe-degradacji/autoenkoder/README.md}, liczby w katalogu wyniki (krzywe.csv, korekta_uczona.csv, korekta_uczona_udzial.csv, skurczenie.csv, podzial_bledu.csv, odniesienie_sprzet.json); dane rysunku fig:le:pdu:curves skopiowano do figures/chp_learned_encoding (pliki le_pdu_*.dat, wybrane kolumny, wartości bez zmian).
+Nazwy wariantów w tekście i ich odpowiedniki w plikach: korekta addytywna = PDU-S, odwrócenie krzywej błędu = PDU-V (w protokole wariant główny), odwrócenie depolaryzacji = depol, kontrola bez pomiaru = prior, kontrole z tasowaniem = tas-obrazow i tas-stanow, korekta uczona = CNN, wynik bez korekty = surowe; w tekście zbiór A eksperymentu na symulatorze to K10 z kalibracją na 112 obrazach części uczącej, a zbiór B to 600 obrazów KITTI z kalibracją na 400 innych.
+Stan po recenzji (zadanie PHD-TS-92, ustalenia I1--I4, I9): wyniki opisano symetrycznie i z rozróżnieniem tego, co zapisano w protokołach przed analizą (wariant główny odwrócenie krzywej błędu, miary główne F, TVD i MAE obrazu, kryteria przewagi nad kontrolami, drugi zbiór testowy H2, porównanie główne symulacji na obrazach KITTI), od analiz dodanych po obejrzeniu wyników (rozbicie H1 na łańcuchy i analiza bez dwóch najsłabszych, rozkład skurczenia na składowe, porównanie z pomiarem H2) i od wyników eksploracyjnych (korekta addytywna i pozostałe warianty pomocnicze, 28 wariantów na dwóch zbiorach H2, bez poprawki na liczbę porównań).
+Odwracanie w H1: wierność i TVD pogarszają się na każdym łańcuchu, a wzrost MAE pochodzi w 88--95 procentach z łańcuchów 5 i 8 (współczynniki 0,33 i 0,03); liczby 0,235 nie używać jako dowodu szkody w MAE bez tego zastrzeżenia.
+Wyjaśnienie szkody odwracania: skurczenie niejednorodne (analiza post hoc, tylko na symulatorze) oraz wzmocnienie szumu próbkowania; kontrola syntetyczna o jednorodnym skurczeniu (w plikach: bliźniak C; ten sam współczynnik 0,43 dla wszystkich rejestrów) pokazuje, że samo wzmocnienie nie tłumaczy wzrostu TVD ani braku poprawy MAE na siedmiu sprawnych łańcuchach, ale nie odtwarza skurczenia dwóch najsłabszych; to koryguje wniosek z README zadania PHD-TS-68 i wcześniejszą wersję tego podrozdziału.
+Korekta addytywna: nie pisać, że nie zmienia błędu obrazu; zmiany względem obrazu wejściowego na K10 nie wykazano (symulator, zadanie bazowe H2), a błąd względem rekonstrukcji bezszumowej zmniejsza na symulatorze (24 procent MSE na K10, 26 procent na KITTI); na urządzeniu w H2 maleje on o 0,0097 w zadaniu bazowym (przedział obejmuje zero) i o 0,0133 w powtórnym pomiarze (przedział nie obejmuje zera), co tekst podaje jako wynik eksploracyjny.
+Rozkładu skurczenia na składowe nie policzono na zliczeniach z urządzenia; tekst mówi to wprost.
+Słowa bliźniak nie używa się dla kontroli syntetycznych z plików PHD-TS-68 (w rozdziale oznacza ono model warstwowy dopasowany do zliczeń).
+Pominięto dla objętości, do wykorzystania w razie potrzeby (wszystkie liczby sprawdzone w plikach wynikowych; część z nich weszła do tekstu w zadaniu PHD-TS-92: dolna granica MAE w H1, H1 bez dwóch najsłabszych łańcuchów, kontrola syntetyczna w TVD i wierności, 24 procent MSE dla korekty addytywnej, powtórny pomiar K10): szczegóły kalibracji (krzywa błędu w 32 przedziałach kwantylowych, wygładzona do funkcji rosnącej; rzut euklidesowy na sympleks, przed którym po odwróceniu ujemnych jest od 21 do 34 procent wartości; podział H1 na 24 grupy, 6 części, 10 000 losowań bootstrapu); dolna granica błędu H1 z próbkowania rozkładu idealnego (wierność 0,964, TVD 0,114, MAE obrazu 0,154; MAE samego modelu 0,151), względem której korekta addytywna usuwa około dwóch trzecich błędu (66, 67 i 70 procent); TVD po korekcie addytywnej 0,177 wobec 0,179 dla kontroli bez pomiaru (różnica -0,003 z przedziałem [-0,008; +0,003]); H1 bez dwóch najsłabszych łańcuchów (180 rejestrów): odwrócenie depolaryzacji nadal pogarsza TVD z 0,270 do 0,288, a MAE zmienia o +0,0019 z przedziałem [-0,0001; +0,0040]; kontrola syntetyczna także w TVD (z 0,282 do 0,253); kalibracja wspólna dla łańcuchów zamiast osobnej obniża wierność po korekcie addytywnej o 0,019 z przedziałem [0,015; 0,023]; współczynnik skurczenia H1 na łańcuch (od 0,46 do 0,56 na siedmiu, 0,33 i 0,03 na dwóch najsłabszych); przeniesienie H1 na H2 w liczbach (odwrócenia +0,036 i +0,042, korekta addytywna +0,015 z przedziałem [+0,007; +0,023]); korekta uczona dla rozkładu dokładnego (97 procent błędu względem rekonstrukcji bezszumowej, MAE 0,0796) i jej kontrola z przetasowanymi celami (MAE 0,138 wobec 0,135 dla kontroli bez pomiaru); korekta addytywna usuwa 24 i 26 procent MSE względem rekonstrukcji bezszumowej (K10 i KITTI); MSE względem rekonstrukcji bezszumowej na obrazach KITTI po odwróceniu (z 0,0062 do 0,0095) oraz na urządzeniu i symulatorze przy 16 384 pomiarach (0,0071 wobec 0,0035 i 0,0043); warianty pomocnicze (PDU-SV, PDU-Vm, PDU-SVm, wygl-y0, wygl-x) i ich wyniki; kalibracja H2 metodą zostaw-jeden-obraz; powtórny pomiar K10 po 14 minutach (korekta addytywna: -0,0039 z przedziałem [-0,0072; -0,0011], 8 z 10 obrazów, test znaków p = 0,11, wynik eksploracyjny wśród 28 wariantów); miara r_centr, dodana po obejrzeniu wyników (korelacja odchyleń od średniego rozkładu idealnego: 0,21 bez korekty, 0,45 po korekcie addytywnej, 0,38 po odwróceniu krzywej błędu, 0,81 dla samego próbkowania; jedyna miara, którą odwrócenie poprawia); progi liczby pomiarów dla odwracania w mierze TVD (od około 7 do 12 tysięcy pomiarów przy depolaryzacji od 0,01 do 0,02) i wzór obciążenie-wariancja; mapa komórek siatki (pomaga, szkodzi, nierozstrzygnięte); wyniki konfiguracji z kalibracją na obrazach innego rodzaju (korekta addytywna wtedy szkodzi: +0,0025); skurczenie na łańcuch w H2 (od 0,49 do 0,52 na czterech łańcuchach i 0,20 na piątym).
+Korekty uczonej nie liczono na zliczeniach z urządzenia, a w jej uczeniu na symulatorze pomiary kalibracyjne losowano od nowa w każdej epoce (PROTOKOL.md zadania PHD-TS-71, punkt 6); tekst podaje oba zastrzeżenia.
+Do decyzji autora: pytania w zadaniu pod tym blokiem; ponadto czy w rozdziale 5 odesłać do tego podrozdziału w sprawie argumentu korekty nieznanego w chwili korekty.
 }
+\agenttask{
+Pytanie do autora po recenzji (PHD-TS-85, ustalenia I1, I2 i I12): czy wyniki wszystkich wariantów korekty (H1 łącznie i bez dwóch najsłabszych łańcuchów, kontrola syntetyczna, H2 zadanie bazowe i powtórny pomiar, symulator: błąd względem obrazu wejściowego i względem rekonstrukcji bezszumowej) przenieść do tabeli w dodatku, a akapity o H1 i H2 skrócić do wniosków?
+Rozdział ma około 14,8 strony wobec budżetu 12; recenzja wskazuje kandydatów do skrócenia o około 2,5 strony (połączenie tabel tab:le:configs i tab:le:data albo przeniesienie drugiej do dodatku, tabela wariantów korekty w dodatku, opis modeli szumu dopasowanych do H1 w jednym zdaniu, akapit porównania z FRQI, NEQR i LPIQE powtórzony w dyskusji, krótsze podsumowanie, mniejszy rysunek fig:le:architecture).
+Większego skracania nie wykonano: zgodnie z ustaleniem autora czeka na jego sygnał; w zadaniu PHD-TS-92 skrócono tylko powtórzenia (w tym akapit porównania w dyskusji i jedno zdanie podsumowania), żeby dopisane zdania nie zwiększyły objętości, a listę skrótów podaje konspekt na początku rozdziału.
+}
+
+Klasyczną korektę wyniku (definicja~\ref{def:tb03:reduction}) zbadano na zapisanych zliczeniach przebiegów H1 i H2 oraz na symulatorze.
+Każdy wariant kalibruje się na rejestrach, dla których oprócz częstości $\tilde{\prob}$ znany jest z symulacji bezszumowej rozkład idealny $\prob_{\mathrm{id}}$, a stosuje do rejestrów kodujących inne obrazy.
+\emph{Korekta addytywna} odejmuje od częstości każdego stanu bazowego jego średni błąd w części kalibracyjnej, $\hat{\prob}(\ket{x})=\tilde{\prob}(\ket{x})-\pdu_x$ (tu $\pdu$ jest średnim błędem z kalibracji).
+\emph{Odwrócenie krzywej błędu} wyznacza średnią częstość zmierzoną w funkcji wartości idealnej, $g(\prob_{\mathrm{id}})=\prob_{\mathrm{id}}+\pdu(\prob_{\mathrm{id}})$, i stosuje funkcję odwrotną, $\hat{\prob}=g^{-1}(\tilde{\prob})$, bo wartość idealna jest w chwili korekty nieznana.
+\emph{Odwrócenie depolaryzacji} rozwiązuje względem $\prob_{\mathrm{id}}$ równanie~\eqref{eq:tb:noise:shrink} z jednym dopasowanym współczynnikiem $\distshrink$; wyniki tych wariantów rzutuje się na zbiór rozkładów prawdopodobieństwa.
+\emph{Korekta uczona}, badana tylko na symulatorze, jest siecią splotową o 11\,254 wagach, która z wartości odczytanych wyznacza poprawkę obrazu i uczy się na rekonstrukcjach bezszumowych obrazów kalibracyjnych.
+% ŹRÓDŁO: krzywe-degradacji/autoenkoder/wyniki/korekta_uczona_meta.json, hiperparametry.liczba_parametrow i architektura; definicje wariantów: pdu-ibm-fez/autoenkoder/PROTOKOL.md, punkt 3, i krzywe-degradacji/autoenkoder/PROTOKOL.md, punkty 5 i 6.
+W chwili korekty żaden wariant nie korzysta z rozkładu idealnego ani z obrazu wejściowego korygowanego rejestru; rozkłady idealne służą kalibracji i ocenie, a dostępne są dzięki klasycznej symulowalności obwodu dziewięciokubitowego; sieć dostawała ponadto w każdej epoce uczenia nową serię pomiarów kalibracyjnych.
+
+Od funkcji PDU z rozdziału~\ref{chapter:pdu} warianty te różni przede wszystkim argument.
+Funkcję PDU tablicuje się względem fazy kubitu odczytu, znanej z obwodu (definicje~\ref{def:pdu:function} i~\ref{def:pdu:correction}, założenie~\ref{itm:pdu:Z7}).
+Tutaj obwód zależy od 256 kątów wyznaczanych przez sieć: są one znane, lecz względem tylu wymiarów błędu nie da się stablicować.
+Argumentem może być więc tylko numer stanu bazowego, jak w funkcji PDU układu (definicja~\ref{def:pdu:general}) uśrednionej po obwodach kalibracyjnych, albo sama wartość prawdopodobieństwa, czyli wielkość wyznaczana, wbrew założeniu~(\ref{itm:pdu:Z7}) (podrozdział~\ref{par:pdu:known-argument}).
+Korygowany jest ponadto rozkład 512 wyników: przy 4096 pomiarach na stan przypada średnio osiem zliczeń, więc względny szum próbkowania częstości, w rozdziale~\ref{chapter:pdu} pomijalny, sięga $35\%$.
+% ŹRÓDŁO: obliczenie własne: 4096/512 = 8; sqrt(512/4096) = 0,354 (4096 pomiarów mają rejestry upakowane H1 i punkt główny symulacji; rejestry H2 mają 16 384 pomiary, czyli 32 zliczenia na stan).
+Kalibracja pochodzi z obwodów o innych kątach, czyli wymaga przenoszalności błędu mocniejszej niż w założeniu~(\ref{itm:pdu:Z8}).
+% ŹRÓDŁO relacji do założeń (stan rozprawa/chapters/pdu.tex z 2026-11-27): założenie Z7 (znany argument: konfiguracja wejścia i faza kubitu odczytu kodowane przez wykonującego obliczenie; korekta nie korzysta z wartości wyznaczanej), założenie Z8 (przenoszalność przy tej samej fazie kubitu odczytu), akapit par:pdu:known-argument.
+
+W przebiegu H1 kalibrację i test rozdzielono według obwodów fizycznych, osobno dla każdego łańcucha (założenie~\ref{itm:pdu:Z5}); przedziały ufności pochodzą z metody bootstrap po 228 rejestrach.
+% ŹRÓDŁO: pdu-ibm-fez/autoenkoder/wyniki/wyniki.json, parametry (n_folds, n_reps, n_boot) i dane_h1 (rejestry, grupy_podzialu).
+Odwrócenie krzywej błędu, wskazane przed analizą jako wariant główny, pogarsza wszystkie trzy miary główne: wierność Hellingera spada z $0{,}832$ do $0{,}668$, TVD rośnie z $0{,}301$ do $0{,}408$, a MAE obrazu z $0{,}196$ do $0{,}235$ (przedział ufności różnicy: $[+0{,}028;\,+0{,}051]$; dolna granica z samego próbkowania: $0{,}154$); odwrócenie depolaryzacji działa tak samo ($[+0{,}022;\,+0{,}044]$).
+% ŹRÓDŁO: pdu-ibm-fez/autoenkoder/wyniki/h1_podsumowanie.csv, wiersze surowe, PDU-V/lancuch i depol/lancuch, miary F, TVD, mae_obraz (srednia, roznica_vs_surowe, roznica_ci95_lo, roznica_ci95_hi; dolna granica: kolumna podloga_srednia dla mae_obraz = 0,1542, to samo w wyniki.json, podloga_h1.mae_obraz); miary główne: pdu-ibm-fez/autoenkoder/PROTOKOL.md, punkt 4.
+Rozbicie na łańcuchy, dodane po obejrzeniu wyników, pokazuje, że wierność i TVD pogarszają się na każdym łańcuchu, a wzrost MAE pochodzi w około $90\%$ z dwóch najsłabszych ($\distshrink$ równe $0{,}33$ i $0{,}03$): na siedmiu pozostałych wynosi $+0{,}0060$ ($[+0{,}0033;\,+0{,}0088]$) dla odwrócenia krzywej błędu i $+0{,}0019$ ($[-0{,}0001;\,+0{,}0040]$) dla odwrócenia depolaryzacji.
+% ŹRÓDŁO: pdu-ibm-fez/autoenkoder/wyniki/h1_podsumowanie_lancuchy.csv (dla depol/lancuch i PDU-V/lancuch zmiana F ujemna, a TVD dodatnia na każdym łańcuchu; udział łańcuchów 5 i 8 we wzroście mae_obraz ważonym liczbą rejestrów: 95 procent dla depol/lancuch i 88 procent dla PDU-V/lancuch, obliczenie w eksperymenty/recenzje/_robocze/PHD-TS-92/01_h1.py); wyniki.json, parametry_h1_caly_zbior.depol_s_lancuch (0,328 i 0,026, czyli 1/s = 3,0 i 38; pozostałe od 0,461 do 0,563) i h1_slabe_lancuchy (rejestry_pozostale = 180); h1_podsumowanie_bez_slabych_lancuchow.csv, wiersze depol/lancuch i PDU-V/lancuch, mae_obraz; analiza dodana po obejrzeniu wyników: PROTOKOL.md, punkt 9.
+W kontroli syntetycznej o jednorodnym skurczeniu ($\distshrink=0{,}43$ na wszystkich łańcuchach) odwrócenie depolaryzacji przy tych samych liczbach pomiarów zmniejsza MAE z $0{,}186$ do $0{,}167$ i TVD, choć obniża wierność; samo wzmocnienie szumu próbkowania nie tłumaczy więc wyniku na siedmiu sprawnych łańcuchach, a skurczenia dwóch najsłabszych kontrola nie odtwarza.
+% ŹRÓDŁO: pdu-ibm-fez/autoenkoder/wyniki/blizniaki_podsumowanie.csv, wiersze C_jednorodna_depolaryzacja (surowe i depol/lancuch: mae_obraz, TVD, F); wyniki.json, parametry_h1_caly_zbior.depol_s_glob; konstrukcja kontroli: pdu-ibm-fez/autoenkoder/run.py (C = s_hw * T + (1 - s_hw)/D, jeden współczynnik dla wszystkich rejestrów).
+Korekta addytywna poprawia wierność do $0{,}919$, a MAE do $0{,}167$ ($[-0{,}032;\,-0{,}027]$), ale z konstrukcji usuwa wyłącznie średni błąd stanu bazowego: po przetasowaniu obrazów w kalibracji daje te same liczby.
+\emph{Kontrola bez pomiaru}, czyli średni rozkład idealny części kalibracyjnej, ma wyższą wierność ($0{,}935$) i ustępuje jej tylko w MAE ($0{,}183$; różnica $[0{,}014;\,0{,}018]$), więc według kryteriów zapisanych przed analizą nie jest to wykazana redukcja błędu urządzenia.
+% ŹRÓDŁO: pdu-ibm-fez/autoenkoder/wyniki/h1_podsumowanie.csv, wiersze PDU-S/lancuch (srednia, roznica_vs_surowe z przedziałem), prior/glob i PDU-S/lancuch[tas-obrazow]; h1_porownania_metod.csv, wiersze PDU-S/lancuch wobec prior/glob (F: -0,016 z przedziałem [-0,020; -0,011]; TVD: 0,177 wobec 0,179, różnica -0,003 z przedziałem [-0,008; +0,003]; mae_obraz: -0,016 z przedziałem [-0,018; -0,014]) i wobec PDU-S/lancuch[tas-obrazow] (różnice rzędu 1e-18); kryteria: pdu-ibm-fez/autoenkoder/PROTOKOL.md, punkt 5.
+
+Kalibracja z H1 przeniesiona na H2 (72 dni później, inny model, jeden wspólny łańcuch) nie zmniejsza MAE ani MSE na zbiorze K10 w żadnym wariancie o wspólnej kalibracji.
+% ŹRÓDŁO: pdu-ibm-fez/autoenkoder/wyniki/h2_podsumowanie.csv, zbiór H2 zadanie bazowe, warianty z dopiskiem kal. H1 (mae_obraz_roznica: depol/glob +0,036, PDU-V/glob +0,042, PDU-S/glob +0,015 z przedziałem [+0,007; +0,023], PDU-Vm/glob +0,0002; mse_obraz_roznica dodatnie; kalibracja osobna dla łańcucha daje się zastosować tylko do 2 rejestrów na łańcuchu wspólnym: mae_obraz_roznica -0,0017 i -0,0014 przy dodatnich różnicach MSE, bez podstaw do wnioskowania); wyniki.json, dane_h2 (data_h1, data_h2, lancuchy_wspolne_z_h1).
+Przy kalibracji z tego samego dnia (200 rejestrów z zadań dostrajania, 40 innych obrazów) odwrócenie depolaryzacji zwiększa MAE na zbiorze K10 o $0{,}035$ ($[+0{,}018;\,+0{,}052]$), choć współczynnik skurczenia jest prawie taki jak w H1 ($0{,}44$ wobec $0{,}43$).
+Korekta addytywna poprawia rozkład (TVD z $0{,}225$ do $0{,}162$), a zmiany MAE nie wykazano ($-0{,}0007$, $[-0{,}0040;\,+0{,}0023]$).
+W powtórnym pomiarze po 14 minutach, dopisanym do protokołu przed policzeniem wyników, zmiana ta wynosi $-0{,}0039$ ($[-0{,}0072;\,-0{,}0011]$, test znaków $p=0{,}11$), a błąd względem rekonstrukcji bezszumowej maleje w obu pomiarach o około $0{,}01$ ($[-0{,}021;\,+0{,}001]$ i $[-0{,}025;\,-0{,}002]$); są to wyniki eksploracyjne.
+% ŹRÓDŁO: pdu-ibm-fez/autoenkoder/wyniki/h2_podsumowanie.csv, zbiory H2 zadanie bazowe i H2 drugi pomiar, warianty z dopiskiem kal. H2, ten sam dzien: depol/glob (mae_obraz_roznica z przedziałem, mae_obraz_n_lepszy = 2) i PDU-S/lancuch (mae_obraz_roznica, mae_obraz_ideal_roznica z przedziałami, mae_obraz_n_lepszy, mae_obraz_test_znakow_p, TVD); 28 wariantów korekty na zbiór w tym pliku; wyniki.json, parametry_h2_kalibracja_tego_samego_dnia.depol_s_glob i dane_h2.kalibracja_tego_samego_dnia; skład kalibracji: hw_run2_finetune/plan.json (n_train 35, n_val 5, epochs 5) i hw_finetune/cli.py; drugi zbiór testowy i odstęp 14 minut: pdu-ibm-fez/autoenkoder/PROTOKOL.md, punkt 9.
+
+\begin{figure}[tb]
+\centering
+\input{figures/chp_learned_encoding/le_pdu_curves.tex}
+\caption[Korekta wyniku na symulatorze i niejednorodne skurczenie rozkładu]{Korekta wyniku na symulatorze (model A9, zbiór K10): MAE (a)~w funkcji depolaryzacji $\qdep$ przy 4096 pomiarach (pasmo: dopasowania do urządzenia) i (b)~w funkcji liczby pomiarów przy $\qdep=0{,}018$ ($\infty$: rozkład dokładny); (c)~współczynnik skurczenia całego rozkładu (linia ciągła), średniej kanału, czyli barwy (przerywana), i odchyleń od niej, czyli detalu (kropkowana), oraz wartość z przebiegu H2. Opracowanie własne.}
+\label{fig:le:pdu:curves}
+\end{figure}
+
+Symulator oddziela szum od próbkowania (rys.~\ref{fig:le:pdu:curves}): model A9 z jednorodną depolaryzacją $\qdep$ po każdym bloku oceniono na zbiorze K10, z kalibracją na 112 obrazach części uczącej, i osobno na 600 obrazach KITTI spoza rozkładu uczącego.
+% ŹRÓDŁO: krzywe-degradacji/autoenkoder/wyniki/analiza_meta.json, konfiguracje A i B (n_kal, n_test); dla obrazów KITTI kalibracja na 400 innych obrazach KITTI.
+Przy $\qdep=0{,}018$ i 4096 pomiarach MAE na K10 wynosi $0{,}0984$; odwrócenie depolaryzacji podnosi go do $0{,}1302$ (przedział ufności różnicy: $[+0{,}022;\,+0{,}041]$), po korekcie addytywnej zmiany nie wykazano ($[-0{,}0035;\,+0{,}0016]$), a korekta uczona obniża go do $0{,}0859$ ($[-0{,}0188;\,-0{,}0056]$).
+% ŹRÓDŁO: krzywe-degradacji/autoenkoder/wyniki/krzywe.csv i korekta_uczona.csv, konfiguracja A, szum p=0.018, pomiary 4096, miara mae_x, warianty surowe, depol, PDU-S, CNN (srednia, roznica_ci95_lo, roznica_ci95_hi).
+Błąd względem rekonstrukcji bezszumowej, czyli wniesiony przez szum i próbkowanie, maleje w mierze MSE o $24\%$ po korekcie addytywnej (MAE o $0{,}0072$, $[-0{,}0099;\,-0{,}0045]$) i o $72\%$ po uczonej, która jednak obniża MAE także przy $\qdep=0$ (z $0{,}0904$ do $0{,}0822$), czyli w znacznej części odszumia próbkowanie.
+% ŹRÓDŁO: krzywe.csv, konfiguracja A, p=0.018, pomiary 4096, wariant PDU-S: mse_y0 0,00598 -> 0,00455 (spadek o 23,9 procent), mae_y0 roznica_vs_surowe -0,00723 z przedziałem [-0,00991; -0,00445] (8 z 10 obrazów); korekta_uczona_udzial.csv, konfiguracja A, p=0.018, pomiary 4096: udzial_usuniety 0,718 z przedziałem [0,623; 0,785] (dla rozkładu dokładnego 0,970).
+% ŹRÓDŁO: krzywe.csv i korekta_uczona.csv, konfiguracja A, szum p=0, pomiary 4096, mae_x: surowe 0,09042, CNN 0,08217 (różnica -0,0083 z przedziałem [-0,0117; -0,0050]); kalibracja i uczenie sieci na 112 obrazach części uczącej modelu: krzywe-degradacji/autoenkoder/PROTOKOL.md, punkty 3 i 6.
+Odwrócenie szkodzi także dla rozkładu dokładnego ($0{,}0896\to0{,}1079$).
+Analiza dodana po obejrzeniu wyników pokazuje, że skurczenie, inaczej niż w drugim ze wzorów~\eqref{eq:le:noise}, nie jest jednorodne, bo średnia kanału odczytu, czyli barwa, zachowuje $0{,}68$ odchylenia od szarości, odchylenia od tej średniej, czyli detal, $0{,}31$, a współczynnik wspólny wynosi $0{,}41$, więc dzielenie przez niego zawyża barwę o dwie trzecie.
+% ŹRÓDŁO: krzywe-degradacji/autoenkoder/wyniki/krzywe.csv, konfiguracja A, p=0.018, pomiary inf, mae_x, warianty surowe i depol; skurczenie.csv, konfiguracja A, p=0.018: s_srednia_kanalu 0,679, s_detal 0,312, s_kalibracja 0,408; iloraz 0,679/0,408 = 1,67 (obliczenie własne); analiza dodana po obejrzeniu wyników: krzywe-degradacji/autoenkoder/PROTOKOL.md, punkt 11.
+Na obrazach KITTI odwrócenie krzywej błędu, w porównaniu głównym protokołu i wbrew zapisanemu w nim oczekiwaniu, zmniejsza MAE względem obrazu wejściowego ($0{,}1955\to0{,}1769$), lecz zwiększa błąd względem rekonstrukcji bezszumowej, co jest zgodne z hipotezą, że kompensuje zbyt mały kontrast rekonstrukcji, a nie szum; korekta addytywna zmniejsza tam oba błędy (MAE o $0{,}0116$).
+% ŹRÓDŁO: krzywe-degradacji/autoenkoder/wyniki/krzywe.csv, konfiguracja B, p=0.018, pomiary 4096: mae_x surowe 0,1955, PDU-V 0,1769 (depol 0,1769), mse_y0 surowe 0,00621, PDU-V 0,00938 (depol 0,00954); PDU-S: mae_x roznica_vs_surowe -0,01158 z przedziałem [-0,01201; -0,01116], mse_y0 0,00621 -> 0,00457; porównanie główne i oczekiwanie: krzywe-degradacji/autoenkoder/PROTOKOL.md, punkty 8 i 11.
+Jednorodna depolaryzacja odtwarza skurczenie zmierzone w H2 ($0{,}447$), lecz w mierze MSE tylko około połowy błędu urządzenia względem rekonstrukcji bezszumowej, a rozkładu skurczenia na składowe ani korekty uczonej nie sprawdzono na jego zliczeniach.
+% ŹRÓDŁO: krzywe-degradacji/autoenkoder/wyniki/odniesienie_sprzet.json (skurczenie_s 0,447, srednie.mse_y0 0,00711, srednie.mae_y0 0,0645); krzywe.csv, konfiguracja A, pomiary 16384, wariant surowe: mse_y0 0,00353 dla p=0.015 i 0,00429 dla p=0.018 (50 i 60 procent), mae_y0 0,0461 i 0,0508 (71 i 79 procent).
 
 \section{Dyskusja}\label{sec:le:discussion}
 \agentinfo{
-Odpowiedź na PB6.
-Budżet błędu z trzech składników: aproksymacja modelu, szum śrutowy, szum urządzenia.
-Co korekta klasyczna może usunąć (składowa systematyczna), a czego nie (depolaryzacja).
-Ograniczenia: mała próba, jedno urządzenie, słaba przewaga nad obrazem średnim, obrazy RGB zamiast skali szarości.
+Napisane w zadaniu PHD-TS-83 (2026-11-27); odpowiedź na pytanie rozdziału sformułowano opisowo, bez numerów pytań badawczych i tez (numeracja niezatwierdzona, zadanie w sekcji 7.6).
+Liczby pochodzą z tabel i rysunków sekcji 7.4 oraz z plików wskazanych w komentarzach; udziały 78, 3 i 19 procent to ilorazy składników z rysunku fig:le:gap i błędu 0,1009 (obliczenie własne, rozkład sekwencyjny, w mierze MAE); błąd modelu oznacza tu MAE na symulatorze poziomu 4 (0,0787), a nie bez szumu (0,0795), a udziały na symulatorze (82, 4 i 14 procent MSE przy 16 384 pomiarach) odnoszą się do modelu bezszumowego.
+Po recenzji (PHD-TS-92, ustalenia I1--I4, D2, D26): wnioski o korekcie rozdzielono według wariantu i miary; wyjaśnienie przez niejednorodne skurczenie oznaczono jako wynik symulatora, a relację do założenia Z7 sformułowano przez wykonalność tablicowania (kąty są znane, ale jest ich 256), nie przez nieznajomość argumentu.
+Porównanie z reprezentacjami zadanymi wzorem jest wyłącznie jakościowe, na podstawie sekcji 7.2 i podrozdziału 2.5: eksperymentu porównawczego na wspólnych danych (X6b) nie wykonano, zadanie pod akapitem.
+Zgodnie z decyzją autora z 2026-11-26 tekst nie proponuje nowych eksperymentów ani kierunków badań; wymienia tylko to, czego wykonane pomiary nie rozstrzygają.
+Wniosków rozdziałów 5 i 6 o skuteczności PDU dla obrazów tekst nie przywołuje (sprawa otwarta, CLAUDE.md); odesłanie do analogicznej korekty odczytu klasyfikatora (etykieta subsec:cls:results:pdu) usunięto dla objętości i można je przywrócić jednym zdaniem po zamknięciu rozdziału 8.
+Jedyny kontekst literaturowy: wrażliwość odwracania macierzy błędu odczytu na fluktuacje statystyczne (bib:nachman_unfolding_2020, sprawdzone w streszczeniu według notatki \agentref{eksperymenty/przeglad-literatury/sekcja-3.3-mitygacja.md}); sieci odwzorowujące rozkład zmierzony na idealny (bib:kim_quantum_2022, notatka sekcja-3.4-uczenie.md) pominięto dla objętości.
+Pominięto dla objętości: udziały w MSE na obrazach KITTI (przy 4096 pomiarach model 75, szum 22 i próbkowanie 3 procent; przy 16 384 pomiarach 77, 22 i 1 procent); to, co korekta ma do odzyskania na symulatorze w mierze MAE (0,019 z 0,098 przy depolaryzacji 0,018 i 4096 pomiarach, z czego korekta uczona odzyskuje 0,0125); w porównaniu kodowań zgodność z topologią łańcucha i dopasowanie do rozkładu obrazów uczących (są w sekcji 7.2; zdanie o obsłudze koloru usunięto z 7.2 w zadaniu PHD-TS-92 dla objętości) oraz uwagę, że odczyt intensywności z częstości stanów bazowych, a z nim szum próbkowania, jest wspólny dla FRQI, LPIQE i kodowania uczonego.
 }
 
+Odpowiedź na pytanie z podrozdziału~\ref{sec:le:scope} ma trzy części.
+Po pierwsze, uczone kodowanie znosi szum urządzenia słabo w stosunku do tego, co przenosi: MAE modelu A9 rośnie na procesorze ibm\_fez o $28\%$ i na wszystkich obrazach zbioru K10 przekracza błąd płaskiego obrazu własnego koloru, od którego już na symulatorze nie dawał się odróżnić (tabela~\ref{tab:le:paired}).
+% ŹRÓDŁO: liczby i porównania powtórzone z podrozdziałów 7.4.1 i 7.4.2 (tabela tab:le:paired; tam komentarze ze źródłami).
+Po drugie, składniki błędu są bardzo nierówne: z MAE równego $0{,}1009$ na błąd modelu w warunkach treningu przypada $0{,}0787$ ($78\%$), na szum próbkowania przy 16\,384 pomiarach $0{,}0032$ ($3\%$), a na szum urządzenia ponad poziom 4 $0{,}0191$ ($19\%$), z czego jednorodna depolaryzacja tłumaczy mniej niż połowę (rys.~\ref{fig:le:gap}).
+Na symulatorze, przy $\qdep=0{,}018$ i tej samej liczbie pomiarów, udziały modelu, próbkowania i szumu w MSE wynoszą $82\%$, $4\%$ i $14\%$.
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.methods.sim_level4.mae = 0,078697, sim_level4_sampled.mae = 0,081864, hw_baseline_job.mae = 0,100927 i sim_fitted_sampled_mae = 0,089411 (jak na rysunku fig:le:gap); szum urządzenia: 0,100927 - 0,081864 = 0,019063 (wartość 0,0190 w poprzedniej wersji była sumą zaokrąglonych składników 0,0075 i 0,0115); udziały 0,0787/0,1009, 0,0032/0,1009 i 0,0191/0,1009 oraz 0,0075/0,0191 = 0,40 to obliczenie własne.
+% ŹRÓDŁO (poprawka orkiestratora po recenzji PHD-TS-85, 2026-11-27, sprawdzona ponownie w PHD-TS-92): eksperymenty/krzywe-degradacji/autoenkoder/wyniki/podzial_bledu.csv, konfiguracja A, p=0.018, 16384 pomiary: mse_model 0,011872 (81,8 procent), wariancja_probkowania 0,000584 (4,0 procent), mse_szum_systematyczny + czlon_mieszany 0,002051 (14,1 procent), suma 0,014507; przy 4096 pomiarach 73,0, 14,4 i 12,6 procent; dla konfiguracji B przy 16384 pomiarach 76,9, 0,7 i 22,3 procent.
+Największego składnika nie dotyczy więc żadna redukcja błędów, a korekta wyniku ma do odzyskania najwyżej około jednej piątej błędu.
+
+Po trzecie, to, ile z tej części usuwa klasyczna korekta wyznaczona z pomiarów, zależy od wariantu i miary (podrozdział~\ref{subsec:le:results:pdu}).
+Korekta addytywna, najbliższy odpowiednik funkcji PDU, usuwa średni błąd stanu bazowego: poprawia zgodność rozkładu, w przebiegu H1 nie bardziej niż sama znajomość typowego rozkładu modelu, i na symulatorze zmniejsza błąd względem rekonstrukcji bezszumowej, lecz zmiany błędu względem obrazu wejściowego na zbiorze K10 nie wykazano.
+Odwracanie skurczenia wzmacnia szum próbkowania $1/\distshrink$ razy, podobnie jak odwracanie macierzy błędu odczytu~\cite{nachman_unfolding_2020}, a na symulatorze zawyża ponadto barwę obrazu, bo skurczenie w modelu warstwowym nie jest jednorodne; w przebiegu H1 pogarsza zgodność rozkładu na każdym łańcuchu, a MAE obrazu głównie na dwóch najsłabszych.
+Korekta typu PDU nie przenosi się zatem wprost na odczyt rozkładu z obwodu, którego kąty zależą od danych: kątów jest 256 i funkcji PDU nie da się względem nich stablicować, więc założenie~(\ref{itm:pdu:Z7}) da się spełnić tylko dla numeru stanu bazowego, a po uśrednieniu po obwodach kalibracyjnych pozostaje ta część błędu, która nie zależy od obrazu.
+Korekta uczona, która takiego argumentu nie potrzebuje, zmniejsza błąd na symulatorze, lecz na zliczeniach z urządzenia nie była sprawdzana.
+% ŹRÓDŁO: porównania powtórzone z podrozdziału 7.4.4 (tam komentarze ze źródłami).
+% USUNIĘTE W PHD-TS-92 DLA KOMPENSACJI OBJĘTOŚCI (recenzja, ustalenie D26): zdanie, że pomiary nie wykluczają zmiany błędu obrazu przez korektę addytywną o mniej niż około 0,003 (połowa szerokości przedziału [-0,0040; +0,0023]) i nie mówią, jak trwała jest kalibracja przy niezmienionym modelu i łańcuchach; korekta uczona zmniejsza na symulatorze MAE o 0,0125 = 0,0984 - 0,0859 (krzywe.csv i korekta_uczona.csv, konfiguracja A, p=0.018, pomiary 4096, mae_x: roznica_vs_surowe -0,01251).
+
+Porównanie z reprezentacjami zadanymi wzorem (podrozdział~\ref{sec:le:architecture}) jest jakościowe: brak pomiarów tych kodowań na wspólnych obrazach i przy wspólnym modelu szumu.
+\agenttask{
+Po wykonaniu eksperymentu porównawczego X6b (LPIQE, FRQI, NEQR i uczone kodowanie na wspólnych danych, katalog eksperymenty/porownanie-kodowan) zastąpić ostatnie zdanie akapitu liczbami: błąd bez szumu, liczba bramek dwukubitowych po transpilacji na łańcuch i błąd przy wspólnym modelu szumu oraz tej samej liczbie pomiarów, z przedziałami ufności; do tego czasu nie dopisywać porównań liczbowych między rozdziałami (rozdziały 5 i 6 używają obrazów w skali szarości i innych miar).
+}
+
+Do zagrożeń trafności z podrozdziału~\ref{par:le:leakage} korekta dodaje własne: kalibracja i test w przebiegu H1 pochodzą z jednego zadania trwającego 67 sekund, a przeniesienie na H2 miesza upływ czasu ze zmianą modelu i łańcuchów, więc stabilności błędu w czasie (założenie~\ref{itm:pdu:Z4}) nie zmierzono.
+Obrazy H1 leżą poza rozkładem uczącym modelu A8 i dają podobne rozkłady idealne, co podnosi wynik kontroli bez pomiaru i korekty addytywnej.
+Rozkład skurczenia na składowe i rozbicie wyników H1 na łańcuchy dodano po obejrzeniu wyników, a porównań wariantów pomocniczych nie objęto poprawką na ich liczbę.
+
 \section{Podsumowanie}\label{sec:le:summary}
+\agentinfo{
+Napisane w zadaniu PHD-TS-83 (2026-11-27): podsumowanie bez nowych treści i bez nowych liczb, wszystkie wartości powtórzono z sekcji 7.4.
+Po recenzji (PHD-TS-92, ustalenia I1--I3): zdania o korekcie podają osobno wynik każdego wariantu, a zdanie końcowe dotyczy wyłącznie korekty tablicowanej typu PDU, tak aby nie przeczyło wynikowi korekty uczonej; nie przywracać sformułowań, że korekta addytywna nie zmienia błędu obrazu ani że redukcja błędów oparta na pomiarze w ogóle wymaga znanego argumentu.
+}
+
+W rozdziale uczone kodowanie obrazów było obiektem pomiaru szumu: hybrydowy autoenkoder oceniono na symulatorze i w dwóch przebiegach na procesorze ibm\_fez.
+Konfiguracji A9 nie da się już na symulatorze odróżnić w mierze MAE od kodu przenoszącego średnią barwę, a na urządzeniu jej MAE rośnie o $28\%$, z czego szum próbkowania i jednorodna depolaryzacja wyjaśniają około połowy; trening z modelem szumu i dostrajanie sieci na urządzeniu nie dały wykazanej poprawy.
+Warianty korekty odwracające zniekształcenie pogorszyły na urządzeniu zgodność rozkładu, korekta addytywna ją poprawia, lecz na zbiorze K10 nie zmniejsza w sposób wykazany błędu względem obrazu wejściowego, a korekty uczonej, która zmniejsza błąd na symulatorze, nie sprawdzono na zliczeniach z urządzenia.
+W budżecie błędu przeważa błąd samego modelu, a korekta tablicowana typu PDU wymaga znanego argumentu, którym przy 256 kątach zależnych od danych może być tylko numer stanu bazowego.
+% ŹRÓDŁO: wszystkie liczby tej sekcji powtórzono z podrozdziałów 7.4.1--7.4.4 i z sekcji 7.5 (tam komentarze ze źródłami).
+\agenttask{
+Po zatwierdzeniu przez autora tez i pytań badawczych we wprowadzeniu (sekcja sec:introduction:theses) dopisać tutaj i na początku dyskusji numer pytania badawczego, na które rozdział odpowiada (roboczo PB6; opis zadania PHD-TS-83 wymieniał PB3 i PB4), oraz zdanie odnoszące wynik do tezy o redukcji błędów opartej na pomiarze (roboczo T1); do tego czasu nie przytaczać brzmienia tez.
+}

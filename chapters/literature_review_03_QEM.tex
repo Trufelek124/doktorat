@@ -1,0 +1,119 @@
+% !TeX root = ./../main.tex
+
+\section{Mitygacja błędów w erze NISQ}\label{sec:lr:qem}
+\agentinfo{
+Sekcja napisana w zadaniu PHD-TS-32 (2026-11-27) na podstawie notatki \agentref{eksperymenty/przeglad-literatury/sekcja-3.3-mitygacja.md}; wpisy pod znacznikiem LR-3.3 w biblio.bib.
+Każda liczba ma w tym pliku komentarz ze słowem ŹRÓDŁO (klucz, miejsce w pracy, wersja); liczby sprawdzono ponownie 2026-11-27 w otwartych wersjach prac, kopie w \agentref{eksperymenty/przeglad-literatury/_robocze/PHD-TS-31/cache}.
+Uzgodnienia: najbliżej PDU leży rodzina metod kalibrujących korektę wyniku na obwodach o znanym wyniku (jattana_general_2020, czarnik_error_2021, urbanek_mitigating_2021, lolur_reference-state_2023), a nie mitygacja odczytu; schemat ten jest w literaturze od 2020 r.
+Sekcja zestawia różnice rzeczowo i nie rozstrzyga, która z nich stanowi o nowości PDU: to decyzja autora (zadanie na końcu sekcji).
+Uwaga o przesunięciu fazy i korekcie indeksowanej argumentem jest wnioskiem własnym, nie twierdzeniem cytowanych prac; metody GEM i CDR kalibruje się osobno dla każdego obwodu zadania, więc nie można im przypisywać, że nie obejmują błędów koherentnych.
+Wpisy w kolumnie o stabilności w czasie opierają się na przeszukaniu tekstów głównych (arXiv, Europe PMC); materiałów uzupełniających nie sprawdzano.
+Podrozdział 2.3 ma już zdanie odsyłające do tej sekcji i do tabeli tab:lr:qem:calibrated; otwarte pozostaje tylko, czy w tabeli tab:tb03:cost dodać wiersz dla metod kalibrowanych na obwodach o znanym wyniku (decyzja autora, znacznik w tamtym pliku).
+Po recenzji (PHD-TS-90, 2026-11-27).
+Tabela: wpisy w kolumnie o wyniku idealnym dla mitygacji odczytu i metody GEM mówią teraz, że wynik obwodów kalibracyjnych jest znany z konstrukcji; metoda REM koryguje cały wynik (w pracy razem z osobną mitygacją odczytu); wpis PDU w kolumnie skali poprawił wcześniej orkiestrator.
+Akapit Zestawienie z metodą PDU: przenoszenie korekty (założenie Z8) i szerokość rodziny obwodów są podane jako założenie i własność z definicji metody, z odesłaniem do dyskusji rozdziału 4 (sec:pdu:discussion), bo rozdział 4 uznaje je za nierozstrzygnięte eksperymentalnie; zdania mają pozostać prawdziwe niezależnie od odpowiedzi autora na pytania rozdziału 4.
+Przypisanie metody podano neutralnie (opisana w pracy ICCS i w pracy magisterskiej autora); podział wkładu między współautorów pracy ICCS jest pytaniem do autora w rozdziale 4 (recenzja rozdziału 4, ustalenie I10).
+Dodano z rezerwy notatki, po sprawdzeniu w otwartej wersji, preprint shen_circuit_2025 (jedna macierz kalibracyjna dla wszystkich nastaw parametrów obwodu o stałej strukturze; badań stabilności w czasie nie zawiera); pracę conlon_approaching_2023 z metrologii kwantowej (stała poprawka estymaty kąta kalibrowana na znanych kątach i odnawiana w trakcie eksperymentu) zacytowano dla oszczędności miejsca tylko w elemencie (a) sekcji 3.8.
+Skutek dla wyróżników: wyznaczanie korekty raz dla rodziny obwodów ma odpowiednik w preprincie z 2025 r., a odrębne pozostaje indeksowanie znanym argumentem; tekst mówi to wprost, a brzmienie wyróżnika jest pytaniem do autora (znacznik pod akapitem).
+Zdanie o braku badań stabilności w czterech pracach osłabiono do zakresu sprawdzenia (teksty główne; materiałów uzupełniających nie sprawdzano).
+Dla zachowania objętości usunięto zdanie przejściowe kończące sekcję (odesłania do sekcji 3.4 i 3.5 są w sekcji 3.1).
+Skróty GEM, CDR i REM rozwinięto w wykazie skrótów (chapters/symbols.tex), a nie w tekście sekcji (recenzja, ustalenie D5).
+}
+
+Mechanizmy metod bazowych opisano w~podrozdziale~\ref{subsec:tb:qec:mitigation}; tutaj porównuje się ich założenia, koszt i~skalę eksperymentów.
+Wspólną ramę daje przegląd~\cite{cai2023quantum}: mitygacja zmniejsza obciążenie estymatora kosztem wariancji, a~potrzebna liczba wykonań rośnie wykładniczo ze średnią liczbą błędów w~jednym wykonaniu obwodu, więc na danym sprzęcie rozmiar obwodu jest ograniczony.
+% ŹRÓDŁO: cai2023quantum, rozdz. I (maximum circuit size, brak progu) i podrozdz. II.4 (wykładniczy narzut próbkowania względem circuit fault rate), arXiv:2210.00921v3.
+Potwierdza to teoria: dla lokalnego szumu depolaryzującego narzut rośnie wykładniczo z~głębokością obwodu~\cite{takagi_fundamental_2022}, a~w~najgorszym przypadku superwielomianowo już przy głębokościach obecnych eksperymentów~\cite{quek_exponentially_2024}.
+% ŹRÓDŁO: takagi_fundamental_2022, streszczenie, arXiv:2109.04457v5; quek_exponentially_2024, streszczenie, arXiv:2210.11505v3 (tylko streszczenia).
+
+Wśród metod zorientowanych na bramkę ekstrapolacja do zerowego szumu przeszła od propozycji~\cite{richardson-extrapolation,quasi-probability}, demonstracji na procesorze pięciokubitowym~\cite{kandala2021hardware} i~wariantów cyfrowych~\cite{giurgica-tiron_digital_2020} do obwodów na $127$ kubitach z~$2880$ bramkami CNOT~\cite{kim2023evidence}.
+% ŹRÓDŁO: kandala2021hardware, część o urządzeniu (5-qubit superconducting processor), arXiv:1805.04492v1; kim2023evidence, wstęp (127 qubits, up to 60 layers of two-qubit gates, 2,880 CNOT gates), wersja opublikowana, Europe PMC PMC10266970.
+Wymaga szumu skalowalnego i~stałego podczas zbierania danych: już w~pracy~\cite{kandala2021hardware} zaznaczono, że serie przy różnych skalach szumu trzeba mierzyć w~czasie krótszym niż fluktuacje czasów koherencji.
+% ŹRÓDŁO: kandala2021hardware, tekst główny przed opisem urządzenia (time-translation invariant noise; measurements within the typical timescales of these fluctuations), arXiv:1805.04492v1.
+Probabilistyczne znoszenie błędów~\cite{quasi-probability,endo_practical_2018} wymaga modelu szumu każdej warstwy bramek, który w~demonstracji na 27-kubitowym procesorze uczono ponownie co kilka godzin, aby nadążyć za fluktuacjami szumu~\cite{van_den_berg_probabilistic_2023}.
+% ŹRÓDŁO: van_den_berg_probabilistic_2023, część ,,Probabilistic error cancellation'' (relearn the noise model after fixed intervals to counter time-dependent fluctuations) i materiały uzupełniające SVII (27-qubit ibm_hanoi; część ,,Coherence'': noise-learning runs every few hours), arXiv:2201.09866v2.
+Weryfikacja symetrii odrzuca wykonania łamiące znaną symetrię zadania~\cite{bonet-monroig_low-cost_2018}.
+% ŹRÓDŁO: bonet-monroig_low-cost_2018, streszczenie, arXiv:1807.10050v3.
+Metody te sięgają więc ponad stu kubitów, lecz płacą liczbą wykonań, zmieniają obwód zadania albo wymagają aktualnego modelu szumu.
+
+\paragraph{Mitygacja błędu pomiaru.}
+Metody tej grupy nie zmieniają obwodu zadania: kalibruje się sam pomiar, a~korektę stosuje do zmierzonego rozkładu.
+W~pracy~\cite{maciejewski_mitigation_2020} macierz błędu odczytu wyznaczono tomografią detektora na pięciokubitowym procesorze IBM; wyniki tomografii różniły się między okresami kalibracji urządzenia, więc korektę liczono z~danych z~tego samego okresu.
+% ŹRÓDŁO: maciejewski_mitigation_2020, streszczenie i uwaga 4 (Remark 4) w rozdz. 6, arXiv:1907.08518v2.
+Wykładniczy koszt pełnej macierzy ($2^n$ obwodów kalibracyjnych) omija się na trzy sposoby.
+Modele o~małej liczbie parametrów sprawdzono na rejestrach do $20$ kubitów~\cite{bravyi_mitigating_2021,geller_toward_2021}, ograniczenie korekty do zaobserwowanych ciągów bitów pozwoliło korygować stany GHZ do $42$ kubitów~\cite{nation_scalable_2021}, a~losowe odwrócenia bitów przed pomiarem zmieniają już obwód zadania~\cite{van_den_berg_model-free_2022}.
+Wrażliwość odwracania macierzy na fluktuacje statystyczne łagodzą metody iteracyjne~\cite{nachman_unfolding_2020}.
+% ŹRÓDŁO: bravyi_mitigating_2021, streszczenie (20-qubit states), arXiv:2006.14044v2; geller_toward_2021, streszczenie (2^n measurements for a complete implementation; registers of 4 and 8 qubits), arXiv:2001.09980v2.
+% ŹRÓDŁO: nation_scalable_2021, rozdz. V i rys. 3 (GHZ states out to 42 qubits on the 65 qubit IBM Quantum Brooklyn), arXiv:2108.12518v1.
+% ŹRÓDŁO: van_den_berg_model-free_2022, streszczenie i rozdz. I--II (random Pauli bit flips prior to measurement), arXiv:2012.09738v3; nachman_unfolding_2020, streszczenie, arXiv:1910.01969v2.
+Kalibracja nie zależy tu od zadania, więc korekta przenosi się na dowolny obwód, ale obejmuje tylko odczyt, a~przy rosnącej głębokości obwodu dominują błędy bramek i~dekoherencja~\cite{nation_scalable_2021}.
+% ŹRÓDŁO: nation_scalable_2021, rozdz. V (gate errors and decoherence, effects measurement mitigation cannot resolve), arXiv:2108.12518v1.
+
+\paragraph{Korekta kalibrowana na obwodach o~znanym wyniku.}
+Bliżej redukcji błędów w~sensie definicji~\ref{def:tb03:reduction} leży rodzina metod, którą przegląd~\cite{cai2023quantum} opisuje jako metody uczone: parametry korekty wyznacza się na obwodach uczących o~strukturze podobnej do obwodu zadania i~znanym wyniku idealnym, a~w~najprostszej postaci korekta przeskalowuje i~przesuwa wynik.
+% ŹRÓDŁO: cai2023quantum, podrozdz. III.8 (training circuits: similar structure, classically simulable; wzór 48), arXiv:2210.00921v3.
+W~metodzie GEM (2020) macierz kalibracyjną, taką jak w~mitygacji odczytu, wypełnia się wynikami obwodów złożonych z~połowy bramek obwodu zadania i~ich odwrotności, więc obejmuje ona także błędy bramek~\cite{jattana_general_2020}; autorzy formułują wprost założenie wspólne z~PDU, że urządzenie systematycznie odtwarza swoje błędy.
+% ŹRÓDŁO: jattana_general_2020, rozdz. III (konstrukcja obwodów kalibracyjnych; ,,a circuit similar to C_g for which the outputs are always known'', obwód tożsamościowy), podrozdz. I.1 (,,cooperative'': ability of a quantum device to systematically reproduce its errors), arXiv:2011.10860v1.
+W~metodzie CDR (preprint 2020, publikacja 2021) zależność liniową między wynikiem zaszumionym a~dokładnym dopasowuje się na obwodach bliskich obwodowi zadania, złożonych głównie z~bramek Clifforda i~dlatego symulowalnych klasycznie; na procesorze IBM średni względny błąd energii zmalał z~$0{,}409$ do $0{,}028$, a~postać liniowa jest ścisła dla globalnego szumu depolaryzującego~\cite{czarnik_error_2021}.
+% ŹRÓDŁO: czarnik_error_2021, podpis rys. 2 (IBM Almaden, 16 qubits; 0.409 i 0.028; 63 near-Clifford circuits, 16384 shots, 1.05e6 shots per instance), dodatek A (global depolarizing noise), arXiv:2005.10189v3.
+Obwód szacujący szum (2021) to obwód zadania bez bramek jednokubitowych, o~znanym wyniku, z~którego wyznacza się jeden współczynnik depolaryzacji; stosowano go wraz z~kompilacją losową i~ekstrapolacją, które zmieniają obwód zadania~\cite{urbanek_mitigating_2021}.
+% ŹRÓDŁO: urbanek_mitigating_2021, opis metody (remove all single-qubit gates; known output) i część eksperymentalna (IBM Q Paris, six qubits, 8192 shots, 210 CNOT gates; randomized compiling, zero-noise extrapolation), arXiv:2103.08591v1.
+W~metodzie REM (preprint 2022, publikacja 2023) od energii wyznaczonej algorytmem wariacyjnym odejmuje się błąd zmierzony dla stanu referencyjnego o~znanej energii, co dla cząsteczki H$_2$ zmniejszyło błąd z~$0{,}029(6)$ do $0{,}002(8)$ hartree; zakłada się, że w~otoczeniu punktu referencyjnego błąd nie zależy od parametrów obwodu~\cite{lolur_reference-state_2023}.
+% ŹRÓDŁO: lolur_reference-state_2023, tabela 1 (H2: 0.029(6) i 0.002(8)), opis metody (underlying assumption: negligible dependence of noise on circuit parameters in the vicinity of the reference) i wstęp (,,REM can readily be employed together with other error mitigation methods, and throughout this work we additionally use readout mitigation''), wersja opublikowana, Europe PMC PMC9933421.
+
+\begin{table}[tb]
+  \centering
+  \caption[Metody korygujące wynik na podstawie kalibracji a metoda PDU]{Metody korygujące wynik na podstawie obwodów kalibracyjnych a~metoda PDU. Cały wynik: łącznie skutki błędów bramek, dekoherencji i~odczytu; gwiazdka: w~pracy z~osobną mitygacją odczytu; n.p.: w~tekście głównym nie znaleziono badań stabilności; $n$, $N$: liczba kubitów; $m$: liczba kubitów rejestru argumentu. Opracowanie własne.}
+  \label{tab:lr:qem:calibrated}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \newcommand{\lrc}[1]{\raggedright\hspace{0pt}#1}
+  \begin{tabular}{@{}p{1.75cm}p{2.7cm}p{2.3cm}p{1.2cm}p{2.4cm}p{2.6cm}p{1.7cm}@{}}
+    \toprule
+    \lrc{\textbf{Metoda}} & \lrc{\textbf{Co jest kalibrowane}} & \lrc{\textbf{Dodatkowe obwody}} & \lrc{\textbf{Co koryguje}} & \lrc{\textbf{Wynik idealny, argument}} & \lrc{\textbf{Skala}} & \lrc{\textbf{Stabilność w~czasie}} \tabularnewline
+    \midrule
+    \lrc{Mitygacja odczytu \cite{maciejewski_mitigation_2020,bravyi_mitigating_2021,nation_scalable_2021}} & \lrc{macierz błędu odczytu lub jej model} & \lrc{od rzędu $n$ do $2^n$, niezależnie od zadania} & \lrc{odczyt} & \lrc{znane stany kalibracyjne} & \lrc{$5$--$42$ kubity} & \lrc{zmienna między kalibracjami~\cite{maciejewski_mitigation_2020}} \tabularnewline\addlinespace[2pt]
+    \lrc{GEM \cite{jattana_general_2020}} & \lrc{macierz z~obwodów: połowa zadania i~jej odwrotność} & \lrc{$2^{N+1}$ na obwód zadania} & \lrc{cały wynik} & \lrc{znany z~konstrukcji obwodów} & \lrc{$1$--$4$ kubity} & \lrc{n.p.} \tabularnewline\addlinespace[2pt]
+    \lrc{CDR \cite{czarnik_error_2021}} & \lrc{liniowa zależność wyniku dokładnego od zaszumionego} & \lrc{kilkadziesiąt na obwód zadania ($63$)} & \lrc{cały wynik} & \lrc{wynik idealny obwodów uczących} & \lrc{$16$ kubitów; symulator $64$} & \lrc{n.p.} \tabularnewline\addlinespace[2pt]
+    \lrc{Obwód szacujący szum \cite{urbanek_mitigating_2021}} & \lrc{jeden współczynnik depolaryzacji} & \lrc{jeden na obwód zadania} & \lrc{wynik bez odczytu} & \lrc{wynik idealny obwodu szacującego} & \lrc{$6$ kubitów, do $210$ CNOT} & \lrc{n.p.} \tabularnewline\addlinespace[2pt]
+    \lrc{REM \cite{lolur_reference-state_2023}} & \lrc{błąd energii w~punkcie referencyjnym} & \lrc{najwyżej jedno wyznaczenie energii} & \lrc{cały wynik$^{\ast}$} & \lrc{wynik idealny w~punkcie referencyjnym} & \lrc{H$_2$, HeH$^+$, LiH} & \lrc{n.p.} \tabularnewline\addlinespace[2pt]
+    \lrc{PDU (rozdz.~\ref{chapter:pdu})} & \lrc{błąd obwodu referencyjnego w~$2^m$ węzłach argumentu} & \lrc{$2^m$ na rodzinę obwodów ($16$ dla $m=4$)} & \lrc{cały wynik} & \lrc{wynik idealny w~węzłach (\ref{itm:pdu:Z3}), argument (\ref{itm:pdu:Z7})} & \lrc{$5$ kubitów; na $7$ tylko korekta z~poprawek rejestrów (wynik negatywny)} & \lrc{badana (\ref{subsec:pdu:results:stability})} \tabularnewline
+    \bottomrule
+  \end{tabular}
+\end{table}
+% ŹRÓDŁO tabeli: wiersze 1--5 jak w komentarzach przy zdaniach powyżej; skala mitygacji odczytu: maciejewski_mitigation_2020 (5 kubitów), bravyi_mitigating_2021 (20), nation_scalable_2021 (42); REM: lolur_reference-state_2023, tekst przy tab. 1 i 2 (at most one additional VQE energy evaluation; readout mitigation applied for all VQE calculations; six-qubit circuit with 1096 two-qubit gates for BeH2 w symulacji); urbanek_mitigating_2021 (readout errors corrected using the unfolding technique); wiersz PDU: rozprawa, sekcje 4.2--4.6 (kalibrację wykonuje się raz na kalibrację urządzenia, algorytm alg:pdu:calibration; korekta złożona z poprawek dwóch rejestrów na urządzeniach siedmiokubitowych: eksperyment E5); w metodach REM i obwodu szacującego szum odczyt korygowano osobną mitygacją odczytu, przy czym REM odejmuje cały błąd energii zmierzony w punkcie referencyjnym (stąd wpis ,,cały wynik'' z gwiazdką), a obwód szacujący szum wyznacza współczynnik depolaryzacji po korekcie odczytu.
+% Kolumna ,,Wynik idealny, argument'': mitygacja odczytu kalibruje na przygotowanych stanach bazowych (nation_scalable_2021, dodatek A.1: 2^N circuits, one for each computational basis state), a metoda GEM na obwodach tożsamościowych o wyniku znanym z konstrukcji (jattana_general_2020, rozdz. III); wpisy poprawiono po recenzji (PHD-TS-90).
+% Kolumna ,,Stabilność w czasie'': w tekstach głównych prac jattana_general_2020 (arXiv v1), czarnik_error_2021 (arXiv v3), urbanek_mitigating_2021 (arXiv v1) i lolur_reference-state_2023 (Europe PMC) wyszukiwanie słów drift, stability, recalibration, time-dependent, hours, days nie dało trafień dotyczących stabilności korekty; materiałów uzupełniających nie sprawdzano.
+
+\paragraph{Zestawienie z~metodą PDU.}
+Tabela~\ref{tab:lr:qem:calibrated} zestawia te metody z~mitygacją odczytu i~z~metodą PDU.
+Zasada, zgodnie z~którą korektę wyznacza się na obwodach o~znanym wyniku i~stosuje klasycznie do wyniku niezmienionego obwodu zadania, pojawia się więc w~literaturze od 2020~r. w~kilku postaciach.
+Metoda PDU, opublikowana w~2022~r.~\cite{werner_experiment_driven_2022}, opisana też w~pracy magisterskiej autora~\cite{werner_magisterka_2022} i~rozwijana w~tej rozprawie, jest własną realizacją tej zasady i~różni się od czterech omówionych metod pod czterema względami.
+Po pierwsze, kalibruje się ją na obwodzie referencyjnym o~wyniku znanym analitycznie, wykonywanym we wszystkich węzłach argumentu (założenie~\ref{itm:pdu:Z3}), a~tamte metody na zmodyfikowanych kopiach obwodu zadania; przenoszenie korekty na inne obliczenia o~tej samej fazie kubitu odczytu jest założeniem (\ref{itm:pdu:Z8}), którego eksperymenty nie rozstrzygają.
+Po drugie, korekta PDU jest tablicą błędów odczytywaną dla znanego argumentu (założenie~\ref{itm:pdu:Z7}, podrozdział~\ref{sec:pdu:definition}) i~wyznaczaną raz na kalibrację urządzenia dla rodziny obwodów różniących się tym argumentem; zakres tej rodziny potwierdzony eksperymentalnie omawia podrozdział~\ref{sec:pdu:discussion}.
+W~tamtych metodach korekta jest funkcją wartości zmierzonej, wyznaczaną osobno dla każdego obwodu zadania albo, w~metodzie REM, dla otoczenia jednego punktu; w~preprincie z~2025~r. jest nią jedna macierz kalibracyjna dla wszystkich nastaw parametrów obwodu o~stałej strukturze, przy założeniu szumu niezależnego od parametrów~\cite{shen_circuit_2025}.
+% ŹRÓDŁO: shen_circuit_2025, podrozdz. II.1 (wzory 1--3: macierz kalibracyjna z obwodu tożsamościowego o strukturze obwodu zadania; ,,parameter-independent noise channel''), część o wynikach (,,a single calibration matrix that can be universally applied across all circuits''; kalibracja i obliczenia ,,within a short timeframe'', bez badania stabilności w czasie; 5 kubitów, urządzenia IBM), arXiv:2505.17187v2 (preprint; rekord arXiv API bez journal_ref, wyszukiwanie tytułu w Crossref 2026-11-27 pokazuje tylko inny preprint tych autorów).
+W~modelu~\eqref{eq:tb:noise:fringe} dwa argumenty położone symetrycznie względem $-\cohangle$ dają ten sam wynik zaszumiony i~na ogół różne wartości idealne, więc funkcja wartości zmierzonej nie odwróci przesunięcia fazy, a~tablica indeksowana argumentem to umożliwia; ceną jest wymóg znajomości argumentu (uwaga własna).
+Po trzecie, PDU dotyczy obliczeń opartych na próbkowaniu, których wynikiem jest wartość funkcji (założenie~\ref{itm:pdu:Z1}), a~w~omówionych pracach koryguje się wartości oczekiwane obserwabli albo rozkłady wyników obwodów losowych.
+Po czwarte, w~badaniach PDU błąd obwodu referencyjnego mierzono przez wiele miesięcy w~różnym czasie od kalibracji urządzenia, a~w~tekstach głównych czterech omówionych prac badań stabilności korekty nie znaleziono; inne prace odnotowują tylko potrzebę ponawiania kalibracji~\cite{maciejewski_mitigation_2020,van_den_berg_probabilistic_2023,cai2023quantum}.
+% ŹRÓDŁO: cai2023quantum, podrozdz. IV.1.1 (device parameters can drift in time and thus routine re-calibration might be needed), arXiv:2210.00921v3; pozostałe jak wyżej; PDU: rozprawa, tabela tab:pdu:protocols (eksperyment E2: 02.2021--05.2022 według pracy magisterskiej, 05.2021--01.2022 według artykułu ICCS). Zakres sprawdzenia czterech prac: teksty główne, bez materiałów uzupełniających (komentarz pod tabelą).
+Skala demonstracji PDU nie wykracza poza pozostałe prace.
+Za wyróżniki metody, na których opiera się wkład rozprawy, przyjmuje się drugą i~czwartą z~tych cech: korektę indeksowaną znanym argumentem, wyznaczaną raz dla rodziny obwodów, oraz zbadanie stabilności błędu między kalibracjami urządzenia (rozdział~\ref{chapter:pdu}).
+Pierwsza i~trzecia opisują zakres jej zastosowania, a~w~drugiej od preprintu z~2025~r. odróżnia PDU indeksowanie znanym argumentem.
+W~przeszukanym zakresie nie znaleziono pracy, która tablicuje błąd wyniku w~funkcji znanego argumentu obliczenia i~odejmuje go od wyniku (podrozdział~\ref{sec:lr:gap}).
+\agenttask{
+Pytanie do autora (PHD-TS-90, recenzja rozdziału 3, ustalenia I3 i I4).
+Preprint shen_circuit_2025 (arXiv:2505.17187, maj 2025, czyli po pracy ICCS 2022) wyznacza jedną macierz kalibracyjną dla wszystkich nastaw parametrów obwodu o stałej strukturze, więc druga część pierwszego wyróżnika (korekta wyznaczana raz dla rodziny obwodów) ma odpowiednik w literaturze; odrębne pozostaje indeksowanie znanym argumentem.
+Czy pierwszy wyróżnik formułować odtąd jako tablicę błędu indeksowaną znanym argumentem (z wyznaczaniem raz dla rodziny obwodów jako cechą dodatkową, wspólną z tym preprintem), czy zostawić brzmienie łączne z decyzji z 2026-11-27?
+Tekst sekcji 3.3 i elementu (a) w sekcji 3.8 jest prawdziwy przy obu odpowiedziach; po decyzji uzgodnić z nim rozdziały 1, 4 i 10.
+}
+\agenttaskDONE{
+Rozstrzygnięte decyzją autora z 2026-11-27: PDU jest metodą rozwijaną w ramach tego doktoratu i ma być opisana jako ważny wkład rozprawy; za wyróżniki przyjęto cechy (2) i (4), a akapit Zestawienie z metodą PDU orkiestrator poprawił tego samego dnia.
+Nie pisać przy tym, że metod pokrewnych nie ma: zestawienie z nimi zostaje.
+Otwarte pozostaje tylko, czy w podrozdziale 2.3 redukcję opisywać jako kategorię obejmującą metody pokrewne (znacznik w tamtym pliku).
+Treść pierwotnego pytania (PHD-TS-32): jak sformułować wkład metody PDU względem rodziny metod kalibrowanych na obwodach o znanym wyniku (GEM 2020, CDR 2020--2021, obwody szacujące szum 2021, REM 2022--2023)?
+Sekcja wymienia cztery różnice i żadnej nie nazywa nowością: (1) kalibracja na obwodzie referencyjnym o wyniku znanym analitycznie, we wszystkich węzłach argumentu, i przenoszenie korekty na obliczenia o tej samej fazie kubitu odczytu (założenie Z8, w rozdziale 4 potwierdzone tylko warunkowo); (2) korekta jako tablica indeksowana znanym argumentem, wyznaczana raz dla rodziny obwodów, obejmująca przesunięcie fazy; (3) obliczenia oparte na próbkowaniu z wynikiem będącym wartością funkcji; (4) wielomiesięczne badanie stabilności błędu między kalibracjami urządzenia; odnotowuje też, że skala demonstracji PDU nie jest większa niż w pozostałych pracach.
+Do decyzji: które z cech (1)--(4) autor chce przedstawić jako wkład, czy zdanie, że schemat jest w literaturze od 2020 r., a PDU jest jedną z jego realizacji, ma zostać w tym brzmieniu, oraz czy w rozdziałach 1, 2.3 i 4 opisywać PDU jako jedną z metod tej rodziny.
+Uwaga: gdy argument nie jest znany przy korekcie (obrazy, sprawa otwarta rozdziału 5), cecha (2) nie ma zastosowania i korekta staje się funkcją wartości zmierzonej, jak w metodach tej rodziny.
+Po decyzji autora poprawić akapit Zestawienie z metodą PDU i uzgodnić go z sekcją 3.8.
+}

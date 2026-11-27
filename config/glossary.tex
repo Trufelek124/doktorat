@@ -32,7 +32,7 @@
   name={korekcja błędów kwantowych},
   sort={korekcja bledow kwantowych},
   description={
-    Grupa metod chroniących informację kwantową przez zakodowanie jej w nadmiarowej liczbie kubitów fizycznych oraz wykrywanie i odwracanie błędów w trakcie obliczeń.
+    Grupa metod chroniących informację kwantową przez zakodowanie kubitów logicznych w nadmiarowej liczbie kubitów fizycznych oraz wykrywanie błędów pomiarem syndromu i odwracanie ich w trakcie obliczeń (ang. \emph{quantum error correction}, QEC).
   }
 }
 
@@ -40,7 +40,7 @@
   name={mitygacja błędów kwantowych},
   sort={mitygacja bledow kwantowych},
   description={
-    Grupa metod zmniejszających wpływ szumu na wartości oczekiwane lub rozkłady wyników bez kodowania informacji w kubitach logicznych, zwykle kosztem dodatkowych wykonań obwodu.
+    Grupa metod zmniejszających wywołane szumem obciążenie wartości oczekiwanych lub rozkładów wyników przez klasyczną obróbkę wyników wielu wykonań obwodu, jego zmodyfikowanych wariantów lub obwodów kalibracyjnych, bez kodowania informacji w kubitach logicznych (ang. \emph{quantum error mitigation}, QEM).
   }
 }
 
@@ -48,7 +48,104 @@
   name={redukcja błędów kwantowych},
   sort={redukcja bledow kwantowych},
   description={
-    W niniejszej pracy: grupa metod ograniczających błąd wyniku obliczeń kwantowych na podstawie wyników pomiarów, realizowanych po stronie klasycznej, bez dodatkowych kubitów i bramek w obwodzie.
+    W niniejszej pracy: grupa metod korygujących wynik obliczeń kwantowych wyłącznie po stronie klasycznej, modelem korekty wyznaczonym eksperymentalnie dla danego zadania i urządzenia, bez dodatkowych kubitów i bramek w obwodzie zadania; dodatkowe wykonania obwodu służą tylko kalibracji modelu.
+  }
+}
+
+\newglossaryentry{logical-qubit}{
+  name={kubit logiczny},
+  plural={kubity logiczne},
+  sort={kubit logiczny},
+  description={
+    Kubit zakodowany w stanie wielu kubitów fizycznych za pomocą kodu korekcyjnego; pełni w obliczeniach rolę pojedynczego kubitu chronionego przed błędami.
+  }
+}
+
+\newglossaryentry{syndrome}{
+  name={syndrom błędu},
+  sort={syndrom bledu},
+  description={
+    Wynik pomiaru wykonywanego w kodzie korekcyjnym, który wskazuje rodzaj i położenie błędu, lecz nie ujawnia zakodowanej informacji.
+  }
+}
+
+\newglossaryentry{quantum-channel}{
+  name={kanał kwantowy},
+  sort={kanal kwantowy},
+  description={
+    Liniowe odwzorowanie macierzy gęstości, które jest całkowicie dodatnie i zachowuje ślad (CPTP); najogólniejszy opis zmiany stanu układu kwantowego, obejmujący bramki unitarne i szum.
+  }
+}
+
+\newglossaryentry{coherent-error}{
+  name={błąd koherentny},
+  sort={blad koherentny},
+  description={
+    Błąd będący stałą, niezamierzoną operacją unitarną, na przykład obrotem o dodatkowy kąt wskutek niedokładnej kalibracji; jest jednakowy w każdym wykonaniu obwodu i nie zamienia stanu czystego w mieszany.
+  }
+}
+
+\newglossaryentry{incoherent-error}{
+  name={błąd niekoherentny},
+  sort={blad niekoherentny},
+  description={
+    Błąd stochastyczny: kanał, którego nie da się zapisać jedną operacją unitarną, na przykład losowe działanie bramek Pauliego, relaksacja lub defazowanie; zamienia stany czyste w mieszane.
+  }
+}
+
+\newglossaryentry{unital-channel}{
+  name={kanał unitalny},
+  sort={kanal unitalny},
+  description={
+    Kanał kwantowy, który nie zmienia stanu maksymalnie mieszanego; dla jednego kubitu nie przesuwa środka kuli Blocha. Kanał nieunitalny, na przykład relaksacja, ściąga układ do wyróżnionego stanu.
+  }
+}
+
+\newglossaryentry{crosstalk}{
+  name={przesłuch},
+  sort={przesluch},
+  description={
+    Niezamierzone oddziaływanie między kubitami lub liniami sterującymi (ang. \emph{crosstalk}), wskutek którego operacja na jednym kubicie zaburza inne kubity albo błąd bramki zależy od operacji wykonywanych równocześnie w sąsiedztwie.
+  }
+}
+
+\newglossaryentry{qubit-leakage}{
+  name={wyciek poza przestrzeń obliczeniową},
+  sort={wyciek poza przestrzen obliczeniowa},
+  description={
+    Przejście układu fizycznego realizującego kubit do stanu spoza podprzestrzeni rozpiętej przez $\ket{0}$ i $\ket{1}$ (ang. \emph{leakage}), na przykład na wyższy poziom energetyczny.
+  }
+}
+
+\newglossaryentry{systematic-error}{
+  name={składowa systematyczna błędu},
+  sort={skladowa systematyczna bledu},
+  description={
+    Różnica między prawdopodobieństwem wyniku na zaszumionym urządzeniu a prawdopodobieństwem idealnym; nie zależy od liczby pomiarów i powtarza się w kolejnych seriach, dopóki parametry urządzenia są ustalone.
+  }
+}
+
+\newglossaryentry{shot-noise}{
+  name={szum próbkowania},
+  sort={szum probkowania},
+  description={
+    Składowa statystyczna błędu wyniku (ang. \emph{shot noise}, także: szum śrutowy): losowa różnica między częstością otrzymaną ze skończonej liczby pomiarów a prawdopodobieństwem wyniku; jej odchylenie standardowe maleje jak odwrotność pierwiastka z liczby pomiarów.
+  }
+}
+
+\newglossaryentry{distribution-shrinkage}{
+  name={współczynnik skurczenia rozkładu},
+  sort={wspolczynnik skurczenia rozkladu},
+  description={
+    Liczba $s\in[0,1]$, przez którą szum niekoherentny mnoży odchylenia rozkładu wyników od rozkładu jednostajnego; dla kanału depolaryzującego działającego na cały rejestr $s=1-\lambda$.
+  }
+}
+
+\newglossaryentry{ptm}{
+  name={macierz transferu Pauliego},
+  sort={macierz transferu Pauliego},
+  description={
+    Rzeczywista macierz kanału kwantowego w bazie operatorów Pauliego (ang. \emph{Pauli Transfer Matrix}, PTM); dla jednego kubitu składa się z pierwszego wiersza (zachowanie śladu), wektora przesunięcia (część nieunitalna) i bloku unitalnego $3\times3$ (obrót i skrócenie wektora Blocha).
   }
 }
 
@@ -57,5 +154,174 @@
   sort={probkowanie kwantowe},
   description={
     Sposób prowadzenia obliczeń kwantowych, w którym wynikiem jest rozkład prawdopodobieństwa stanów bazowych wyznaczony z wielokrotnego wykonania tego samego obwodu.
+  }
+}
+
+\newglossaryentry{qcosamp}{
+  name={QCoSamp},
+  sort={QCoSamp},
+  description={
+    Kwantowe próbkowanie szeregiem cosinusów (ang. \emph{Cosine Series Quantum Sampling}): metoda budowy operatorów, dla których rozkład wyników pomiaru jednego kubitu jest ważoną sumą składników $\frac{1}{2}(1+\cos(nx+r))$ argumentu $x$ wprowadzonego do obwodu; pochodzi z pracy Wereszczyńskiego i~in.
+  }
+}
+
+\newglossaryentry{pdo}{
+  name={operator zniekształcenia fazy},
+  sort={operator znieksztalcenia fazy},
+  description={
+    (ang. \emph{Phase Distortion Operator}, PDO) Operator unitarny diagonalny w bazie obliczeniowej, który mnoży amplitudę każdego stanu bazowego przez czynnik fazowy zależny od kodowanych danych; służy do zapisu danych w fazach lokalnych.
+  }
+}
+
+\newglossaryentry{pdu-function}{
+  name={funkcja PDU},
+  sort={funkcja PDU},
+  description={
+    Funkcja odwracania zniekształceń fazy (ang. \emph{Phase Distortion Unraveling}): interpolacja błędów wyznaczonych eksperymentalnie jako różnice między zmierzonymi a oczekiwanymi wartościami funkcji referencyjnej; odejmuje się ją od wyników późniejszych obliczeń wykonywanych na tym samym urządzeniu i układzie kubitów.
+  }
+}
+
+\newglossaryentry{reference-function}{
+  name={funkcja referencyjna},
+  sort={funkcja referencyjna},
+  description={
+    Funkcja realizowana przez obwód kwantowy w modelu próbkowania, której wartości w węzłach siatki kalibracyjnej są znane niezależnie od tego obwodu; w niniejszej pracy składnik cosinusowy $\frac{1}{2}(1+\cos x)$ metody QCoSamp.
+  }
+}
+
+\newglossaryentry{qimr}{
+  name={kwantowa reprezentacja obrazu},
+  plural={kwantowe reprezentacje obrazów},
+  sort={kwantowa reprezentacja obrazu},
+  description={
+    Sposób zapisania obrazu cyfrowego w stanie rejestru kwantowego wraz z procedurą odtworzenia intensywności pikseli z wyników pomiarów, np. FRQI, NEQR lub LPIQE.
+  }
+}
+
+\newglossaryentry{superposition}{
+  name={superpozycja},
+  sort={superpozycja},
+  description={
+    Stan kwantowy będący kombinacją liniową co najmniej dwóch stanów bazowych o niezerowych amplitudach zespolonych; amplitudy mogą się wzajemnie wzmacniać lub znosić.
+  }
+}
+
+\newglossaryentry{entanglement}{
+  name={splątanie},
+  sort={splatanie},
+  description={
+    Własność stanu układu złożonego, którego nie da się zapisać jako iloczyn tensorowy stanów podukładów.
+  }
+}
+
+\newglossaryentry{global-phase}{
+  name={faza globalna},
+  sort={faza globalna},
+  description={
+    Czynnik $\mathrm{e}^{\mathrm{i}\chi}$ wspólny dla wszystkich składowych wektora stanu; nie wpływa na wyniki żadnego pomiaru.
+  }
+}
+
+\newglossaryentry{local-phase}{
+  name={faza lokalna},
+  sort={faza lokalna},
+  description={
+    Faza względna składowych superpozycji, np. $\varphi$ w stanie $(\ket{0}+\mathrm{e}^{\mathrm{i}\varphi}\ket{1})/\sqrt{2}$; niewidoczna w pomiarze w bazie obliczeniowej, staje się mierzalna dzięki interferencji.
+  }
+}
+
+\newglossaryentry{interference}{
+  name={interferencja kwantowa},
+  sort={interferencja kwantowa},
+  description={
+    Sumowanie się amplitud różnych ścieżek obliczenia prowadzących do tego samego wyniku; prawdopodobieństwo wyniku zależy od różnicy faz tych amplitud.
+  }
+}
+
+\newglossaryentry{bloch-sphere}{
+  name={sfera Blocha},
+  sort={sfera Blocha},
+  description={
+    Geometryczna reprezentacja stanu kubitu jako punktu sfery jednostkowej (stany czyste) lub kuli (stany mieszane); faza lokalna jest azymutem tego punktu.
+  }
+}
+
+\newglossaryentry{density-matrix}{
+  name={macierz gęstości},
+  sort={macierz gestosci},
+  description={
+    Hermitowska, dodatnio półokreślona macierz o śladzie 1 opisująca stan kwantowy, także mieszany; jej diagonala zawiera prawdopodobieństwa stanów bazowych, a elementy pozadiagonalne -- koherencje.
+  }
+}
+
+\newglossaryentry{transpilation}{
+  name={transpilacja},
+  sort={transpilacja},
+  description={
+    Przekształcenie obwodu logicznego w równoważny obwód złożony z bramek natywnych urządzenia i zgodny z topologią połączeń jego kubitów; zmienia liczbę i rodzaj bramek, a przez to błąd wyniku.
+  }
+}
+
+\newglossaryentry{phase-kickback}{
+  name={przeniesienie fazy},
+  sort={przeniesienie fazy},
+  description={
+    (ang. \emph{phase kickback}) Efekt działania bramki kontrolowanej na kubit docelowy w stanie własnym jej operatora: wartość własna pojawia się jako faza lokalna kubitu kontrolnego.
+  }
+}
+
+\newglossaryentry{uncomputation}{
+  name={dekomputacja},
+  sort={dekomputacja},
+  description={
+    (ang. \emph{uncomputation}) Odwrócenie części obliczenia po skopiowaniu jego wyniku, przywracające kubity pomocnicze do stanu początkowego, tak aby wyniki pośrednie nie blokowały interferencji.
+  }
+}
+
+\newglossaryentry{overfitting}{
+  name={przeuczenie},
+  sort={przeuczenie},
+  description={
+    (ang. \emph{overfitting}) Dopasowanie modelu do szczegółów i szumu zbioru uczącego zamiast do zależności ogólnych, widoczne jako malejąca strata na zbiorze uczącym przy rosnącej stracie na zbiorze walidacyjnym.
+  }
+}
+
+\newglossaryentry{data-leakage}{
+  name={przeciek danych},
+  sort={przeciek danych},
+  description={
+    (ang. \emph{data leakage}) Wpływ informacji ze zbioru, na którym ocenia się model, na jego uczenie lub wybór, prowadzący do zawyżonej oceny jakości modelu.
+  }
+}
+
+\newglossaryentry{hybrid-model}{
+  name={model hybrydowy kwantowo-klasyczny},
+  sort={model hybrydowy kwantowo-klasyczny},
+  description={
+    Model uczenia maszynowego, w którym obwód kwantowy i klasyczne sieci lub funkcje tworzą jeden graf obliczeń uczony wspólnie; w niniejszej pracy sieć klasyczna wyznacza kąty bramek obwodu o stałej strukturze.
+  }
+}
+
+\newglossaryentry{learned-encoding}{
+  name={kodowanie uczone},
+  sort={kodowanie uczone},
+  description={
+    Kwantowa reprezentacja obrazu, w której stanu nie zadaje wzór, lecz sieć klasyczna nauczona na zbiorze obrazów: sieć wyznacza kąty bramek obwodu o stałej strukturze, a intensywności pikseli odczytuje się z prawdopodobieństw stanów bazowych; kodowanie jest przybliżone także bez szumu.
+  }
+}
+
+\newglossaryentry{hellinger-fidelity}{
+  name={wierność Hellingera},
+  sort={wiernosc Hellingera},
+  description={
+    Miara zgodności dwóch rozkładów prawdopodobieństwa wyników pomiaru, $\bigl(\sum_x\sqrt{p(x)\,q(x)}\bigr)^2\in[0,1]$, równa 1 tylko dla rozkładów identycznych; jest wiernością stanów kwantowych diagonalnych w bazie pomiaru.
+  }
+}
+
+\newglossaryentry{equivariance}{
+  name={ekwiwariancja},
+  sort={ekwiwariancja},
+  description={
+    Własność odwzorowania, które przekształcenie wejścia przez element grupy przenosi na znane przekształcenie wyjścia: $f(T_g\mathbf{x})=T'_g f(\mathbf{x})$ dla każdego elementu $g$ grupy.
   }
 }

@@ -5,3 +5,129 @@
 \agentinfo{
 Tabele i rysunki, które nie mieszczą się w rozdziałach głównych: pełne tabele MSE dla poszczególnych urządzeń, dodatkowe przykłady obrazów przed korektą i po korekcie, krzywe uczenia sieci.
 }
+
+\section{Wyniki uzupełniające do rozdziału~\ref{chapter:pdu}}\label{app:results:pdu}
+\agentinfo{
+Sekcja dodana w zadaniach PHD-TS-41 i PHD-TS-42 (rozdział 4, metoda PDU); zawiera materiał, który nie zmieścił się w budżecie stron rozdziału.
+Tabela tab:pdu:app:pvalues: p-wartości z pracy magisterskiej \agentref{artykuły/magisterka_werner_final/chapters/03.tex} (tabele tab:pearson_coefficients, tab:other_corrs_tau, tab:other_corrs_rho).
+Tabela tab:pdu:app:iccs: liczności i współczynniki po korekcie z tabeli artykułu \agentref{artykuły/Quantum_Errors_ICCS/main.tex} (tab:coefficients), wartości przed korektą i przyrosty z pliku \agentref{artykuły/Quantum_Errors_ICCS/imgs/pearson.png}, który leży w katalogu artykułu, ale nie jest włączony do jego źródła (DO POTWIERDZENIA PRZEZ AUTORA, czy wykres znalazł się w wersji opublikowanej).
+Rysunek fig:pdu:app:density: grafika przeniesiona z pracy magisterskiej (ten sam plik jest w katalogu artykułu); źródła nie są zgodne co do urządzenia i węzła, opis rozbieżności w konspekcie podrozdziału 4.7.1.
+Rysunek fig:pdu:app:scatter: grafiki przeniesione z pracy magisterskiej (katalog stab_blad); opisy osi są po angielsku.
+ROZBIEŻNOŚĆ: podpis w pracy magisterskiej podaje dla urządzenia Santiago węzeł 3/4 pi (zgodnie z nazwą pliku), a wykomentowany podpis w artykule -3/4 pi; przyjęto wartość z pracy magisterskiej.
+Po recenzji rozdziału 4 (zadanie PHD-TS-91, 2026-11-27): dodano tabelę tab:pdu:app:discrepancies z rozbieżnościami źródeł (wcześniej opisanymi tylko w konspektach), zdania o definicji próbki i o przedziałach ufności liczonych dla serii (przeniesione z sekcji 4.6 i 4.7 dla objętości rozdziału) oraz uwagi w podpisie tabeli tab:pdu:app:iccs (przyrost 0,099 w tekście artykułu, pochodzenie kolumn z wykresu niewłączonego do artykułu, suma 6006).
+Wiersz tabeli o macierzy gęstości przywołuje wersję roboczą artykułu, czyli tekst wykomentowany w jego źródle (Lima, 7/8 pi); DO DECYZJI AUTORA, czy taki wiersz może zostać w wersji do oddania.
+Sekcja dodatku zajmowała przed poprawkami 2 strony; po dodaniu tabeli i trzech zdań zajmuje więcej (liczba w pliku \agentref{eksperymenty/recenzje/rozdzial-4-poprawki.md}).
+}
+
+Dodatek uzupełnia rozdział~\ref{chapter:pdu} o pięć elementów.
+Tabela~\ref{tab:pdu:app:pvalues} podaje p-wartości testów istotności współczynników korelacji z tabeli~\ref{tab:pdu:corr} dla funkcji jednej zmiennej; testy te dotyczą hipotezy o braku korelacji z wartościami oczekiwanymi, a nie poprawy po korekcie.
+Źródła nie definiują próbki, a przyjęta w podrozdziale~\ref{sec:pdu:methodology} definicja (wynik dla jednego węzła w jednej serii) nie tłumaczy liczności pięciu z siedmiu urządzeń, które nie są wielokrotnościami $16$.
+Przedziały ufności z tabeli~\ref{tab:pdu:corr} zakładają niezależność próbek i rozkład normalny obu zmiennych, są więc przybliżone i optymistyczne: próbki z jednej serii dzielą stan urządzenia, a wartości oczekiwane tworzą stałą siatkę.
+Gdy za niezależną jednostkę przyjąć serię, czyli w miejsce liczby próbek $N$ wstawić $N/16$ w eksperymencie E3 i $N/64$ w eksperymencie E5, przedziały przed korektą i po korekcie pozostają w eksperymencie E3 rozłączne dla wszystkich urządzeń poza Athens, a w eksperymencie E5 zachodzą na siebie dla każdego urządzenia i dla zbioru łącznego ($[0{,}42;\,0{,}58]$ i $[0{,}33;\,0{,}50]$).
+% ŹRÓDŁO: obliczenie własne z wartości r i N z tabeli tab:pdu:corr: tanh(artanh(r) +/- 1,96/sqrt(n-3)) dla n = N/16 (E3, część całkowita) i n = N/64 (E5); E5 łącznie: n = 340, r = 0,507: [0,423; 0,582]; r = 0,418: [0,326; 0,502]; skrypt eksperymenty/recenzje/_robocze/PHD-TS-62/analiza_wrazliwosci.py, wynik powtórzony w PHD-TS-91 (plik powt_analiza_wrazliwosci.txt); liczności 100, 1470, 1667, 1162 i 679 nie dzielą się przez 16.
+Tabela~\ref{tab:pdu:app:iccs} zawiera wyniki dla mniejszego zbioru danych, opisanego w pracy~\cite{werner_experiment_driven_2022}, a tabela~\ref{tab:pdu:app:discrepancies} zestawia rozbieżności między źródłami, na których opiera się rozdział.
+Rysunek~\ref{fig:pdu:app:density} przedstawia macierz gęstości kubitu odczytu omawianą w podrozdziale~\ref{subsec:pdu:results:devices}, a rysunek~\ref{fig:pdu:app:scatter} rozrzut pojedynczych pomiarów błędu, do którego odnosi się podrozdział~\ref{subsec:pdu:results:stability}.
+
+\begin{table}[htbp]
+\centering
+\caption[P-wartości współczynników korelacji dla funkcji jednej zmiennej]{P-wartości testów istotności współczynników korelacji z tabeli~\ref{tab:pdu:corr} dla funkcji jednej zmiennej (eksperyment E3), przed korektą i po korekcie funkcją PDU.
+Zapis $0$ oznacza wartość podaną w źródle jako $0{,}0$, czyli mniejszą od najmniejszej dodatniej liczby reprezentowalnej w arytmetyce zmiennoprzecinkowej.
+Dane z~pracy~\cite{werner_magisterka_2022}.}
+\label{tab:pdu:app:pvalues}
+\footnotesize
+\begin{tabular}{@{}lrcccccc@{}}
+\toprule
+ & & \multicolumn{2}{c}{Pearson} & \multicolumn{2}{c}{Kendall} & \multicolumn{2}{c}{Spearman} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(l){7-8}
+\textbf{Urządzenie} & $N$ & przed & po & przed & po & przed & po \\
+\midrule
+Athens & 100 & $3{,}45\cdot10^{-69}$ & $1{,}26\cdot10^{-72}$ & $2{,}0\cdot10^{-35}$ & $1{,}56\cdot10^{-37}$ & $2{,}1\cdot10^{-64}$ & $2{,}6\cdot10^{-73}$ \\
+Belem & 1248 & $0$ & $0$ & $1{,}9\cdot10^{-235}$ & $0$ & $7{,}8\cdot10^{-316}$ & $0$ \\
+Bogota & 3760 & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\
+Lima & 1470 & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\
+Manila & 1667 & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\
+Quito & 1162 & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ \\
+Santiago & 679 & $1{,}58\cdot10^{-215}$ & $0$ & $1{,}8\cdot10^{-163}$ & $3{,}2\cdot10^{-255}$ & $1{,}5\cdot10^{-199}$ & $0$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption[Współczynniki korelacji dla zbioru danych z artykułu ICCS 2022]{Współczynniki korelacji wyników z wartościami oczekiwanymi dla zbioru danych opisanego w pracy~\cite{werner_experiment_driven_2022}: współczynnik Pearsona $r$ przed korektą, jego przyrost i wartość po korekcie funkcją PDU oraz współczynniki po korekcie podane w tabeli artykułu ($r$, $\tau$ Kendalla, $r_{\mathrm{S}}$ Spearmana); $N$ oznacza liczbę próbek.
+Wszystkie p-wartości podane w artykule wynoszą $2{,}2\cdot10^{-16}$.
+Wartości przed korektą i przyrosty pochodzą z wykresu dołączonego do materiałów artykułu, lecz niewłączonego do jego tekstu; tekst artykułu podaje dla urządzenia Santiago przyrost $0{,}099$, a dla urządzenia Belem wartość po korekcie z wykresu ($0{,}9661$) zaokrągla się inaczej niż w tabeli artykułu.
+Łączna liczność jest sumą liczności z tabeli artykułu i w jego tekście nie pada.}
+\label{tab:pdu:app:iccs}
+\footnotesize
+\begin{tabular}{@{}lrcccccc@{}}
+\toprule
+ & & \multicolumn{3}{c}{$r$ (wykres źródłowy)} & \multicolumn{3}{c}{po korekcie (tabela artykułu)} \\
+\cmidrule(lr){3-5}\cmidrule(l){6-8}
+\textbf{Urządzenie} & $N$ & przed & przyrost & po & $r$ & $\tau$ & $r_{\mathrm{S}}$ \\
+\midrule
+Athens & 100 & 0,9787 & 0,0032 & 0,9819 & 0,98 & 0,91 & 0,98 \\
+Belem & 1360 & 0,8364 & 0,1297 & 0,9661 & 0,96 & 0,85 & 0,96 \\
+Bogota & 1856 & 0,8866 & 0,0846 & 0,9712 & 0,97 & 0,85 & 0,96 \\
+Lima & 990 & 0,8983 & 0,0728 & 0,9711 & 0,97 & 0,84 & 0,96 \\
+Manila & 1027 & 0,8203 & 0,1438 & 0,9641 & 0,96 & 0,84 & 0,95 \\
+Quito & 154 & 0,9538 & 0,0298 & 0,9836 & 0,98 & 0,89 & 0,97 \\
+Santiago & 519 & 0,9785 & 0,0099 & 0,9884 & 0,99 & 0,91 & 0,98 \\
+łącznie & 6006 & 0,8760 & 0,0947 & 0,9707 & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption[Rozbieżności między źródłami rozdziału o metodzie PDU]{Rozbieżności między źródłami rozdziału~\ref{chapter:pdu}: pracą~\cite{werner_experiment_driven_2022} (artykuł) i pracą~\cite{werner_magisterka_2022} (praca magisterska) oraz wersja przyjęta w rozprawie.
+Kreska oznacza, że źródło danej wielkości nie podaje; odczyty z rysunków mają dokładność podaną w podrozdziale~\ref{sec:pdu:results}.
+Opracowanie własne.}
+\label{tab:pdu:app:discrepancies}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.3cm}@{}}
+\toprule
+\textbf{Wielkość} & \textbf{Artykuł} & \textbf{Praca magisterska} & \textbf{W rozprawie} \\
+\midrule
+udział błędów w paśmie $\pm20\%$ wokół średniej, Santiago & ponad $56\%$ poza pasmem & $56\%$ w paśmie & obie wersje i odczyt z rysunku~\ref{fig:pdu:app:scatter} \\
+okres zbierania danych w eksperymencie E2 & 05.2021--01.2022 & 02.2021--05.2022 & jak w pracy magisterskiej \\
+urządzenia & sześć dostępnych, wyniki dla siedmiu; mowa o komputerach sześciokubitowych & siedem pięciokubitowych i cztery siedmiokubitowe & jak w pracy magisterskiej \\
+dziedzina funkcji referencyjnej & $[-1,1]$ w definicji, $[-\pi,\pi]$ w protokole & od $-\pi$ do $\tfrac{7}{8}\pi$ & $[-\pi,\pi)$ \\
+liczba powtórzeń obwodu & $8192$ & -- & $8192$ \\
+liczba serii po kalibracji w eksperymencie E3 & -- & $15$ w tekście, $10$ w pseudokodzie & $15$ \\
+znak poprawki & błąd: wartość zmierzona minus oczekiwana; wynik: suma rozkładu i funkcji PDU & poprawkę raz się odejmuje, raz dodaje (pseudokod: wartość oczekiwana minus zmierzona) & błąd odejmuje się od wyniku (definicja~\ref{def:pdu:correction}) \\
+obwody, na których wyznaczano poprawkę dla $\coscomp_{2,0}$ & obwody funkcji referencyjnej & obwody korygowanej funkcji & nierozstrzygnięte (podrozdział~\ref{subsec:pdu:results:two}) \\
+zmiana MSE wzdłuż linii trendu & nie przekracza $0{,}02$; odczyt z rysunku: do $0{,}022$ & nie większa niż $0{,}02$ & obie informacje \\
+linie trendu: oś czasu, kierunek dla Quito, poziom MSE dla Bogoty (odczyt) & czas od kalibracji; malejący; $0{,}04$--$0{,}05$ & godzina doby; rosnący; około $0{,}11$ & oba rysunki (rysunek~\ref{fig:pdu:trends}) \\
+zbiór danych eksperymentu E3: liczność i $r$ przed korektą & $6006$; $0{,}876$ & $10\,086$; $0{,}761$ & oba zbiory; dla Belem $1360$ i $1248$ próbek przy tych samych $r$ \\
+przyrost $r$ dla Santiago (zbiór z artykułu) & $0{,}099$ w tekście, $0{,}0099$ na wykresie & -- & $0{,}0099$ \\
+wykresy MSE i $\sigma_e$ serii (rysunek~\ref{fig:pdu:example}) & podpis: szereg dwuskładnikowy, Lima & funkcja jednej zmiennej, Belem & Belem \\
+liczba obwodów pełnej kalibracji dwóch rejestrów & -- & $2^{nm}$ & $2^{m+m'}$ \\
+macierz gęstości (rysunek~\ref{fig:pdu:app:density}) & w tekście opublikowanym brak; w wersji roboczej: Lima, $\tfrac{7}{8}\pi$ & Quito, $\pi$; $243$ obwody tomografii pięciu kubitów, macierz jednokubitowa & bez wskazania urządzenia i węzła \\
+\bottomrule
+\end{tabular}
+\end{table}
+% ŹRÓDŁO tabeli: ICCS main.tex: sekcja Results (56%; okres 05.2021--01.2022; siedem urządzeń; próg 0.02; 0.876; przyrost 0.099), akapit Experimental protocol (sześć urządzeń; 6 qubits computers; zakres od -pi do pi), definicja funkcji referencyjnej (przedział od -1 do 1), przypis (8.192 repetitions), streszczenie i sekcja Materials and methods (znak), tabela tab:coefficients (liczności, suma 6006 to obliczenie własne), podpis rysunku fig:man-sdt (Lima, szereg dwuskładnikowy), wykomentowany podpis rysunku fig:density_matrix (Lima, 7/8 pi; tekst nieopublikowany); plik imgs/pearson.png (0.0099).
+% ŹRÓDŁO tabeli (c.d.): magisterka 02.tex, sekcja PDU (odjąć) i lista urządzeń; 03.tex: sekcja ,,Macierze sąsiedztwa'' (Quito, pi, 243 układy), sekcja ,,Stabilizacja błędów w czasie'' (56%; okres 02.2021--05.2022; 0.02), sekcja ,,Korekcja funkcji jednej zmiennej'' (15 serii w tekście, 10 w listingu lst:experiment_1; dodawano wartość; Belem 14.12.2021; 10 086; 0.761; tabela tab:pearson_coefficients), sekcja ,,Dalsze prace'' (2 do potęgi n razy m).
+% Pominięte w tabeli dla objętości (PHD-TS-91), opisane w konspektach rozdziału 4: praca magisterska podaje w tekście najmniejszy przyrost r dla urządzenia Manila (0.0895), a z jej tabeli wynika Athens (0.003) i 0.121 dla urządzenia Manila; zakres argumentów w eksperymencie E5 podano do 7/8 pi przy skoku 1/4 pi (w rozprawie: osiem węzłów na rejestr, od -pi do 3/4 pi).
+% ŹRÓDŁO tabeli (c.d.): odczyty z rysunków: zmiana do 0,022 i poziom MSE urządzenia Bogota 0,049--0,036 z pliku pdu_trend_iccs.jpg (skrypt eksperymenty/recenzje/_robocze/PHD-TS-62/odczyt_trendow.py, powtórzony w PHD-TS-91); poziom około 0,105--0,11 z pliku pdu_trend_msc.png (odczyt wzrokowy, PHD-TS-91).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.62\textwidth]{figures/chp_pdu/pdu_density_matrix.png}
+\caption[Macierz gęstości kubitu odczytu po wykonaniu obwodu referencyjnego]{Macierz gęstości kubitu odczytu odtworzona metodą tomografii stanu po wykonaniu obwodu referencyjnego na pięciokubitowym urządzeniu IBM Quantum (eksperyment E1): część rzeczywista (po lewej) i urojona (po prawej).
+Rysunek własny autora, przeniesiony z~pracy~\cite{werner_magisterka_2022}.}
+\label{fig:pdu:app:density}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{tabular}{@{}cc@{}}
+\includegraphics[width=0.45\textwidth]{figures/chp_pdu/pdu_scatter_manila.png} &
+\includegraphics[width=0.45\textwidth]{figures/chp_pdu/pdu_scatter_santiago.png}
+\end{tabular}
+\caption[Błąd wyniku obwodu referencyjnego w funkcji czasu od kalibracji urządzenia]{Bezwzględna wartość błędu wyniku obwodu referencyjnego w~jednym węźle siatki w~funkcji czasu od deklarowanej kalibracji urządzenia (w~minutach): urządzenie Manila, $x_D=-\pi$ (po lewej) i urządzenie Santiago, $x_D=\tfrac{3}{4}\pi$ (po prawej).
+Rysunki własne autora, przeniesione z~pracy~\cite{werner_magisterka_2022}.}
+\label{fig:pdu:app:scatter}
+\end{figure}

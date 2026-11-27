@@ -1,0 +1,16 @@
+% !TeX root = ./../../main.tex
+% Obwód składnika cosinusowego QCoSamp dla rejestru argumentu o m = 4 kubitach.
+% Rysunek własny (quantikz2); układ bramek zgodny z obwodem referencyjnym
+% z pracy magisterskiej autora (artykuły/magisterka_werner_final/chapters/03.tex, listing lst:python_cos_phi).
+% Obwód jest składany w pudełku i skalowany do szerokości otoczenia (\linewidth).
+\ifdefined\tbqsampbox\else\newsavebox{\tbqsampbox}\fi
+\begin{lrbox}{\tbqsampbox}
+\begin{quantikz}[row sep=0.14cm, column sep=0.18cm, font=\small]
+\lstick{$\ket{0}$} & \gate{\mathrm{X}^{d_0}}\gategroup[4,steps=1,style={dashed,rounded corners,inner sep=2pt},label style={yshift=1pt}]{$E(D)$} & & \gategroup[5,steps=5,style={dashed,rounded corners,inner sep=2pt},label style={yshift=1pt}]{$\compphase^{(a)}_{n,r}$} & \ctrl{4} & & & & & \\
+\lstick{$\ket{0}$} & \gate{\mathrm{X}^{d_1}} & & & & \ctrl{3} & & & & \\
+\lstick{$\ket{0}$} & \gate{\mathrm{X}^{d_2}} & & & & & \ctrl{2} & & & \\
+\lstick{$\ket{0}$} & \gate{\mathrm{X}^{d_3}} & & & & & & \ctrl{1} & & \\
+\lstick{$a\colon\ket{0}$} & & \gate{\mathrm{H}} & \gate{\mathrm{P}(r-n\pi)} & \gate{\mathrm{P}(n\pi)} & \gate{\mathrm{P}\bigl(\tfrac{n\pi}{2}\bigr)} & \gate{\mathrm{P}\bigl(\tfrac{n\pi}{4}\bigr)} & \gate{\mathrm{P}\bigl(\tfrac{n\pi}{8}\bigr)} & \gate{\mathrm{H}} & \meter{}
+\end{quantikz}
+\end{lrbox}
+\resizebox{\linewidth}{!}{\usebox{\tbqsampbox}}

@@ -1,0 +1,83 @@
+% !TeX root = ./../main.tex
+
+\section{Kwantowe przetwarzanie obrazów w obecności szumu}\label{sec:lr:qimg}
+\agentinfo{
+Zakres celowo wąski (ustalenie autora): tło rozdziałów 5 i 7, czyli FRQI, NEQR, LPIQE oraz kodowania przybliżone i uczone; definicje są w podrozdziale 2.5 \agentref{chapters/theoretical_background_05_QIMG.tex} i nie są tu powtarzane.
+Literatura i zakres wyszukiwania (zadanie PHD-TS-22): \agentref{eksperymenty/przeglad-literatury/sekcja-3.6-obrazy.md}; wpisy pod znacznikiem LR-3.6 w biblio.bib.
+Sekcja napisana w zadaniu PHD-TS-35 (2026-11-27); liczby sprawdzono ponownie w źródłach, a wersję źródła podaje komentarz przy każdym zdaniu z liczbą.
+Dodano jeden wpis, kit_enhancing_2025 (DOI 10.1088/2632-2153/ae1656, sprawdzony w Crossref i w wersji arXiv:2401.06367v2): bez niego zdanie o ocenie kodowań uczonych na urządzeniach byłoby nieprawdziwe.
+Prace własne werner_data_loss_2023 i werner_error_reduction_2025 są tylko przywołane; ich wyniki liczbowe należą do rozdziału 5.
+Kalibrację adaptacyjną z pracy balewski_quantum-parallel_2024 opisano rzeczowo, z datami, bez rozstrzygania o pierwszeństwie i nowości; zdanie o datach mówi teraz, czego dotyczy każda z nich (PDU dla funkcji jednej zmiennej w 2022 r., zastosowanie do obrazów w latach 2023 i 2025), żeby nie czytano go jako stwierdzenia pierwszeństwa (recenzja, ustalenie D15).
+Po recenzji (PHD-TS-90, 2026-11-27): pracę współautorską kordasz_image_encoding_2025 zacytowano w tabeli i jednym zdaniem, wyłącznie w zakresie streszczenia z OpenAlex (siedem urządzeń trzech rodzin i symulator, 585 obrazów, FRQI i LPIQE, MSE i korelacja Pearsona) i jako pracę z udziałem autora rozprawy; rola autora i szczegóły z pełnego tekstu są pytaniem do autora (znacznik na końcu sekcji).
+Tabelę przerobiono na styl pozostałych tabel rozdziału (komórki wyrównane do lewej, pogrubione nagłówki, formuła o opracowaniu własnym); zdanie o najbliższej pracy ma zakres (wśród prac o obrazach); dla zachowania objętości usunięto zdanie wprowadzające sekcję i odesłanie do sekcji 3.4 (przebieg wywodu podaje sekcja 3.1), a skrót NMR zastąpiono nazwą polską.
+Do decyzji autora:
+(1) czy różnice między kalibracją adaptacyjną a PDU wymienione w tekście (postać korekty, znany argument, kodowanie i platforma, trwałość kalibracji) są tymi, na których ma się opierać luka (a) w sekcji 3.8;
+(2) czy w tabeli zostawić wiersz pracy własnej bez liczby (odesłanie do rozdziału 5), czy podać w nim miarę po rozstrzygnięciu otwartej kwestii wzoru korekty z artykułu CoDIT 2025;
+(3) nowość rozdziału 7 formułować przez pomiar na urządzeniu, budżet błędu i korektę kalibracyjną, a nie przez architekturę: sieć wyznaczająca kąty stałego obwodu ma odpowiednik w preprincie aoun_quantum_2026 (tylko symulator), a hybrydowy autoenkoder oceniono na urządzeniu IBM miarą SSIM w pracy kit_enhancing_2025.
+}
+
+Podrozdział ogranicza się do tła rozdziałów~\ref{chapter:pdu_images} i~\ref{chapter:learned_encoding}: reprezentacji FRQI, NEQR i LPIQE, zdefiniowanych w podrozdziale~\ref{sec:tb:qimg}, oraz kodowań przybliżonych i uczonych; szerszy przegląd reprezentacji zawiera praca~\cite{cai_survey_2018}.
+Odczyty obrazów z urządzeń zestawia tabela~\ref{tab:lr:qimg:hardware}.
+
+\begin{table}[tb]
+\centering
+\caption[Obrazy odczytane z~rzeczywistych urządzeń kwantowych]{Obrazy zakodowane na rzeczywistych urządzeniach i~odtworzone z~wyników pomiaru (w~skali szarości, o~ile nie zaznaczono inaczej); miary jakości są w~tych pracach różne; gwiazdka: znane tylko streszczenie, bez rozmiaru obrazów i~wartości miar. Opracowanie własne.}
+\label{tab:lr:qimg:hardware}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\newcommand{\lrc}[1]{\raggedright\hspace{0pt}#1}
+\begin{tabular}{@{}p{3.2cm}p{4.7cm}p{3.8cm}p{3.6cm}@{}}
+\toprule
+\lrc{\textbf{Praca}} & \lrc{\textbf{Obraz i~kodowanie}} & \lrc{\textbf{Kubity, urządzenie}} & \lrc{\textbf{Jakość odczytu}} \tabularnewline
+\midrule
+\lrc{Yao i~in.~\cite{yao_quantum_2017}} & \lrc{$4\times4$, amplitudowe} & \lrc{4, rezonans jądrowy} & \lrc{wierność $0{,}96$--$0{,}98$} \tabularnewline
+\lrc{Geng i~in.~\cite{geng_improved_2023}} & \lrc{$2\times2$, FRQI} & \lrc{3, IBM (2021)} & \lrc{różnica względna 2--3\%} \tabularnewline
+\lrc{Werner i~in.~\cite{werner_data_loss_2023}} & \lrc{$8\times8$, FRQI i~LPIQE} & \lrc{7, IBM (2023)} & \lrc{rozdział~\ref{chapter:pdu_images}} \tabularnewline
+\lrc{Kordasz i~in.~\cite{kordasz_image_encoding_2025}*} & \lrc{585 obrazów, FRQI i~LPIQE} & \lrc{siedem urządzeń: jonowe, IBM Falcon i~Eagle} & \lrc{MSE i~korelacja Pearsona} \tabularnewline
+\lrc{Patel i~in.~\cite{patel_information_2023}} & \lrc{$2\times4$ binarny, autoenkoder} & \lrc{3, IBM} & \lrc{mediana wierności $0{,}37$} \tabularnewline
+\lrc{Balewski i~in.~\cite{balewski_quantum-parallel_2024}} & \lrc{384 piksele, binarny, QCrank} & \lrc{12, Quantinuum \mbox{H1-1}} & \lrc{97\% poprawnych pikseli} \tabularnewline
+\lrc{Iaconis i~Johri~\cite{iaconis_tensor_2023} (preprint)} & \lrc{$16\times16$, amplitudowe przybliżone} & \lrc{8, IonQ Aria} & \lrc{ocena wizualna} \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table}
+% ŹRÓDŁO: kordasz_image_encoding_2025, streszczenie (OpenAlex, DOI 10.1109/codit66093.2025.11321343, odczyt 2026-11-27; metadane w Crossref): siedem komputerów kwantowych i jeden symulator, trzy rodziny procesorów (pułapki jonowe, IBM Falcon i Eagle), 585 obrazów zakodowanych metodami FRQI i LPIQE, miary MSE i współczynnik korelacji Pearsona; rozmiaru obrazów, liczby kubitów ani wartości miar streszczenie nie podaje, a pełnego tekstu nie czytano.
+% ŹRÓDŁO: yao_quantum_2017, sek. II.3 i III, rys. 5 i 7 (wierności 0,961--0,975 oraz 0,972--0,981; rejestr czterokubitowy, obraz 4x4), arXiv:1801.01465v1.
+% ŹRÓDŁO: geng_improved_2023, sek. 7.1 (wzór 11: średnia bezwzględna różnica poziomów szarości w procentach zakresu; 42 wykonania 7--14 czerwca 2021 r.; 2--3% po mitygacji błędu odczytu w wariancie mitigation_own) i sek. 2 (2n+1 kubitów), arXiv:2110.15672v1; wersji wydawniczej nie czytano.
+% ŹRÓDŁO: werner_data_loss_2023, artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex, sekcje o obrazach 8x8 (siedmiokubitowe IBM Nairobi, Oslo, Perth, Lagos; dane z okresu 02--04.2023); wyników liczbowych celowo nie podano.
+% ŹRÓDŁO: patel_information_2023, opis zbioru 2x4 i akapit o wynikach z urządzenia IBMQ Casablanca (rys. 11), arXiv:2203.11332v1; wersji wydawniczej nie czytano.
+% ŹRÓDŁO: balewski_quantum-parallel_2024, sekcja o obrazie 2D (eksperyment 4, rys. 7), tab. 1 (4 kubity adresowe, 8 kubitów danych, 384 bity przy 3 bitach na wartość), 7000 pomiarów, 12 błędnych pikseli, wynik po kalibracji adaptacyjnej; wersja opublikowana (Europe PMC PMC10858957), zgodna z arXiv:2301.07841v1.
+% ŹRÓDŁO: iaconis_tensor_2023, opis eksperymentu i podpis rys. 5 (8 kubitów, 3 warstwy, 42 bramki CNOT wobec 256, 10 000 pomiarów), arXiv:2310.05897v1.
+
+Dla reprezentacji dokładnych barierą jest obwód kodujący: nawet po optymalizacji syntezy stan FRQI obrazu o $N$ pikselach wymaga $N$ bramek CNOT~\cite{amankwah_quantum_2022}, a na procesorach IBM, przy progu 5\% średniej bezwzględnej różnicy poziomów szarości, użyteczny okazał się tylko odczyt obrazu $2\times2$~\cite{geng_improved_2023}.
+% ŹRÓDŁO: amankwah_quantum_2022, sekcja Optimal linear gate complexity i tab. 1 (N obrotów R_y i N bramek CNOT, bez kubitów pomocniczych; tylko symulacja), wersja opublikowana (Europe PMC PMC9095730).
+% ŹRÓDŁO: geng_improved_2023, sek. 7.2 i tab. 2 (próg 5%, największy użyteczny obraz na ibmq_toronto: 2x2), arXiv:2110.15672v1.
+W symulacji z modelami szumu skalibrowanymi na procesorach IBM porównano w 2026~r. sześć kodowań, w tym FRQI i NEQR, wskazując głębokość obwodu po transpilacji, a nie oszczędność kubitów, jako czynnik decydujący o zachowaniu informacji; walidację na urządzeniu streszczenie pracy podaje tylko dla kodowania kątowego~\cite{martinez-guerrero_quantum_2026}.
+% ŹRÓDŁO: martinez-guerrero_quantum_2026, streszczenie (OpenAlex, odczyt 2026-11-27); pełnego tekstu nie czytano, więc rozmiarów obrazów i wartości wierności nie podano.
+
+Wynik Genga i~in. uzyskano po mitygacji błędu odczytu macierzą kalibracyjną (podrozdział~\ref{subsec:tb:qec:mitigation}), wyznaczoną jednak na symulatorze z założonym modelem szumu, a nie z pomiarów na urządzeniu; dla obrazu $4\times4$ poprawa była nieznaczna~\cite{geng_improved_2023}.
+% ŹRÓDŁO: geng_improved_2023, sek. 6 (macierz kalibracyjna liczona na qasm_simulator z modelem błędu) i podpis rys. 13, arXiv:2110.15672v1.
+Wśród prac o~obrazach najbliższa metodzie PDU (rozdział~\ref{chapter:pdu}) jest kalibracja adaptacyjna, po której Balewski i~in. uzyskali wynik z tabeli~\ref{tab:lr:qimg:hardware}~\cite{balewski_quantum-parallel_2024}.
+Jest to zależna od urządzenia i obwodu klasyczna tablica korekty: jej progi leżą w połowie między średnimi wartościami odtworzonymi dla kolejnych znanych symboli wejściowych, a wartości zmierzonej przypisuje ona jeden z $K$ symboli, kosztem dodatkowych wykonań kalibracyjnych, bez kubitów i bramek.
+Od PDU różni ją postać korekty (progi dla symboli dyskretnych, u autorów trzy bity na wartość, zamiast funkcji błędu odejmowanej dla znanego argumentu, definicja~\ref{def:pdu:correction}), kodowanie (QCrank, rozszerzenie FRQI na kilka kubitów danych) i platforma; trwałości kalibracji w czasie w pracy nie badano.
+Opis metody mówi przy tym o ponownej analizie tego samego eksperymentu, a użycie tablicy do nowych pomiarów autorzy deklarują przy eksperymencie symulacyjnym; nie podano, z jakich wykonań pochodziły progi dla obrazu z tabeli.
+% ŹRÓDŁO: balewski_quantum-parallel_2024, część Methods, Adaptive calibration for QCrank (wzory 15 i 16; reanalyze the same experiment) oraz tekst przy wzorze 11, wersja opublikowana (Europe PMC PMC10858957); zdanie o nowych pomiarach: dodatek, eksperyment 6 (symulacja, K = 8), arXiv:2301.07841v1; informacji uzupełniających wersji opublikowanej nie czytano.
+Preprint tej pracy nosi datę 19 stycznia 2023~r.; metodę PDU dla funkcji jednej zmiennej opisano w materiałach konferencji ICCS 2022~\cite{werner_experiment_driven_2022}, a do obrazów LPIQE zastosowano ją w pracach z lat 2023 i 2025~\cite{werner_data_loss_2023,werner_error_reduction_2025} (rozdział~\ref{chapter:pdu_images}), z których pierwsza zestawia też FRQI i LPIQE na urządzeniach.
+% ŹRÓDŁO: arXiv API, arXiv:2301.07841v1, pole published = 2023-01-19; werner_data_loss_2023, artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex, sekcja Experimental protocol (funkcje PDU wyznaczone dla urządzeń i zastosowane do obrazów LPIQE).
+Te same reprezentacje porównuje na siedmiu urządzeniach praca z~2025~r. z udziałem autora rozprawy, znana tylko ze streszczenia~\cite{kordasz_image_encoding_2025}.
+% ŹRÓDŁO: kordasz_image_encoding_2025, streszczenie (OpenAlex, DOI 10.1109/codit66093.2025.11321343, odczyt 2026-11-27), jak w komentarzu pod tabelą; pełnego tekstu nie czytano.
+
+Kodowania przybliżone skracają obwód: obrazy o szybko zanikającym widmie Fouriera dają się przybliżać stanami iloczynu macierzowego, przygotowywanymi liniową liczbą bramek dwukubitowych~\cite{jobst_efficient_2024}, a obraz $16\times16$ z tabeli załadowano w ten sposób 42 bramkami CNOT zamiast 256 (preprint~\cite{iaconis_tensor_2023}).
+% ŹRÓDŁO: jobst_efficient_2024, streszczenie (Crossref); iaconis_tensor_2023, podpis rys. 5, arXiv:2310.05897v1.
+Wśród kodowań uczonych autoenkoder kwantowy~\cite{romero_quantum_2017} uczony na urządzeniu osiągnął medianę wierności $0{,}37$ wobec $0{,}68$ na symulatorze~\cite{patel_information_2023}, a hybrydowy autoenkoder splotowy z obwodem w miejscu warstwy ukrytej oceniono w 2025~r. na 27-kubitowym procesorze IBM miarą SSIM, pozostawiając mitygację błędów dalszym pracom~\cite{kit_enhancing_2025}.
+% ŹRÓDŁO: patel_information_2023, akapit o wynikach z urządzenia i rys. 11 (mediana wierności 0,37 wobec 0,68; autoenkoder według Romero i in.), arXiv:2203.11332v1.
+% ŹRÓDŁO: kit_enhancing_2025, opis środowiska eksperymentu (IBMQ Mumbai, 27 kubitów; odszumianie cyfr 0 i 1 ze zbioru MNIST), sek. 6.1 i zakończenie, arXiv:2401.06367v2; metadane wersji opublikowanej w Crossref.
+Modelowi z rozdziału~\ref{chapter:learned_encoding} najbliższy jest preprint z 2026~r., w którym sieć splotowa wyznacza kąty obwodu o stałej strukturze przygotowującego stan FRQI obrazu $32\times32$ na 11 kubitach (średnia wierność do $0{,}99$), lecz tylko na symulatorze wektora stanu, bez szumu urządzenia i skończonej liczby pomiarów~\cite{aoun_quantum_2026}.
+% ŹRÓDŁO: aoun_quantum_2026, tab. 1 (0,981 dla MNIST i 0,992 dla Fashion-MNIST przy ośmiu warstwach) i akapit o ograniczeniach, arXiv:2605.31006v1.
+
+W zebranych pracach, których tekst czytano (zakres wyszukiwania: podrozdział~\ref{sec:lr:gap}), jakość odczytu z urządzenia podano zatem dla obrazów o co najwyżej kilkuset pikselach, korektę kalibrowaną na znanych wejściach zastosowano poza pracami własnymi tylko w kodowaniu QCrank, a dla kodowań przybliżonych i uczonych nie oceniano na urządzeniach wpływu mitygacji ani korekty kalibracyjnej.
+\agenttask{
+Pytania do autora (PHD-TS-90, recenzja rozdziału 3, ustalenie B1) o pracę współautorską kordasz_image_encoding_2025 (CoDIT 2025; wpis w own_publications.bib).
+Praca jest teraz cytowana w tej sekcji (wiersz tabeli tab:lr:qimg:hardware i jedno zdanie) oraz w sekcji 3.8 wyłącznie w zakresie streszczenia odczytanego z OpenAlex i jako praca z udziałem autora rozprawy; pełnego tekstu nie ma w katalogu artykuły.
+(1) Jaka była rola autora rozprawy w tej pracy (kod, eksperymenty, analiza, tekst) i czy jej wyniki opisywać, tak jak teraz, jako pracę powiązaną z udziałem autora, a nie jako wkład rozprawy?
+(2) Proszę o tekst pracy: potrzebne są rozmiar obrazów, liczba kubitów, lista urządzeń, wartości MSE i współczynnika korelacji oraz informacja, czy dane pokrywają się z danymi pracy werner_data_loss_2023; po dostarczeniu tekstu uzupełnić wiersz tabeli i zdanie oraz uzgodnić element (b) w sekcji 3.8.
+}

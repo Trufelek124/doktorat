@@ -1,0 +1,25 @@
+% !TeX root = ./../../main.tex
+% Miejsce ingerencji trzech rodzin metod w proces obliczeń (podrozdział 2.3, rys. fig:tb03:taxonomy).
+% Rysunek własny (TikZ): górny wiersz to etapy obliczeń opartych na próbkowaniu,
+% trzy pasy poniżej leżą pod etapami, które zmienia korekcja, mitygacja i redukcja błędów.
+\begin{tikzpicture}[
+  font=\footnotesize,
+  stage/.style={draw, rounded corners=2pt, minimum height=0.8cm, text width=3.0cm, align=center, inner sep=2pt},
+  band/.style={draw, fill=black!8, inner sep=2.5pt, align=center, minimum height=0.8cm},
+  >={Stealth[length=2mm]}]
+  % etapy obliczeń
+  \node[stage] (circ) at (0,0)    {obwód kwantowy\\zadania};
+  \node[stage] (meas) at (3.7,0)  {wykonania obwodu\\i~pomiar};
+  \node[stage] (post) at (7.4,0)  {klasyczna obróbka\\statystyk};
+  \node[stage] (res)  at (11.1,0) {wynik zadania};
+  \draw[->] (circ) -- (meas);
+  \draw[->] (meas) -- (post);
+  \draw[->] (post) -- (res);
+  % pasy: zakres ingerencji metod (szerokość pasa = etapy, które metoda zmienia)
+  \node[band, text width=6.6cm] (qec) at (1.85,-1.05)
+    {\textbf{korekcja (QEC):} nadmiarowe kubity,\\pomiar syndromu, operacje naprawcze};
+  \node[band, text width=10.3cm] (qem) at (3.7,-2.0)
+    {\textbf{mitygacja (QEM):} warianty obwodu lub obwody kalibracyjne,\\dodatkowe wykonania, obróbka zebranych statystyk};
+  \node[band, text width=6.6cm] (red) at (9.25,-2.95)
+    {\textbf{redukcja:} korekta wyniku modelem\\z~kalibracji; obwód zadania bez zmian};
+\end{tikzpicture}
