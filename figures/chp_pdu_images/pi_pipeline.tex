@@ -1,0 +1,39 @@
+% !TeX root = ./../../main.tex
+% Potok kodowanie--rekonstrukcja--korekta dla obrazu w reprezentacji LPIQE (rysunek fig:pdui:pipeline, podrozdział 5.2).
+% Rysunek własny, narysowany w TikZ na potrzeby rozprawy; nie jest kopią rysunku z artykułów.
+% Treść odpowiada definicji def:tb:qimg:lpiqe (operator rekonstrukcji) oraz definicjom def:pdui:function i def:pdui:correction.
+% Wymaga bibliotek TikZ: arrows.meta, calc, positioning (wczytane w config/my-settings.tex).
+\begin{tikzpicture}[
+  nohyph/.style={execute at begin node={\hyphenpenalty=10000\relax\exhyphenpenalty=10000\relax}},
+  box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, nohyph, minimum height=13mm, text width=31mm, inner sep=2.5pt},
+  qbox/.style={box, fill=black!10},
+  cbox/.style={box, fill=white},
+  arr/.style={-{Stealth[length=2mm]}, semithick},
+  lab/.style={font=\footnotesize\itshape, inner sep=1.5pt},
+]
+% --- gałąź obrazu (górny wiersz) ---
+\node[cbox] (img) {Obraz $\img$,\\wektoryzacja:\\$p_0,\dots,p_{M-1}$};
+\node[qbox, right=4mm of img] (enc) {Kodowanie:\\operator $\Theta(\img)$\\na $n+1$ kubitach};
+\node[qbox, right=4mm of enc] (read) {Odczyt fazy:\\$\mathrm{H}$ i $\mathrm{X}$ na kubicie $a$,\\pomiar $\nshots$ razy};
+\node[cbox, right=4mm of read] (rec) {Odtworzenie\\intensywności $\tilde{p}_j$\\z histogramu};
+% --- gałąź kalibracji i korekta (dolny wiersz) ---
+\node[cbox, below=11mm of img] (cal) {Obrazy jednorodne\\$\img^{(v_k)}$,\\$k=0,\dots,K-1$};
+\node[cbox, below=11mm of read] (pdu) {Funkcja PDU\\obrazu: $\pdu_j$,\\$j=0,\dots,M-1$};
+\node[cbox, below=11mm of rec] (corr) {Korekta:\\$\hat{p}_j=\tilde{p}_j-\pdu_j(x_j)$};
+% --- przepływ: obraz ---
+\draw[arr] (img) -- (enc);
+\draw[arr] (enc) -- (read);
+\draw[arr] (read) -- (rec);
+\draw[arr] ($(rec.south)+(6mm,0)$) -- ($(corr.north)+(6mm,0)$) node[lab, midway, right] {$\tilde{p}_j$};
+% --- przepływ: kalibracja ---
+\draw[arr] (cal.east) -| (enc.south);
+\node[lab, anchor=south west] at ($(cal.east)+(1mm,0.3mm)$) {kalibracja};
+\draw[arr] ($(rec.south)+(-8mm,0)$) -- ++(0,-7.5mm) -| (pdu.north);
+\node[lab, anchor=south] at ($(pdu.north)+(15mm,3.6mm)$) {$\tilde{p}^{(k)}_j$};
+\draw[arr] (pdu) -- (corr);
+% --- argument korekty dostępny tylko przy znanym obrazie ---
+\draw[arr, dashed] (img.north) -- ++(0,5mm) -| ($(corr.east)+(5mm,0)$) -- (corr.east);
+\node[lab, anchor=south] at ($(enc.north)!0.5!(read.north)+(0,5.5mm)$) {argument $x_j=p_j$: tylko gdy obraz jest znany w chwili korekty};
+% --- miejsce możliwego przesłania stanu ---
+\draw[densely dotted, thick] ($(enc.north east)!0.5!(read.north west)+(0,3mm)$) -- ($(enc.south east)!0.5!(read.south west)+(0,-3mm)$);
+\end{tikzpicture}

@@ -76,7 +76,10 @@ W przestrzeni dowolnych funkcji $\netG$ i $\netD$ gra ma jedno rozwiązanie, w k
 \begin{figure}[htb]
 \centering
 \input{figures/chp_theoretical_background/tb06_pix2pix.tex}
-\caption[Schemat uczenia modelu pix2pix]{Schemat uczenia modelu pix2pix. Generator $\netG$ (U-Net, linie przerywane oznaczają połączenia skrótowe) przekształca obraz zniekształcony $\mathbf{x}$ w obraz $\netG(\mathbf{x})$. Dyskryminator $\netD$ (PatchGAN) ocenia pary $(\mathbf{x},\netG(\mathbf{x}))$ z etykietą $0$ i $(\mathbf{x},\mathbf{y})$ z etykietą $1$, zwracając decyzję dla każdej łaty. Źródło: opracowanie własne na podstawie~\cite{isola_image_2017}.}
+\caption[Schemat uczenia modelu pix2pix]{Schemat uczenia modelu pix2pix.
+Generator $\netG$ (U-Net, linie przerywane oznaczają połączenia skrótowe) przekształca obraz zniekształcony $\mathbf{x}$ w obraz $\netG(\mathbf{x})$.
+Dyskryminator $\netD$ (PatchGAN) ocenia pary $(\mathbf{x},\netG(\mathbf{x}))$ z etykietą $0$ i $(\mathbf{x},\mathbf{y})$ z etykietą $1$, zwracając decyzję dla każdej łaty.
+Źródło: opracowanie własne na podstawie~\cite{isola_image_2017}.}
 \label{fig:tb:ml:pix2pix}
 \end{figure}
 
@@ -111,7 +114,10 @@ Gdy celem jest odtworzenie wejścia, model jest autoenkoderem hybrydowym: kodere
 \begin{figure}[htb]
 \centering
 \input{figures/chp_theoretical_background/tb06_hybrid.tex}
-\caption[Hybrydowy model kwantowo-klasyczny z obwodem o stałej strukturze]{Hybrydowy model kwantowo-klasyczny z obwodem o stałej strukturze. Sieć klasyczna $\Theta_{\mathbf{w}}$ wyznacza kąty $\boldsymbol{\theta}$ obwodu $U(\boldsymbol{\theta})$; blok $\channel$ oznacza szum (model szumu w symulatorze albo szum urządzenia). Uczone są tylko wagi $\mathbf{w}$. Źródło: opracowanie własne.}
+\caption[Hybrydowy model kwantowo-klasyczny z obwodem o stałej strukturze]{Hybrydowy model kwantowo-klasyczny z obwodem o stałej strukturze.
+Sieć klasyczna $\Theta_{\mathbf{w}}$ wyznacza kąty $\boldsymbol{\theta}$ obwodu $U(\boldsymbol{\theta})$; blok $\channel$ oznacza szum (model szumu w symulatorze albo szum urządzenia).
+Uczone są tylko wagi $\mathbf{w}$.
+Źródło: opracowanie własne.}
 \label{fig:tb:ml:hybrid}
 \end{figure}
 

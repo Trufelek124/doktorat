@@ -122,6 +122,9 @@ $M$ & liczba stanów bazowych rejestru pozycji w reprezentacji obrazu ($M=WH$ dl
 $\lpiqe(\img)$ & operator kodowania LPIQE \\
 $\reconst(\img)$ & operator rekonstrukcji obrazu \\
 $\Theta(\img)$ & operator kodowania LPIQE sterowany kubitem pomocniczym, część operatora $\reconst(\img)$ \\
+$\img^{(v)}$, $v_k$, $g$ & w korekcie obrazów (rozdział~\ref{chapter:pdu_images}): obraz jednorodny o intensywności $v$ wszystkich pikseli, węzły kalibracji ($k=0,\dots,K-1$) i parametr ziarnistości z prac źródłowych \\
+$\pdu_j(v)$, $\pdu_{j,k}$, $\mathcal{V}^{(j)}$ & funkcja PDU $j$-tego piksela (funkcję PDU obrazu tworzy rodzina tych funkcji), błąd wyznaczony piksela w węźle $v_k$ i zbiór błędów wyznaczonych piksela \\
+$\hat{p}_j$, $x_j$, $\hat{p}^{\mathrm{o}}_j$, $\hat{p}^{\mathrm{z}}_j$ & intensywność $j$-tego piksela po korekcie funkcją PDU, argument korekty oraz intensywność skorygowana w wariancie z argumentem oczekiwanym ($x_j=p_j$) i z argumentem zmierzonym \\
 $\sigma_e$ & odchylenie standardowe błędu: pikseli obrazu odtworzonego, a w rozdziale~\ref{chapter:pdu} wartości funkcji w węzłach siatki \\
 $L$, $U_\ell$ & w uczonym kodowaniu obrazów: liczba bloków obwodu i operator bloku $\ell$; obwód na $n+1$ kubitach ma $4nL$ kątów \\
 $u_j$, $\tilde{u}_j$ & w uczonym kodowaniu obrazów: wartość $j$-tej intensywności odczytana z rozkładu wyników przed splotem końcowym, $u_j=2^n\,\prob(\ket{1}_a\ket{j})$, i jej oszacowanie z $\nshots$ pomiarów \\

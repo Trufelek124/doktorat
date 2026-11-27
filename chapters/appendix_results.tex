@@ -4,6 +4,15 @@
 
 \agentinfo{
 Tabele i rysunki, które nie mieszczą się w rozdziałach głównych: pełne tabele MSE dla poszczególnych urządzeń, dodatkowe przykłady obrazów przed korektą i po korekcie, krzywe uczenia sieci.
+Stan po przeglądzie struktury w zadaniu PHD-TS-52 (2026-11-27): dodatek ma jedną sekcję, app:results:pdu (rozdział 4), poprawioną po recenzji w zadaniu PHD-TS-91; jej treści w zadaniu PHD-TS-52 nie zmieniano.
+Układ docelowy: jedna sekcja na rozdział, w kolejności rozdziałów, z etykietami app:results:pdu, app:results:pdu-images (rozdział 5), app:results:dl (rozdział 6), app:results:le (rozdział 7), app:results:cls (rozdział 8); etykiety tabel i rysunków według wzoru tab:pdu:app:nazwa, czyli tab:le:app:nazwa i tab:cls:app:nazwa.
+Sekcje dla rozdziałów 5 i 6 czekają na te rozdziały (pełne tabele MSE urządzeń, przykłady obrazów, krzywe uczenia sieci z pierwotnego konspektu).
+Brakuje sekcji dla rozdziałów 7 i 8; niczego do nich nie przeniesiono, bo o przeniesieniu decyduje autor (skracanie tych rozdziałów czeka na jego sygnał).
+Kandydaci z rozdziału 7 zapisani w jego konspektach i zadaniach \agentref{chapters/learned_encoding.tex}: (a) tabela wyników wszystkich wariantów korekty kalibracyjnej z podrozdziału 7.4.4 (H1 łącznie i bez dwóch najsłabszych łańcuchów, kontrola syntetyczna, H2 zadanie bazowe i powtórny pomiar, symulator: błąd względem obrazu wejściowego i względem rekonstrukcji bezszumowej), której jeszcze nie ma i którą trzeba zbudować z plików eksperymentów \agentref{eksperymenty/pdu-ibm-fez/autoenkoder/README.md} \agentref{eksperymenty/krzywe-degradacji/autoenkoder/README.md}; (b) tabela tab:le:data (dane, podział i trening), jeśli nie zostanie połączona z tab:le:configs; (c) galeria rekonstrukcji fig:le:gallery, wstrzymana do zgody autora na reprodukcję kafli lotniczych; (d) szczegóły metodyki pominięte dla objętości, wypisane w konspekcie podrozdziału 7.3 (próby doboru hiperparametrów, siatka bliźniaka, plan zadań H1 i H2).
+Kandydaci z rozdziału 8 zapisani w jego konspekcie \agentref{chapters/classification.tex}: (a) tabela tab:cls:models (około 0,4 strony); (b) tabela tab:cls:hw-results (około 0,4 strony); (c) tabela tab:cls:pdu-recovery (około 0,27 strony) i analiza uzupełniająca modelu M1; (d) pełne tabele eksperymentu porównawczego z plików \agentref{eksperymenty/trening-w-szumie/wyniki/tabela.md} \agentref{eksperymenty/trening-w-szumie/gleboka/wyniki/tabela.md}, jeśli podrozdział 8.4.3 ma zostać skrócony; (e) opis kalibracji stanami GHZ z wiernościami dla 2--7 kubitów.
+Przy przenoszeniu tabeli zmienić w rozdziale odwołania na postać stosowaną w rozdziale 4 (słowo dodatek i numer tabeli albo strona) i zachować komentarze źródłowe przy liczbach.
+Parametry urządzeń i symulatorów, wersje bibliotek i dostępność danych należą do dodatku o środowisku \agentref{chapters/appendix_experiments.tex}, a nie tutaj.
+Numeracja: do czasu poprawki włączenia dodatków w pliku main.tex (opis w komentarzu do zadania PHD-TS-52) sekcja tego dodatku ma numer .1, a jego tabele i rysunki numery bez litery dodatku.
 }
 
 \section{Wyniki uzupełniające do rozdziału~\ref{chapter:pdu}}\label{app:results:pdu}

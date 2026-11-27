@@ -10,27 +10,205 @@ artykuł CoDIT 2025 o schemacie kodowanie--rekonstrukcja \agentref{bib:werner_er
 rysunki \agentref{artykuły/PROCS_KES2023_LATEX_Template/imgs} \agentref{artykuły/CoDIT_2025_final_paper/imgs}.
 Katalogi Quantum_Errors_ICCS_Images i Artykuł_2025_PDU_conf zawierają wcześniejsze wersje artykułu CoDIT i służą tylko pomocniczo.
 Definicje FRQI, NEQR, LPIQE i miar jakości znajdują się w zapleczu teoretycznym \agentref{chapters/theoretical_background_05_QIMG.tex}; tutaj tylko odwołania.
+
+Stan (zadanie PHD-TS-43, 2026-11-27): napisane sekcje 5.1--5.3, czyli część metodyczna, bez wyników liczbowych i bez wniosków o skuteczności korekty.
+Sekcje 5.4--5.7 czekają na odpowiedź autora na pytanie o argument korekty (zadanie w sekcji 5.3); do tego czasu nie pisać, że PDU poprawia obrazy.
+Oryginalnego kodu ani danych pierwotnych eksperymentów z obrazami nie ma na komputerze autora: sekcje 5.1--5.3 opierają się na tekście obu artykułów, a potok odtworzono niezależnie na symulatorze \agentref{eksperymenty/lpiqe-pdu-pix2pix/README.md}.
+
+Ustalenia nazewnicze dla autora sekcji 5.4--5.5 (wprowadzone w sekcjach 5.2 i 5.3).
+Obraz jednorodny (w artykułach: artificial image, eksperyment ER(v)): wszystkie piksele mają tę samą intensywność v; węzły kalibracji v_k, liczba węzłów K.
+Słowo ziarnistość oznacza wyłącznie parametr g ze źródeł; rozprawa podaje liczbę węzłów K, bo źródła są niespójne (algorytm: g+1 wartości; opis eksperymentów: ziarnistość 6 to sześć wartości; manuskrypt o sieciach GAN: ziarnistość 5).
+Intensywność odtworzona (obraz odtworzony; w artykułach reconstructed) i intensywność skorygowana (obraz skorygowany); krok PDU to korekta, nigdy korekcja.
+Błąd wyznaczony piksela, funkcja PDU piksela, funkcja PDU obrazu (definicja def:pdui:function).
+Wariant O: korekta z argumentem oczekiwanym, czyli wartością piksela oryginału; to postać wzoru z artykułu CoDIT; w zbiorach z odtworzenia na symulatorze klucze pdu_oracle__poziom.
+Wariant Z: korekta z argumentem zmierzonym, czyli odwrócenie charakterystyki piksela; w zbiorach klucze pdu__poziom i pdu_avg16__poziom.
+Indeksy górne o i z są takie same jak w wariantach FO i FZ rozdziału 8 (eq:cls:corrections).
+Wyników wariantu O nie nazywać odtworzeniem obrazu: mierzą powtarzalność błędu między kalibracją a pomiarem (akapit par:pdui:argument).
+Miary podawać zawsze z informacją, czy obraz rzutowano na przedział od 0 do 1.
+Etykiety: sec:pdui:scope, sec:pdui:scheme, fig:pdui:pipeline, sec:pdui:generalisation, def:pdui:function, eq:pdui:function, def:pdui:correction, eq:pdui:correction, eq:pdui:variants, par:pdui:argument, par:pdui:procedure, par:pdui:assumptions.
+
+Rozbieżności źródeł zauważone przy czytaniu, do opisania w sekcjach 5.4--5.5 (nie wygładzać):
+urządzenia: KES podaje Nairobi, Oslo, Perth i Lagos, CoDIT Nairobi, Perth i Lagos;
+okres i liczba wyników: KES 02--04.2023 i ponad 400, CoDIT 02--03.2023 i ponad 300;
+liczba pomiarów: KES 10 000 w eksperymencie na urządzeniach, CoDIT nie podaje;
+korelacja Pearsona po korekcie dla tych samych średnich MSE (0,321 i 0,026): KES 0,948853, CoDIT około 0,906;
+tabela KES po korekcie: p-wartość współczynnika Spearmana równa samemu współczynnikowi (0,8112443), a w tabeli przed korektą wiersz Kendalla dla FRQI powtarza wiersz Pearsona;
+MSE 0,188 dla LPIQE na symulatorze wektora stanu (KES i CoDIT) nie daje się odtworzyć symulacją bez szumu (README odtworzenia, punkt 20).
 }
 
 \section{Cel i zakres rozdziału}\label{sec:pdui:scope}
 \agentinfo{
-Pytanie badawcze rozdziału: PB3.
-Odniesienie do tez T1 i T2.
+Napisane w zadaniu PHD-TS-43.
+Cele rozdziału sformułowano opisowo, bez numerów pytań badawczych i bez brzmienia tez: numeracja i tezy nie są zatwierdzone (zadanie pod akapitem).
+Praca kordasz_image_encoding_2025 jest tylko przywołana z odesłaniem do sekcji 3.6, bo nie ma jej tekstu.
+Rozdział nie twierdzi, że PDU jest pierwszą korektą tego rodzaju dla obrazów; zestawienie z kalibracją adaptacyjną jest w sekcji 3.6.
 }
+
+Rozdział~\ref{chapter:pdu} zakończył się stwierdzeniem, że metoda PDU wymaga argumentu znanego w chwili korekty (założenie~\ref{itm:pdu:Z7}).
+Niniejszy rozdział stosuje tę metodę do kodowania i rekonstrukcji obrazu w reprezentacji LPIQE (podrozdział~\ref{subsec:tb:qimg:lpiqe}), w której wymóg ten przestaje być oczywisty: fazą zapisywaną w obwodzie jest intensywność piksela, czyli wielkość, którą rekonstrukcja ma odtworzyć.
+Pierwszym celem rozdziału jest ilościowa ocena utraty danych w schemacie kodowanie--rekonstrukcja dla reprezentacji FRQI, NEQR i LPIQE, na symulatorze i na rzeczywistych urządzeniach.
+Drugim jest ustalenie, w jakiej postaci funkcję PDU można zastosować do obrazu odtworzonego z pomiarów, co musi być wtedy znane w chwili korekty i w jakim stopniu korekta ogranicza utratę danych.
+\agenttask{
+Po zatwierdzeniu przez autora tez i numeracji pytań badawczych (sekcja sec:introduction:theses) dopisać w tym akapicie numer pytania, na które rozdział odpowiada (roboczo PB3), i zdanie odnoszące rozdział do tez (roboczo T1 i T2); do tego czasu nie przytaczać brzmienia tez.
+Teza T2 w brzmieniu roboczym porównuje błąd po PDU z kompresją stratną i zakłada skuteczność korekty obrazu, która jest sprawą otwartą (zadanie w sekcji 5.3).
+}
+
+Rozdział opiera się na dwóch publikacjach, których pierwszym autorem jest autor rozprawy.
+Praca czterech autorów~\cite{werner_data_loss_2023} porównuje utratę danych w trzech reprezentacjach i stosuje funkcję PDU do obrazów odtworzonych z reprezentacji LPIQE, a praca sześciu autorów~\cite{werner_error_reduction_2025} formułuje schemat kodowanie--rekonstrukcja, ogólną definicję funkcji PDU i protokół jej kalibracji dla obrazów.
+Reprezentacja LPIQE pochodzi z pracy Wereszczyńskiego i~in.~\cite{wereszczynski_cosine_2020} i nie jest wkładem autora rozprawy.
+Względem obu publikacji rozdział dodaje formalne wskazanie argumentu korekty piksela, powiązanie procedury z założeniami z podrozdziału~\ref{sec:pdu:assumptions} oraz oszacowanie kosztu.
+\agenttask{
+Pytanie do autora: jaki był podział wkładu między autorów prac KES 2023 (czterech autorów) i CoDIT 2025 (sześciu autorów): implementacja LPIQE i PDU dla obrazów, sformułowanie definicji ogólnej, eksperymenty na urządzeniach, analiza statystyczna?
+Po odpowiedzi dopisać w tym akapicie zdanie o podziale wkładu; do tego czasu tekst podaje tylko fakty bibliograficzne.
+}
+
+Podrozdziały~\ref{sec:pdui:scheme} i~\ref{sec:pdui:generalisation} opisują metodę, podrozdziały~\ref{sec:pdui:methodology} i~\ref{sec:pdui:results} metodykę i wyniki eksperymentów, a podrozdział~\ref{sec:pdui:discussion} dyskusję.
+Zakres obejmuje obrazy monochromatyczne $8\times8$ na symulatorze i na siedmiokubitowych urządzeniach nadprzewodzących IBM Quantum oraz $16\times16$ na symulatorze.
+% ŹRÓDŁO: KES k23-558.tex, sekcja Experimental protocol (8 x 8 images, 7-qubit devices; pierwszy eksperyment na symulatorze statevector); CoDIT root.tex, sekcja Experimental protocol (7-qubit devices; larger images with the use of statevector simulator) i sekcja The parameters and dataset (16 x 16).
+Rozdział nie obejmuje przetwarzania zakodowanego stanu między kodowaniem a odczytem, obrazów barwnych, przesyłania stanu między układami ani platform fotonicznych, z myślą o których reprezentację LPIQE opracowano~\cite{werner_data_loss_2023,werner_error_reduction_2025}.
+% ŹRÓDŁO: KES k23-558.tex, wstęp (LPIQE ... as the method of image representation best suited for photonic quantum computers); CoDIT root.tex, Introduction (This method is developed for image encoding and processing in photonic quantum processors).
+Dalszą redukcję błędu modelem obraz--obraz opisuje rozdział~\ref{chapter:dl_error_reduction}, a kodowanie uczone rozdział~\ref{chapter:learned_encoding}.
+Reprezentacje FRQI i LPIQE porównuje na urządzeniach także późniejsza praca z udziałem autora rozprawy~\cite{kordasz_image_encoding_2025}, znana tu tylko ze streszczenia; przywołano ją w podrozdziale~\ref{sec:lr:qimg} i nie omawia się jej w tym rozdziale.
 
 \section{Schemat kodowania i rekonstrukcji obrazu}\label{sec:pdui:scheme}
 \agentinfo{
-Potok: obraz, wektoryzacja, operator LPIQE, operator rekonstrukcji, pomiar, odtworzenie intensywności, korekta PDU.
-Hybrydowy charakter: obliczenia na komputerze kwantowym, redukcja błędu na komputerze klasycznym.
-Dwa scenariusze użycia zakodowanego obrazu: przetwarzanie wewnątrz procesora kwantowego oraz przesłanie do innego układu (komunikacja kwantowa).
+Napisane w zadaniu PHD-TS-43; definicji LPIQE, wzorów odczytu i miar nie powtarza się (podrozdział 2.5).
+Dodane w rozprawie, nieobecne w źródłach (DO AKCEPTACJI AUTORA): podział operatora rekonstrukcji na czynnik zależny od obrazu (operator Theta) i część niezależną od obrazu (bramki H i X kubitu pomocniczego, pomiar) jako miejsce możliwego przesłania stanu; analiza tego, co jest znane w chwili korekty w każdym z dwóch scenariuszy; liczba bramek CNOT.
+Źródła wymieniają dwa scenariusze tylko we wstępie artykułu CoDIT i nie mówią, co jest w nich znane przy korekcie.
+Liczba bramek: operator Theta jest, z dokładnością do faz stanów rejestru pozycji, obrotem R_z kubitu pomocniczego sterowanym rejestrem pozycji (wyprowadzenie w README odtworzenia na symulatorze, sekcja Obwód i transpilacja; test test_circuit_matches_formula_and_paper_operator); liczba 2 do potęgi k bramek CNOT dla k kubitów sterujących: twierdzenie 8 pracy shende_synthesis_2006, sprawdzone w tekście arXiv:quant-ph/0406176v5; raport obwodów odtworzenia podaje 64 i 256 bramek CNOT przed transpilacją \agentref{eksperymenty/lpiqe-pdu-pix2pix/results/circuits.csv}.
+Liczby bramek po transpilacji (109 i 466 bramek CZ w odtworzeniu na migawce FakeFez) należą do sekcji 5.4.
+Wcześniejsza wersja artykułu \agentref{artykuły/Quantum_Errors_ICCS_Images/main.tex} wiązała drugi scenariusz z komunikacją szybszą od światła; w wersji opublikowanej tego zdania nie ma i rozprawa go nie przytacza.
+Zdania artykułu CoDIT o wierności stanów w komunikacji kwantowej (z odwołaniem do pozycji tann_quantum_2022) nie przytoczono, bo treści tej pozycji nie sprawdzano.
 }
+
+Schemat kodowanie--rekonstrukcja powstaje z czterech kroków opisanych w podrozdziale~\ref{subsec:tb:qimg:scheme} przez pominięcie przetwarzania zakodowanego stanu: obraz odtworzony porównuje się wprost z oryginałem~\cite{werner_error_reduction_2025}.
+Rysunek~\ref{fig:pdui:pipeline} przedstawia go jako potok: (1)~wektoryzacja obrazu $\img$ do ciągu intensywności $p_0,\dots,p_{M-1}$; (2)~klasyczne wyznaczenie operatora $\Theta(\img)$, czyli operatora kodowania $\lpiqe(\img)$ sterowanego kubitem pomocniczym (definicja~\ref{def:tb:qimg:lpiqe}); (3)~wykonanie obwodu złożonego z równomiernej superpozycji $n+1$ kubitów, operatora $\Theta(\img)$ oraz bramek $\mathrm{H}$ i $\mathrm{X}$ na kubicie pomocniczym, które razem z $\Theta(\img)$ tworzą operator rekonstrukcji $\reconst(\img)$; (4)~$\nshots$-krotny pomiar wszystkich kubitów; (5)~odtworzenie intensywności $\tilde{p}_j$ z częstości wyników wzorem~\eqref{eq:tb:qimg:lpiqe-pixel}; (6)~korekta wyniku funkcją PDU (podrozdział~\ref{sec:pdui:generalisation}).
+% ŹRÓDŁO: CoDIT root.tex, sekcje LPIQE method (wektoryzacja, operator zadany macierzą) i Image reconstruction (operator R, działanie na jednorodną superpozycję, wzór na piksel) oraz sekcja Experimental protocol (eksperyment ER: kodowanie, rekonstrukcja, statystyki różnicy); postać operatorów jak w definicji def:tb:qimg:lpiqe.
+
+\begin{figure}[tb]
+\centering
+\input{figures/chp_pdu_images/pi_pipeline.tex}
+\caption[Potok kodowania, rekonstrukcji i korekty obrazu w reprezentacji LPIQE]{Potok kodowania, rekonstrukcji i korekty obrazu w reprezentacji LPIQE.
+Bloki szare są wykonywane na urządzeniu kwantowym i razem realizują operator rekonstrukcji $\reconst(\img)$ z pomiarem, bloki białe na komputerze klasycznym; linia kropkowana wskazuje miejsce, w którym stan można przekazać innemu układowi.
+Dolny wiersz przedstawia kalibrację funkcji PDU obrazu, a linia przerywana argument korekty dostępny tylko wtedy, gdy obraz jest znany (podrozdział~\ref{sec:pdui:generalisation}).
+Opracowanie własne.}
+\label{fig:pdui:pipeline}
+\end{figure}
+
+Operator rekonstrukcji~\eqref{eq:tb:qimg:recon-op} zawiera operator kodowania i jest wykonywany w jednym obwodzie z przygotowaniem stanu, więc stan LPIQE nie występuje w tym schemacie jako osobny etap.
+Od obrazu zależy jednak tylko czynnik $\Theta(\img)$, który zapisuje fazy w gałęzi $a=0$ i pozostawia gałąź odniesienia; bramki $\mathrm{H}$ i $\mathrm{X}$ kubitu pomocniczego oraz pomiar są takie same dla każdego obrazu.
+Na granicy tych części stan można byłoby przekazać innemu układowi, razem z kubitem pomocniczym, bo bez gałęzi odniesienia faz nie da się odczytać (podrozdział~\ref{subsec:tb:qimg:lpiqe}).
+
+Schemat jest hybrydowy: na urządzeniu kwantowym wykonuje się wyłącznie etapy (3) i (4), a wektoryzacja, wyznaczenie operatora, odtworzenie intensywności i korekta są obliczeniami klasycznymi~\cite{werner_error_reduction_2025}.
+Korekta działa na obrazie już odtworzonym i nie zmienia obwodu, jest więc \glslink{error-reduction}{redukcją błędów} w sensie definicji~\ref{def:tb03:reduction}, a do jej kalibracji służy ten sam potok wykonany dla obrazów o znanej, jednakowej intensywności wszystkich pikseli.
+
+Praca~\cite{werner_error_reduction_2025} wskazuje dwa sposoby użycia zakodowanego obrazu: przetwarzanie wewnątrz procesora kwantowego, na przykład wykrywanie obiektów, oraz przesłanie do innego układu, do którego schemat kodowanie--rekonstrukcja jest niezbędny.
+% ŹRÓDŁO: CoDIT root.tex, Introduction (The encoded images can be utilized in two general ways: they can be processed inside the quantum processor (e.g. for object detection), or they can be send to another system. For the second purpose, the scheme of encoding - reconstruction is needed).
+Źródła nie mówią, co w każdym z nich wiadomo w chwili korekty, a od tego zależy, którą postać korekty wolno zastosować (podrozdział~\ref{sec:pdui:generalisation}).
+W pierwszym scenariuszu obwód buduje ten, kto zna obraz, bo operator $\Theta(\img)$ wyznacza się klasycznie z intensywności pikseli: dopóki zakodowanego stanu się nie przetwarza, jak w eksperymentach tego rozdziału, w chwili korekty znane są zarówno wartości zmierzone, jak i oryginał, a rekonstrukcja służy pomiarowi utraty danych, nie poznaniu obrazu.
+Gdy między kodowaniem a odczytem działa operator przetwarzający, fazy przed odczytem są wynikiem obliczenia i znane są tylko wartości zmierzone.
+W drugim scenariuszu obraz zna nadawca, a korektę wykonuje odbiorca, który ma wyniki pomiaru i funkcję PDU wyznaczoną na obrazach kalibracyjnych o uzgodnionych intensywnościach; oryginał jest mu znany tylko w transmisji próbnej, służącej ocenie kanału.
+W eksperymentach opisanych w pracach źródłowych kodowanie i odczyt wykonywał jeden obwód na jednym urządzeniu, a przesłania stanu nie realizowano~\cite{werner_data_loss_2023,werner_error_reduction_2025}.
+% ŹRÓDŁO: KES k23-558.tex, sekcja Experimental protocol (image is encoded by running created circuit on a quantum backend; image is reconstructed); CoDIT root.tex, sekcja Experimental protocol (eksperyment ER na jednym backendzie).
+
+Kosztem schematu są kubity, bramki i pomiary.
+Obwód zajmuje $n+1$ kubitów: 7 dla obrazu $8\times8$ i 9 dla $16\times16$ (podrozdział~\ref{subsec:tb:qimg:lpiqe}).
+Liczbę bramek wyznacza operator $\Theta(\img)$, diagonalny, o $M$ fazach zależnych od obrazu; w pracach źródłowych zadawano go macierzą, a rozkład na bramki pozostawiano transpilatorowi, bez podania liczby bramek po transpilacji~\cite{werner_data_loss_2023,werner_error_reduction_2025}.
+% ŹRÓDŁO: CoDIT root.tex, sekcja LPIQE method (currently available solution (e.g., qiskit) provides tools for defining the operator as matrix); KES k23-558.tex, opis LPIQE we wstępie (creation of a unitary gate that takes the matrix as an argument); żaden z artykułów nie podaje liczby bramek ani głębokości obwodu.
+Z dokładnością do faz, które nie zmieniają rozkładu wyników pomiaru, operator ten jest obrotem $R_z$ kubitu pomocniczego sterowanym rejestrem pozycji, a taki obrót o $n$ kubitach sterujących można zrealizować $2^{n}=M$ bramkami CNOT~\cite{shende_synthesis_2006}.
+% ŹRÓDŁO: shende_synthesis_2006, twierdzenie 8 i zdanie po nim (the final CNOT count is 2^k, for k select bits), tekst arXiv:quant-ph/0406176v5; równoważność operatora Theta z obrotem sterowanym: diag(e^{ip}, 1) = e^{ip/2} R_z(-p), a czynnik e^{ip/2} jest fazą stanu rejestru pozycji (eksperymenty/lpiqe-pdu-pix2pix/README.md, sekcja Obwód i transpilacja; results/circuits.csv: 64 i 256 bramek CX przed transpilacją).
+W tej realizacji liczba bramek dwukubitowych rośnie proporcjonalnie do liczby pikseli, czyli wykładniczo z liczbą kubitów, jeszcze przed dopasowaniem obwodu do połączeń urządzenia (podrozdział~\ref{subsec:tb:gates}).
+Jeden eksperyment próbkowania dostarcza wszystkich $M$ intensywności naraz, lecz na piksel przypada tylko część pomiarów: odchylenie standardowe intensywności odtworzonej jest rzędu $\sqrt{M/\nshots}$ (podrozdział~\ref{subsec:tb:qimg:lpiqe}), więc utrzymanie dokładności wymaga liczby powtórzeń rosnącej proporcjonalnie do liczby pikseli.
 
 \section{Uogólnienie funkcji PDU na przetwarzanie obrazów}\label{sec:pdui:generalisation}
 \agentinfo{
-Uogólniona definicja PDU: funkcja określona na parach (stan bazowy, faza), wyznaczana eksperymentalnie.
-Kalibracja dla układu kubitów użytego do kodowania obrazu, ziarnistość pomiarów kalibracyjnych.
-Źródło: sekcja Error reduction artykułu CoDIT.
+Napisane w zadaniu PHD-TS-43 na podstawie sekcji Error reduction i Experimental protocol artykułu CoDIT oraz opisu PDU w artykule KES.
+OTWARTA KWESTIA (CLAUDE.md): wzór korekty w artykule CoDIT odczytuje funkcję kalibracyjną dla wartości piksela oryginału (k = I_original); tak samo brzmi we wcześniejszych wersjach \agentref{artykuły/Artykuł_2025_PDU_conf/conference_101719.tex} \agentref{artykuły/Quantum_Errors_ICCS_Images/main.tex} (sekcje Error reduction i Experimental protocol wersji z katalogu Artykuł_2025_PDU_conf są identyczne z wersją opublikowaną, a wersja z katalogu Quantum_Errors_ICCS_Images różni się tylko redakcyjnie); artykuł KES nie podaje wzoru i nazywa argument intensywnością piksela.
+Czy oryginalny kod liczył tak, jak zapisano we wzorze, może ustalić tylko autor (zadanie pod akapitem par:pdui:argument); do tego czasu sekcja nie mówi nic o skuteczności korekty i nie podaje wyników.
+Formalizacje dodane w rozprawie, nieobecne w źródłach (DO AKCEPTACJI AUTORA): definicje w dziedzinie intensywności z jawnym operatorem interpolacji; pojęcie argumentu korekty i warianty O i Z; wariant Z jako odwrócenie charakterystyki piksela (tak zaimplementowano korektę nieznającą oryginału w odtworzeniu na symulatorze); tożsamość pokazująca, że w wariancie O wartość skorygowana zawiera oryginał jako składnik; oszacowanie wariancji składowej statystycznej kalibracji (z wzoru metody delta z podrozdziału 2.5); uwaga o obwodzie obrazu jednorodnego; mocniejsza postać założenia Z8.
+Oceny własne, a nie twierdzenia źródeł (DO AKCEPTACJI AUTORA): wariant O nie spełnia założenia Z7 w zastosowaniu do obrazu nieznanego; wariant Z jest przypadkiem wyłączonym w podrozdziale 4.4 i nie ma cechy indeksowania znanym argumentem; odesłanie do kalibracji adaptacyjnej (balewski_quantum-parallel_2024) jako metody o korekcie będącej funkcją wartości zmierzonej.
+Konwencja znaku jak w rozdziale 4 (błąd to wartość zmierzona minus oczekiwana, korekta to odjęcie); wzór w artykule CoDIT dodaje poprawkę przy tak samo zdefiniowanym błędzie.
+Rozbieżności wewnątrz artykułu CoDIT: definicja ogólna dotyczy prawdopodobieństw (i mówi o amplitudzie prawdopodobieństwa), a protokół i wzór korekty obrazów odtworzonych; dziedziną definicji ogólnej jest przedział od -pi do pi, a intensywności leżą między 0 a 1; indeks k we wzorze korekty jest wartością intensywności, a w algorytmie kalibracji numerem warstwy; liczba węzłów dla ziarnistości g wynosi g+1 według algorytmu i g według opisu eksperymentów.
+Artykuł nie podaje, którego wyniku kubitu pomocniczego użyto (pisze: na przykład stan 0) ani jak transpilowano obwody obrazów jednorodnych.
 }
+
+Postać ogólną funkcji PDU, określoną na parach złożonych ze stanu bazy pomiarowej i fazy, podaje definicja~\ref{def:pdu:general}.
+Praca~\cite{werner_error_reduction_2025} stosuje ją do obrazu: stanem bazowym jest stan $\ket{j}$ rejestru pozycji, czyli piksel, fazą jego intensywność, a z dwóch wyników kubitu pomocniczego wykorzystuje się jeden.
+% ŹRÓDŁO: CoDIT root.tex, sekcja Error reduction (state representing pixel is 2-arrangement |rc>; reconstruction state is the sum of 3-arrangements |rca>; we use the results only for one ancillas eigen-state e.g. |a> = |0>; the general PDU for encoded picture P is equal to P^{r,c}(x) and calibration operator creates B-spline function).
+Definicja ogólna dotyczy prawdopodobieństw, a protokół kalibracji i wzór korekty z tej pracy obrazów odtworzonych, dlatego poniższe definicje sformułowano dla intensywności; obie postaci wiąże wzór~\eqref{eq:tb:qimg:lpiqe-pixel}.
+% ŹRÓDŁO: CoDIT root.tex, sekcja Error reduction, definicja General PDU function (różnica prawdopodobieństwa wyznaczonego i wartości oczekiwanej) oraz sekcja Experimental protocol, algorytm kalibracji (determine the j-th slice of the error sampling ... using the original and reconstructed images) i wzór korekty (I_corrected, I_reconstructed).
+
+\begin{Definition}[Funkcja PDU obrazu]\label{def:pdui:function}
+Niech $\img^{(v)}$ oznacza obraz jednorodny, czyli obraz, w którym $p_j=v$ dla każdego $j$, a $0\leq v_0<\dots<v_{K-1}\leq 1$ będą węzłami kalibracji.
+Niech $\tilde{p}^{(k)}_j$ oznacza intensywność $j$-tego piksela odtworzoną wzorem~\eqref{eq:tb:qimg:lpiqe-pixel} z eksperymentu próbkowania o $\nshots$ powtórzeniach, wykonanego dla obwodu obrazu $\img^{(v_k)}$ na ustalonym urządzeniu i ustalonym układzie kubitów.
+Błędem wyznaczonym piksela $j$ w węźle $v_k$ nazywamy liczbę $\pdu_{j,k}=\tilde{p}^{(k)}_j-v_k$, a funkcją PDU piksela $j$ funkcję
+\begin{equation}\label{eq:pdui:function}
+\pdu_j=\mathcal{I}\bigl[\mathcal{V}^{(j)}\bigr]\colon[0,1]\to\mathbb{R},
+\qquad
+\mathcal{V}^{(j)}=\bigl\{(v_k,\pdu_{j,k})\colon k=0,\dots,K-1\bigr\},
+\end{equation}
+gdzie $\mathcal{I}$ jest ustalonym operatorem interpolacji.
+Funkcją PDU obrazu nazywamy rodzinę $(\pdu_j)_{j=0}^{M-1}$, czyli funkcję $\pdu(\ket{j},v)=\pdu_j(v)$ określoną na parach złożonych ze stanu bazowego rejestru pozycji i fazy.
+\end{Definition}
+
+W pracy~\cite{werner_error_reduction_2025} węzły są równoodległe, a między nimi stosuje się interpolację sześcienną.
+Ich gęstość określa parametr nazywany ziarnistością (ang. \english{granularity}): algorytm kalibracji daje dla ziarnistości $g$ węzły $k/g$, $k=0,\dots,g$, czyli $g+1$ wartości, a opis eksperymentów w obu pracach źródłowych objaśnia ziarnistość $6$ jako sześć wartości, dlatego rozprawa posługuje się liczbą węzłów $K$.
+% ŹRÓDŁO: CoDIT root.tex, sekcja Experimental protocol, algorytm kalibracji (v z listy 0, 1/g, ..., r/g, gdzie r/g <= 1 i (r+1)/g > 1) i zdanie o interpolacji sześciennej; sekcja The parameters and dataset (granularity 6 - meaning that the output error on image was determined for 6 distinct values between 0 and 1); to samo zdanie w KES k23-558.tex, sekcja Experimental protocol.
+
+\begin{Definition}[Intensywność skorygowana i argument korekty]\label{def:pdui:correction}
+Niech $\tilde{p}_j$ będzie intensywnością $j$-tego piksela odtworzoną z pomiaru obrazu $\img$ na urządzeniu i układzie kubitów, dla których wyznaczono funkcję PDU obrazu, a $x_j\in[0,1]$ liczbą, dla której odczytuje się funkcję $\pdu_j$, nazywaną argumentem korekty.
+Intensywnością skorygowaną nazywamy liczbę
+\begin{equation}\label{eq:pdui:correction}
+\hat{p}_j=\tilde{p}_j-\pdu_j(x_j).
+\end{equation}
+Korektą z argumentem oczekiwanym (wariant~O) nazywamy wybór $x_j=p_j$, a korektą z argumentem zmierzonym (wariant~Z) wybór, w którym $x_j$ wyznacza się wyłącznie z wartości $\tilde{p}_j$ i funkcji $\pdu_j$, jako rozwiązanie równania $x_j+\pdu_j(x_j)=\tilde{p}_j$:
+\begin{equation}\label{eq:pdui:variants}
+\hat{p}^{\mathrm{o}}_j=\tilde{p}_j-\pdu_j(p_j),
+\qquad
+\hat{p}^{\mathrm{z}}_j=\tilde{p}_j-\pdu_j\bigl(\hat{p}^{\mathrm{z}}_j\bigr).
+\end{equation}
+\end{Definition}
+
+Wariant~Z jest odwróceniem charakterystyki piksela $v\mapsto v+\pdu_j(v)$, znanej z kalibracji: wymaga, by była ona rosnąca, a wartości $\tilde{p}_j$ spoza jej zakresu przypisuje się bliższy kraniec przedziału $[0,1]$; odpowiednikami obu wariantów w korekcie odczytu klasyfikatora są warianty FO i FZ (równanie~\eqref{eq:cls:corrections}).
+
+\paragraph{Co jest argumentem korekty piksela.}\label{par:pdui:argument}
+W rozdziale~\ref{chapter:pdu} argumentem funkcji PDU jest faza kubitu odczytu, znana z konstrukcji obwodu, a wielkością wyznaczaną prawdopodobieństwo (podrozdział~\ref{par:pdu:known-argument}).
+W reprezentacji LPIQE fazą stanu $\ket{j}$ jest intensywność $p_j$, czyli wielkość, którą rekonstrukcja ma wyznaczyć: z pary argumentów funkcji PDU obrazu stan bazowy jest znany zawsze, bo wskazuje go wynik pomiaru, a faza tylko temu, kto zna obraz.
+Wariant~O ma postać wyniku skorygowanego z definicji~\ref{def:pdu:correction}, lecz nie spełnia drugiej części założenia~(\ref{itm:pdu:Z7}): korzysta z wartości, którą obliczenie ma wyznaczyć.
+Jest więc dopuszczalny tylko tam, gdzie obraz jest znany niezależnie od pomiaru, czyli w kalibracji, w pomiarze utraty danych na obrazach testowych i w transmisji próbnej (podrozdział~\ref{sec:pdui:scheme}), a nie jest sposobem odtwarzania obrazu nieznanego.
+Z~\eqref{eq:pdui:variants} wynika bowiem tożsamość $\hat{p}^{\mathrm{o}}_j=p_j+\bigl[(\tilde{p}_j-p_j)-\pdu_j(p_j)\bigr]$: wartość skorygowana jest sumą oryginału i różnicy między błędem bieżącego pomiaru a błędem zapamiętanym w kalibracji.
+Miary zgodności obrazu skorygowanego z oryginałem oceniają zatem w tym wariancie powtarzalność błędu między kalibracją a pomiarem, jak w eksperymencie E3 rozdziału~\ref{chapter:pdu} (podrozdział~\ref{sec:pdu:discussion}), a nie to, ile informacji o obrazie odzyskano z pomiaru.
+Wariant~Z nie wymaga oryginału, lecz rezygnuje ze znanego argumentu: jest przypadkiem wyłączonym w podrozdziale~\ref{par:pdu:known-argument}, w którym korekta staje się funkcją wartości zmierzonej, jak w metodach pokrewnych z podrozdziału~\ref{sec:lr:qem} i w kalibracji adaptacyjnej dla obrazów~\cite{balewski_quantum-parallel_2024}, a indeksowanie znanym argumentem, odróżniające PDU od tych metod, nie ma zastosowania.
+
+Prace źródłowe zapisują korektę w postaci wariantu~O: wzór z pracy~\cite{werner_error_reduction_2025} odczytuje funkcję kalibracyjną piksela dla wartości tego piksela w obrazie oryginalnym, a praca~\cite{werner_data_loss_2023} wzoru nie podaje i nazywa argument intensywnością piksela.
+% ŹRÓDŁO: CoDIT root.tex, sekcja Experimental protocol: I_corrected(p_{u,v}) = I_reconstructed(p_{u,v}) + C R^{psi_1,...,psi_n,k}(p_{u,v}), k = I_original(p_{u,v}); if k is equal to one of the slices obtained in calibration procedure its value is taken directly from the remembered slices, in opposite case it is interpolated. Wzór brzmi tak samo w artykuły/Artykuł_2025_PDU_conf/conference_101719.tex i artykuły/Quantum_Errors_ICCS_Images/main.tex. KES k23-558.tex, opis PDU we wstępie (x is a intensity value of the pixel; calibrated for the selected number of different intensity values, and than interpolated and applied on the results obtained from the actual experiments).
+Poprawkę wzór ten dodaje, choć błąd definiuje jako wartość zmierzoną minus oczekiwaną; rozprawa stosuje konwencję znaku z definicji~\ref{def:pdu:correction}.
+To, czy obliczenia w eksperymentach wykonano zgodnie z tym wzorem, wymaga sprawdzenia w oryginalnym kodzie, dlatego wnioski o działaniu korekty odłożono do podrozdziałów~\ref{sec:pdui:results} i~\ref{sec:pdui:discussion}.
+\agenttask{
+Pytanie do autora (jedno, rozstrzyga treść sekcji 5.4--5.7 i rozdziału 6): czy w oryginalnym kodzie korekty obrazów, którym uzyskano wyniki prac KES 2023 i CoDIT 2025, funkcję błędu piksela odczytywano dla wartości tego piksela w obrazie oryginalnym (k = I_original, jak we wzorze artykułu CoDIT, czyli wariant O), czy dla wartości odtworzonej z pomiaru (wariant Z)?
+Po odpowiedzi: poprawić ostatni akapit przed tym zadaniem, napisać sekcje 5.4--5.7 i uzgodnić z odpowiedzią rozdział 6 oraz wpis o otwartej kwestii w CLAUDE.md.
+Jeżeli stosowano wariant O, wyniki po korekcie opisywać jako powtarzalność błędu przy znanym obrazie, a nie jako odtworzenie obrazu.
+}
+\agenttask{
+Szczegóły protokołu do potwierdzenia przez autora przy pisaniu sekcji 5.4 (nie zmieniają definicji, zmieniają opis eksperymentów): ile węzłów kalibracji stosowano (sześć czy siedem przy ziarnistości 6) i jakie miały wartości; którego wyniku kubitu pomocniczego używano do odtworzenia piksela; czy błąd wyznaczano na obrazach odtworzonych, czy na prawdopodobieństwach; czy obwody obrazów jednorodnych transpilowano tak samo jak obwody obrazów i ile bramek dwukubitowych miały po transpilacji; ile powtórzeń obwodu wykonywano w kalibracji i w pomiarze obrazu; czy wartości odtworzone i skorygowane rzutowano na przedział od 0 do 1.
+}
+
+\paragraph{Procedura i koszt.}\label{par:pdui:procedure}
+Kalibracja składa się z $K$ eksperymentów kodowanie--rekonstrukcja na obrazach jednorodnych: dla każdego węzła $v_k$ wykonuje się obwód obrazu $\img^{(v_k)}$, odtwarza intensywności i zapisuje błędy wszystkich $M$ pikseli, po czym interpoluje się $M$ funkcji~\cite{werner_error_reduction_2025}.
+% ŹRÓDŁO: CoDIT root.tex, sekcja Experimental protocol, algorytm kalibracji (For each v ...: execute ER(v) experiment; determine the j-th slice of the error sampling) i zdanie o operatorze kalibracji jako interpolacji rozpiętej na warstwach.
+Wymaga to $K$ obwodów i $K\nshots$ powtórzeń niezależnie od rozmiaru obrazu, bo jeden obwód kalibruje wszystkie piksele dla jednej wartości fazy, podczas gdy w rozdziale~\ref{chapter:pdu} liczba obwodów kalibracyjnych rosła jak $2^{m}$ (podrozdział~\ref{sec:pdu:procedure}); sama korekta jest obliczeniem klasycznym na tablicy $KM$ błędów i nie wymaga wykonań obwodu (założenie~\ref{itm:pdu:Z6}).
+Ceną jest dokładność: na piksel przypada około $1/M$ pomiarów, więc wariancja składowej statystycznej błędu wyznaczonego jest rzędu $M/\nshots$ (podrozdział~\ref{subsec:tb:qimg:lpiqe}), czyli co najmniej $4M$ razy większa niż ograniczenie $1/(4\nshots)$ z rozdziału~\ref{chapter:pdu}.
+% ŹRÓDŁO: obliczenie własne ze wzoru metody delta z podrozdziału 2.5: wariancja intensywności odtworzonej to M/(N_s cos^2(p/2)) >= M/N_s, a (M/N_s)/(1/(4 N_s)) = 4M (256 dla obrazu 8 na 8); przybliżenie przy dużej oczekiwanej liczbie zliczeń, zawodzi dla pikseli o intensywności bliskiej zeru.
+Składowa ta, pomijalna w warunku~\eqref{eq:pdu:criterion}, jest dla obrazów tego samego rzędu co błąd próbkowania korygowanego obrazu, a korekta dodaje ją do wyniku (równanie~\eqref{eq:pdu:residual}).
+
+\paragraph{Założenia.}\label{par:pdui:assumptions}
+Bez zmian przenoszą się założenia~(\ref{itm:pdu:Z1}), (\ref{itm:pdu:Z3}) i~(\ref{itm:pdu:Z6}) z podrozdziału~\ref{sec:pdu:assumptions}; pozostałe wymagają dla obrazów osobnego sprawdzenia.
+Stabilności błędu~(\ref{itm:pdu:Z4}) praca~\cite{werner_error_reduction_2025} nie bada dla obwodów obrazów, lecz powołuje się na wyniki dla funkcji jednej zmiennej, które rozdział~\ref{chapter:pdu} potwierdza tylko w postaci słabszej i dla urządzeń pięciokubitowych (podrozdział~\ref{sec:pdu:discussion}).
+% ŹRÓDŁO: CoDIT root.tex, sekcja Experimental protocol (calibration once made is applicable for the relatively long time period, which we experimentally proved in the mentioned previous work).
+Założenia~(\ref{itm:pdu:Z2}) i~(\ref{itm:pdu:Z5}) wymagają, by obwody kalibracyjne miały tę samą strukturę bramek co obwody obrazów; dla obrazu jednorodnego operator $\Theta(\img^{(v)})$ sprowadza się jednak do bramki fazowej samego kubitu pomocniczego, więc przy operatorze zadanym macierzą obwód kalibracyjny może po transpilacji być krótszy niż obwód obrazu, a źródła nie podają, jak to kontrolowano.
+% ŹRÓDŁO: wyprowadzenie własne: dla obrazu jednorodnego L = e^{iv} 1, więc Theta = 1 (x) diag(e^{iv}, 1); uwaga o uproszczeniu obwodu kalibracyjnego także w eksperymenty/lpiqe-pdu-pix2pix/README.md, punkt 9 listy założeń.
+Założenie~(\ref{itm:pdu:Z8}) przyjmuje postać mocniejszą: błąd piksela wyznaczony na obrazie jednorodnym ma opisywać błąd tego piksela w dowolnym obrazie, czyli nie zależeć od faz pozostałych pikseli.
+Wariant~Z wymaga ponadto rosnącej charakterystyki piksela, a jej odwrócenie mnoży składową statystyczną wartości zmierzonej przez odwrotność nachylenia, większą od jedności, gdy szum charakterystykę spłaszcza (podrozdział~\ref{subsec:tb:noise:models}).
 
 \section{Metodyka badań eksperymentalnych}\label{sec:pdui:methodology}
 \agentinfo{

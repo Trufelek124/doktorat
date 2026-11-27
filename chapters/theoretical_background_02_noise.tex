@@ -19,38 +19,38 @@ W~pracy \emph{szumem} nazywa się procesy fizyczne i~niedoskonałości sterowani
 
 \subsection{Źródła błędów}\label{subsec:tb:noise:sources}
 
-Podstawowym źródłem błędów jest \gls{decoherence}, czyli utrata kwantowych własności układu wskutek niekontrolowanego oddziaływania z~otoczeniem \cite{zurek_decoherence_2003,bib:quantum-decoherence}.
-W~kubitach nadprzewodzących opisują ją dwie stałe czasowe \cite{krantz_quantum_2019}: czas relaksacji $\Tone$, z~którym zanika obsadzenie stanu wzbudzonego $\ket{1}$, oraz czas koherencji $\Ttwo$, z~którym zanikają koherencje, czyli pozadiagonalne elementy macierzy gęstości przechowujące fazę lokalną (podrozdział~\ref{subsec:tb:density}), a~wraz z~nimi dane zapisane w~fazie.
+Podstawowym źródłem błędów jest \gls{decoherence}, czyli utrata kwantowych własności układu wskutek niekontrolowanego oddziaływania z~otoczeniem~\cite{zurek_decoherence_2003,bib:quantum-decoherence}.
+W~kubitach nadprzewodzących opisują ją dwie stałe czasowe~\cite{krantz_quantum_2019}: czas relaksacji $\Tone$, z~którym zanika obsadzenie stanu wzbudzonego $\ket{1}$, oraz czas koherencji $\Ttwo$, z~którym zanikają koherencje, czyli pozadiagonalne elementy macierzy gęstości przechowujące fazę lokalną (podrozdział~\ref{subsec:tb:density}), a~wraz z~nimi dane zapisane w~fazie.
 Fazę niszczy zarówno relaksacja, jak i~czyste defazowanie o~stałej czasowej $\Tphi$, wywołane fluktuacjami częstotliwości kubitu, stąd $1/\Ttwo=1/(2\Tone)+1/\Tphi$ oraz $\Ttwo\le2\Tone$.
 
-Drugą grupą są błędy sterowania: impuls realizujący bramkę ma skończoną dokładność, więc wykonany obrót różni się od zadanego kątem lub osią \cite{krantz_quantum_2019}.
+Drugą grupą są błędy sterowania: impuls realizujący bramkę ma skończoną dokładność, więc wykonany obrót różni się od zadanego kątem lub osią~\cite{krantz_quantum_2019}.
 Trzecią są błędy przygotowania stanu i~pomiaru (SPAM).
-\Gls{crosstalk} oznacza, że operacja na jednym kubicie zaburza inne kubity albo że błąd bramki zależy od operacji wykonywanych równocześnie w~sąsiedztwie \cite{sarovar_detecting_2020,mundada2019crosstalk}, a~\glslink{qubit-leakage}{wyciek} jest przejściem układu do stanu spoza przestrzeni obliczeniowej \cite{Wood2015}; wskutek obu zjawisk błąd obwodu nie jest prostym złożeniem błędów bramek, lecz zależy od wyboru kubitów fizycznych i~od kontekstu, w~którym bramka jest wykonywana.
+\Gls{crosstalk} oznacza, że operacja na jednym kubicie zaburza inne kubity albo że błąd bramki zależy od operacji wykonywanych równocześnie w~sąsiedztwie~\cite{sarovar_detecting_2020,mundada2019crosstalk}, a~\glslink{qubit-leakage}{wyciek} jest przejściem układu do stanu spoza przestrzeni obliczeniowej~\cite{Wood2015}; wskutek obu zjawisk błąd obwodu nie jest prostym złożeniem błędów bramek, lecz zależy od wyboru kubitów fizycznych i~od kontekstu, w~którym bramka jest wykonywana.
 
-Skalę tych zjawisk ilustruje migawka kalibracyjna 156-kubitowego procesora ibm\_fez z~26~lutego 2025~r., dołączona do pakietu qiskit-ibm-runtime w~wersji 0.49.0 \cite{qiskit_ibm_runtime_2026}: mediany wynoszą $\Tone=145~\mu\mathrm{s}$, $\Ttwo=88~\mu\mathrm{s}$, błąd bramki jednokubitowej $2{,}3\cdot10^{-4}$ (czas trwania $24$~ns), błąd bramki dwukubitowej CZ $3{,}8\cdot10^{-3}$ ($84$~ns, bez par oznaczonych jako niesprawne) i~błąd odczytu $7{,}6\cdot10^{-3}$ ($1560$~ns).
+Skalę tych zjawisk ilustruje migawka kalibracyjna 156-kubitowego procesora ibm\_fez z~26~lutego 2025~r., dołączona do pakietu qiskit-ibm-runtime w~wersji 0.49.0~\cite{qiskit_ibm_runtime_2026}: mediany wynoszą $\Tone=145~\mu\mathrm{s}$, $\Ttwo=88~\mu\mathrm{s}$, błąd bramki jednokubitowej $2{,}3\cdot10^{-4}$ (czas trwania $24$~ns), błąd bramki dwukubitowej CZ $3{,}8\cdot10^{-3}$ ($84$~ns, bez par oznaczonych jako niesprawne) i~błąd odczytu $7{,}6\cdot10^{-3}$ ($1560$~ns).
 Bramka dwukubitowa ma więc błąd o~rząd wielkości większy niż jednokubitowa, dlatego o~jakości wyniku decyduje przede wszystkim liczba takich bramek po transpilacji (podrozdział~\ref{subsec:tb:gates}).
 
-Parametry szumu zmieniają się w~czasie: w~wielodniowych pomiarach kubitów nadprzewodzących czasy relaksacji i~defazowania fluktuują, między innymi wskutek niestabilności defektów materiałowych sprzężonych z~kubitem \cite{burnett_decoherence_2019}, podczas gdy standardowe metody charakteryzacji zakładają stałość błędów \cite{proctor_detecting_2020}.
-Według dokumentacji IBM Quantum (stan na 26~listopada 2026~r.) kalibracje poszczególnych parametrów uruchamia się między zadaniami użytkowników, gdy wykonywane mniej więcej co godzinę zadania monitorujące wykryją odchylenie, a~raz na dobę wykonuje się pomiary wzorcowe, z~których pochodzą publikowane wartości $\Tone$, $\Ttwo$ oraz błędów bramek i~odczytu \cite{ibm_calibration_docs_2026}; w~latach 2021--2022, w~okresie eksperymentów opisanych w~rozdziale~\ref{chapter:pdu}, deklarowane wartości błędów bramek zmieniały się raz na dobę \cite{werner_experiment_driven_2022}.
+Parametry szumu zmieniają się w~czasie: w~wielodniowych pomiarach kubitów nadprzewodzących czasy relaksacji i~defazowania fluktuują, między innymi wskutek niestabilności defektów materiałowych sprzężonych z~kubitem~\cite{burnett_decoherence_2019}, podczas gdy standardowe metody charakteryzacji zakładają stałość błędów~\cite{proctor_detecting_2020}.
+Według dokumentacji IBM Quantum (stan na 26~listopada 2026~r.) kalibracje poszczególnych parametrów uruchamia się między zadaniami użytkowników, gdy wykonywane mniej więcej co godzinę zadania monitorujące wykryją odchylenie, a~raz na dobę wykonuje się pomiary wzorcowe, z~których pochodzą publikowane wartości $\Tone$, $\Ttwo$ oraz błędów bramek i~odczytu~\cite{ibm_calibration_docs_2026}; w~latach 2021--2022, w~okresie eksperymentów opisanych w~rozdziale~\ref{chapter:pdu}, deklarowane wartości błędów bramek zmieniały się raz na dobę~\cite{werner_experiment_driven_2022}.
 Ma to dwie konsekwencje dla tej pracy: metoda PDU zakłada, że między kolejnymi kalibracjami błąd urządzenia jest w~przybliżeniu ustalony (założenie sprawdzane w~podrozdziale~\ref{subsec:pdu:results:stability}), a~każda charakterystyka szumu, także korekta wyznaczona eksperymentalnie, dotyczy konkretnych kubitów fizycznych i~ma ograniczony czas ważności.
 
 \subsection{Formalizm kanałów kwantowych}\label{subsec:tb:noise:channels}
 
 Kubit oddziałujący z~otoczeniem jest układem otwartym: łączna ewolucja rejestru i~otoczenia pozostaje unitarna, lecz po odrzuceniu stopni swobody otoczenia (ślad częściowy, podrozdział~\ref{subsec:tb:density}) zmiany stanu rejestru nie opisuje już macierz unitarna.
-Najogólniejszą dopuszczalną zmianę stanu opisuje \gls{quantum-channel}: liniowe odwzorowanie $\channel$ macierzy gęstości, całkowicie dodatnie i~zachowujące ślad (CPTP), czyli takie, że $\channel(\rho)$ pozostaje poprawną macierzą gęstości także wtedy, gdy rejestr jest splątany z~innym układem \cite{NielsenChuang2010,bib:quantum_noise}.
+Najogólniejszą dopuszczalną zmianę stanu opisuje \gls{quantum-channel}: liniowe odwzorowanie $\channel$ macierzy gęstości, całkowicie dodatnie i~zachowujące ślad (CPTP), czyli takie, że $\channel(\rho)$ pozostaje poprawną macierzą gęstości także wtedy, gdy rejestr jest splątany z~innym układem~\cite{NielsenChuang2010,bib:quantum_noise}.
 Każdy kanał ma postać sumy operatorowej
 \begin{equation}\label{eq:tb:noise:kraus}
 \channel(\rho)=\sum_{k}\kraus_k\,\rho\,\kraus_k^{\dagger},\qquad \sum_{k}\kraus_k^{\dagger}\kraus_k=\identity,
 \end{equation}
 w~której $\kraus_k$ są operatorami Krausa.
 Bramka idealna $U$ jest kanałem o~jednym operatorze Krausa, $\mathcal{U}(\rho)=U\rho U^{\dagger}$, a~bramkę zaszumioną przedstawia się jako złożenie $\errch\circ\mathcal{U}$ bramki idealnej i~\emph{kanału błędu} $\errch$.
-Ciągłą w~czasie ewolucję układu otwartego, którego otoczenie nie ma pamięci, opisuje równanie Lindblada \cite{lindblad1976generators,gorini_completely_1976,breuer2022theory}, w~którym obok hamiltonianu występują operatory procesów nieodwracalnych, takich jak relaksacja i~defazowanie; jego rozwiązanie po czasie $t$ jest kanałem postaci~\eqref{eq:tb:noise:kraus}.
+Ciągłą w~czasie ewolucję układu otwartego, którego otoczenie nie ma pamięci, opisuje równanie Lindblada~\cite{lindblad1976generators,gorini_completely_1976,breuer2022theory}, w~którym obok hamiltonianu występują operatory procesów nieodwracalnych, takich jak relaksacja i~defazowanie; jego rozwiązanie po czasie $t$ jest kanałem postaci~\eqref{eq:tb:noise:kraus}.
 
 \paragraph{Błędy koherentne i~niekoherentne.}
 \Gls{coherent-error} jest unitarnym kanałem błędu, $\errch(\rho)=U_{\mathrm{e}}\rho U_{\mathrm{e}}^{\dagger}$, na przykład obrotem o~dodatkowy kąt $\cohangle$ wynikającym z~niedokładnej kalibracji impulsu; jest jednakowy w~każdym wykonaniu obwodu, nie zamienia stanu czystego w~mieszany i~daje się odwrócić, o~ile $U_{\mathrm{e}}$ jest znane.
 \Gls{incoherent-error}, nazywany też stochastycznym, jest kanałem, którego nie da się zapisać jednym operatorem Krausa, na przykład kanałem Pauliego $\errch(\rho)=\sum_{j}q_j\,\sigma_j\rho\,\sigma_j$, w~którym z~prawdopodobieństwem $q_j$ na stan działa macierz $\sigma_j\in\{\identity,\sigma_x,\sigma_y,\sigma_z\}$; zamienia on stany czyste w~mieszane, a~jego odwrotność nie jest kanałem.
 W~błędach koherentnych sumują się amplitudy: $m$ powtórzeń bramki z~nadmiarowym obrotem $\cohangle$ daje obrót o~$m\cohangle$ i~prawdopodobieństwo błędnego wyniku rzędu $\sin^2(m\cohangle/2)\approx m^2\cohangle^2/4$, podczas gdy w~błędach niekoherentnych sumują się prawdopodobieństwa i~wzrost jest liniowy, rzędu $mq$ dla prawdopodobieństwa błędu $q$ pojedynczej bramki.
-Błąd koherentny zależy ponadto od stanu wejściowego i~od sąsiednich bramek, z~którymi może się wzmacniać albo znosić, dlatego przy tym samym średnim błędzie bramki daje większy błąd w~najgorszym przypadku \cite{Wallman2015,Hashim2023}.
+Błąd koherentny zależy ponadto od stanu wejściowego i~od sąsiednich bramek, z~którymi może się wzmacniać albo znosić, dlatego przy tym samym średnim błędzie bramki daje większy błąd w~najgorszym przypadku~\cite{Wallman2015,Hashim2023}.
 
 \paragraph{Kanały unitalne i~nieunitalne.}
 Kanał jest \glslink{unital-channel}{unitalny}, jeżeli nie zmienia stanu maksymalnie mieszanego, $\channel(\identity/d)=\identity/d$, gdzie $d=2^n$ jest wymiarem przestrzeni stanów $n$ kubitów; kanały unitarne i~kanały Pauliego są unitalne, a~nieunitalna jest na przykład relaksacja, która każdy stan sprowadza do $\ket{0}$.
@@ -58,19 +58,20 @@ Dla jednego kubitu, w~reprezentacji~\eqref{eq:tb01:blochrho}, każdy kanał jest
 \begin{equation}\label{eq:tb:noise:affine}
 \blochvec\;\longmapsto\;\ptmblock\,\blochvec+\ptmshift,
 \end{equation}
-z~rzeczywistą macierzą $\ptmblock$ o~wymiarach $3\times3$ i~wektorem przesunięcia $\ptmshift$ \cite{NielsenChuang2010}, a~unitalność oznacza $\ptmshift=\mathbf{0}$.
+z~rzeczywistą macierzą $\ptmblock$ o~wymiarach $3\times3$ i~wektorem przesunięcia $\ptmshift$~\cite{NielsenChuang2010}, a~unitalność oznacza $\ptmshift=\mathbf{0}$.
 Dla bramki unitarnej $\ptmblock$ jest macierzą obrotu, natomiast szum niekoherentny skraca wektor Blocha (rysunek~\ref{fig:tb:noise:bloch}).
 
 \begin{figure}[tb]
 \centering
 \input{figures/chp_theoretical_background/tb02_bloch_channels.tex}
-\caption[Działanie kanałów szumu na kulę Blocha]{Przekrój kuli Blocha płaszczyzną $xz$ i~jego obrazy po działaniu trzech kanałów z~tabeli~\ref{tab:tb:noise:channels} (parametry przykładowe); tylko tłumienie amplitudy przesuwa środek kuli o~wektor $\ptmshift$, czyli jest nieunitalne. Opracowanie własne.}
+\caption[Działanie kanałów szumu na kulę Blocha]{Przekrój kuli Blocha płaszczyzną $xz$ i~jego obrazy po działaniu trzech kanałów z~tabeli~\ref{tab:tb:noise:channels} (parametry przykładowe); tylko tłumienie amplitudy przesuwa środek kuli o~wektor $\ptmshift$, czyli jest nieunitalne.
+Opracowanie własne.}
 \label{fig:tb:noise:bloch}
 \end{figure}
 
 \subsection{Podstawowe modele szumu}\label{subsec:tb:noise:models}
 
-Tabela~\ref{tab:tb:noise:channels} zestawia jednokubitowe kanały, z~których buduje się modele szumu używane w~tej pracy \cite{NielsenChuang2010}.
+Tabela~\ref{tab:tb:noise:channels} zestawia jednokubitowe kanały, z~których buduje się modele szumu używane w~tej pracy~\cite{NielsenChuang2010}.
 Tłumienie amplitudy modeluje relaksację, a~tłumienie fazy czyste defazowanie: po czasie $t$ ich parametry wynoszą $\qamp=1-\mathrm{e}^{-t/\Tone}$ i~$\qphase=1-\mathrm{e}^{-2t/\Tphi}$, a~złożenie obu kanałów, nazywane relaksacją termiczną, mnoży składowe $r_x$ i~$r_y$ przez $\mathrm{e}^{-t/\Ttwo}$.
 Tłumienie amplitudy jest jedynym kanałem nieunitalnym w~tabeli, a~odstrojenie, czyli stały obrót wokół osi $z$, najprostszym modelem błędu koherentnego.
 
@@ -98,14 +99,14 @@ Kanał depolaryzujący z~prawdopodobieństwem $\depolparam$ zastępuje stan $n$ 
 \begin{equation}\label{eq:tb:noise:depolarizing}
 \channel(\rho)=(1-\depolparam)\,\rho+\depolparam\,\frac{\identity}{2^n}.
 \end{equation}
-Dla jednego kubitu jest to równoważne zastosowaniu każdej z~bramek $\mathrm{X}$, $\mathrm{Y}$, $\mathrm{Z}$ z~prawdopodobieństwem $\qdep/3$, przy czym $\depolparam=\tfrac{4}{3}\qdep$; pierwsza parametryzacja jest używana w~Qiskit Aer \cite{qiskit_aer_noise_docs_2026}, druga w~PennyLane \cite{bergholm_pennylane_2018}, i~nie wolno ich utożsamiać.
+Dla jednego kubitu jest to równoważne zastosowaniu każdej z~bramek $\mathrm{X}$, $\mathrm{Y}$, $\mathrm{Z}$ z~prawdopodobieństwem $\qdep/3$, przy czym $\depolparam=\tfrac{4}{3}\qdep$; pierwsza parametryzacja jest używana w~Qiskit Aer~\cite{qiskit_aer_noise_docs_2026}, druga w~PennyLane~\cite{bergholm_pennylane_2018}, i~nie wolno ich utożsamiać.
 Po działaniu kanału~\eqref{eq:tb:noise:depolarizing} na cały rejestr rozkład wyników jest mieszaniną rozkładu idealnego i~jednostajnego,
 \begin{equation}\label{eq:tb:noise:shrink}
 \probnoisy(\ket{x})=\distshrink\,\prob_{\mathrm{id}}(\ket{x})+\frac{1-\distshrink}{2^n},\qquad \distshrink=1-\depolparam,
 \end{equation}
 czyli odchylenia od rozkładu jednostajnego maleją w~stosunku $\distshrink$, nazywanym dalej \glslink{distribution-shrinkage}{współczynnikiem skurczenia rozkładu}.
 
-Błąd odczytu opisuje się klasycznie, jako losową zamianę etykiet wyników \cite{maciejewski_mitigation_2020}:
+Błąd odczytu opisuje się klasycznie, jako losową zamianę etykiet wyników~\cite{maciejewski_mitigation_2020}:
 \begin{equation}\label{eq:tb:noise:readout}
 \probnoisy(\ket{y})=\sum_{x\in\{0,1\}^n}\confmat_{yx}\,\prob(\ket{x}),\qquad \confmat_{yx}=q_{y|x},
 \end{equation}
@@ -128,14 +129,14 @@ Rozróżnienie wyznacza granice klasycznej korekty wyniku, do których odwołuj�
 Korekta addytywna, czyli odjęcie oszacowania składowej systematycznej, nie zmienia wariancji składowej statystycznej poza niepewnością samego oszacowania, natomiast korekta odwracająca skurczenie~\eqref{eq:tb:noise:shrink} wymaga dzielenia przez $\distshrink<1$, a~zatem zwiększa odchylenie standardowe składowej statystycznej $1/\distshrink$ razy.
 
 \paragraph{Modele szumu w~symulatorach.}
-W~symulatorze każdej bramce przypisuje się kanał błędu, a~pomiarowi macierz $\confmat$: w~modelu budowanym w~Qiskit Aer z~danych kalibracyjnych urządzenia po bramce działa kanał depolaryzujący, a~po nim relaksacja termiczna o~parametrach $\Tone$, $\Ttwo$ i~czasie trwania bramki, przy czym parametr depolaryzacji dobiera się tak, aby średni błąd złożenia był równy błędowi bramki z~kalibracji; odczyt opisują niezależne macierze jednokubitowe \cite{qiskit_aer_noise_docs_2026}.
-Model ten jest lokalny i~markowowski: nie zawiera błędów koherentnych, przesłuchu, wycieku, korelacji błędów odczytu ani dryfu, a~parametry dopasowane do wyników urządzenia różnią się od kalibracyjnych \cite{georgopoulos_modeling_2021}, dlatego symulację z~szumem należy traktować jako przybliżenie, a~nie zamiennik pomiaru na sprzęcie.
+W~symulatorze każdej bramce przypisuje się kanał błędu, a~pomiarowi macierz $\confmat$: w~modelu budowanym w~Qiskit Aer z~danych kalibracyjnych urządzenia po bramce działa kanał depolaryzujący, a~po nim relaksacja termiczna o~parametrach $\Tone$, $\Ttwo$ i~czasie trwania bramki, przy czym parametr depolaryzacji dobiera się tak, aby średni błąd złożenia był równy błędowi bramki z~kalibracji; odczyt opisują niezależne macierze jednokubitowe~\cite{qiskit_aer_noise_docs_2026}.
+Model ten jest lokalny i~markowowski: nie zawiera błędów koherentnych, przesłuchu, wycieku, korelacji błędów odczytu ani dryfu, a~parametry dopasowane do wyników urządzenia różnią się od kalibracyjnych~\cite{georgopoulos_modeling_2021}, dlatego symulację z~szumem należy traktować jako przybliżenie, a~nie zamiennik pomiaru na sprzęcie.
 
 \subsection{Charakteryzacja szumu}\label{subsec:tb:noise:characterisation}
 
-Tomografia stanu odtwarza macierz gęstości z~pomiarów w~kilku bazach, dla jednego kubitu z~wartości oczekiwanych z~równania~\eqref{eq:tb01:blochrho}, a~tomografia procesu kwantowego (QPT) odtwarza kanał z~tomografii stanów wyjściowych dla zbioru stanów wejściowych rozpinającego przestrzeń macierzy gęstości \cite{bib:quantum_tomography,ChuangNielsen1997,Poyatos1997}.
-Dla jednego kubitu wystarczają cztery stany wejściowe i~trzy bazy pomiarowe, czyli dwanaście obwodów, lecz kanał $n$-kubitowy ma $16^n-4^n$ niezależnych parametrów, więc metoda jest praktyczna tylko dla bardzo małych układów \cite{NielsenChuang2010,MohseniQPTReview}.
-Wynik QPT wygodnie jest przedstawić jako \gls{ptm} (PTM) \cite{greenbaum2015introduction}:
+Tomografia stanu odtwarza macierz gęstości z~pomiarów w~kilku bazach, dla jednego kubitu z~wartości oczekiwanych z~równania~\eqref{eq:tb01:blochrho}, a~tomografia procesu kwantowego (QPT) odtwarza kanał z~tomografii stanów wyjściowych dla zbioru stanów wejściowych rozpinającego przestrzeń macierzy gęstości~\cite{bib:quantum_tomography,ChuangNielsen1997,Poyatos1997}.
+Dla jednego kubitu wystarczają cztery stany wejściowe i~trzy bazy pomiarowe, czyli dwanaście obwodów, lecz kanał $n$-kubitowy ma $16^n-4^n$ niezależnych parametrów, więc metoda jest praktyczna tylko dla bardzo małych układów~\cite{NielsenChuang2010,MohseniQPTReview}.
+Wynik QPT wygodnie jest przedstawić jako \gls{ptm} (PTM)~\cite{greenbaum2015introduction}:
 \begin{equation}\label{eq:tb:noise:ptm}
 R_{ab}=\frac{1}{d}\Tr\bigl[\sigma_a\,\channel(\sigma_b)\bigr],
 \end{equation}
@@ -144,21 +145,21 @@ Dla jednego kubitu działa ona na wektor $(1,r_x,r_y,r_z)^{\top}$ i~ma postać b
 \begin{equation}\label{eq:tb:noise:ptm-blocks}
 \ptm=\begin{pmatrix} R_{00} & \ptmrow^{\top}\\ \ptmshift & \ptmblock \end{pmatrix},
 \end{equation}
-w~której $\ptmblock$ i~$\ptmshift$ pochodzą z~równania~\eqref{eq:tb:noise:affine}, a~każda część ma odrębną interpretację \cite{greenbaum2015introduction,Wallman2015}.
+w~której $\ptmblock$ i~$\ptmshift$ pochodzą z~równania~\eqref{eq:tb:noise:affine}, a~każda część ma odrębną interpretację~\cite{greenbaum2015introduction,Wallman2015}.
 Pierwszy wiersz wyznacza ślad stanu wyjściowego, $\Tr\channel(\rho)=R_{00}+\ptmrow\cdot\blochvec$, więc dla kanału zachowującego ślad $R_{00}=1$ i~$\ptmrow=\mathbf{0}$.
 Niezerowe elementy $\ptmrow$, możliwe tylko w~rekonstrukcji bez narzuconego zachowania śladu, opisują zależną od stanu utratę prawdopodobieństwa, na przykład wskutek wycieku; w~pracy~\cite{Wallman2015} tworzą blok wycieku zależnego od stanu, a~w~pracy~\cite{raubitzek_quantum_noise} są nazywane \emph{wierszem afinicznym}.
 Wektor $\ptmshift$ w~pierwszej kolumnie jest częścią nieunitalną kanału.
 Macierz $\ptmblock$, nazywana \emph{blokiem unitalnym}, opisuje obrót i~skrócenie wektora Blocha: dla bramki idealnej jest macierzą obrotu (dla bramki $\mathrm{X}$ równą $\operatorname{diag}(1,-1,-1)$), błąd koherentny zmienia ją w~inną macierz obrotu, a~błąd niekoherentny zmniejsza jej wartości osobliwe poniżej jedności.
 
-QPT przypisuje badanej operacji także błędy SPAM \cite{Merkel2013}; wolna od tej wady jest tomografia zbioru bramek, która wyznacza bramki, stany i~pomiary łącznie \cite{BlumeKohout2017,greenbaum2015introduction}.
-Gdy wystarcza jedna liczba, stosuje się test z~losowymi sekwencjami bramek (ang. \emph{randomized benchmarking}, RB) \cite{Magesan2011,magesan2012characterizing}: prawdopodobieństwo powrotu do stanu początkowego po losowej sekwencji $m$ bramek z~grupy Clifforda i~bramce odwracającej tę sekwencję maleje po uśrednieniu jak $A\zeta^m+B$, gdzie stałe $A$ i~$B$ pochłaniają błędy SPAM, a~z~$\zeta$ wyznacza się średni błąd bramki, czyli dopełnienie do jedności wierności~\eqref{eq:tb01:fidelity} stanu wyjściowego względem idealnego uśrednionej po czystych stanach wejściowych.
-Losowe sekwencje uśredniają dowolny kanał błędu do kanału depolaryzującego o~tej samej średniej wierności, co uzasadnia jego użycie w~modelach symulatorów, ale sprawia też, że wynik RB nie rozróżnia błędów koherentnych i~niekoherentnych \cite{Wallman2015,ProctorWhat2017}.
+QPT przypisuje badanej operacji także błędy SPAM~\cite{Merkel2013}; wolna od tej wady jest tomografia zbioru bramek, która wyznacza bramki, stany i~pomiary łącznie~\cite{BlumeKohout2017,greenbaum2015introduction}.
+Gdy wystarcza jedna liczba, stosuje się test z~losowymi sekwencjami bramek (ang. \emph{randomized benchmarking}, RB)~\cite{Magesan2011,magesan2012characterizing}: prawdopodobieństwo powrotu do stanu początkowego po losowej sekwencji $m$ bramek z~grupy Clifforda i~bramce odwracającej tę sekwencję maleje po uśrednieniu jak $A\zeta^m+B$, gdzie stałe $A$ i~$B$ pochłaniają błędy SPAM, a~z~$\zeta$ wyznacza się średni błąd bramki, czyli dopełnienie do jedności wierności~\eqref{eq:tb01:fidelity} stanu wyjściowego względem idealnego uśrednionej po czystych stanach wejściowych.
+Losowe sekwencje uśredniają dowolny kanał błędu do kanału depolaryzującego o~tej samej średniej wierności, co uzasadnia jego użycie w~modelach symulatorów, ale sprawia też, że wynik RB nie rozróżnia błędów koherentnych i~niekoherentnych~\cite{Wallman2015,ProctorWhat2017}.
 
 \subsection{Era NISQ i~platformy sprzętowe}\label{subsec:tb:noise:nisq}
 
-Obecne procesory kwantowe należą do okresu określanego jako \gls{nisq}: liczą od kilkudziesięciu do kilkuset kubitów, a~szum bramek ogranicza rozmiar obwodu, który można wykonać wiarygodnie bez pełnej korekcji błędów \cite{preskill_quantum_2018}.
-Oprócz parametrów składowych, czyli czasów $\Tone$ i~$\Ttwo$, błędów odczytu i~błędów bramek wyznaczanych metodą RB \cite{ibm_calibration_docs_2026}, jakość urządzenia opisuje objętość kwantowa (QV), równa $2^n$ dla największej liczby kubitów $n$, przy której urządzenie poprawnie w~sensie testu statystycznego wykonuje losowe obwody modelowe o~głębokości równej szerokości \cite{cross_validating_2019}, a~dla dużych procesorów błąd na bramkę w~warstwie (EPLG), czuły na przesłuch \cite{mckay_benchmarking_2023}.
+Obecne procesory kwantowe należą do okresu określanego jako \gls{nisq}: liczą od kilkudziesięciu do kilkuset kubitów, a~szum bramek ogranicza rozmiar obwodu, który można wykonać wiarygodnie bez pełnej korekcji błędów~\cite{preskill_quantum_2018}.
+Oprócz parametrów składowych, czyli czasów $\Tone$ i~$\Ttwo$, błędów odczytu i~błędów bramek wyznaczanych metodą RB~\cite{ibm_calibration_docs_2026}, jakość urządzenia opisuje objętość kwantowa (QV), równa $2^n$ dla największej liczby kubitów $n$, przy której urządzenie poprawnie w~sensie testu statystycznego wykonuje losowe obwody modelowe o~głębokości równej szerokości~\cite{cross_validating_2019}, a~dla dużych procesorów błąd na bramkę w~warstwie (EPLG), czuły na przesłuch~\cite{mckay_benchmarking_2023}.
 
-Eksperymenty w~tej pracy wykonano na procesorach IBM Quantum z~kubitami nadprzewodzącymi \cite{krantz_quantum_2019}, w~których bramki trwają dziesiątki nanosekund przy czasach koherencji rzędu stu mikrosekund, a~połączenia tylko między sąsiednimi kubitami wymuszają dodatkowe bramki dwukubitowe przy transpilacji; parametry użytych urządzeń zebrano w~dodatku~\ref{appendix:experiments}.
-W~pułapkach jonowych czasy koherencji są znacznie dłuższe i~dostępne są bramki między dowolnymi parami kubitów, lecz operacje są wolniejsze \cite{bruzewicz_trapped-ion_2019}, a~w~układach fotonicznych, dla których zaprojektowano kodowanie LPIQE (podrozdział~\ref{subsec:tb:qimg:lpiqe}), fazę zadaje przesuwnik fazy w~interferometrze, a~głównymi źródłami błędów są straty i~niepełna nierozróżnialność fotonów \cite{slussarenko_photonic_2019,taballione_20-mode_2022}.
+Eksperymenty w~tej pracy wykonano na procesorach IBM Quantum z~kubitami nadprzewodzącymi~\cite{krantz_quantum_2019}, w~których bramki trwają dziesiątki nanosekund przy czasach koherencji rzędu stu mikrosekund, a~połączenia tylko między sąsiednimi kubitami wymuszają dodatkowe bramki dwukubitowe przy transpilacji; parametry użytych urządzeń zebrano w~dodatku~\ref{appendix:experiments}.
+W~pułapkach jonowych czasy koherencji są znacznie dłuższe i~dostępne są bramki między dowolnymi parami kubitów, lecz operacje są wolniejsze~\cite{bruzewicz_trapped-ion_2019}, a~w~układach fotonicznych, dla których zaprojektowano kodowanie LPIQE (podrozdział~\ref{subsec:tb:qimg:lpiqe}), fazę zadaje przesuwnik fazy w~interferometrze, a~głównymi źródłami błędów są straty i~niepełna nierozróżnialność fotonów~\cite{slussarenko_photonic_2019,taballione_20-mode_2022}.
 Formalizm kanałów jest wspólny dla wszystkich platform, lecz struktura szumu jest inna, więc wyników z~urządzeń nadprzewodzących nie można wprost przenosić na pozostałe.

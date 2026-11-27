@@ -131,7 +131,7 @@ Zapis warstwy jak w równaniu eq:tb:ml:lie rozdziału 2; w preprincie zaburzenie
 
 Preprint~\cite{raubitzek_lie_group_manuscript} przenosi ten sam schemat (generator, mapa wykładnicza, działanie elementu grupy) do klasycznych sieci neuronowych: cechy dzieli się na bloki, a~warstwa działania grupy przekształca każdy blok macierzą z~grupy $\mathrm{SO}(3)$, $\mathrm{SU}(2)$ albo $\mathrm{SU}(3)$, wyznaczoną z~uczonych współrzędnych w~algebrze Liego (równanie~\eqref{eq:tb:ml:lie}).
 Sieci te są w~całości klasyczne, uczone propagacją wsteczną bez komputera kwantowego i~bez symulatora obwodów, a~ich związek z~kwantowym uczeniem maszynowym (podrozdział~\ref{subsec:tb:ml:qml}) jest strukturalny.
-% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, wiersze 488, 492, 3479 (klasyczny odpowiednik, bez sprzętu kwantowego) i 5409 (TensorFlow/Keras).
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, wiersze 488, 492, 3479 (klasyczny odpowiednik, bez sprzętu kwantowego) oraz 1934--1935 i 5410 (TensorFlow/Keras).
 
 Z~pracą o~szumie łączy preprint opcjonalny element konstrukcji: do elementu algebry można dodać macierz zaburzenia, wzorowaną według autorów na pracach~\cite{raubitzek_obfuscation_2025,raubitzek_quantum_noise},
 \begin{equation}\label{eq:ns:lie-perturbed}
@@ -151,7 +151,7 @@ W~skryptach eksperymentów w~repozytorium kodu wskazanym w~preprincie amplituda 
 
 Raportowane wyniki dotyczą ścisłych warstw grupowych i~według autorów zależą od zbioru danych: w~klasyfikacji model z~takimi warstwami był najlepszy na dwóch z~sześciu zbiorów, a~na czterech las drzew ExtraTrees.
 % ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, pierwsze wiersze tabel klasyfikacji (2020, 2048, 2076, 2105, 2135, 2165) i podsumowanie w wierszu 2190; ocena autorów: wiersze 247--249 i 3403.
-Najwyraźniejszą różnicę dało odszumianie: w~50 przebiegach autoenkoder z~warstwą $\mathrm{SU}(3)$ uzyskał błąd średniokwadratowy $0{,}061\pm0{,}008$ wobec $0{,}114\pm0{,}014$ dla autoenkodera klasycznego.
+Najwyraźniejszą różnicę dało odszumianie: w~50 przebiegach autoenkoder z~warstwą $\mathrm{SU}(3)$ uzyskał błąd średniokwadratowy \mbox{$0{,}061\pm0{,}008$} wobec \mbox{$0{,}114\pm0{,}014$} dla autoenkodera klasycznego.
 % ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, tabela tab:sine_denoising_results, wiersze 2603--2604 (średnia i odchylenie standardowe z 50 przebiegów).
 Szum oznacza tam zakłócenie dodane do sygnału wejściowego, a~w~eksperymencie z~siecią GAN szum dodawany do obrazów przy uczeniu dyskryminatora; żaden z~nich nie jest zaburzeniem generatorów.
 % ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, wiersze 2555 (szum gaussowski i impulsowy sygnału), 2735 i 6283--6289 (szum obrazów w uczeniu dyskryminatora).
