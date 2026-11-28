@@ -11,6 +11,8 @@ rysunki \agentref{artykuły/magisterka_werner_final/graf/Eksperymenty} \agentref
 Oryginalnego kodu ani surowych danych nie ma: wszystkie liczby pochodzą z tekstu, tabel i rysunków obu źródeł, a pochodzenie każdej z nich opisuje komentarz w tym pliku (linie zaczynające się od słowa ŹRÓDŁO).
 Tekst wykomentowany w źródle artykułu nie jest traktowany jako opublikowany wynik.
 Stan: sekcje 4.1--4.5 napisane w zadaniu PHD-TS-40, rysunki i tabele w PHD-TS-42, sekcje 4.6--4.7 w PHD-TS-41, sekcje 4.8--4.9 w PHD-TS-57; poprawki po niezależnej recenzji \agentref{eksperymenty/recenzje/rozdzial-4.md} wprowadzono w zadaniu PHD-TS-91 (2026-11-27), wykaz ustaleń i ich statusów: \agentref{eksperymenty/recenzje/rozdzial-4-poprawki.md}; cały rozdział czeka na przegląd autora.
+Skrócenie z 18 do 16 stron: zadanie PHD-TS-97 (2026-11-27), wykaz wyciętych fragmentów, objętość i zapas: \agentref{eksperymenty/recenzje/rozdzial-4-skracanie.md}; każde cięcie da się przywrócić z poprzedniej wersji pliku w repozytorium.
+W zadaniu PHD-TS-97 przeniesiono do dodatku trzy rysunki bez zmian treści i podpisów (plik \agentref{chapters/appendix_results_pdu2.tex}, sekcja app:results:pdu2): schemat blokowy fig:pdu:flowchart, wykres fig:pdu:pearson i przykład fig:pdu:two-comp; schemat blokowy wrócił do sekcji 4.5 decyzją autora z 2026-11-28, DO DECYZJI AUTORA, czy dwa pozostałe tam zostają (powrót któregokolwiek do rozdziału wymaga innego cięcia o podobnej wielkości).
 Po recenzji (PHD-TS-91): wnioski o stabilności i o przenoszeniu korekty doprowadzono do poziomu danych, rozbieżności źródeł nazwano w tekście i zestawiono w dodatku (tabela tab:pdu:app:discrepancies), a odczyty z rysunków rastrowych są w tekście oznaczone jako odczyty (skrypty recenzenta: \agentref{eksperymenty/recenzje/_robocze/PHD-TS-62}, wyniki powtórzone: \agentref{eksperymenty/recenzje/_robocze/PHD-TS-91}).
 Pytania do autora, każde jako zadanie w miejscu, którego dotyczy: podział wkładu w pracy ICCS (4.1); kontrola układu kubitów i transpilacji (4.6, środowisko); definicja próbki w testach korelacji (4.6, miary); odsetek 56 procent dla urządzenia Santiago (4.7.2); do czego odnoszą się liczby przykładu z urządzenia Quito (4.7.3); na jakich obwodach wyznaczano poprawkę dla składnika o częstotliwości 2 i dla szeregu dwuskładnikowego (4.7.4).
 Decyzja autora z 2026-11-27: PDU jest metodą rozwijaną w ramach tego doktoratu i ważnym wkładem rozprawy, a jej wyróżnikami względem metod pokrewnych (sekcja 3.3) są korekta indeksowana znanym argumentem, wyznaczana raz dla rodziny obwodów, oraz zbadanie stabilności błędu między kalibracjami urządzenia.
@@ -21,7 +23,7 @@ Decyzje redakcyjne DO POTWIERDZENIA PRZEZ AUTORA:
 Notacja i nazwy są zgodne z podrozdziałem 2.4 \agentref{chapters/theoretical_background_04_QSAMP.tex}: rejestr argumentu o m kubitach, kubit odczytu a, składnik cosinusowy, obwód składnika, znormalizowany histogram.
 Definicje wspólne (eksperyment próbkowania, kodowanie argumentu, obwód składnika, twierdzenie o odczycie, rozkład błędu na składową systematyczną i statystyczną) są w rozdziale 2 i tutaj się ich nie powtarza.
 Terminologia (uzgodnienie z orkiestratorem): krok metody wykonywany po pomiarze to korekta wyniku, a nie korekcja; słowo korekcja jest zastrzeżone dla QEC (podrozdział 2.3) i pozostaje tylko w dosłownych tytułach sekcji źródeł.
-Etykiety do wykorzystania w rozdziałach 5--8: def:pdu:reference-function, def:pdu:errors, def:pdu:function, def:pdu:correction, def:pdu:general; założenia itm:pdu:Z1 do itm:pdu:Z8; wzory eq:pdu:decomposition, eq:pdu:stability, eq:pdu:error, eq:pdu:correction, eq:pdu:residual, eq:pdu:criterion; algorytmy alg:pdu:calibration i alg:pdu:correction; rysunek fig:pdu:flowchart.
+Etykiety do wykorzystania w rozdziałach 5--8: def:pdu:reference-function, def:pdu:errors, def:pdu:function, def:pdu:correction, def:pdu:general; założenia itm:pdu:Z1 do itm:pdu:Z8; wzory eq:pdu:decomposition, eq:pdu:stability, eq:pdu:error, eq:pdu:correction, eq:pdu:residual, eq:pdu:criterion; algorytmy alg:pdu:calibration i alg:pdu:correction; rysunek fig:pdu:flowchart (od zadania PHD-TS-97 w dodatku).
 Miejsce rozróżnienia argumentu znanego i wartości wyznaczanej, do którego ma się odwoływać rozdział 5: założenie itm:pdu:Z7 oraz akapit par:pdu:known-argument w sekcji 4.4; założenie przenoszalności błędu: itm:pdu:Z8.
 }
 
@@ -34,16 +36,16 @@ Po ustaleniu ostatecznych tez uzgodnić brzmienie PB1 i PB2 oraz zdanie o tezie 
 
 Rozdział przedstawia funkcję odwracania zniekształceń fazy (ang. \english{Phase Distortion Unraveling}, PDU): metodę redukcji błędów w obliczeniach opartych na próbkowaniu kwantowym, w której poprawkę wyniku wyznacza się eksperymentalnie, a stosuje po stronie klasycznej, już po pomiarze.
 Metodę opublikowano w pracy trzech autorów~\cite{werner_experiment_driven_2022}, której pierwszym autorem jest autor rozprawy, a szerzej opisano w jego pracy magisterskiej~\cite{werner_magisterka_2022}.
-Niniejszy rozdział porządkuje jej definicje, jawnie wypisuje założenia, podaje procedurę w postaci algorytmu wraz z kosztem oraz uzupełnia opis wyników o analizę statystyczną, na którą w zwięzłej publikacji konferencyjnej nie było miejsca.
+Rozdział porządkuje jej definicje, jawnie wypisuje założenia, podaje procedurę wraz z kosztem i uzupełnia opis wyników o analizę statystyczną.
 PDU jest metodą \glslink{error-reduction}{redukcji błędów} w sensie definicji~\ref{def:tb03:reduction}: nie koduje informacji w kubitach logicznych i nie zmienia wykonywanego obwodu.
 \agenttask{
 Pytanie do autora (recenzja rozdziału 4, ustalenie I10): jaki był podział wkładu między trzech autorów pracy ICCS 2022 (sformułowanie metody, eksperymenty, analiza wyników)?
 Po odpowiedzi dopisać w tym akapicie jedno zdanie o podziale wkładu i uzgodnić je z sekcją 3.3, która mówi o metodzie opracowanej przez autora rozprawy wraz ze współautorami; do tego czasu tekst podaje tylko fakty bibliograficzne.
 }
 
-Punktem wyjścia jest własność obliczeń opartych na próbkowaniu (podrozdział~\ref{subsec:tb:qsamp:sampling}): ich wynikiem nie jest pojedynczy odczyt rejestru, lecz rozkład prawdopodobieństwa estymowany z wielu powtórzeń tego samego obwodu.
+Wynikiem obliczeń opartych na próbkowaniu (podrozdział~\ref{subsec:tb:qsamp:sampling}) nie jest pojedynczy odczyt rejestru, lecz rozkład prawdopodobieństwa estymowany z wielu powtórzeń tego samego obwodu.
 Jeżeli składowa systematyczna błędu takiego wyniku zmienia się wolno w porównaniu z odstępem między kolejnymi kalibracjami urządzenia, to można ją zmierzyć raz, na obwodzie o znanym wyniku, i odejmować od wyników późniejszych obliczeń.
-Tak postawiona idea prowadzi do dwóch pytań badawczych, na które rozdział odpowiada.
+Prowadzi to do dwóch pytań badawczych.
 \begin{description}
 \item[PB1] Czy błąd obliczeń opartych na próbkowaniu kwantowym jest stabilny między kalibracjami urządzenia w stopniu pozwalającym wyznaczyć jego korektę eksperymentalnie?
 \item[PB2] Czy korekta wyznaczona dla funkcji referencyjnej poprawia wyniki innych obliczeń wykonywanych na tym samym układzie kubitów?
@@ -52,7 +54,6 @@ Odpowiedzi na oba pytania są materiałem dowodowym dla pierwszej z tez rozprawy
 
 Zakres rozdziału obejmuje obwody metody QCoSamp z jednym kubitem odczytu (podrozdział~\ref{subsec:tb:qsamp:qcosamp}), wykonywane w latach 2021--2022 na pięcio- i siedmiokubitowych urządzeniach nadprzewodzących IBM Quantum.
 Metoda QCoSamp pochodzi z pracy~\cite{wereszczynski_cosine_2020} i nie jest wkładem autora rozprawy; wkładem jest funkcja PDU, procedura jej kalibracji i stosowania oraz badania eksperymentalne.
-Podrozdziały~\ref{sec:pdu:assumptions}--\ref{sec:pdu:procedure} zawierają opis metody, podrozdziały~\ref{sec:pdu:methodology} i~\ref{sec:pdu:results} metodykę i wyniki eksperymentów, a podrozdział~\ref{sec:pdu:discussion} dyskusję ograniczeń; uogólnienie metody na obrazy jest przedmiotem rozdziału~\ref{chapter:pdu_images}.
 
 \section{Założenia metody}\label{sec:pdu:assumptions}
 \agentinfo{
@@ -61,13 +62,10 @@ Założenia Z7 (znany argument korekty) i Z8 (przenoszalność błędu) wyodręb
 Rozdział nie rozstrzyga kwestii korekty obrazów, w której argumentem funkcji PDU jest wartość piksela oryginału (otwarta sprawa rozdziału 5, opisana w CLAUDE.md).
 Rozkład błędu na składową systematyczną, jej dryf i składową statystyczną (wzory eq:pdu:decomposition i eq:pdu:stability) rozszerza o zależność od czasu rozkład z podrozdziału 2.1 (eq:tb01:errordecomp, tam: błąd sprzętowy i błąd statystyczny); jest formalizacją dodaną w rozprawie, bo artykuł i praca magisterska formułują założenie stabilności opisowo.
 Po recenzji (ustalenia I3 i I4, PHD-TS-91) rozkład zapisano dla obwodu kalibracyjnego, prawdziwą składową systematyczną oznaczono epsilon z kreską (odróżnioną od funkcji PDU, czyli wielkości zmierzonej i interpolowanej), dryf obejmuje także fluktuacje między seriami, a błąd przenoszenia na inne obliczenia opisano słownie w sekcji 4.4, bez nowego symbolu.
-Zdania o zamianie kubitów i o prostocie obliczeniowej zaadaptowano z pracy magisterskiej (rozdz. 2, sekcja PDU) i ze wstępu artykułu.
+Zdanie o zamianie kubitów zaadaptowano z pracy magisterskiej (rozdz. 2, sekcja PDU) i ze wstępu artykułu; zdanie o prostocie obliczeniowej metody (wstęp artykułu) usunięto przy skracaniu w zadaniu PHD-TS-97.
 }
 
-Metoda PDU opiera się na ośmiu założeniach.
-Pierwsze trzy określają klasę obliczeń, do których metoda się stosuje.
-Kolejne trzy opisują warunki, w których wyznaczona poprawka pozostaje ważna, oraz koszt metody.
-Dwa ostatnie dotyczą samego kroku korekty: tego, co musi być w nim znane, i tego, na jakie obliczenia poprawka się przenosi.
+Metoda PDU opiera się na ośmiu założeniach: trzy pierwsze określają klasę obliczeń, trzy kolejne warunki ważności poprawki i koszt metody, a dwa ostatnie sam krok korekty.
 \begin{enumerate}
 \renewcommand{\theenumi}{Z\arabic{enumi}}
 \renewcommand{\labelenumi}{(\theenumi)}
@@ -106,15 +104,14 @@ Założenie~(\ref{itm:pdu:Z4}) oznacza, że w okresie między kalibracjami fizyc
 \bigl\langle\delta_t^2\bigr\rangle\ll\bigl\langle\bar{\pdu}^{\,2}\bigr\rangle,
 \end{equation}
 gdzie $\langle\cdot\rangle$ oznacza średnią po argumentach.
-To, czy warunek~\eqref{eq:pdu:stability} jest spełniony na rzeczywistych urządzeniach, jest treścią pytania PB1 i rozstrzyga się eksperymentalnie (podrozdział~\ref{subsec:pdu:results:stability}).
-Drugą hipotezą empiryczną jest założenie~(\ref{itm:pdu:Z8}), którego dotyczy pytanie PB2: odnoszą się do niego eksperymenty ze składnikiem $\coscomp_{2,0}$~\cite{werner_experiment_driven_2022,werner_magisterka_2022} oraz z szeregiem dwuskładnikowym i z funkcją dwóch zmiennych~\cite{werner_magisterka_2022}, omówione w podrozdziałach~\ref{subsec:pdu:results:one} i~\ref{subsec:pdu:results:two}.
+Czy warunek~\eqref{eq:pdu:stability} jest spełniony, rozstrzyga się eksperymentalnie (pytanie PB1, podrozdział~\ref{subsec:pdu:results:stability}).
+Drugą hipotezą empiryczną jest założenie~(\ref{itm:pdu:Z8}), którego dotyczy pytanie PB2 (podrozdziały~\ref{subsec:pdu:results:one} i~\ref{subsec:pdu:results:two}).
 
-Z założeń wynikają od razu granice metody.
+Z założeń wynikają granice metody.
 PDU usuwa wyłącznie powtarzalną część błędu: nie odtwarza informacji utraconej wskutek dekoherencji, nie zmniejsza rozrzutu wyników i nie stosuje się do algorytmów, w których liczy się wynik pojedynczego wykonania obwodu.
 Wymaga ponownej kalibracji po każdej zmianie naruszającej założenie~(\ref{itm:pdu:Z4}) lub~(\ref{itm:pdu:Z5}), czyli po kalibracji fizycznej urządzenia, po zmianie układu kubitów i po zmianie sposobu transpilacji obwodu (podrozdział~\ref{subsec:tb:gates}).
 Funkcja PDU zawiera bowiem łącznie błędy poszczególnych kubitów i błędy wynikające z zależności między nimi, toteż już zamiana miejscami dwóch kubitów może wymagać wyznaczenia jej od nowa~\cite{werner_experiment_driven_2022,werner_magisterka_2022}.
-W zamian metoda jest prosta obliczeniowo: sprowadza się do porównania wyniku zmierzonego z oczekiwanym~\cite{werner_experiment_driven_2022}.
-Krok metody wykonywany po pomiarze nazywa się w rozprawie korektą wyniku; nazwy stosowane we wcześniejszych pracach autora zestawiono w podrozdziale~\ref{subsec:tb:qec:taxonomy}.
+Krok metody wykonywany po pomiarze nazywa się w rozprawie korektą wyniku (podrozdział~\ref{subsec:tb:qec:taxonomy}).
 
 \section{Funkcja referencyjna i wyznaczanie błędu}\label{sec:pdu:reference}
 \agentinfo{
@@ -125,8 +122,7 @@ Wartości 0,0055 oraz 3,1e-5 są obliczeniem dodanym w rozprawie ze wzoru na war
 Schemat obwodu referencyjnego: zgodnie z uzgodnieniem z orkiestratorem rozdział odwołuje się do rysunku obwodu składnika z podrozdziału 2.4 (fig:tb:qsamp:component), żeby nie dublować rysunków; wariant z zaznaczonymi etapami powstawania błędu dla węzła D=0010 jest przygotowany w pliku \agentref{rozprawa/figures/chp_pdu/pdu_reference_circuit.tex}, ale nie jest włączony do tekstu (DO DECYZJI AUTORA).
 }
 
-Kalibracja wymaga obwodu, którego wynik jest znany dla całej siatki argumentów (założenie~\ref{itm:pdu:Z3}).
-W metodzie PDU rolę tę pełni najprostszy obwód metody QCoSamp, czyli obwód jednego składnika cosinusowego (definicje~\ref{def:tb:qsamp:component} i~\ref{def:tb:qsamp:circuit}).
+Kalibracja wymaga obwodu o wyniku znanym dla całej siatki argumentów (założenie~\ref{itm:pdu:Z3}); w metodzie PDU jest nim najprostszy obwód metody QCoSamp, czyli obwód jednego składnika cosinusowego (definicje~\ref{def:tb:qsamp:component} i~\ref{def:tb:qsamp:circuit}).
 
 \begin{Definition}[Funkcja referencyjna i obwód referencyjny]\label{def:pdu:reference-function}
 \glslink{reference-function}{Funkcją referencyjną} nazywamy funkcję $\reffun$ odwzorowującą przedział $[-\pi,\pi)$ w przedział $[0,1]$, realizowaną przez obwód kwantowy w modelu próbkowania, której wartości w $K$ węzłach $x_0<\dots<x_{K-1}$ są znane niezależnie od tego obwodu.
@@ -139,11 +135,10 @@ a obwodem referencyjnym obwód składnika $\compcirc_{1,0}(D)$.
 \end{Definition}
 
 Węzłami są argumenty $x_D$ kodowane ciągami bitów $D$ w rejestrze argumentu o $m$ kubitach (definicja~\ref{def:tb:qsamp:argument}), czyli $K=2^{m}$ punktów siatki $X_m=\{x_D\colon D\in\{0,1\}^m\}$ o kroku $\pi/2^{m-1}$.
-Dla urządzeń pięciokubitowych użytych w eksperymentach $m=4$, co daje $16$ węzłów od $-\pi$ do $\tfrac{7}{8}\pi$ z krokiem $\tfrac{1}{8}\pi$.
+Dla urządzeń pięciokubitowych użytych w eksperymentach $m=4$ (obwód referencyjny przedstawia rysunek~\ref{fig:tb:qsamp:component}), co daje $16$ węzłów od $-\pi$ do $\tfrac{7}{8}\pi$ z krokiem $\tfrac{1}{8}\pi$.
 % ŹRÓDŁO: artykuły/magisterka_werner_final/chapters/03.tex, sekcja ,,Korekcja funkcji jednej zmiennej'' (zakres x i skok) oraz listing lst:python_cos_phi (kąty bramek).
 Z twierdzenia~\ref{thm:tb:qsamp:readout} wynika, że na urządzeniu idealnym prawdopodobieństwo wyniku $0$ na kubicie odczytu jest równe $\reffun(x_D)$.
 Argument jest zapisany w fazie lokalnej kubitu odczytu i zamieniany na prawdopodobieństwo przez interferencję (podrozdział~\ref{subsec:tb:phase}); stąd w nazwie metody mowa o zniekształceniach fazy.
-Obwód referencyjny dla $m=4$ przedstawia rysunek~\ref{fig:tb:qsamp:component}.
 
 \begin{Definition}[Funkcja wyznaczona i zbiór błędów wyznaczonych]\label{def:pdu:errors}
 Niech $\tilde{\prob}_D$ oznacza znormalizowany histogram eksperymentu próbkowania o liczbie powtórzeń $\nshots$, wykonanego dla obwodu referencyjnego $\compcirc_{1,0}(D)$.
@@ -156,25 +151,24 @@ a zbiorem błędów wyznaczonych zbiór par $\mathcal{V}_m=\{(x_D,\pdu_D)\colon 
 \end{Definition}
 
 Błąd wyznaczony jest sumą składowej systematycznej, która jest przedmiotem korekty, i składowej statystycznej estymatora $\tilde{\prob}_D$, czyli $\pdu_D=\bar{\pdu}(x_D)+\xi_{t_0}(x_D)$; odchylenie standardowe drugiej z nich nie przekracza $1/(2\sqrt{\nshots})$ (równanie~\eqref{eq:tb01:estimator}).
-Według pracy~\cite{werner_experiment_driven_2022} w eksperymentach przyjęto $\nshots=8192$, czyli największą liczbę powtórzeń dopuszczaną wówczas przez platformę IBM Quantum.
+Według pracy~\cite{werner_experiment_driven_2022} w eksperymentach przyjęto $\nshots=8192$.
 % ŹRÓDŁO: artykuły/Quantum_Errors_ICCS/main.tex, przypis w sekcji ,,Materials and methods'' (8.192 repetitions, maximal number on IBM Q Experience); w artykuły/magisterka_werner_final/chapters/02.tex--05.tex liczba powtórzeń nie występuje (sprawdzono wyszukiwaniem, PHD-TS-91).
-Odchylenie standardowe pojedynczego błędu wyznaczonego nie przekracza wtedy $0{,}0055$, a wkład składowej statystycznej do błędu średniokwadratowego wartości $1/(4\nshots)\approx 3{,}1\cdot 10^{-5}$.
+Odchylenie to nie przekracza wtedy $0{,}0055$, a wkład składowej statystycznej do błędu średniokwadratowego wartości $1/(4\nshots)\approx 3{,}1\cdot 10^{-5}$.
 % ŹRÓDŁO: obliczenie własne: 1/(2*sqrt(8192)) = 0,00552; 1/(4*8192) = 3,05e-5.
-Błędy średniokwadratowe obserwowane na urządzeniach są rzędu $10^{-2}$ (podrozdział~\ref{subsec:pdu:results:stability}), a więc o ponad dwa rzędy wielkości większe: przy $8192$ powtórzeniach o dokładności kalibracji decyduje sprzęt, a nie próbkowanie.
+Błędy średniokwadratowe obserwowane na urządzeniach są rzędu $10^{-2}$ (podrozdział~\ref{subsec:pdu:results:stability}), czyli o ponad dwa rzędy wielkości większe: o dokładności kalibracji decyduje sprzęt, a nie próbkowanie.
 
 \section{Definicja funkcji PDU}\label{sec:pdu:definition}
 \agentinfo{
 Przyjęta konwencja znaku (błąd = zmierzone minus oczekiwane, korekta = odjęcie) wymaga potwierdzenia autora; opis rozbieżności w konspekcie rozdziału.
 Definicja def:pdu:general przenosi do notacji rozprawy ogólną definicję z pracy CoDIT 2025 \agentref{artykuły/CoDIT_2025_final_paper/root.tex} (sekcja Error reduction); warunek minimalności całki z tamtej definicji zastąpiono jawnym operatorem interpolacji, bo w oryginalnym zapisie nie wyznacza on funkcji jednoznacznie (DO DECYZJI AUTORA).
-Skróty wyrównujące objętość (PHD-TS-91, do przywrócenia, jeśli autor zechce): w akapicie o tym, co zawiera funkcja PDU, usunięto zdanie powtarzające sekcję 4.2 (błędy poszczególnych kubitów i zależności między nimi); szczegóły niespójności znaku w źródłach przeniesiono do tabeli w dodatku; w sekcji 4.2 zdanie o nazwach metody we wcześniejszych pracach zastąpiono odesłaniem do podrozdziału 2.3.
+Skróty z zadań PHD-TS-91 i PHD-TS-97 (wykazy w plikach wskazanych w konspekcie rozdziału): szczegóły niespójności znaku w źródłach są w tabeli w dodatku; porównanie interpolacji liniowej i sześciennej ściśnięto do jednego zdania.
 Dodane w rozprawie, nieobecne w źródłach (do akceptacji autora): wzór na błąd wyniku skorygowanego eq:pdu:residual, warunek opłacalności eq:pdu:criterion, postać funkcji PDU w modelu z kontrastem i przesunięciem fazy (model pochodzi z podrozdziału 2.2, eq:tb:noise:fringe), własność zerowania się sumy błędów po stanach bazy, porównanie interpolacji liniowej i sześciennej.
 W eksperymentach z lat 2021--2022 funkcję PDU stosowano jako tablicę błędów w węzłach (praca magisterska, rozdz. 2); interpolację sześcienną wprowadza dopiero praca CoDIT 2025.
 Źródła różnie opisują, czy wynik dla cos(2x) korygowano tablicą wyznaczoną na cos(x) i indeksowaną fazą (tak opisuje to artykuł), czy tablicą wyznaczoną na tych samych obwodach cos(2x) (tak opisują to tekst i pseudokod pracy magisterskiej); tekst definicji obejmuje oba warianty.
 Odczyt rysunku fig:pdu:example (recenzja, ustalenie I1; powtórzony w PHD-TS-91) jest zgodny z drugim wariantem i niezgodny z pierwszym; tekst sekcji 4.7.4 podaje to jako odczyt jednego przykładu, a pytanie do autora jest w zadaniu w tamtej sekcji.
 }
 
-Zbiór błędów wyznaczonych opisuje błąd tylko w węzłach siatki.
-Funkcja PDU rozszerza go na całą dziedzinę.
+Funkcja PDU rozszerza zbiór błędów wyznaczonych z węzłów siatki na całą dziedzinę.
 
 \begin{Definition}[Funkcja PDU kubitu]\label{def:pdu:function}
 Niech $\mathcal{V}_m$ będzie zbiorem błędów wyznaczonych dla obwodu referencyjnego na ustalonym urządzeniu i ustalonym układzie kubitów, a $\mathcal{I}$ ustalonym operatorem interpolacji funkcji okresowych o okresie $2\pi$.
@@ -220,7 +214,7 @@ Przy $\nshots=8192$ prawa strona wynosi około $3{,}1\cdot10^{-5}$, więc o opł
 Dla obliczeń innych niż kalibracyjne dochodzi do tego błąd przenoszenia, czyli różnica między składową systematyczną ich błędu a funkcją PDU odczytaną dla ich fazy, pomijalna tylko na mocy założenia~(\ref{itm:pdu:Z8}).
 
 \paragraph{Co zawiera funkcja PDU.}
-Błąd wyznaczony w węźle $x_D$ jest wypadkową wszystkich zjawisk na drodze od przygotowania stanu do odczytu: błędów bramek kodujących argument, błędów bramek jedno- i dwukubitowych działających na kubit odczytu, dekoherencji, przesłuchu oraz błędu odczytu (podrozdział~\ref{subsec:tb:noise:sources}).
+Błąd wyznaczony w węźle $x_D$ jest wypadkową wszystkich zjawisk na drodze od przygotowania stanu do odczytu: błędów bramek, dekoherencji, przesłuchu i błędu odczytu (podrozdział~\ref{subsec:tb:noise:sources}).
 Zależność błędu od fazy widać już w modelu~\eqref{eq:tb:noise:fringe}, w którym szum zmniejsza widoczność interferencji do $v$ i przesuwa fazę o $\cohangle$: funkcja PDU ma wtedy postać $\pdu(x)=\tfrac{1}{2}\bigl[v\cos(x+\cohangle)-\cos x\bigr]$ i znika tożsamościowo tylko dla $v=1$ i $\cohangle=0$.
 W rzeczywistym obwodzie różne ciągi $D$ uaktywniają różne bramki, więc błąd zależy od konfiguracji wejścia nie tylko poprzez fazę, i właśnie dlatego funkcję PDU wyznacza się z pomiaru, a nie z modelu.
 
@@ -233,22 +227,19 @@ Funkcją PDU układu nazywamy funkcję $\pdu\colon\mathbb{E}\times\mathbb{R}\to\
 \end{Definition}
 
 Funkcja PDU kubitu jest przypadkiem szczególnym, w którym $\mathbb{E}=\{\ket{0},\ket{1}\}$ oraz $\pdu(\ket{1},x)=-\pdu(\ket{0},x)$.
-W ogólności błędy wyznaczone w każdym węźle sumują się po stanach bazy do zera, ponieważ oba rozkłady są unormowane.
-Jeżeli operator $\mathcal{I}$ jest liniowy względem wartości w węzłach, własność tę ma także funkcja PDU, a rozkład skorygowany pozostaje unormowany, o ile nie zastosowano rzutowania na przedział $[0,1]$.
+W ogólności błędy wyznaczone sumują się w każdym węźle po stanach bazy do zera, bo oba rozkłady są unormowane; jeżeli operator $\mathcal{I}$ jest liniowy względem wartości w węzłach, własność tę ma także funkcja PDU, a rozkład skorygowany pozostaje unormowany, o ile nie zastosowano rzutowania na przedział $[0,1]$.
 Postać ogólną sformułowano w pracy~\cite{werner_error_reduction_2025} z myślą o kodowaniu obrazów, z warunkiem minimalności całki w miejscu operatora interpolacji; jej zastosowanie, w tym pytanie o to, jaki argument jest w niej znany w chwili korekty, jest przedmiotem rozdziału~\ref{chapter:pdu_images}.
 % ŹRÓDŁO: artykuły/CoDIT_2025_final_paper/root.tex, sekcja ,,Error reduction'', definicja General PDU function (warunek z całką po przedziale od -pi do pi).
 
 \paragraph{Wybór interpolacji i gęstość węzłów.}
-Operator $\mathcal{I}$ i liczba węzłów $K$ są parametrami metody.
-W eksperymentach opisanych w tym rozdziale funkcję PDU stosowano wyłącznie w węzłach siatki, w postaci tablicy błędów wyznaczonych, odczytywanej dla konfiguracji wejścia $D$~\cite{werner_magisterka_2022}, ponieważ argumenty wszystkich korygowanych obliczeń należały do siatki.
+W eksperymentach opisanych w tym rozdziale funkcję PDU stosowano wyłącznie w węzłach siatki, jako tablicę błędów wyznaczonych odczytywaną dla konfiguracji wejścia $D$~\cite{werner_magisterka_2022}, bo argumenty wszystkich korygowanych obliczeń należały do siatki.
 % ŹRÓDŁO: artykuły/magisterka_werner_final/chapters/02.tex, sekcja PDU (określić, dla jakiej wartości D otrzymano wynik, i znaleźć odpowiadającą mu wartość epsilon_D w zbiorze v).
-Gdy faza obliczenia wypada między węzłami, najprostszym wyborem jest interpolacja odcinkami liniowa, która nie wzmacnia błędu statystycznego węzłów, a dla gładkiej funkcji błędu ma błąd rzędu $h^{2}$, gdzie $h$ jest krokiem siatki.
-Okresowa funkcja sklejana trzeciego stopnia zmniejsza ten błąd do rzędu $h^{4}$, lecz przenosi zaburzenie pojedynczego węzła na sąsiednie przedziały; interpolację sześcienną przyjęto w pracy~\cite{werner_error_reduction_2025}.
-Gęstość węzłów ogranicza rejestr argumentu: $K=2^{m}$, a każdy dodatkowy kubit rejestru podwaja koszt kalibracji i zmienia sam obwód, dodając do niego bramkę kontrolowaną.
+Gdy faza wypada między węzłami, interpolacja odcinkami liniowa nie wzmacnia błędu statystycznego węzłów i dla gładkiej funkcji błędu ma błąd rzędu $h^{2}$ ($h$: krok siatki), a okresowa funkcja sklejana trzeciego stopnia, przyjęta w pracy~\cite{werner_error_reduction_2025}, zmniejsza go do rzędu $h^{4}$, lecz przenosi zaburzenie pojedynczego węzła na sąsiednie przedziały.
+Gęstość węzłów ogranicza rejestr argumentu: $K=2^{m}$, a każdy dodatkowy kubit rejestru podwaja koszt kalibracji i dodaje do obwodu bramkę kontrolowaną.
 
 \section{Procedura kalibracji i korekty}\label{sec:pdu:procedure}
 \agentinfo{
-Algorytmy alg:pdu:calibration i alg:pdu:correction porządkują procedurę opisaną słownie w pracy magisterskiej (rozdz. 2, sekcja PDU) i jej pseudokod (rozdz. 3, listing lst:experiment_1); schemat blokowy fig:pdu:flowchart narysowano na nowo w TikZ \agentref{rozprawa/figures/chp_pdu/pdu_flowchart.tex}.
+Algorytmy alg:pdu:calibration i alg:pdu:correction porządkują procedurę opisaną słownie w pracy magisterskiej (rozdz. 2, sekcja PDU) i jej pseudokod (rozdz. 3, listing lst:experiment_1); schemat blokowy fig:pdu:flowchart narysowano na nowo w TikZ \agentref{rozprawa/figures/chp_pdu/pdu_flowchart.tex}, a w zadaniu PHD-TS-97 przeniesiono go do dodatku (sekcja app:results:pdu2), bo powtarza oba algorytmy.
 Koszt kalibracji (16 obwodów, 131072 powtórzenia) to obliczenie z liczb źródłowych: 16 obwodów (praca magisterska) razy 8192 powtórzenia (artykuł).
 Limit 100 obwodów w jednym zadaniu pochodzi z pracy magisterskiej (rozdz. 3, sekcja Macierze sąsiedztwa).
 Praca magisterska podaje liczbę obwodów pełnej kalibracji dwóch rejestrów jako 2 do potęgi n razy m; poprawna wartość to 2 do potęgi n plus m (64 obwody dla dwóch rejestrów po 3 kubity) i taką podano w tekście.
@@ -256,11 +247,9 @@ Propozycja do dyskusji w sekcji 4.8 (usunięta z tekstu z braku miejsca): test k
 Słowa kluczowe pseudokodu przetłumaczono lokalnie w obu algorytmach; jeśli inne rozdziały też używają algpseudocode, warto przenieść tłumaczenia do config/my-settings.tex (zgłoszone w raporcie).
 Po recenzji (ustalenia I7, I8, D1 i D7; PHD-TS-91): akapit o warunku ponownej kalibracji formułuje regułę warunkowo (w eksperymentach przyjmowano) i odróżnia kalibrację ustalającą nowe wartości błędów (według źródeł raz na dobę, w pracy magisterskiej ze słowem prawdopodobnie) od częstszych kalibracji deklarowanych przez dostawcę; warunek w algorytmie alg:pdu:correction obejmuje zmianę transpilacji; na schemacie fig:pdu:flowchart sprawdzenie warunku poprzedza korektę, jak w algorytmie; zdanie o kalibracji rejestrów z osobna nie przesądza już przyczyny niepowodzenia eksperymentu E5.
 Źródła nie mówią wprost, którego z dwóch zdarzeń dotyczy reguła; przyjęto kalibrację ustalającą błędy, bo tak opisują ją wyniki obu źródeł (DO POTWIERDZENIA PRZEZ AUTORA).
-Skróty wyrównujące objętość (PHD-TS-91, do przywrócenia, jeśli autor zechce): w akapicie Koszt usunięto powtórzenie założenia Z6 (metoda nie dodaje do obwodu kubitów ani bramek).
 }
 
-Stosowanie metody składa się z dwóch faz: kalibracji, wykonywanej raz po każdej kalibracji fizycznej urządzenia, oraz korekty, wykonywanej dla każdego wyniku obliczeń.
-Fazę kalibracji opisuje algorytm~\ref{alg:pdu:calibration}, fazę korekty algorytm~\ref{alg:pdu:correction}, a ich powiązanie w cyklu pracy urządzenia rysunek~\ref{fig:pdu:flowchart}.
+Stosowanie metody składa się z dwóch faz: kalibracji, wykonywanej raz po każdej kalibracji fizycznej urządzenia (algorytm~\ref{alg:pdu:calibration}), oraz korekty, wykonywanej dla każdego wyniku obliczeń (algorytm~\ref{alg:pdu:correction}); ich powiązanie w cyklu pracy urządzenia przedstawia rysunek~\ref{fig:pdu:flowchart}.
 
 \begin{algorithm}[tb]
 \algrenewcommand\algorithmicrequire{\textbf{Wejście:}}
@@ -319,24 +308,23 @@ Opracowanie własne.}
 \end{figure}
 
 \paragraph{Koszt.}
-Spośród kryteriów zasobów kwantowych K1--K3 z podrozdziału~\ref{subsec:tb:qec:cost} metoda obciąża tylko K3, czyli dodatkowe wykonania obwodu.
+Spośród kryteriów zasobów kwantowych K1--K3 z podrozdziału~\ref{subsec:tb:qec:cost} metoda obciąża tylko K3, czyli dodatkowe wykonania obwodu, i to wyłącznie w fazie kalibracji (założenie~\ref{itm:pdu:Z6}).
 Kalibracja wymaga wykonania $K=2^{m}$ obwodów referencyjnych, czyli $K\nshots$ powtórzeń: dla $m=4$ i $\nshots=8192$ jest to $16$ obwodów i $131\,072$ powtórzenia, co mieści się w jednym zadaniu przesyłanym do urządzenia.
 % ŹRÓDŁO: 16 obwodów: magisterka 03.tex; 8192: przypis w ICCS main.tex; limit 100 obwodów na zadanie: magisterka 03.tex, sekcja ,,Macierze sąsiedztwa''; iloczyn 131072 to obliczenie własne.
-Faza korekty nie wymaga żadnego dodatkowego wykonania obwodu (założenie~\ref{itm:pdu:Z6}).
 Narzut nie zależy od głębokości obwodu obliczeniowego, rośnie natomiast wykładniczo z rozmiarem rejestru argumentu.
-Dla dwóch rejestrów argumentów, liczących $m$ i $m'$ kubitów, pełna kalibracja wymaga $2^{m+m'}$ obwodów, a kalibracja każdego rejestru z osobna tylko $2^{m}+2^{m'}$.
-Drugi wariant nie poprawił jednak wyników w eksperymencie opisanym w podrozdziale~\ref{subsec:pdu:results:two}, w którym omówiono możliwe przyczyny.
+Dla dwóch rejestrów argumentów, liczących $m$ i $m'$ kubitów, pełna kalibracja wymaga $2^{m+m'}$ obwodów, a kalibracja każdego rejestru z osobna tylko $2^{m}+2^{m'}$; drugi wariant nie poprawił jednak wyników (podrozdział~\ref{subsec:pdu:results:two}).
 
 \paragraph{Warunek ponownej kalibracji.}
 W eksperymentach przyjmowano, że funkcja PDU zachowuje ważność do najbliższej kalibracji ustalającej nowe wartości błędów urządzenia~\cite{werner_experiment_driven_2022,werner_magisterka_2022}.
 Źródła odróżniają ją od częstszych kalibracji deklarowanych przez dostawcę (na rysunku~\ref{fig:pdu:app:scatter} w dodatku czas od takiej kalibracji nie przekracza trzech godzin): deklarowane błędy bramek zmieniały się raz na dobę, a w ciągu dnia urządzenia były prawdopodobnie tylko dostrajane.
 % ŹRÓDŁO: ICCS main.tex, sekcja Results (despite information provided by IBM regarding last calibration time, declared error values on gates changed once per day; tests for hours since initial calibration, which set error values on gates); magisterka 03.tex, sekcja ,,Stabilizacja błędów w czasie'' (korelacja błędu z czasem od pierwszej kalibracji danego dnia; kalibracja raz dziennie i mniejsze kalibracje w ciągu dnia, w źródle ze słowem ,,prawdopodobnie''); trzy godziny: odczyt z osi rysunków pdu_scatter_manila.png (punkty do około 66 minut) i pdu_scatter_santiago.png (do około 175 minut).
-Przy tym rozumieniu reguła oznacza jedną kalibrację PDU na dobę dla każdej pary urządzenia i układu kubitów, a algorytm~\ref{alg:pdu:correction} sprawdza ją na podstawie informacji podawanych przez dostawcę; zastrzeżenia do tej reguły omówiono w podrozdziale~\ref{sec:pdu:discussion}.
+Przy tym rozumieniu reguła oznacza jedną kalibrację PDU na dobę dla każdej pary urządzenia i układu kubitów, a algorytm~\ref{alg:pdu:correction} sprawdza ją na podstawie informacji podawanych przez dostawcę; zastrzeżenia omawia podrozdział~\ref{sec:pdu:discussion}.
 
 \section{Metodyka badań eksperymentalnych}\label{sec:pdu:methodology}
 \agentinfo{
 Źródła: praca magisterska \agentref{artykuły/magisterka_werner_final/chapters/02.tex} (Środowisko eksperymentalne, Metodologia) \agentref{artykuły/magisterka_werner_final/chapters/03.tex} (protokoły) oraz artykuł \agentref{artykuły/Quantum_Errors_ICCS/main.tex} (Experimental protocol).
 Daty wycofania urządzeń potwierdzono 2026-11-26 w dokumentacji IBM Quantum \agentref{bib:ibm_retired_qpus_2026}; parametrów urządzeń nie podano, bo nie ma ich w źródłach.
+Od zadania PHD-TS-97 akapit Środowisko nie wylicza urządzeń, dat ich wycofania ani wersji biblioteki Qiskit (0.36.2 jako najnowsza w czasie pisania pracy magisterskiej): odsyła do tabel tab:app:env:devices i tab:app:env:software oraz tekstu dodatku A \agentref{chapters/appendix_experiments.tex}, w którym te dane są ze źródłami.
 Rozbieżności źródeł zgłoszone w komentarzu do PHD-TS-41 (DO DECYZJI AUTORA):
 okres zbierania danych w eksperymencie stabilności (praca magisterska: luty 2021 -- maj 2022; artykuł: 05.2021 -- 01.2022);
 lista urządzeń (artykuł raz wymienia sześć urządzeń bez Athens, raz siedem; praca magisterska dodaje cztery urządzenia siedmiokubitowe);
@@ -377,12 +365,9 @@ E5 & korekta funkcji dwóch zmiennych (PB2) & funkcja dwóch zmiennych, 64 obwod
 % ŹRÓDŁO tabeli: artykuły/magisterka_werner_final/chapters/03.tex (sekcje: Macierze sąsiedztwa; Stabilizacja błędów w czasie; Korekcja funkcji jednej zmiennej; Korekcja funkcji dwóch zmiennych). Artykuł ICCS podaje dla E2 okres 05.2021--01.2022.
 
 \paragraph{Środowisko.}
-Obwody budowano i uruchamiano za pomocą biblioteki Qiskit~\cite{Qiskit}, której najnowszą wersją stabilną w czasie pisania pracy~\cite{werner_magisterka_2022} była 0.36.2.
-% ŹRÓDŁO: artykuły/magisterka_werner_final/chapters/02.tex, sekcja ,,Środowisko eksperymentalne'' (najnowsza wersja stabilna w momencie pisania pracy: 0.36.2, wydana 18 maja 2022 r.; wersji użytej w eksperymentach źródło nie podaje).
-Eksperymenty wykonano na urządzeniach nadprzewodzących dostępnych w chmurze IBM Quantum: pięciokubitowych Athens, Belem, Bogota, Lima, Manila, Quito i Santiago oraz siedmiokubitowych Casablanca, Jakarta, Lagos i Perth.
-Wszystkie te urządzenia zostały już wycofane z eksploatacji: Athens w czerwcu 2021~r., Casablanca w marcu 2022~r., Bogota i Santiago w czerwcu 2022~r., a pozostałe w 2023~r.~\cite{ibm_retired_qpus_2026}.
-% ŹRÓDŁO: dokumentacja IBM Quantum, strona ,,Retired cloud QPUs'', odczyt 2026-11-26: ibmq_athens 2021-06-30, ibmq_casablanca 2022-03-02, ibmq_bogota i ibmq_santiago 2022-06-17, ibmq_lima, ibmq_manila, ibmq_belem, ibmq_quito, ibmq_jakarta 2023-09-26, ibm_lagos i ibm_perth 2023-11-28.
-Eksperymentów nie da się więc powtórzyć na tym samym sprzęcie, a parametrów kalibracyjnych urządzeń z okresu badań w zachowanych materiałach nie ma.
+Obwody budowano i uruchamiano za pomocą biblioteki Qiskit~\cite{Qiskit} na pięcio- i siedmiokubitowych urządzeniach nadprzewodzących IBM Quantum; urządzenia, okresy badań i oprogramowanie zestawiają tabele~\ref{tab:app:env:devices} i~\ref{tab:app:env:software} w dodatku~\ref{appendix:experiments}.
+Wszystkie te urządzenia już wycofano~\cite{ibm_retired_qpus_2026}, więc eksperymentów nie da się powtórzyć na tym samym sprzęcie, a parametrów kalibracyjnych z okresu badań w zachowanych materiałach nie ma.
+% ŹRÓDŁO: dokumentacja IBM Quantum, strona ,,Retired cloud QPUs'', odczyt 2026-11-26 (daty wycofania poszczególnych urządzeń: dodatek A, tabela tab:app:env:devices i komentarz źródłowy do jej kolumny ,,Wycofanie'').
 Dostęp do urządzeń odbywał się przez wspólną kolejkę zadań, więc chwili wykonania obwodu nie można było zaplanować: odstępy między kolejnymi seriami wynosiły od kilku minut do ponad godziny, a każdy wynik zapisywano razem z czasem od kalibracji deklarowanym przez dostawcę~\cite{werner_magisterka_2022}.
 % ŹRÓDŁO: magisterka 03.tex, sekcje ,,Stabilizacja błędów w czasie'' i ,,Korekcja funkcji jednej zmiennej''.
 Źródła nie podają, czy między kalibracją funkcji PDU a seriami korygowanymi ustalano przypisanie kubitów i transpilację, więc spełnienia założenia~(\ref{itm:pdu:Z5}) nie da się potwierdzić.
@@ -405,7 +390,7 @@ Funkcję PDU wyznaczano dla każdego rejestru z osobna, na ośmiu obwodach z bra
 
 \paragraph{Miary i analiza statystyczna.}
 Jakość wyniku jednej serii opisują błąd średniokwadratowy MSE i odchylenie standardowe błędu $\sigma_e$ (równanie~\eqref{eq:tb:qimg:errors}), liczone po węzłach siatki.
-Zgodność wyników z wartościami oczekiwanymi w całym zbiorze danych mierzono współczynnikiem korelacji Pearsona $r$ oraz współczynnikami korelacji rangowej $\tau$ Kendalla i $r_{\mathrm{S}}$ Spearmana~\cite{bib:statistics_wilc}, osobno przed korektą i po korekcie.
+Zgodność wyników z wartościami oczekiwanymi w całym zbiorze danych mierzono współczynnikami korelacji: Pearsona $r$ oraz rangowymi $\tau$ Kendalla i $r_{\mathrm{S}}$ Spearmana~\cite{bib:statistics_wilc}, osobno przed korektą i po korekcie.
 Źródła nie definiują próbki; przyjęto, że jest nią para złożona z wyniku dla jednego węzła w jednej serii i jego wartości oczekiwanej.
 P-wartości podane w źródłach dotyczą hipotezy o braku korelacji, a nie poprawy po korekcie; poprawę ocenia się w rozprawie $95$-procentowymi przedziałami ufności współczynnika $r$, wyznaczonymi przekształceniem Fishera.
 Przedziały te zakładają niezależność próbek, są więc optymistyczne, dlatego wnioski sprawdzono także dla liczby serii w miejsce liczby próbek (dodatek, strona~\pageref{tab:pdu:app:pvalues}).
@@ -429,8 +414,7 @@ Po recenzji (ustalenie D3, PHD-TS-91): wniosek kontrolny oparto na długości we
 Dalsze macierze gęstości z pracy magisterskiej mają w podpisie argumenty spoza siatki (5/4 pi, -2 pi) i nie zostały przeniesione.
 }
 
-Eksperyment E1 pokazuje skalę zjawiska, które metoda PDU ma korygować.
-Macierz gęstości kubitu odczytu, odtworzona dla węzła, w którym obwód idealny pozostawia ten kubit w stanie $\ket{1}$ lub bardzo blisko niego, opisuje stan mieszany: elementy diagonalne wynoszą około $0{,}27$ i $0{,}72$, a długość wektora Blocha, obliczona z elementów odczytanych z rysunku, około $0{,}5$ wobec $1$ dla stanu czystego (dodatek, rysunek~\ref{fig:pdu:app:density} na stronie~\pageref{fig:pdu:app:density}).
+W eksperymencie E1 macierz gęstości kubitu odczytu, odtworzona dla węzła, w którym obwód idealny pozostawia ten kubit w stanie $\ket{1}$ lub bardzo blisko niego, opisuje stan mieszany: elementy diagonalne wynoszą około $0{,}27$ i $0{,}72$, a długość wektora Blocha, obliczona z elementów odczytanych z rysunku, około $0{,}5$ wobec $1$ dla stanu czystego (rysunek~\ref{fig:pdu:app:density} w dodatku).
 % ŹRÓDŁO: odczyt z rysunku densitymatrix_111_re_graph.png: elementy diagonalne około 0,27 i 0,72, elementy pozadiagonalne o części rzeczywistej około 0,05 i urojonej około 0,12 co do modułu; długość wektora Blocha: sqrt((0,27-0,72)^2 + (2*0,05)^2 + (2*0,12)^2) = 0,52 (obliczenie własne, PHD-TS-91); wartości 0.276, 0.724, 0.054 i 0.125 podaje wykomentowana tabela w artykuły/Quantum_Errors_ICCS/main.tex (IBMQ Lima), użyta tylko jako potwierdzenie odczytu.
 Odstępstwo elementu $\rho_{00}$ od wartości idealnej jest tym samym błędem, który w modelu próbkowania obserwuje się jako błąd wyznaczony $\pdu_D$; macierze uzyskane na pozostałych urządzeniach miały ten sam charakter~\cite{werner_magisterka_2022}.
 Wynik ma znaczenie kontrolne: stan kubitu odczytu nie jest maksymalnie mieszany, więc błąd wyniku nie jest skutkiem całkowitej utraty informacji kwantowej.
@@ -487,7 +471,7 @@ Rysunki własne autora, przeniesione z~prac źródłowych bez zmian; na rysunku 
 \label{fig:pdu:trends}
 \end{figure}
 
-Linie trendu dają jedynie warunek konieczny stabilności: z nierówności trójkąta wynika, że zmiana błędu średniokwadratowego wyniku nieskorygowanego z wartości $\mathrm{MSE}_0$ do $\mathrm{MSE}_t$ ogranicza średni kwadrat dryfu tylko od dołu, $\langle\delta_t^2\rangle\ge\bigl(\sqrt{\mathrm{MSE}_t}-\sqrt{\mathrm{MSE}_0}\bigr)^2$; bezpośrednim oszacowaniem dryfu jest dopiero błąd po korekcie, omówiony w następnym podrozdziale.
+Linie trendu dają jedynie warunek konieczny stabilności: z nierówności trójkąta wynika, że zmiana błędu średniokwadratowego wyniku nieskorygowanego z wartości $\mathrm{MSE}_0$ do $\mathrm{MSE}_t$ ogranicza średni kwadrat dryfu tylko od dołu, $\langle\delta_t^2\rangle\ge\bigl(\sqrt{\mathrm{MSE}_t}-\sqrt{\mathrm{MSE}_0}\bigr)^2$; bezpośrednim oszacowaniem dryfu jest dopiero błąd po korekcie (podrozdział~\ref{subsec:pdu:results:one}).
 % Usunięto przykład liczbowy (PHD-TS-91, ustalenia I5 i D15 recenzji): dla największej zmiany odczytanej z rysunku time stability.jpg (Belem, 0,0509 -> 0,0293 w 13,8 h) ograniczenie wynosi (sqrt(0.0509)-sqrt(0.0293))^2 = 0.0030, a dla urządzenia Manila (0.0563 -> 0.0353) 0.0024; wartości są orientacyjne, bo linie dopasowano do pomiarów z wielu dni, a ograniczenie dolne nie świadczy o stabilności.
 
 \subsection{Korekta funkcji jednej zmiennej}\label{subsec:pdu:results:one}
@@ -504,6 +488,7 @@ ROZBIEŻNOŚCI (DO DECYZJI AUTORA; w tekście zestawia je tabela tab:pdu:app:dis
 (4) podpis rysunku z MSE i odchyleniem standardowym w artykule mówi o urządzeniu Lima i szeregu dwuskładnikowym, a włączone pliki pochodzą z urządzenia Belem (tak opisuje je praca magisterska);
 (5) część rysunków przykładowych z czerwca 2022 r. ma oś argumentów opisaną od -2 pi do 3/2 pi (podwojone etykiety); tych rysunków nie przeniesiono.
 Przedziały ufności w tabeli tab:pdu:corr obliczono w rozprawie przekształceniem Fishera z wartości r i N podanych w pracy magisterskiej.
+Wykres fig:pdu:pearson (wartości r z tabel tab:pdu:corr i tab:pdu:app:iccs) przeniesiono w zadaniu PHD-TS-97 do dodatku, sekcja app:results:pdu2.
 }
 
 \begin{figure}[tb]
@@ -534,14 +519,6 @@ Ponieważ węzły kalibracji i węzły korygowanych wyników pokrywają się, wy
 Miary po korekcie oceniają zatem powtarzalność błędu między tymi pomiarami, a zgodnie ze wzorem~\eqref{eq:pdu:residual} błąd średniokwadratowy po korekcie jest bezpośrednim oszacowaniem średniego kwadratu dryfu.
 Już w pierwszej serii, pół godziny po kalibracji, przekracza on granicę próbkowania $2/(4\nshots)\approx 6\cdot10^{-5}$ o dwa rzędy wielkości, więc dryf zawiera składową zmienną między kolejnymi seriami, a warunek~\eqref{eq:pdu:stability} jest spełniony tylko w słabym sensie kilkakrotnego zmniejszenia błędu.
 % ŹRÓDŁO: obliczenie własne: 2/(4*8192) = 6,1e-5; MSE po korekcie w pierwszej serii około 0,010 (odczyt jak wyżej).
-
-\begin{figure}[tb]
-\centering
-\input{figures/chp_pdu/pdu_corr_pearson.tex}
-\caption[Współczynnik korelacji Pearsona przed korektą i po korekcie funkcją PDU]{Współczynnik korelacji Pearsona między wynikami a wartościami oczekiwanymi przed korektą (znaczniki puste) i po korekcie funkcją PDU (znaczniki pełne): (a)~funkcje jednej zmiennej według dwóch zbiorów danych, (b)~funkcja dwóch zmiennych.
-Opracowanie własne na podstawie danych z~prac~\cite{werner_experiment_driven_2022,werner_magisterka_2022}.}
-\label{fig:pdu:pearson}
-\end{figure}
 
 \begin{table}[tb]
 \centering
@@ -576,7 +553,7 @@ Perth & 4224 & 0,525 [0,503; 0,547] & 0,491 [0,468; 0,514] & 0,335 & 0,327 & 0,4
 \end{table}
 % ŹRÓDŁO tabeli: artykuły/magisterka_werner_final/chapters/03.tex, tabele tab:pearson_coefficients, tab:other_corrs_tau, tab:other_corrs_rho (E3) oraz tab:pearson_coefficients_seven, tab:other_corrs_seven (E5) i zdania z wartościami łącznymi; przedziały ufności: tanh(artanh(r) +/- 1,96/sqrt(N-3)).
 
-W skali całego zbioru danych współczynniki korelacji wyników z wartościami oczekiwanymi wzrosły po korekcie na każdym urządzeniu (tabela~\ref{tab:pdu:corr}, rysunek~\ref{fig:pdu:pearson}a).
+W skali całego zbioru danych współczynniki korelacji wyników z wartościami oczekiwanymi wzrosły po korekcie na każdym urządzeniu (tabela~\ref{tab:pdu:corr}; rysunek~\ref{fig:pdu:pearson} w dodatku).
 W zbiorze z pracy magisterskiej, liczącym $10\,086$ próbek, współczynnik Pearsona wzrósł z $0{,}761$ do $0{,}987$~\cite{werner_magisterka_2022}, a w mniejszym zbiorze opisanym w artykule ($6006$ próbek) z $0{,}876$ do $0{,}971$~\cite{werner_experiment_driven_2022}.
 % ŹRÓDŁO: magisterka 03.tex, tabela tab:pearson_coefficients i zdanie pod nią; ICCS main.tex, sekcja Results (0.876, 0.9707) i tabela tab:coefficients (liczności; suma 6006 to obliczenie własne, w tekście artykułu nie pada).
 Oba zbiory różnią się licznością i, poza urządzeniami Athens i Belem, wartościami współczynników przed korektą, zgodnie natomiast dają po korekcie wartości od $0{,}96$ do $1{,}00$.
@@ -589,7 +566,7 @@ Dla badanych urządzeń pięciokubitowych odpowiedź na pytanie PB1 jest zatem t
 
 \subsection{Korekta funkcji dwóch zmiennych i szeregów wieloskładnikowych}\label{subsec:pdu:results:two}
 \agentinfo{
-Rysunek fig:pdu:two-comp: trzy grafiki przeniesione z pracy magisterskiej (katalog wiele_komp; daty w nazwach plików 19.06.2022 i 19.01.2022); poziomy MSE (0,06--0,09 oraz poniżej 0,005) odczytano z osi wykresu, źródła nie podają dla tego eksperymentu statystyk zbiorczych ani sposobu kalibracji.
+Rysunek fig:pdu:two-comp (od zadania PHD-TS-97 w dodatku, sekcja app:results:pdu2, razem z komentarzem źródłowym do dat w podpisie): trzy grafiki przeniesione z pracy magisterskiej (katalog wiele_komp; daty w nazwach plików 19.06.2022 i 19.01.2022); poziomy MSE (0,06--0,09 oraz poniżej 0,005) odczytano z osi wykresu, źródła nie podają dla tego eksperymentu statystyk zbiorczych ani sposobu kalibracji.
 Wyniki eksperymentu dwóch zmiennych pochodzą wyłącznie z pracy magisterskiej (tabele tab:pearson_coefficients_seven i tab:other_corrs_seven); artykuł ich nie zawiera.
 Rysunków z katalogu dwie_zmienne nie przeniesiono, bo praca magisterska ich nie opisuje i nie da się ustalić znaczenia serii.
 Interpretacje dodane w rozprawie, DO AKCEPTACJI AUTORA: podwójne liczenie wspólnej części błędu przy sumowaniu poprawek oraz (po recenzji, ustalenie I7) uwaga, że sumowanie poprawek nie jest zastosowaniem definicji def:pdu:correction i że w modelu eq:tb:noise:fringe suma poprawek dla x i y nie jest poprawką dla x+y; praca magisterska mówi o pominiętym oddziaływaniu rejestrów i o możliwym współczynniku wagowym.
@@ -600,29 +577,14 @@ Nazwa pliku z przebiegiem MSE na tym rysunku kończy się na MSE_cos_phi i ma da
 Zdanie proponujące powtórzenie eksperymentu w dwóch wariantach usunięto z tekstu (zasada: rozdział nie proponuje nowych eksperymentów); wcześniejsza propozycja z tego konspektu (E3 w dwóch wariantach kalibracji i E5 z pełną kalibracją na 64 obwodach, na symulatorze) pozostaje do decyzji autora i jest odłożona zgodnie z CLAUDE.md.
 }
 
-\begin{figure}[tb]
-\centering
-\begin{tabular}{@{}ccc@{}}
-\includegraphics[width=0.29\textwidth]{figures/chp_pdu/pdu_lima_two_comp_before.png} &
-\includegraphics[width=0.29\textwidth]{figures/chp_pdu/pdu_lima_two_comp_after.png} &
-\includegraphics[width=0.29\textwidth]{figures/chp_pdu/pdu_lima_two_comp_mse.png}
-\end{tabular}
-\caption[Korekta szeregu dwuskładnikowego na urządzeniu Lima]{Szereg dwuskładnikowy $\tfrac{1}{2}(\coscomp_{1,0}+\coscomp_{2,0})$ na urządzeniu Lima: wartości przed korektą (po lewej) i po korekcie (w środku) na tle wartości oczekiwanych (linia) oraz błąd średniokwadratowy kolejnych serii w~funkcji czasu w~minutach (po prawej; linia czerwona przed korektą, turkusowa po korekcie).
-Według nazw plików źródłowych słupki pochodzą z~19.06.2022, a~przebieg błędu z~19.01.2022.
-Rysunki własne autora, przeniesione z~pracy~\cite{werner_magisterka_2022}.}
-\label{fig:pdu:two-comp}
-\end{figure}
-% ŹRÓDŁO dat w podpisie: nazwy plików w artykuły/magisterka_werner_final/chapters/03.tex, rysunki fig:qCoSamp_multi (result_2_06_19_2022_14_11_13_ibmq_lima_cosphi2phi.png, correctedResult_2_06_19_2022_14_10_45_ibmq_lima_cosphi2phi.png) i fig:qCoSamp_multi_mse (01_19_2022_02_27_24_ibmq_lima_MSE_cos_phi.png).
-
-Szereg dwuskładnikowy $\tfrac{1}{2}(\coscomp_{1,0}+\coscomp_{2,0})$ badano na urządzeniu Lima (eksperyment E4).
-Błąd średniokwadratowy kolejnych serii maleje po korekcie z poziomu $0{,}06$--$0{,}09$ do wartości poniżej $0{,}005$ (rysunek~\ref{fig:pdu:two-comp}).
+Dla szeregu dwuskładnikowego $\tfrac{1}{2}(\coscomp_{1,0}+\coscomp_{2,0})$, badanego na urządzeniu Lima (eksperyment E4), błąd średniokwadratowy kolejnych serii maleje po korekcie z poziomu $0{,}06$--$0{,}09$ do wartości poniżej $0{,}005$ (rysunek~\ref{fig:pdu:two-comp} w dodatku).
 % ŹRÓDŁO: odczyt z rysunków wiele_komp/result_2_..., correctedResult_2_... i 01_19_2022_02_27_24_ibmq_lima_MSE_cos_phi.png (magisterka).
 W pokazanej serii wynik nieskorygowany nie odtwarza jednak funkcji (odczyt ze słupków: korelacja z wartościami oczekiwanymi około $-0{,}5$ przed korektą i $0{,}97$ po korekcie), więc kształt widoczny po korekcie wnosi poprawka, a nie pomiar.
 % ŹRÓDŁO: odczyt z plików rozprawa/figures/chp_pdu/pdu_lima_two_comp_before.png i pdu_lima_two_comp_after.png skryptem eksperymenty/recenzje/_robocze/PHD-TS-62/odczyt_rysunkow.py (powtórzony w PHD-TS-91, plik powt_odczyt_rysunkow.txt): r = -0,525 i +0,972; MSE 0,0866 i 0,0037 (osiem węzłów).
 Sposobu kalibracji ani statystyk zbiorczych źródła nie podają, więc wynik ma charakter jakościowy i nie dowodzi przenoszenia korekty z funkcji referencyjnej.
 
 Eksperyment E5 dał wynik negatywny.
-Po korekcie sumą błędów obu rejestrów współczynniki korelacji zmalały na wszystkich czterech urządzeniach (tabela~\ref{tab:pdu:corr}, rysunek~\ref{fig:pdu:pearson}b): w zbiorze $21\,760$ próbek współczynnik Pearsona spadł z $0{,}507$ do $0{,}418$~\cite{werner_magisterka_2022}.
+Po korekcie sumą błędów obu rejestrów współczynniki korelacji zmalały na wszystkich czterech urządzeniach (tabela~\ref{tab:pdu:corr}): w zbiorze $21\,760$ próbek współczynnik Pearsona spadł z $0{,}507$ do $0{,}418$~\cite{werner_magisterka_2022}.
 % ŹRÓDŁO: magisterka 03.tex, sekcja ,,Korekcja funkcji dwóch zmiennych'', podsekcja ,,Wyniki eksperymentu''.
 Przedziały ufności liczone dla próbek są rozłączne dla zbioru łącznego oraz dla urządzeń Casablanca i Jakarta, a liczone dla serii zachodzą na siebie w każdym przypadku, więc odporny jest wniosek o braku poprawy, a nie o pogorszeniu.
 % ŹRÓDŁO: obliczenie własne z wartości r i N z tabeli tab:pdu:corr dla n = N/64: łącznie n = 340, r = 0,507: [0,423; 0,582]; r = 0,418: [0,326; 0,502]; Casablanca (n = 79): [0,555; 0,791] i [0,340; 0,666]; Jakarta (n = 97): [0,341; 0,641] i [0,176; 0,524]; skrypt eksperymenty/recenzje/_robocze/PHD-TS-62/analiza_wrazliwosci.py, wynik powtórzony w PHD-TS-91.
@@ -651,12 +613,14 @@ Zgodnie z decyzją autora tekst nie proponuje nowych eksperymentów ani kierunk�
 Oceny własne, a nie twierdzenia cytowanych prac (DO AKCEPTACJI AUTORA): odczytanie wyników sekcji 4.7 jako potwierdzenia słabszej postaci założenia Z4; uwaga, że linia trendu może nie wykryć zmian skokowych; uwaga, że deklarowana kalibracja urządzenia wyznacza najwyżej górną granicę ważności funkcji PDU; zdanie o ponownym pomiarze węzłów jako sposobie rozpoznania nieaktualnej funkcji PDU (pomysł z konspektu sekcji 4.5, w eksperymentach niestosowany; to uwaga o regule ponownej kalibracji, nie propozycja badań).
 Obserwacje o częstości kalibracji procesorów IBM pochodzą z sekcji 3.5: wilson_just-in-time_2020 dotyczy innych urządzeń i lat 2019--2020, a etxezarreta_multiqubit_2023 (dodatek C) tych samych procesorów pięciokubitowych (santiago i bogota kilka kalibracji na dobę; quito, belem i lima około jednej); roku tych pomiarów praca nie podaje (według notatki do sekcji 3.5 daty kwietniowe, preprint z lipca 2022), więc nie można wykluczyć, że pokrywają się z okresem eksperymentów PDU; dlatego tekst nie twierdzi, że pochodzą z innych dat.
 Hipotezy o związku rozrzutu na urządzeniu Santiago z częstszymi kalibracjami nie wpisano (zadanie w sekcji 3.5).
+Dopisane w zadaniu PHD-TS-94 (2026-11-27, po decyzji autora, że dawny rozdział 9 o strukturze szumu nie jest osobnym rozdziałem): trzy zdania na końcu akapitu o założeniu Z4, odnoszące się do pracy raubitzek_quantum_noise omawianej w sekcji 3.5 (akapit par:lr:noise:generators); praca jest pracą powiązaną z udziałem autora, a nie wkładem rozprawy.
+Oceny własne w tych zdaniach (DO AKCEPTACJI AUTORA): warunek stabilności zaburzeń w schemacie z tej pracy jest odpowiednikiem założenia Z4; praca nie rozstrzyga o stałości błędu między kalibracjami; opis na poziomie generatorów jest uzupełnieniem, a nie uzasadnieniem metody PDU.
+Zdania nie korzystają z elementów macierzy, których dotyczy ustalenie B1 recenzji dawnego rozdziału 9 \agentref{eksperymenty/recenzje/rozdzial-9.md}.
 Zdanie, że rozdział opiera się na tekście, tabelach i rysunkach prac źródłowych, a nie na danych pierwotnych, zmienić, gdy autor dostarczy oryginalne dane eksperymentów PDU.
 Pominięto dla objętości: osobne zdanie o mitygacji błędu odczytu (jest w podrozdziale 2.3 i w tabeli tab:lr:qem:calibrated); użyteczność metody poza erą NISQ (wstęp artykułu ICCS nazywa ją problematyczną); obserwację z wniosków artykułu ICCS, że urządzenia o bardziej poziomej linii trendu nie miały większego przyrostu korelacji; to, że zbiór z artykułu nie jest podzbiorem zbioru z pracy magisterskiej (dla urządzenia Belem tabela artykułu podaje 1360 próbek, a praca magisterska 1248; por. tabele tab:pdu:corr i tab:pdu:app:iccs); rozbieżności szczegółów protokołu opisane w konspekcie sekcji 4.6; zastrzeżenie, że poprawy dla urządzenia Athens nie wykazano (jest w sekcji 4.7.3).
 Po recenzji (PHD-TS-91) uzgodniono dyskusję z poprawionymi sekcjami 4.4--4.7: odpowiedź o stabilności jest twierdząca w postaci słabszej (linie trendu nie pozwalają stwierdzić ani narastania błędu, ani jego stałości; korekta wyznaczona raz zwiększała zgodność wyników w badanych seriach), odpowiedź o przenoszeniu mówi, że korekta poprawia wyniki obwodów, na których ją wyznaczono, a przenoszenia między funkcjami źródła nie pozwalają potwierdzić; przy pierwszym wyróżniku podano zakres potwierdzenia (obwody jednej funkcji różniące się konfiguracją wejścia); usunięto słowa o poprawie przez wiele godzin i o braku wyraźnego trendu; dodano zdanie o nieudokumentowanej kontroli układu kubitów i transpilacji; trzy zdania podzielono.
-Skróty wyrównujące objętość (PHD-TS-91, do przywrócenia, jeśli autor zechce): zdanie o przedziałach ufności (powtarzało sekcję 4.6), wyliczenie rozbieżności źródeł (zastąpione odesłaniem do tabeli w dodatku), powtórzenie, że eksperymentów nie da się powtórzyć na wycofanych urządzeniach, powtórzenie wniosku o składaniu poprawek w akapicie o przenoszeniu.
-Objętość (kompilacja bez notatek, 2026-11-27): sekcja 4.8 około 1,65 strony, sekcja 4.9 około 0,4 strony; przed poprawkami po recenzji treść rozdziału kończyła się na jego siedemnastej stronie, więc razem z pustą stroną parzystą rozdział zajmował 18 stron (przed dopisaniem tych sekcji 16); po poprawkach z zadania PHD-TS-91 rozdział nadal zajmuje 18 stron, ale treść kończy się na osiemnastej (dokładne liczby w pliku z wykazem poprawek).
-Bez sekcji 4.8 i 4.9 treść kończyła się mniej więcej w połowie piętnastej strony, więc rozdział zmieściłby się w 16 stronach dopiero po skróceniu obu sekcji łącznie do około 1,5 strony, czyli o mniej więcej 25 wierszy składu; kandydaci do cięcia: zdanie o przedziałach ufności (powtarza sekcję 4.6), zdanie o rozbieżnościach źródeł (są w sekcjach 4.7.2 i 4.7.3), końcówka zdania o ponownym pomiarze węzłów, wtrącenie o szerokości rodziny obwodów, drugie i czwarte zdanie podsumowania (powtarzają dyskusję).
+Skróty z zadań PHD-TS-91 i PHD-TS-97 (wykazy w plikach wskazanych w konspekcie rozdziału): w dyskusji nie powtarza się zdania o przedziałach ufności, wyliczenia rozbieżności źródeł, zdania o wycofanych urządzeniach, wniosku o składaniu poprawek z eksperymentu E5 ani odesłania do wykresu współczynników korelacji; trzy zdania o pracy o zaburzeniach generatorów ściśnięto bez zmiany treści.
+Objętość (kompilacja bez notatek, 2026-11-27, po zadaniu PHD-TS-97): rozdział zajmuje 16 stron, a treść kończy się na szesnastej; zapas jest mały (liczba wierszy w pliku z wykazem cięć), więc każde dopisanie zdania albo przywrócenie rysunku z dodatku wymaga cięcia o tej samej wielkości, inaczej rozdział wraca do 18 stron (rozdziały zaczynają się na stronie nieparzystej).
 }
 
 W kategoriach kryteriów K1--K6 (tabela~\ref{tab:tb03:cost}) PDU nie zużywa dodatkowych kubitów ani bramek, a płaci wykonaniami obwodów kalibracyjnych (K3), założeniem o powtarzalności błędu (K5) i wąskim zakresem stosowalności metody zorientowanej na problem (K6); korekcji nie zastępuje, bo usuwa jedynie powtarzalną część błędu wyniku.
@@ -667,7 +631,7 @@ Samo wyznaczanie korekty raz dla obwodów o stałej strukturze ma odpowiednik w 
 Po drugie, zbadano stabilność błędu między kalibracjami urządzenia (eksperymenty E2 i E3), a w tekstach głównych tamtych prac takich badań nie znaleziono.
 Skalą demonstracji PDU nie wykracza natomiast poza prace pokrewne, a ceną pierwszej cechy jest wymóg znajomości argumentu (założenie~\ref{itm:pdu:Z7}): gdy argument nie jest znany, cecha ta nie ma zastosowania.
 
-Na pytanie o stabilność błędu (podrozdział~\ref{sec:pdu:scope}) wyniki dają w zakresie badanych urządzeń pięciokubitowych odpowiedź twierdzącą w postaci słabszej: linie trendu nie pozwalają stwierdzić ani narastania błędu, ani jego stałości (rysunek~\ref{fig:pdu:trends}), a korekta wyznaczona raz zwiększała w badanych seriach zgodność wyników z wartościami oczekiwanymi, w obu zbiorach danych (tabela~\ref{tab:pdu:corr}, rysunek~\ref{fig:pdu:pearson}).
+Na pytanie o stabilność błędu (podrozdział~\ref{sec:pdu:scope}) wyniki dają w zakresie badanych urządzeń pięciokubitowych odpowiedź twierdzącą w postaci słabszej: linie trendu nie pozwalają stwierdzić ani narastania błędu, ani jego stałości (rysunek~\ref{fig:pdu:trends}), a korekta wyznaczona raz zwiększała w badanych seriach zgodność wyników z wartościami oczekiwanymi, w obu zbiorach danych (tabela~\ref{tab:pdu:corr}).
 Warunek~\eqref{eq:pdu:stability} sprawdzono bezpośrednio tylko w pojedynczych przykładach, do niespełna trzech godzin od kalibracji funkcji PDU (rysunek~\ref{fig:pdu:example}): zbiorczych wartości błędu średniokwadratowego po korekcie źródła nie podają, a współczynnik korelacji ocenia zgodność kształtu, nie wartości; dla urządzeń siedmiokubitowych dostępne są wyłącznie linie trendu.
 Odpowiedź na pytanie o przenoszenie korekty pozostaje warunkowa (podrozdział~\ref{subsec:pdu:results:two}): korekta poprawia wyniki obwodów, na których ją wyznaczono, a tego, czy przenosi się między funkcjami, czyli jak szeroką rodzinę obwodów obsługuje jedna kalibracja, źródła nie pozwalają potwierdzić.
 \agenttask{
@@ -676,21 +640,24 @@ Uwaga orkiestratora do rozważenia przez autora (to nie jest decyzja): tezę T1 
 }
 
 Przegląd literatury w podrozdziale~\ref{sec:lr:noise} nie potwierdza założenia~(\ref{itm:pdu:Z4}) w postaci mocnej, czyli stałości błędu do następnej kalibracji urządzenia; zgodny jest z postacią słabszą, w której korekta wyznaczona z pomiaru zachowuje ważność przez czas rzędu godzin.
-Wnioski te są pośrednie, bo przytoczone tam prace mierzą niemal wyłącznie parametry składowe, a nie błąd wyniku obwodu (tabela~\ref{tab:lr:noise:time}).
+Wnioski te są pośrednie, bo przytoczone prace mierzą niemal wyłącznie parametry składowe, a nie błąd wyniku obwodu (tabela~\ref{tab:lr:noise:time}).
 Zmiany tych parametrów bywają skokowe~\cite{klimov_fluctuations_2018,burnett_decoherence_2019}, a linia trendu, dopasowana do pomiarów z wielu okresów kalibracji, opisuje średnią zależność błędu od czasu, więc zmian epizodycznych w pojedynczym okresie nie wykrywa.
 Czas od kalibracji jest ponadto wielkością deklarowaną przez dostawcę, a według innych prac częstość kalibracji procesorów IBM, także użytych w tym rozdziale, nie była stała i różniła się między urządzeniami~\cite{wilson_just-in-time_2020,etxezarreta_multiqubit_2023}, więc nie można przyjąć, że kalibracja była zawsze jednym zdarzeniem na dobę.
 Wyniki podrozdziału~\ref{sec:pdu:results} należy zatem czytać jako stwierdzenie, że w badanych seriach korekta pozostawała korzystna, a nie jako dowód stałości błędu w całym okresie między kalibracjami.
 Reguła ponownej kalibracji (podrozdział~\ref{sec:pdu:procedure}) wyznacza tym samym najwyżej górną granicę ważności funkcji PDU: warunek sprawdzany w algorytmie~\ref{alg:pdu:correction} jest konieczny, lecz niewystarczający.
-Nieaktualna funkcja PDU, niespełniająca warunku~\eqref{eq:pdu:criterion}, może błąd zwiększać, a rozpoznać to pozwala dopiero ponowny pomiar węzłów, którego w opisanych eksperymentach nie stosowano.
+Nieaktualna funkcja PDU, niespełniająca warunku~\eqref{eq:pdu:criterion}, może błąd zwiększać, a rozpoznać to pozwala dopiero ponowny pomiar węzłów, którego w eksperymentach nie stosowano.
+Odpowiednikiem założenia~(\ref{itm:pdu:Z4}) jest warunek stabilności zaburzeń w schemacie diagnostycznym pracy o zaburzeniach generatorów bramek~\cite{raubitzek_quantum_noise} (podrozdział~\ref{par:lr:noise:generators}).
+Praca ta nie rozstrzyga o stałości błędu między kalibracjami: zaburzenia dopasowano w niej do średniej z przebiegów zbieranych przez kilka miesięcy, nie rozdzielając rozrzutu między przebiegami na próbkowanie, dryf i zmiany kalibracji.
+% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana (eksperymenty/_build/PHD-TS-38/work/pub/published.txt), sekcja VI.B, zastrzeżenie (2) (warunek stabilności), sekcja IV (dopasowanie do średniej z przebiegów) i sekcja VII (ponad pół roku zbierania danych); daty przebiegów w repozytorium danych pracy: od 2025-07-03 do 2025-10-15 (komentarz źródłowy w akapicie par:lr:noise:generators sekcji 3.5).
+Wobec metody PDU, która bramek nie modeluje (założenie~\ref{itm:pdu:Z2}), opis na poziomie generatorów jest zatem uzupełnieniem, a nie uzasadnieniem.
 
 Wyniki dotyczą obwodów metody QCoSamp z jednym kubitem odczytu na urządzeniach pięcio- i siedmiokubitowych, a funkcja PDU jest związana z rodziną obwodów, urządzeniem, układem kubitów i sposobem transpilacji (założenia~\ref{itm:pdu:Z2} i~\ref{itm:pdu:Z5}), więc nie przenoszą się wprost na inne obwody ani na większe urządzenia; kontroli układu kubitów i transpilacji między kalibracją a seriami korygowanymi źródła nie dokumentują.
-Urządzenia te wycofano, a rozdział opiera się na tekście, tabelach i rysunkach dwóch prac źródłowych, nie na danych pierwotnych; część wartości odczytano z rysunków.
-Rozbieżności między źródłami (dodatek, tabela~\ref{tab:pdu:app:discrepancies}) nie da się wyjaśnić bez danych pierwotnych, dlatego wnioski oparto na tym, w czym oba źródła są zgodne.
-W eksperymencie E3 miary po korekcie oceniają powtarzalność błędu między dwoma pomiarami w tych samych węzłach, a nie wyznaczanie nieznanej wartości; interpolacji między węzłami nie używano w żadnym eksperymencie.
-Wynik negatywny eksperymentu E5 pokazuje, że korekta składana z poprawek rejestrów kalibrowanych osobno wyników nie poprawia; jego wyjaśnienie pozostaje hipotezą, a koszt pełnej kalibracji rośnie wykładniczo z łączną liczbą kubitów rejestrów argumentu (podrozdział~\ref{sec:pdu:procedure}), co ogranicza skalowalność korekty w postaci tablicy.
+Rozdział opiera się na tekście, tabelach i rysunkach dwóch prac, nie na danych pierwotnych; część wartości odczytano z rysunków.
+Rozbieżności między źródłami (tabela~\ref{tab:pdu:app:discrepancies}) nie da się wyjaśnić bez danych pierwotnych, dlatego wnioski oparto na tym, w czym oba źródła są zgodne.
+W eksperymencie E3 miary po korekcie oceniają powtarzalność błędu w tych samych węzłach, a nie wyznaczanie nieznanej wartości; interpolacji między węzłami nie używano w żadnym eksperymencie.
+Wyjaśnienie negatywnego wyniku eksperymentu E5 pozostaje hipotezą, a koszt pełnej kalibracji rośnie wykładniczo z łączną liczbą kubitów rejestrów argumentu (podrozdział~\ref{sec:pdu:procedure}), co ogranicza skalowalność korekty tablicowej.
 
-We wszystkich eksperymentach tego rozdziału argument korekty był znany z konstrukcji obwodu (podrozdział~\ref{par:pdu:known-argument}), więc nie mówią one, jak metoda zachowuje się, gdy faza kubitu odczytu zależy od danych nieznanych w chwili korekty.
-To, jaki argument jest znany przy korekcie obrazu, bada rozdział~\ref{chapter:pdu_images}.
+We wszystkich eksperymentach tego rozdziału argument korekty był znany z konstrukcji obwodu (podrozdział~\ref{par:pdu:known-argument}), więc nie mówią one, jak metoda zachowuje się, gdy faza kubitu odczytu zależy od danych nieznanych w chwili korekty (rozdział~\ref{chapter:pdu_images}).
 Przeniesienie samej zasady korekty kalibrowanej z pomiaru na uczone kodowanie obrazów i na klasyfikator badają rozdziały~\ref{chapter:learned_encoding} i~\ref{chapter:classification}; wyniki są tam warunkowe, a w części negatywne (podrozdziały~\ref{sec:le:summary} i~\ref{subsec:cls:results:pdu}).
 
 \section{Podsumowanie}\label{sec:pdu:summary}
@@ -699,10 +666,11 @@ Napisane w zadaniu PHD-TS-57 (2026-11-27): zebranie ustaleń rozdziału bez nowy
 Po recenzji (PHD-TS-91): dopisano zakres, w jakim dane potwierdzają pierwszy wyróżnik, zdanie o trendzie doprowadzono do poziomu danych, a dla funkcji dwóch zmiennych napisano, że korekta wyników nie poprawiła (zamiast: pogorszyła).
 Przejście do rozdziału 5 nie przesądza skuteczności PDU dla obrazów (sprawa otwarta, CLAUDE.md).
 Numery pytań badawczych i odniesienie do tezy dopisać po decyzji autora (zadanie w sekcji 4.8).
+Przy skracaniu (PHD-TS-97) usunięto z podsumowania powtórzenie zdania o liniach trendu (jest w sekcjach 4.7.2 i 4.8; wniosek, że dane nie rozstrzygają stałości błędu, pozostał).
 }
 
-W rozdziale przedstawiono metodę PDU, rozwijaną w ramach tej rozprawy: jej definicje, osiem jawnie wypisanych założeń, procedurę kalibracji i korekty wraz z kosztem oraz ilościowy zapis założenia stabilności.
+W rozdziale przedstawiono metodę PDU, rozwijaną w ramach tej rozprawy: jej definicje, osiem założeń, procedurę kalibracji i korekty wraz z kosztem oraz ilościowy zapis założenia stabilności.
 Metoda jest własną realizacją zasady korekty wyniku kalibrowanej na obwodach o znanym wyniku, a jej wyróżnikami, na których opiera się wkład rozprawy, są korekta indeksowana znanym argumentem, wyznaczana raz dla rodziny obwodów, oraz zbadanie stabilności błędu między kalibracjami urządzenia; pierwszy dane potwierdzają dla obwodów jednej funkcji różniących się wejściem.
-Na badanych urządzeniach pięciokubitowych linie trendu błędu obwodu referencyjnego nie pozwalają stwierdzić ani jego narastania, ani stałości, a korekta wyznaczona raz zwiększała w badanych seriach zgodność wyników funkcji jednej zmiennej z wartościami oczekiwanymi w obu zbiorach danych; dla funkcji dwóch zmiennych korekta złożona z poprawek obu rejestrów wyników nie poprawiła.
+Na badanych urządzeniach pięciokubitowych korekta wyznaczona raz zwiększała w badanych seriach zgodność wyników funkcji jednej zmiennej z wartościami oczekiwanymi w obu zbiorach danych; dla funkcji dwóch zmiennych korekta złożona z poprawek obu rejestrów wyników nie poprawiła.
 Dane nie rozstrzygają stałości błędu w całym okresie między kalibracjami ani przenoszenia korekty między funkcjami, a metoda wymaga argumentu znanego w chwili korekty.
 Ten ostatni wymóg jest punktem wyjścia rozdziału~\ref{chapter:pdu_images}, który bada zastosowanie metody do kodowania i rekonstrukcji obrazów.

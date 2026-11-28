@@ -3,43 +3,44 @@
 \chapter{Środowisko eksperymentalne i parametry urządzeń}\label{appendix:experiments}
 
 \agentinfo{
-Napisane w zadaniu PHD-TS-52 (2026-11-27); czeka na przegląd autora i odpowiedzi na pytania zapisane w zadaniach pod sekcjami.
-Zakres: urządzenia kwantowe z rozdziałów 4, 7, 8 i 9 oraz z prac źródłowych rozdziałów 5 i 6 (te rozdziały nie są jeszcze napisane, więc wiersze ich dotyczące trzeba uzgodnić po ich napisaniu), symulatory i modele szumu, wersje oprogramowania, dostępność kodu i danych.
+Napisane w zadaniu PHD-TS-52 (2026-11-27); czeka na przegląd autora i odpowiedzi na pytania zapisane w trzech zadaniach w tekście (urządzenia, oprogramowanie, dostępność).
+Zakres: urządzenia kwantowe z rozdziałów 4, 7 i 8, z pracy powiązanej z udziałem autora omawianej w sekcji 3.5 (akapit par:lr:noise:generators; do 2026-11-27 osobny rozdział 9, zmiana w zadaniu PHD-TS-94) oraz z prac źródłowych rozdziałów 5 i 6 (te rozdziały nie są jeszcze napisane, więc wiersze ich dotyczące trzeba uzgodnić po ich napisaniu), symulatory i modele szumu, wersje oprogramowania, dostępność kodu i danych.
 Zasada: tylko wartości obecne w źródłach; czego źródło nie podaje, oznaczono skrótem n.p. i wypisano jako pytanie do autora; parametrów urządzeń nie uzupełniano z pamięci.
-Źródła: \agentref{artykuły/magisterka_werner_final/chapters/02.tex} (sekcja Środowisko eksperymentalne) \agentref{artykuły/magisterka_werner_final/chapters/03.tex} \agentref{artykuły/Quantum_Errors_ICCS/main.tex} \agentref{artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex} \agentref{artykuły/CoDIT_2025_final_paper/root.tex} \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex} \agentref{artykuły/quantum_noise_elsevier_submission/main.tex} \agentref{artykuły/noisy_lie_group_learners/main.tex}; metadane przebiegów i pliki środowisk w repozytorium klasyfikatora i w pakiecie autoenkodera (tylko odczyt); pliki README i requirements w katalogu \agentref{eksperymenty}; sekcje metodyczne 4.6, 7.3, 8.3 i 9.2.
+Źródła: \agentref{artykuły/magisterka_werner_final/chapters/02.tex} (sekcja Środowisko eksperymentalne) \agentref{artykuły/magisterka_werner_final/chapters/03.tex} \agentref{artykuły/Quantum_Errors_ICCS/main.tex} \agentref{artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex} \agentref{artykuły/CoDIT_2025_final_paper/root.tex} \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex} \agentref{artykuły/quantum_noise_elsevier_submission/main.tex} \agentref{artykuły/noisy_lie_group_learners/main.tex}; metadane przebiegów i pliki środowisk w repozytorium klasyfikatora i w pakiecie autoenkodera (tylko odczyt); pliki README i requirements w katalogu \agentref{eksperymenty}; sekcje metodyczne 4.6, 7.3 i 8.3 oraz akapit par:lr:noise:generators sekcji 3.5.
 Spoza tych źródeł pochodzą tylko daty wycofania urządzeń Nairobi, Oslo i ibm_brisbane oraz liczba kubitów ibm_brisbane: odczytano je 2026-11-27 z tej samej strony dokumentacji IBM Quantum, którą rozdział 4 cytuje dla pozostałych urządzeń \agentref{bib:ibm_retired_qpus_2026} (DO AKCEPTACJI AUTORA); urządzenie Oslo figuruje na niej jako ibmq_oslo, a ibm_fez na niej nie figuruje.
-Okres zbierania danych na ibm_brisbane (lipiec--październik 2025) przejęto z komentarza źródłowego w sekcji 9.2 (daty katalogów przebiegów w repozytorium danych pracy); w tym zadaniu nie sprawdzano go ponownie.
+Okres zbierania danych na ibm_brisbane (lipiec--październik 2025) pochodzi z dat katalogów przebiegów w repozytorium danych pracy (komentarz źródłowy w akapicie par:lr:noise:generators sekcji 3.5); w zadaniu PHD-TS-94 (2026-11-27) policzono je ponownie z zapisanego wykazu plików repozytorium: 88 katalogów z dziewięciu dni od 2025-07-03 do 2025-10-15.
+Wiersz ibm_brisbane w tabeli urządzeń dotyczy pracy powiązanej z udziałem autora rozprawy, a nie badań rozprawy; mówi o tym podpis tabeli i wiersz odsyła do sekcji 3.5.
 Statystyki w tabeli tab:app:env:calibration policzono skryptem \agentref{eksperymenty/_build/PHD-TS-52/work/kalibracja_h1_h2.py} z migawek zapisanych w metadanych zadań (H1: 81 kubitów, H2: 45 kubitów; migawka H2 jest identyczna we wszystkich zadaniach przebiegu).
 Rozbieżności źródeł zestawione w tekście bez wybierania jednej wersji: urządzenia i okres w pracach KES 2023 i CoDIT 2025; wersje bibliotek w pliku wymagań, pliku blokady i środowiskach badań z rozdziałów 7 i 8; okres zbierania danych na ibm_brisbane.
 Wersje w kolumnie badań z rozdziałów 7 i 8 to stan plików i środowisk z 2026-11-27, a nie zapis z dni przebiegów: pliki przebiegów nie zapisują wersji bibliotek.
-Etykiety do odesłań z rozdziałów: app:env:devices, app:env:simulators, app:env:software, app:env:availability, tab:app:env:devices, tab:app:env:calibration, tab:app:env:simulators, tab:app:env:software.
-Objętość w prywatnej kompilacji bez notatek: podana w komentarzu do zadania PHD-TS-52.
+Etykiety do odesłań z rozdziałów: appendix:experiments oraz tab:app:env:devices, tab:app:env:calibration, tab:app:env:simulators, tab:app:env:software; części dodatku mają nagłówki akapitowe bez numerów (dla objętości), więc nie mają własnych etykiet.
+Pominięte w tekście dla objętości, do wykorzystania gdzie indziej: (a) praca KES 2023 wspomina o nieudanej próbie uruchomienia reprezentacji NEQR na urządzeniu Rigetti Aspen M-3 w usłudze AWS Braket (macierz unitarna nie dała się skompilować), żaden wynik stamtąd nie pochodzi; to zdanie należy do rozdziału 5; (b) eksperyment z autoenkoderem obrazów szarych 8x8 \agentref{eksperymenty/porownanie-kodowan/autoenkoder-szary/README.md} (symulator macierzy gęstości z pakietu autoenkodera, depolaryzacja 0 i 0,018 na kubit po każdym bloku, wartości dokładne) nie jest dotąd wykorzystany w rozdziałach; po jego wykorzystaniu dopisać wiersz w tabeli tab:app:env:simulators; (c) wersji modułu Qiskit Ignis i narzędzi tomografii procesu z pracy o szumie źródła nie podają.
+Objętość w prywatnej kompilacji bez notatek (2026-11-27): około 3,6 strony (cztery strony, ostatnia zapełniona w około 0,6; z tego około 0,3 strony zajmuje nagłówek rozdziału), wobec zalecanych około 3; kandydaci do skrócenia, jeśli trzeba: tabela tab:app:env:calibration zamieniona na jedno zdanie z medianami (około 0,1 strony), wiersz o modelu M2 na poziomie bramek i wiersz o kodowaniu LPIQE z korektą PDU w tabeli symulatorów (około 0,1), zdanie o datach wycofania poszczególnych urządzeń, które powtarza podrozdział 4.6 (około 0,1).
 }
 
 Dodatek zestawia urządzenia kwantowe, symulatory i oprogramowanie użyte w badaniach opisanych w rozprawie oraz informacje o dostępności kodu i danych.
-Podaje wyłącznie wartości obecne w źródłach, czyli w pracach, na których opierają się rozdziały~\ref{chapter:pdu}--\ref{chapter:dl_error_reduction} i~\ref{chapter:noise_structure}, oraz w metadanych przebiegów i plikach środowisk badań z rozdziałów~\ref{chapter:learned_encoding} i~\ref{chapter:classification}; skrót n.p. oznacza, że źródło danej wielkości nie podaje.
-
-\section{Urządzenia kwantowe}\label{app:env:devices}
+Podaje wyłącznie wartości obecne w źródłach, czyli w pracach, na których opierają się rozdziały~\ref{chapter:pdu}--\ref{chapter:dl_error_reduction}, w pracy~\cite{raubitzek_quantum_noise} omawianej w podrozdziale~\ref{par:lr:noise:generators} oraz w metadanych przebiegów i plikach środowisk badań z rozdziałów~\ref{chapter:learned_encoding} i~\ref{chapter:classification}; skrót n.p. oznacza, że źródło danej wielkości nie podaje.
 
 \begin{table}[tb]
 \centering
 \caption[Urządzenia kwantowe użyte w badaniach opisanych w rozprawie]{Urządzenia kwantowe użyte w badaniach opisanych w rozprawie; wszystkie są procesorami nadprzewodzącymi udostępnianymi w chmurze IBM Quantum.
-$n$: liczba kubitów; pomiary: liczba powtórzeń obwodu; wycofanie: miesiąc wycofania z eksploatacji według wykazu~\cite{ibm_retired_qpus_2026} (kreska: urządzenia nie było w wykazie 27~listopada 2026~r.); n.p.: źródło nie podaje.
+Ostatni wiersz dotyczy pracy powiązanej z udziałem autora rozprawy~\cite{raubitzek_quantum_noise}, omawianej w przeglądzie literatury, a nie badań rozprawy.
+$n$: liczba kubitów; rozdz.: rozdział albo podrozdział rozprawy; pomiary: liczba powtórzeń obwodu; wycofanie: miesiąc albo zakres miesięcy wycofania z eksploatacji według wykazu~\cite{ibm_retired_qpus_2026} (kreska: urządzenia nie było w wykazie 27~listopada 2026~r.); n.p.: źródło nie podaje.
 Opracowanie własne.}
 \label{tab:app:env:devices}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.7cm}r>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{2.6cm}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.5cm}r>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{1.9cm}c>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{1.9cm}@{}}
 \toprule
-\textbf{Urządzenia} & $n$ & \textbf{Procesor} & \textbf{Okres} & \textbf{Rozdział i zastosowanie} & \textbf{Pomiary} & \textbf{Wycofanie} \\
+\textbf{Urządzenia} & $n$ & \textbf{Procesor} & \textbf{Okres} & \textbf{Rozdz.} & \textbf{Zastosowanie} & \textbf{Pomiary} & \textbf{Wycofanie} \\
 \midrule
-Athens, Belem, Bogota, Lima, Manila, Quito, Santiago & 5 & n.p. & 02.2021--05.2022 (E2), 05.2021--04.2022 (E3) & rozdział~\ref{chapter:pdu}: eksperymenty E1--E4 (tabela~\ref{tab:pdu:protocols}) & 8192 & Athens 06.2021; Bogota, Santiago 06.2022; pozostałe 09.2023 \\
-Casablanca, Jakarta, Lagos, Perth & 7 & n.p. & 02.2021--05.2022 (E2); E5: n.p. & rozdział~\ref{chapter:pdu}: eksperymenty E2 (bez Jakarty) i E5 & 8192 & Casablanca 03.2022; Jakarta 09.2023; Lagos, Perth 11.2023 \\
-Nairobi, Oslo, Perth, Lagos & 7 & n.p. & 02.2023--04.2023 & rozdział~\ref{chapter:pdu_images}: FRQI, LPIQE i korekta PDU obrazów $8\times8$ & $10\,000$ & Oslo 05.2023; pozostałe 11.2023 \\
-Nairobi & 7 & n.p. & n.p. & rozdział~\ref{chapter:dl_error_reduction}: obrazy $8\times8$ dla sieci pix2pix & n.p. & 11.2023 \\
-ibm\_fez & 156 & Heron r2 & 22.08.2026 (H1), 3.11.2026 (H2) & rozdział~\ref{chapter:learned_encoding}: przebiegi H1 i H2 & H1: 8192 i 4096; H2: $16\,384$ i 8192 & -- \\
-ibm\_fez & 156 & Heron r2 & 10.09.2026--18.11.2026 & rozdział~\ref{chapter:classification}: kalibracja stanami GHZ, przebiegi testowe, dostrajanie & GHZ: 8192; dalej 1024 na bazę & -- \\
-ibm\_brisbane & 127 & Eagle r3 & 07.2025--10.2025 & rozdział~\ref{chapter:noise_structure}: tomografia procesu bramki $\mathrm{X}$, 88 przebiegów & n.p. & 11.2025 \\
+Athens, Belem, Bogota, Lima, Manila, Quito, Santiago & 5 & n.p. & 02.2021--05.2022 & \ref{chapter:pdu} & eksperymenty E1--E4 (tabela~\ref{tab:pdu:protocols}) & 8192 & 06.2021--09.2023 \\
+Casablanca, Jakarta, Lagos, Perth & 7 & n.p. & 02.2021--05.2022 & \ref{chapter:pdu} & eksperymenty E2 (bez Jakarty) i E5 & 8192 & 03.2022--11.2023 \\
+Nairobi, Oslo, Perth, Lagos & 7 & n.p. & 02.2023--04.2023 & \ref{chapter:pdu_images} & FRQI, LPIQE i korekta PDU obrazów $8\times8$ & $10\,000$ & 05.2023--11.2023 \\
+Nairobi & 7 & n.p. & n.p. & \ref{chapter:dl_error_reduction} & obrazy $8\times8$ dla sieci pix2pix & n.p. & 11.2023 \\
+ibm\_fez & 156 & Heron r2 & 22.08.2026, 3.11.2026 & \ref{chapter:learned_encoding} & przebiegi H1 i H2 & H1: 8192 i 4096; H2: $16\,384$ i 8192 & -- \\
+ibm\_fez & 156 & Heron r2 & 10.09.2026--18.11.2026 & \ref{chapter:classification} & kalibracja stanami GHZ, przebiegi testowe, dostrajanie & GHZ: 8192; dalej 1024 na bazę & -- \\
+ibm\_brisbane & 127 & Eagle r3 & 07.2025--10.2025 & \ref{par:lr:noise:generators} & tomografia procesu bramki $\mathrm{X}$, 88 przebiegów & n.p. & 11.2025 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -48,17 +49,19 @@ ibm\_brisbane & 127 & Eagle r3 & 07.2025--10.2025 & rozdział~\ref{chapter:noise
 % ŹRÓDŁO tabeli, wiersz 4: artykuły/Quantum_journal_GAN__Copy_/article.tex, sekcja ,,Steps for the experiments'' (IBMQ Nairobi) i podpisy rysunków (7 qubit quantum computer); okresu i liczby powtórzeń brak.
 % ŹRÓDŁO tabeli, wiersz 5: pakiet autoenkodera, output/hw_run1/experiment.json (backend: ibm_fez, num_qubits 156; created 2026-08-22T23:38:07; plan: shots_single 8192, shots_packed 4096, shots_echo 4096), output/hw_run1/hw_meta.json (fetched_at 2026-08-23T00:52:48), hw_run2_finetune/plan.json (shots_test 16384, shots_train 8192), hw_run2_finetune/*/job.json (submitted_at 2026-11-03); generacja Heron r2: output/hw_experiment/EXPERIMENT.md oraz pliki klasyfikatora (wiersz 6).
 % ŹRÓDŁO tabeli, wiersz 6: repozytorium klasyfikatora, pliki experiment.json przebiegów testowych (backend_info: name ibm_fez, num_qubits 156, processor_type Heron, revision 2; shots 1024; bases X, Y, Z); daty katalogów hardware_ibm_fez_* od 19-09-2026 do 18-11-2026 i hwtrain_ibm_fez_* od 28-09-2026 do 18-11-2026; torus_classifier/ibm_fez_ghz_calibrations.json (date 2026-09-10 dla 6 kubitów, 2026-11-05 dla pozostałych; shots 8192).
-% ŹRÓDŁO tabeli, wiersz 7: artykuły/quantum_noise_elsevier_submission/main.tex, sekcja o danych z urządzenia (ibm_brisbane, Eagle r3; a fixed number of shots per circuit; 88 runs); okres: rozprawa/chapters/noise_structure.tex, komentarz źródłowy w sekcji 9.2 (katalogi przebiegów w repozytorium danych pracy: 2025-07-03 do 2025-10-15; praca: more than half a year); liczba kubitów 127: strona Retired cloud QPUs (niżej).
+% ŹRÓDŁO tabeli, wiersz 7: artykuły/quantum_noise_elsevier_submission/main.tex, sekcja o danych z urządzenia (ibm_brisbane, Eagle r3; a fixed number of shots per circuit; 88 runs); okres: rozprawa/chapters/literature_review_05_noise.tex, komentarz źródłowy w akapicie par:lr:noise:generators (katalogi przebiegów w repozytorium danych pracy: dziewięć dni od 2025-07-03 do 2025-10-15, wykaz plików w eksperymenty/_build/PHD-TS-38/work/repo/tree.json; praca: more than half a year); liczba kubitów 127: strona Retired cloud QPUs (niżej).
 % ŹRÓDŁO kolumny ,,Wycofanie'' i liczby kubitów ibm_brisbane: dokumentacja IBM Quantum, strona ,,Retired cloud QPUs'' (bib: ibm_retired_qpus_2026), odczyt 2026-11-27: ibmq_athens 2021-06-30, ibmq_casablanca 2022-03-02, ibmq_bogota i ibmq_santiago 2022-06-17, ibmq_oslo 2023-05-04, ibmq_belem, ibmq_lima, ibmq_manila, ibmq_quito i ibmq_jakarta 2023-09-26, ibm_nairobi, ibm_perth i ibm_lagos 2023-11-28, ibm_brisbane (127 kubitów) 2025-11-03; ibm_fez na stronie nie występuje.
 
-Okresy w dwóch pierwszych wierszach tabeli~\ref{tab:app:env:devices} pochodzą z pracy~\cite{werner_magisterka_2022}, a liczbę $8192$ pomiarów podaje tylko praca~\cite{werner_experiment_driven_2022}; rozbieżności między tymi źródłami zestawia tabela~\ref{tab:pdu:app:discrepancies}.
+\paragraph{Urządzenia kwantowe.}
+Okres w dwóch pierwszych wierszach tabeli~\ref{tab:app:env:devices} dotyczy eksperymentu E2 i pochodzi z pracy~\cite{werner_magisterka_2022}: dane eksperymentu E3 zbierano od maja 2021~r. do kwietnia 2022~r., a okresu eksperymentów E1, E4 i E5 źródła nie podają.
+Liczbę $8192$ pomiarów podaje tylko praca~\cite{werner_experiment_driven_2022}; rozbieżności między oboma źródłami zestawia tabela~\ref{tab:pdu:app:discrepancies}.
 % ŹRÓDŁO: jak w komentarzu do wierszy 1 i 2 tabeli.
 Trzeci wiersz podano za pracą~\cite{werner_data_loss_2023}; praca~\cite{werner_error_reduction_2025} wymienia te same urządzenia bez Oslo, okres od lutego do marca 2023~r. i nie podaje liczby pomiarów, podobnie jak preprint~\cite{werner_deep_learning_manuscript}, który nie podaje także okresu.
 % ŹRÓDŁO: jak w komentarzach do wierszy 3 i 4 tabeli.
-Praca~\cite{werner_data_loss_2023} wspomina też o nieudanej próbie uruchomienia reprezentacji NEQR na urządzeniu Rigetti Aspen M-3 w usłudze AWS Braket; żaden wynik stamtąd nie pochodzi.
-% ŹRÓDŁO: artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex, sekcja Experimental protocol (the unitary matrix would not compile).
 Dla urządzenia ibm\_brisbane praca~\cite{raubitzek_quantum_noise} nie podaje liczby kubitów, numeru użytego kubitu ani liczby pomiarów: liczbę kubitów przyjęto za wykazem~\cite{ibm_retired_qpus_2026}, a okres według dat przebiegów w repozytorium danych tej pracy, której tekst mówi o ponad półrocznym zbieraniu danych.
-% ŹRÓDŁO: jak w komentarzu do wiersza 7 tabeli (praca: more than half a year, sekcja z wnioskami; daty katalogów przebiegów: komentarz źródłowy w sekcji 9.2 rozprawy).
+% ŹRÓDŁO: jak w komentarzu do wiersza 7 tabeli (praca: more than half a year, sekcja z wnioskami; daty katalogów przebiegów: komentarz źródłowy w akapicie par:lr:noise:generators sekcji 3.5 rozprawy).
+Urządzenie Athens wycofano w czerwcu 2021~r., Casablanca w marcu 2022~r., Bogota i Santiago w czerwcu 2022~r., Oslo w maju 2023~r., Belem, Lima, Manila, Quito i Jakarta we wrześniu 2023~r., a Lagos, Perth i Nairobi w listopadzie 2023~r.~\cite{ibm_retired_qpus_2026}.
+% ŹRÓDŁO: jak w komentarzu do kolumny ,,Wycofanie'' tabeli.
 Topologii połączeń ani parametrów kalibracyjnych urządzeń z lat 2021--2023 i urządzenia ibm\_brisbane źródła nie podają.
 
 Parametry kalibracyjne z dni eksperymentów zachowały się tylko dla przebiegów H1 i H2: metadane zadań zawierają migawkę danych kalibracyjnych kubitów tworzących użyte łańcuchy, pobraną przy wysyłaniu zadania (tabela~\ref{tab:app:env:calibration}).
@@ -69,7 +72,7 @@ Wartości są tego samego rzędu co mediany migawki z~26~lutego 2025~r. przytocz
 
 \begin{table}[tb]
 \centering
-\caption[Parametry kalibracyjne kubitów procesora ibm\_fez w dniach przebiegów H1 i H2]{Parametry kalibracyjne kubitów procesora ibm\_fez tworzących łańcuchy użyte w przebiegach H1 i H2 (rozdział~\ref{chapter:learned_encoding}), zapisane przy wysyłaniu zadań: mediana oraz, w nawiasie, wartość najmniejsza i największa; $q_{1|0}$ i $q_{0|1}$ to prawdopodobieństwa błędnego odczytu (równanie~\eqref{eq:tb:noise:readout}).
+\caption[Parametry kalibracyjne kubitów procesora ibm\_fez w dniach przebiegów H1 i H2]{Parametry kalibracyjne kubitów procesora ibm\_fez tworzących łańcuchy użyte w przebiegach H1 i H2 (rozdział~\ref{chapter:learned_encoding}), zapisane przy wysyłaniu zadań: mediana i, w nawiasie, zakres wartości; $q_{1|0}$ i $q_{0|1}$: prawdopodobieństwa błędnego odczytu (równanie~\eqref{eq:tb:noise:readout}).
 Opracowanie własne na podstawie metadanych przebiegów.}
 \label{tab:app:env:calibration}
 \footnotesize
@@ -91,42 +94,40 @@ $q_{0|1}$ & $1{,}2\cdot10^{-2}$ ($4{,}9\cdot10^{-3}$--$7{,}2\cdot10^{-2}$) & $1{
 \agenttask{
 Pytania do autora (PHD-TS-52), urządzenia.
 (1) Liczba pomiarów w eksperymentach pracy CoDIT 2025 i preprintu o sieciach GAN oraz okres zbierania danych z urządzenia Nairobi do preprintu; okres eksperymentów E1, E4 i E5 metody PDU.
-(2) Liczba pomiarów, numer kubitu i okres zbierania danych na ibm_brisbane (to samo pytanie jest w sekcji 9.2).
+(2) Liczba pomiarów, numer kubitu i okres zbierania danych na ibm_brisbane (to samo pytanie jest w zadaniu w sekcji 3.5).
 (3) Rodziny procesorów, topologia i parametry kalibracyjne urządzeń z lat 2021--2023 nie występują w żadnym źródle; czy uzupełnić je z dokumentacji dostawcy (nowe źródło do weryfikacji), czy zostawić n.p.
 (4) Czy przyjąć z wykazu IBM daty wycofania urządzeń Nairobi, Oslo i ibm_brisbane oraz liczbę 127 kubitów ibm_brisbane (w źródłach rozprawy ich nie ma).
 (5) Wiersze dotyczące rozdziałów 5 i 6 uzgodnić z tymi rozdziałami, gdy powstaną.
 }
 
-\section{Symulatory i modele szumu}\label{app:env:simulators}
-
+\paragraph{Symulatory i modele szumu.}
 Tabela~\ref{tab:app:env:simulators} zestawia symulatory, modele szumu i liczby pomiarów w badaniach źródłowych oraz w eksperymentach wykonanych na potrzeby rozprawy.
 Te ostatnie nie korzystały z urządzeń kwantowych ani z usług sieciowych: używają lokalnych symulatorów albo pomiarów zapisanych wcześniej.
 Eksperyment na zapisanych pomiarach (podrozdział~\ref{subsec:cls:results:pdu}) i analiza korekty kalibracyjnej na zliczeniach z przebiegów H1 i H2 (podrozdział~\ref{subsec:le:results:pdu}) opierają się na zapisanych zliczeniach z urządzenia i zapisanych rozkładach odniesienia.
-Eksperymentu z autoenkoderem obrazów szarych $8\times8$ (symulator macierzy gęstości, depolaryzacja $0$ i $0{,}018$, wartości dokładne) rozdziały dotąd nie wykorzystują.
-% ŹRÓDŁO: eksperymenty/pdu-ibm-fez/klasyfikator/README.md (sekcja Dane), eksperymenty/pdu-ibm-fez/autoenkoder/README.md (nagłówek i sekcja Dane), eksperymenty/porownanie-kodowan/autoenkoder-szary/README.md (sekcje ,,Wynik w skrócie'' i Ograniczenia: depolaryzacja 0,018 na kubit po każdym bloku, prawdopodobieństwa dokładne).
+% ŹRÓDŁO: eksperymenty/pdu-ibm-fez/klasyfikator/README.md (sekcja Dane), eksperymenty/pdu-ibm-fez/autoenkoder/README.md (nagłówek i sekcja Dane); brak połączeń z urządzeniami i usługami: nagłówki plików README wszystkich katalogów eksperymentów.
 
-\begin{table}[tb]
+\begin{table}[!tb]
 \centering
 \caption[Symulatory, modele szumu i liczby pomiarów]{Symulatory, modele szumu i liczby pomiarów w badaniach źródłowych (część górna) i w eksperymentach wykonanych na potrzeby rozprawy (część dolna).
-Model warstwowy jak w podrozdziale~\ref{subsec:tb:noise:models}, a jego poziomy jak w podrozdziałach~\ref{sec:le:methodology} i~\ref{sec:cls:methodology}; dokładne: rozkład bez szumu próbkowania; n.p.: źródło nie podaje.
+PennyLane: wektor stanu bez kanałów szumu, macierz gęstości z kanałami; model warstwowy i jego poziomy jak w podrozdziałach~\ref{subsec:tb:noise:models}, \ref{sec:le:methodology} i~\ref{sec:cls:methodology}; dokładne: rozkład bez szumu próbkowania; n.p.: źródło nie podaje.
 Opracowanie własne.}
 \label{tab:app:env:simulators}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{3.0cm}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.9cm}>{\raggedright\arraybackslash}p{2.7cm}@{}}
 \toprule
 \textbf{Badanie} & \textbf{Symulator} & \textbf{Model szumu} & \textbf{Pomiary} \\
 \midrule
 prace źródłowe rozdziałów~\ref{chapter:pdu_images} i~\ref{chapter:dl_error_reduction} & wektor stanu (Qiskit) & n.p. & n.p. \\
-rozdział~\ref{chapter:learned_encoding}: uczenie i ocena & wektor stanu i macierz gęstości (PennyLane) & model warstwowy: brak szumu albo poziom~4 & dokładne; w ocenie także 256--$131\,072$ \\
+rozdział~\ref{chapter:learned_encoding}: uczenie i ocena & PennyLane & model warstwowy: brak szumu albo poziom~4 & dokładne; w ocenie także 256--$131\,072$ \\
 rozdział~\ref{chapter:learned_encoding}: bliźniak urządzenia & macierz gęstości (PyTorch) & model warstwowy z samą depolaryzacją, dopasowaną do zliczeń przebiegu H2 & dokładne i $16\,384$ \\
-rozdział~\ref{chapter:learned_encoding}: model kalibracyjny & macierz gęstości (Qiskit Aer) & depolaryzacja i relaksacja termiczna bramek oraz błąd odczytu z danych kalibracyjnych, skalowane współczynnikiem $c_{\mathrm{kal}}$ & jak w przebiegu H1 \\
-rozdział~\ref{chapter:classification}: uczenie i przebieg testowy & wektor stanu i macierz gęstości (PennyLane) & model warstwowy: poziomy stopniowane albo poziom ibm\_fez & dokładne; odniesienie testu także 1024 na bazę \\
-rozdział~\ref{chapter:classification}: model M2 na poziomie bramek & Qiskit Aer & model urządzenia z migawki kalibracyjnej ibm\_fez dołączonej do pakietu qiskit-ibm-runtime & 1024 na bazę \\
+rozdział~\ref{chapter:learned_encoding}: model kalibracyjny & macierz gęstości (Qiskit Aer) & błędy bramek i odczytu z danych kalibracyjnych, skalowane współczynnikiem $c_{\mathrm{kal}}$ & jak w przebiegu H1 \\
+rozdział~\ref{chapter:classification}: uczenie i przebieg testowy & PennyLane & model warstwowy: poziomy stopniowane albo poziom ibm\_fez & dokładne; w teście także 1024 na bazę \\
+rozdział~\ref{chapter:classification}: model M2 na poziomie bramek & Qiskit Aer & model urządzenia z migawki kalibracyjnej ibm\_fez z pakietu qiskit-ibm-runtime & 1024 na bazę \\
 \midrule
-eksperyment symulacyjny (podrozdział~\ref{subsec:cls:results:pdu}) & macierz gęstości (PennyLane) & model warstwowy: każda składowa osobno od $0{,}005$ do $0{,}5$; krotności od $1$ do $50$ poziomu ibm\_fez & dokładne, 8192 i 1024 na bazę \\
-eksperyment porównawczy (podrozdział~\ref{subsec:cls:results:training}) & wektor stanu i macierz gęstości (PennyLane) & model warstwowy: poziomy stopniowane, w modelu M2 także poziom ibm\_fez & dokładne i 1024 na bazę, w modelu M2 także 8192 \\
-krzywe jakości rekonstrukcji (podrozdział~\ref{subsec:le:results:pdu}) & macierz gęstości (symulator z badań rozdziału~\ref{chapter:learned_encoding}) & depolaryzacja od $0$ do $0{,}05$ na kubit po każdym bloku; poziom~4 & dokładne; od 1024 do $16\,777\,216$ \\
+eksperyment symulacyjny (podrozdział~\ref{subsec:cls:results:pdu}) & PennyLane & każda składowa osobno od $0{,}005$ do $0{,}5$; krotności od $1$ do $50$ poziomu ibm\_fez & dokładne, 8192 i 1024 na bazę \\
+eksperyment porównawczy (podrozdział~\ref{subsec:cls:results:training}) & PennyLane & poziomy stopniowane, w modelu M2 także poziom ibm\_fez & dokładne i 1024 na bazę, M2 także 8192 \\
+krzywe jakości rekonstrukcji (podrozdział~\ref{subsec:le:results:pdu}) & macierz gęstości (PyTorch) & depolaryzacja od $0$ do $0{,}05$ na kubit po każdym bloku; poziom~4 & dokładne; od 1024 do $16\,777\,216$ \\
 kodowanie LPIQE z korektą PDU (do rozdziałów~\ref{chapter:pdu_images} i~\ref{chapter:dl_error_reduction}) & macierz gęstości (Qiskit Aer) & model parametryczny: $0{,}1$; $0{,}3$; $1$ i $3$ razy mediany migawki ibm\_fez; modele urządzeń z migawek ibm\_fez (26.02.2025) i Nairobi (27.05.2024) & 8192, $100\,000$ i dokładne \\
 \bottomrule
 \end{tabular}
@@ -134,13 +135,19 @@ kodowanie LPIQE z korektą PDU (do rozdziałów~\ref{chapter:pdu_images} i~\ref{
 % ŹRÓDŁO tabeli, wiersz 1: artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex, Experimental protocol (statevector simulator available from the Qiskit library); artykuły/CoDIT_2025_final_paper/root.tex, Experimental protocol i sekcja o obrazach 16x16 (statevector simulator provided by IBM); artykuły/Quantum_journal_GAN__Copy_/article.tex, Steps for the experiments (statevector_simulator); modelu szumu ani liczby pomiarów symulatora źródła nie podają (10 000 w pracy KES dotyczy eksperymentu na urządzeniach).
 % ŹRÓDŁO tabeli, wiersze 2--4: rozprawa/chapters/learned_encoding.tex, podrozdział 7.3 (akapity Trening i symulatory, Urządzenie i przebiegi sprzętowe) i jego konspekt, punkty c, d, e (default.qubit i default.mixed; bliźniak w PyTorch; 256, 1024, 4096, 8192, 32768 i 131072 pomiarów); tabela tab:le:hw (bliźniak, próbkowanie: 16 384); pakiet autoenkodera, output/hw_experiment/noise_models.py i run_simulations.py (NoiseModel: depolarizing_error, thermal_relaxation_error, ReadoutError; AerSimulator method density_matrix).
 % ŹRÓDŁO tabeli, wiersze 5--6: rozprawa/chapters/classification.tex, podrozdział 8.3 (Model szumu i jego poziomy) i 8.4.1 (symulacja modelu M2 w Qiskit Aer); repozytorium klasyfikatora, torus_classifier/circuit.py i config.py (default.qubit, default.mixed, uczenie analityczne), pliki experiment.json przebiegu testowego (sim_shots 1024) i przebiegu hardware_fake_fez_23-09-2026-22-13-31 (backend fake_fez, shots 1024).
-% ŹRÓDŁO tabeli, wiersze 7--10: eksperymenty/krzywe-degradacji/klasyfikator/README.md (default.mixed; sekcja Model szumu i siatka sił); eksperymenty/trening-w-szumie/README.md i gleboka/README.md (default.qubit, default.mixed; 1024 i 8192 jako losowanie dwumianowe); eksperymenty/krzywe-degradacji/autoenkoder/README.md (FastMixedCircuit, kopia symulatora z pakietu autoenkodera; p od 0 do 0,05, 13 poziomów; N od 1024 do 16777216 i rozkład dokładny); eksperymenty/lpiqe-pdu-pix2pix/README.md (AerSimulator density_matrix; poziomy param_x0.1, param_x0.3, param_x1, param_x3, fez, fez_idle, nairobi_idle; migawki FakeFez 2025-02-26 i FakeNairobiV2 2024-05-27; shots8192, shots100000, exact).
+% ŹRÓDŁO tabeli, wiersze 7--10: eksperymenty/krzywe-degradacji/klasyfikator/README.md (default.mixed; sekcja Model szumu i siatka sił); eksperymenty/trening-w-szumie/README.md i gleboka/README.md (default.qubit, default.mixed; 1024 i 8192 jako losowanie dwumianowe); eksperymenty/krzywe-degradacji/autoenkoder/README.md (FastMixedCircuit, kopia symulatora z pakietu autoenkodera, plik fast_mixed_sim.py: symulator macierzy gęstości w PyTorch, ten sam co w bliźniaku, hw_finetune/core.py; p od 0 do 0,05, 13 poziomów; N od 1024 do 16777216 i rozkład dokładny); eksperymenty/lpiqe-pdu-pix2pix/README.md (AerSimulator density_matrix; poziomy param_x0.1, param_x0.3, param_x1, param_x3, fez, fez_idle, nairobi_idle; migawki FakeFez 2025-02-26 i FakeNairobiV2 2024-05-27; shots8192, shots100000, exact).
 
-\section{Oprogramowanie}\label{app:env:software}
+\paragraph{Oprogramowanie.}
+Prace źródłowe rozdziałów~\ref{chapter:pdu}--\ref{chapter:dl_error_reduction} nazywają użyte biblioteki, lecz nie podają ich wersji (tabela~\ref{tab:app:env:software}): praca~\cite{werner_magisterka_2022} podaje wersję języka Python i najnowszą w czasie jej pisania wersję biblioteki Qiskit~\cite{Qiskit} (0.36.2), a nie wersję użytą w eksperymentach, a preprint~\cite{werner_deep_learning_manuscript} wymienia bez wersji biblioteki TensorFlow~\cite{tensorflow2015-whitepaper} i Keras~\cite{chollet2015keras}.
+% ŹRÓDŁO: jak w komentarzu do kolumny 2 tabeli.
+Dla badań z rozdziałów~\ref{chapter:learned_encoding} i~\ref{chapter:classification} źródła nie są zgodne: plik wymagań repozytorium klasyfikatora przypina wersje starsze niż jego plik blokady zależności i niż środowiska obu badań, pakiet autoenkodera nie ma pliku z wersjami, a pliki przebiegów wersji bibliotek nie zapisują, więc wersji użytej w konkretnym przebiegu nie da się wskazać.
+% ŹRÓDŁO: jak w komentarzu do kolumny 3 tabeli.
+Eksperymenty wykonane na potrzeby rozprawy mają własne środowiska o wersjach przypiętych w plikach wymagań; w eksperymencie porównawczym niezmieniona kopia kodu klasyfikatora odtworzyła w takim środowisku zapisany przebieg uczenia co do bitu.
+% ŹRÓDŁO: eksperymenty/trening-w-szumie/README.md (PennyLane 0.45.1, a nie 0.44.1 z wymagań repozytorium) i IMPLEMENTACJA.md, kontrola 1 (wynik identyczny co do bitu przy tej samej liczbie wątków); gleboka/README.md (kopia kodu odtwarza liczby manuskryptu co do bitu).
 
-\begin{table}[tb]
+\begin{table}[!tb]
 \centering
-\caption[Wersje oprogramowania]{Wersje oprogramowania w badaniach źródłowych i w eksperymentach wykonanych na potrzeby rozprawy.
+\caption[Wersje oprogramowania]{Wersje oprogramowania.
 Dwie wartości w kolumnie środkowej: plik wymagań repozytorium klasyfikatora i jego plik blokady zależności, zgodny ze stanem środowisk obu badań 27~listopada 2026~r.; kreska: źródła nie wymieniają biblioteki; n.p.: źródło nie podaje wersji.
 Opracowanie własne.}
 \label{tab:app:env:software}
@@ -166,13 +173,6 @@ TensorFlow, Keras & n.p. (rozdział~\ref{chapter:dl_error_reduction}) & -- & -- 
 % ŹRÓDŁO tabeli, kolumna 2: artykuły/magisterka_werner_final/chapters/02.tex, sekcja ,,Środowisko eksperymentalne'' (Python 3.10.4; Qiskit: najnowsza wersja stabilna w czasie pisania pracy 0.36.2 z 18 maja 2022, wersji użytej brak; NumPy, Pandas, Matplotlib bez wersji); ICCS main.tex (library Qiskit for Python), KES k23-558.tex i CoDIT root.tex (Qiskit library for Python; statevector simulator), article.tex preprintu (TensorFlow and Keras libraries for Python), wszystkie bez wersji.
 % ŹRÓDŁO tabeli, kolumna 3: repozytorium klasyfikatora: requirements.txt (pennylane==0.44.1, torch==2.11.0, numpy==2.4.2, scipy==1.17.1, optuna==4.9.0, scikit-learn bez wersji), pyproject.toml (qiskit>=1.3,<3; qiskit-ibm-runtime>=0.40; qiskit-aer>=0.17), uv.lock (qiskit 2.5.2, qiskit-aer 0.17.2, qiskit-ibm-runtime 0.49.0, pennylane 0.45.1, torch 2.13.0, scikit-learn 1.9.0; numpy 2.5.1 i scipy 1.18.0 dla Pythona od 3.12, numpy 2.4.6 i scipy 1.17.1 dla starszego), .venv/pyvenv.cfg (3.12.7) i nazwy katalogów dist-info w .venv (jak uv.lock dla Pythona 3.12; optuna 4.9.0); pakiet autoenkodera: pyproject.toml bez zależności, .venv/pyvenv.cfg (3.12.7) i katalogi dist-info (qiskit 2.5.2, qiskit-aer 0.17.2, qiskit-ibm-runtime 0.49.0, pennylane 0.45.1, torch 2.13.0, numpy 2.5.1, scipy 1.18.0, scikit-learn 1.9.0, optuna 4.9.0); odczyt 2026-11-27.
 % ŹRÓDŁO tabeli, kolumna 4: pliki requirements.txt w katalogach eksperymenty/pdu-ibm-fez/klasyfikator, pdu-ibm-fez/autoenkoder, krzywe-degradacji/klasyfikator, krzywe-degradacji/autoenkoder, trening-w-szumie, lpiqe-pdu-pix2pix i porownanie-kodowan/autoenkoder-szary (qiskit, qiskit-aer i qiskit-ibm-runtime tylko w lpiqe-pdu-pix2pix; scikit-learn w trening-w-szumie i lpiqe-pdu-pix2pix); Python 3.12: pliki README (3.12.7 w pdu-ibm-fez/klasyfikator i trening-w-szumie).
-
-Prace źródłowe rozdziałów~\ref{chapter:pdu}--\ref{chapter:dl_error_reduction} nazywają użyte biblioteki, lecz nie podają ich wersji (tabela~\ref{tab:app:env:software}): praca~\cite{werner_magisterka_2022} podaje wersję języka Python i najnowszą w czasie jej pisania wersję biblioteki Qiskit~\cite{Qiskit} (0.36.2), a nie wersję użytą w eksperymentach, a preprint~\cite{werner_deep_learning_manuscript} wymienia bez wersji biblioteki TensorFlow~\cite{tensorflow2015-whitepaper} i Keras~\cite{chollet2015keras}.
-% ŹRÓDŁO: jak w komentarzu do kolumny 2 tabeli.
-Dla badań z rozdziałów~\ref{chapter:learned_encoding} i~\ref{chapter:classification} źródła nie są zgodne: plik wymagań repozytorium klasyfikatora przypina wersje starsze niż jego plik blokady zależności i niż środowiska obu badań, pakiet autoenkodera nie ma pliku z wersjami, a pliki przebiegów wersji bibliotek nie zapisują, więc wersji użytej w konkretnym przebiegu nie da się wskazać.
-% ŹRÓDŁO: jak w komentarzu do kolumny 3 tabeli.
-Eksperymenty wykonane na potrzeby rozprawy mają własne środowiska o wersjach przypiętych w plikach wymagań; w eksperymencie porównawczym niezmieniona kopia kodu klasyfikatora odtworzyła w takim środowisku zapisany przebieg uczenia co do bitu.
-% ŹRÓDŁO: eksperymenty/trening-w-szumie/README.md (PennyLane 0.45.1, a nie 0.44.1 z wymagań repozytorium) i IMPLEMENTACJA.md, kontrola 1 (wynik identyczny co do bitu przy tej samej liczbie wątków); gleboka/README.md (kopia kodu odtwarza liczby manuskryptu co do bitu).
 \agenttask{
 Pytania do autora (PHD-TS-52), oprogramowanie.
 (1) Których wersji bibliotek Qiskit, TensorFlow i Keras oraz języka Python użyto w eksperymentach z lat 2021--2023 (prace ICCS 2022, KES 2023, CoDIT 2025, preprint o sieciach GAN); źródła podają tylko Python 3.10.4 i najnowszą wówczas wersję Qiskit 0.36.2.
@@ -181,9 +181,8 @@ Pytania do autora (PHD-TS-52), oprogramowanie.
 (4) Wersji modułu Qiskit Ignis (tomografia stanu w eksperymencie E1) i narzędzi tomografii procesu z pracy o szumie źródła nie podają; pominięto je w tekście dla objętości.
 }
 
-\section{Dostępność kodu i danych}\label{app:env:availability}
-
-Adres publicznego repozytorium podają tylko dwie prace omawiane w rozdziale~\ref{chapter:noise_structure}: praca~\cite{raubitzek_quantum_noise} udostępnia kod i dane pod adresem \url{https://github.com/Raubkatz/QuantumSymmetryViolations}, a preprint~\cite{raubitzek_lie_group_manuscript} kod pod adresem \url{https://github.com/Raubkatz/Lie_Group_Learners}.
+\paragraph{Dostępność kodu i danych.}
+Adres publicznego repozytorium podają tylko dwie prace powiązane z udziałem autora rozprawy, omawiane w podrozdziałach~\ref{par:lr:noise:generators} i~\ref{par:lr:cls:lie}: praca~\cite{raubitzek_quantum_noise} udostępnia kod i dane pod adresem \url{https://github.com/Raubkatz/QuantumSymmetryViolations}, a preprint~\cite{raubitzek_lie_group_manuscript} kod pod adresem \url{https://github.com/Raubkatz/Lie_Group_Learners}.
 % ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana, sekcja Data availability (pozycja [48] wykazu literatury) i wersja zgłoszeniowa artykuły/quantum_noise_elsevier_submission/main.tex (ostatni akapit przed bibliografią); artykuły/noisy_lie_group_learners/main.tex, sekcja Data and Code Availability.
 Praca~\cite{werner_error_reduction_2025} odsyła do repozytorium projektu z obrazami testowymi i częścią wyników, lecz nie podaje jego adresu, a prace~\cite{werner_experiment_driven_2022,werner_magisterka_2022,werner_data_loss_2023} i preprint~\cite{werner_deep_learning_manuscript} nie zawierają informacji o dostępności kodu ani danych.
 % ŹRÓDŁO: artykuły/CoDIT_2025_final_paper/root.tex, sekcja ,,The parameters and dataset for our experiments'' (projects GitHub page; original_images catalogue in the repository) i sekcja Results (partial results are available on a github repository); w plikach ICCS main.tex, KES k23-558.tex, article.tex preprintu i w rozdziałach pracy magisterskiej brak adresu repozytorium i oświadczenia o dostępności danych (wyszukiwanie słów github, repository, available, repozytorium).

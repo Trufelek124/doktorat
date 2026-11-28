@@ -2,46 +2,40 @@
 
 \section{Kwantowe reprezentacje obrazów}\label{sec:tb:qimg}
 \agentinfo{
-Ustalenie autora (2026-11-26): podrozdział krótki, około 3 stron, ograniczony do tego, czego potrzebują rozdziały 5 i 7 (schemat kodowanie--pomiar--rekonstrukcja, FRQI, NEQR, LPIQE, miary jakości, zapowiedź kodowania uczonego); bez przeglądu rodziny reprezentacji, bez historii dziedziny i bez tabeli zbiorczej.
-Notacja LPIQE uporządkowana względem artykułów KES i CoDIT (stan znormalizowany, unitarny operator rekonstrukcji, permutacja jako bramka X na kubicie pomocniczym) i zgodna z implementacją \agentref{eksperymenty/lpiqe-pdu-pix2pix/lpiqe_pdu/lpiqe.py}; rozbieżności źródeł opisano w komentarzu do zadania PHD-TS-16.
-Oszacowania liczby pomiarów (metoda delta) są wyprowadzeniem własnym, sprawdzonym symulacją Monte Carlo; dla LPIQE zgodne z \agentref{eksperymenty/lpiqe-pdu-pix2pix/results/sampling_error.csv}.
-Otwarte: koder i parametry porównania z kompresją stratną (teza T2) ustala rozdział 5 po decyzji autora.
-Rozdział 7 musi podać parametry SSIM i PSNR z kodu oceny: okno gaussowskie 5x5 o odchyleniu 1, stałe (0,01)^2 i (0,03)^2, zakres danych 1, PSNR i SSIM na wyjściu obciętym do [0, 1], MAE bez obcięcia (plik article/scripts/eval_article.py w katalogu best_results_package).
+Stan (PHD-TS-95, 2026-11-27): podrozdział poprawiony po recenzji \agentref{eksperymenty/recenzje/rozdzial-2-sekcje-2.5-2.6.md} i skrócony (liczba pomiarów NEQR, błąd próbkowania FRQI i jego porównanie z LPIQE, rysunek obwodu LPIQE, zdanie o miarach używanych w rozdziałach; reprezentacje FRQI i NEQR bez własnego nagłówka); dopisano współczynniki korelacji rangowej; lista zmian w \agentref{eksperymenty/recenzje/rozdzial-2-skracanie.md}.
+Ustalenie autora (2026-11-26): podrozdział krótki, ograniczony do tego, czego potrzebują rozdziały 5 i 7; bez przeglądu rodziny reprezentacji i bez tabeli zbiorczej.
+Notacja LPIQE uporządkowana względem artykułów KES i CoDIT (stan znormalizowany, unitarny operator rekonstrukcji, permutacja jako bramka X na kubicie pomocniczym) i zgodna z implementacją \agentref{eksperymenty/lpiqe-pdu-pix2pix/lpiqe_pdu/lpiqe.py}, w której domyślny jest pierwszy wariant wzoru odczytu.
+Oszacowania błędu próbkowania (metoda delta) są wyprowadzeniem własnym; dla LPIQE zgodne z \agentref{eksperymenty/lpiqe-pdu-pix2pix/results/sampling_error.csv}.
+Otwarte: koder i parametry porównania z kompresją stratną (teza T2 jest robocza) ustala rozdział 5 po decyzji autora.
+Rozdział 5 powinien przy liczbach z artykułów zaznaczyć, że źródła nie precyzują sposobu liczenia odchylenia standardowego błędu (recenzja, ustalenie Q11), i wskazywać wariant wzoru odczytu przy każdym odwołaniu do eq:tb:qimg:lpiqe-pixel.
+Rysunek obwodu LPIQE usunięto dla objętości (plik figures/chp_theoretical_background/tb05_lpiqe_circuit.tex został; ma usterki składu opisane w recenzji, ustalenie Q14); po poprawieniu pasuje do rozdziału 5, obok opisu potoku.
 }
 
 \Gls{qimr} to sposób zapisania obrazu w stanie rejestru kwantowego wraz z procedurą odtworzenia go z wyników pomiarów.
-Nośnikiem intensywności piksela może być kąt obrotu dodatkowego kubitu, stan bazowy ciągu kubitów albo faza lokalna stanu bazowego~\cite{werner_data_loss_2023}; praca wykorzystuje po jednym przedstawicielu tych grup, odpowiednio FRQI, NEQR i LPIQE, a pozostałe reprezentacje omawia przegląd~\cite{cai_survey_2018}.
+Nośnikiem intensywności piksela może być kąt obrotu dodatkowego kubitu, stan bazowy ciągu kubitów albo faza lokalna stanu bazowego~\cite{werner_data_loss_2023}; praca wykorzystuje po jednym przedstawicielu tych grup: FRQI, NEQR i LPIQE (inne reprezentacje: przegląd~\cite{cai_survey_2018}).
 
-\subsection{Schemat kodowania, pomiaru i rekonstrukcji}\label{subsec:tb:qimg:scheme}\label{subsec:tb:qimg:taxonomy}
+\subsection{Schemat kodowania i rekonstrukcji, reprezentacje FRQI i NEQR}\label{subsec:tb:qimg:scheme}
 
 Obraz o wysokości $H$ i szerokości $W$ pikseli, $\img=[\hat{p}_{r,c}]_{H\times W}$, gdzie $\hat{p}_{r,c}\in[0,1]$ jest intensywnością piksela w wierszu $r$ i kolumnie $c$, wektoryzuje się wierszami: $p_j=\hat{p}_{r,c}$ dla $j=rW+c$.
-Indeks piksela zapisuje rejestr pozycji o $n=\operatorname{log}_2W+\operatorname{log}_2H$ kubitach i $M=2^n=WH$ stanach bazowych $\ket{j}$, przy czym $W$ i $H$ są potęgami dwójki, jak w obrazach $8\times8$ i $16\times16$ z rozdziału~\ref{chapter:pdu_images}.
+Indeks piksela jest zapisany w rejestrze pozycji o $n=\operatorname{log}_2W+\operatorname{log}_2H$ kubitach, czyli o $M=2^n=WH$ stanach bazowych $\ket{j}$; zakłada się, że $W$ i $H$ są potęgami dwójki, jak w obrazach $8\times8$ i $16\times16$ z rozdziału~\ref{chapter:pdu_images}, a przy innych rozmiarach i obrazach barwnych wykorzystuje się część stanów (rozdział~\ref{chapter:learned_encoding}).
 
-Przetwarzanie obrazu na komputerze kwantowym składa się z czterech kroków: (1)~kodowania, czyli przygotowania stanu $m$ kubitów zależnego od obrazu, (2)~opcjonalnego przetwarzania zakodowanego stanu, pomijanego w rozdziale~\ref{chapter:pdu_images}, gdzie badany jest sam schemat kodowanie--rekonstrukcja, (3)~$\nshots$-krotnego pomiaru w bazie obliczeniowej, którego częstości względne $\tilde{\prob}(\ket{x})$ estymują rozkład $\prob(\ket{x})$ (podrozdziały~\ref{subsec:tb:measurement} i~\ref{subsec:tb:qsamp:sampling}), oraz (4)~klasycznej rekonstrukcji intensywności $\tilde{p}_j$ z oszacowanego rozkładu.
-Obraz odtworzony różni się od oryginału wskutek niedokładności reprezentacji, błędu próbkowania przy skończonym $\nshots$ i szumu urządzenia (podrozdział~\ref{sec:tb:noise}), a redukcja błędów (podrozdział~\ref{sec:tb:qec}) działa po kroku~4 i nie zmienia obwodu.
-Koszt reprezentacji to więc liczba kubitów $m$ i głębokość obwodu kodującego, od której zależy ilość szumu, oraz liczba pomiarów potrzebna do zadanej dokładności.
-Ten sam schemat ma kodowanie uczone z rozdziału~\ref{chapter:learned_encoding}, w którym sieć klasyczna wyznacza kąty bramek stałego, płytkiego obwodu, a intensywność piksela odczytuje się jako przeskalowane prawdopodobieństwo stanu bazowego; w odróżnieniu od FRQI, NEQR i LPIQE jest to kodowanie przybliżone, stratne także bez szumu.
+Przetwarzanie obrazu na komputerze kwantowym składa się z czterech kroków: (1)~kodowania, czyli przygotowania stanu rejestru zależnego od obrazu, (2)~opcjonalnego przetwarzania tego stanu, pomijanego w rozdziale~\ref{chapter:pdu_images}, (3)~$\nshots$-krotnego pomiaru w bazie obliczeniowej oraz (4)~klasycznej rekonstrukcji intensywności $\tilde{p}_j$ z oszacowanego rozkładu.
+Obraz odtworzony różni się od oryginału wskutek niedokładności reprezentacji, błędu próbkowania i szumu urządzenia, a redukcja błędów (podrozdział~\ref{sec:tb:qec}) działa po kroku~3 albo~4, na oszacowanym rozkładzie albo na odtworzonych intensywnościach, i nie zmienia obwodu.
+Według tego samego schematu działa kodowanie uczone z rozdziału~\ref{chapter:learned_encoding}, w którym sieć klasyczna wyznacza kąty bramek stałego, płytkiego obwodu, a intensywność piksela jest przeskalowanym prawdopodobieństwem stanu bazowego, wygładzonym uczonym splotem; jest to kodowanie przybliżone, stratne także bez szumu.
 
-\subsection{Reprezentacje FRQI i NEQR}\label{subsec:tb:qimg:frqi}\label{subsec:tb:qimg:neqr}
-
-Reprezentacja FRQI (ang.\ \emph{Flexible Representation of Quantum Images})~\cite{frqi} zapisuje intensywność w kącie $\theta_j=\frac{\pi}{2}p_j$ kubitu barwy splątanego z rejestrem pozycji:
+Reprezentacja FRQI (ang.\ \emph{Flexible Representation of Quantum Images})~\cite{frqi} zapisuje intensywność w kącie $\theta_j$ kubitu barwy splątanego z rejestrem pozycji, a NEQR (ang.\ \emph{Novel Enhanced Quantum Representation})~\cite{neqr} zapisuje $q$-bitową wartość szarości $f_j\in\{0,\dots,2^q-1\}$ w stanie bazowym $q$ kubitów:
 \begin{equation}\label{eq:tb:qimg:frqi}
-\ket{I_{\mathrm{FRQI}}}=\frac{1}{\sqrt{M}}\sum_{j=0}^{M-1}\bigl(\cos\theta_j\ket{0}+\sin\theta_j\ket{1}\bigr)\otimes\ket{j}.
+\ket{I_{\mathrm{FRQI}}}=\frac{1}{\sqrt{M}}\sum_{j=0}^{M-1}\bigl(\cos\theta_j\ket{0}+\sin\theta_j\ket{1}\bigr)\ket{j},
+\qquad
+\ket{I_{\mathrm{NEQR}}}=\frac{1}{\sqrt{M}}\sum_{j=0}^{M-1}\ket{f_j}\ket{j}.
 \end{equation}
-Reprezentacja zajmuje $n+1$ kubitów, czyli 7 dla obrazu $8\times8$, a jej pomiar daje stany $\ket{0}\ket{j}$ i $\ket{1}\ket{j}$ z prawdopodobieństwami $\cos^2\theta_j/M$ i $\sin^2\theta_j/M$, więc z liczb ich zliczeń $N_{0j}$ i $N_{1j}$ intensywność można odtworzyć jako $\tilde{p}_j=\frac{2}{\pi}\arccos\sqrt{N_{0j}/(N_{0j}+N_{1j})}$.
-Na piksel przypada średnio $\nshots/M$ pomiarów, a metoda delta daje $\sigma(\tilde{p}_j)\approx\sqrt{M/\nshots}/\pi$, więc dla stałej dokładności liczba pomiarów musi rosnąć proporcjonalnie do liczby pikseli.
-
-Reprezentacja NEQR (ang.\ \emph{Novel Enhanced Quantum Representation})~\cite{neqr} zapisuje $q$-bitową wartość szarości $f_j\in\{0,\dots,2^q-1\}$ w stanie bazowym $q$ kubitów:
-\begin{equation}\label{eq:tb:qimg:neqr}
-\ket{I_{\mathrm{NEQR}}}=\frac{1}{\sqrt{M}}\sum_{j=0}^{M-1}\ket{f_j}\otimes\ket{j}.
-\end{equation}
-Pojedynczy pomiar zwraca losową pozycję $j$ wraz z dokładną wartością $f_j$, więc bez szumu obraz odtwarza się bezbłędnie z dokładnością do kwantyzacji, a do zaobserwowania wszystkich pozycji potrzeba średnio $M\sum_{k=1}^{M}1/k\approx M\ln M$ pomiarów (około 304 dla $M=64$).
-Ceną dokładności jest $q-1$ kubitów więcej niż w FRQI, czyli 14 zamiast 7 dla obrazu $8\times8$ o 256 poziomach szarości, dlatego w badaniach~\cite{werner_data_loss_2023} reprezentację NEQR uruchomiono wyłącznie na symulatorze.
+Reprezentacja FRQI zajmuje $n+1$ kubitów, a jej pomiar daje stany $\ket{0}\ket{j}$ i $\ket{1}\ket{j}$ z prawdopodobieństwami $\cos^2\theta_j/M$ i $\sin^2\theta_j/M$, więc przy liniowym odwzorowaniu $\theta_j=\frac{\pi}{2}p_j$ intensywność można odtworzyć z liczb zliczeń $n_{0j}$ i $n_{1j}$ jako $\tilde{p}_j=\frac{2}{\pi}\arccos\sqrt{n_{0j}/(n_{0j}+n_{1j})}$.
+W reprezentacji NEQR pojedynczy pomiar zwraca losową pozycję $j$ wraz z dokładną wartością $f_j$, więc bez szumu jedynym błędem jest kwantyzacja, lecz potrzeba $q-1$ kubitów więcej niż w FRQI (14 zamiast 7 dla obrazu $8\times8$ o 256 poziomach szarości); w badaniach~\cite{werner_data_loss_2023} uruchomiono ją wyłącznie na symulatorze.
 
 \subsection{Reprezentacja LPIQE}\label{subsec:tb:qimg:lpiqe}
 
-Reprezentacja LPIQE (ang.\ \emph{Local Phase Image Quantum Encoding}) zapisuje intensywność w fazie lokalnej stanu bazowego rejestru pozycji, korzystając z kodowania danych w fazach lokalnych (podrozdział~\ref{subsec:tb:qsamp:pdo}).
-Nie jest ona wkładem autora rozprawy: pochodzi z pracy Wereszczyńskiego i~in.~\cite{wereszczynski_cosine_2020}, a przyjęta niżej postać operatorów pochodzi z prac współautorskich~\cite{werner_data_loss_2023,werner_error_reduction_2025}, w których autor rozprawy badał metodę eksperymentalnie.
+Reprezentacja LPIQE (ang.\ \emph{Local Phase Image Quantum Encoding}) zapisuje intensywność w fazie lokalnej stanu bazowego rejestru pozycji (podrozdział~\ref{subsec:tb:qsamp:qcosamp}).
+Nie jest ona wkładem autora rozprawy: kodowanie obrazu w fazach lokalnych pochodzi z pracy Wereszczyńskiego i~in.~\cite{wereszczynski_cosine_2020}, nazwa LPIQE pojawia się w pracy~\cite{werner_data_loss_2023}, a operator rekonstrukcji w pracy~\cite{werner_error_reduction_2025}; w obu tych pracach autor rozprawy badał metodę eksperymentalnie.
 
 \begin{Definition}[LPIQE]\label{def:tb:qimg:lpiqe}
 Operatorem kodowania LPIQE obrazu $\img$ jest operator diagonalny $\lpiqe(\img)=\operatorname{diag}(e^{\mathrm{i}p_0},\dots,e^{\mathrm{i}p_{M-1}})$ na rejestrze pozycji, w którym intensywność $p_j\in[0,1]$ jest kątem fazy w radianach, a reprezentacją LPIQE jest stan $\lpiqe(\img)\,\mathrm{H}^{\otimes n}\ket{0}^{\otimes n}=\frac{1}{\sqrt{M}}\sum_{j}e^{\mathrm{i}p_j}\ket{j}$.
@@ -54,37 +48,28 @@ Operatorem rekonstrukcji jest operator na $n+1$ kubitach
 w którym ostatnim czynnikiem iloczynu tensorowego jest kubit pomocniczy $a$.
 \end{Definition}
 
-Sam stan LPIQE nie nadaje się do odczytu, bo w bazie obliczeniowej każdy stan $\ket{j}$ ma prawdopodobieństwo $1/M$ niezależnie od faz (podrozdział~\ref{subsec:tb:phase}).
-Fazy zamienia na prawdopodobieństwa interferencja z gałęzią odniesienia: $\Theta(\img)$ zapisuje je tylko w gałęzi $a=0$, bramka Hadamarda nakłada obie gałęzie, a bramka $\mathrm{X}$ zamienia etykiety wyników kubitu pomocniczego (rysunek~\ref{fig:tb:qimg:lpiqe}).
-Działając operatorem $\reconst(\img)$ na równomierną superpozycję $n+1$ kubitów, otrzymuje się
-\begin{equation}\label{eq:tb:qimg:lpiqe-probs}
-\prob(\ket{j0})=\frac{1-\cos p_j}{2M},
-\qquad
-\prob(\ket{j1})=\frac{1+\cos p_j}{2M},
-\end{equation}
-a stąd intensywność odtworzoną z częstości
+Sam stan LPIQE nie nadaje się do odczytu, bo w bazie obliczeniowej każdy stan $\ket{j}$ ma prawdopodobieństwo $1/M$ niezależnie od faz.
+Operator rekonstrukcji, zgodnie z nazwą przyjętą w~\cite{werner_error_reduction_2025}, obejmuje dlatego także kodowanie: $\Theta(\img)$ zapisuje obraz od razu na $n+1$ kubitach, w gałęzi $a=0$, bramka Hadamarda nakłada ją na gałąź odniesienia, a bramka $\mathrm{X}$ zamienia etykiety wyników kubitu pomocniczego.
+Względem zapisu w~\cite{werner_data_loss_2023,werner_error_reduction_2025} stan jest tu znormalizowany, operator $\Theta(\img)$ nie zawiera czynnika $1/\sqrt{2}$, z którym operator rekonstrukcji nie byłby unitarny, a permutację stanów zapisano jako bramkę $\mathrm{X}$.
+Działając operatorem $\reconst(\img)$ na równomierną superpozycję $n+1$ kubitów, otrzymuje się $\prob(\ket{j0})=(1-\cos p_j)/(2M)$ i $\prob(\ket{j1})=(1+\cos p_j)/(2M)$, a stąd dwa warianty odtworzenia intensywności z częstości:
 \begin{equation}\label{eq:tb:qimg:lpiqe-pixel}
 \tilde{p}_j=\arccos\bigl(1-2M\,\tilde{\prob}(\ket{j0})\bigr)
 \quad\text{lub}\quad
 \tilde{p}_j=\arccos\bigl(2M\,\tilde{\prob}(\ket{j1})-1\bigr).
 \end{equation}
+Warianty te nie są równoważne: korzystają z częstości różnych stanów, więc przy skończonej liczbie pomiarów i w obecności szumu dają różne wyniki, a prace źródłowe nie podają, którego z nich użyto.
+\agenttask{
+Pytanie do autora (recenzja 2.5, ustalenie Q2): który wariant wzoru eq:tb:qimg:lpiqe-pixel liczył oryginalny kod eksperymentów z artykułów KES 2023 i CoDIT 2025 (częstość stanu z kubitem pomocniczym w stanie 0 czy 1)? Odtworzenie na symulatorze używa domyślnie wariantu pierwszego.
+}
 Obwód zajmuje $n+1$ kubitów, tyle samo co FRQI: 7 dla obrazu $8\times8$ i 9 dla $16\times16$; operator $\lpiqe(\img)$ zadawano w pracach źródłowych macierzą, a jego rozkład na bramki natywne pozostawiano transpilatorowi (podrozdział~\ref{subsec:tb:gates}).
 
-\begin{figure}[htbp]
-\centering
-\input{figures/chp_theoretical_background/tb05_lpiqe_circuit.tex}
-\caption{Obwód kodowania i rekonstrukcji LPIQE (definicja~\ref{def:tb:qimg:lpiqe}); sterowanie otwarte oznacza działanie $\lpiqe(\img)$ przy kubicie pomocniczym w stanie $\ket{0}$.
-Opracowanie własne na podstawie~\cite{werner_error_reduction_2025}.}
-\label{fig:tb:qimg:lpiqe}
-\end{figure}
-
-Dla $p_j\in[0,1]$ argument funkcji arcus cosinus wynosi bez zniekształceń $\cos p_j\in[0{,}54;\,1]$, a $\prob(\ket{j0})\le(1-\cos1)/(2M)\approx0{,}23/M$; ponieważ dziedziną arcus cosinusa jest $[-1,1]$, pierwszy wzór pozostaje określony aż do częstości $1/M$, co daje zapas na zniekształcenie wyników przez szum~\cite{werner_error_reduction_2025}.
-Wartości odtworzone leżą jednak w $[0,\pi]$, a nie w $[0,1]$, a argument spoza $[-1,1]$, możliwy w drugim wariancie wzoru, trzeba obciąć.
-Czynnik $2M$ wzmacnia przy tym błąd estymacji częstości: przy dużej oczekiwanej liczbie zliczeń metoda delta daje $\sigma(\tilde{p}_j)\approx\sqrt{M/\nshots}/\cos(p_j/2)$, czyli około 0,10 dla jasnych pikseli obrazu $8\times8$ przy $\nshots=8192$ i od 3,1 do 3,6 razy więcej niż w FRQI przy tej samej liczbie pomiarów, bo fazy z przedziału $[0,1]$ wykorzystują tylko płaski fragment funkcji cosinus; wpływ szumu urządzenia, wykraczający poza ten błąd próbkowania, bada rozdział~\ref{chapter:pdu_images}.
+Dla $p_j\in[0,1]$ bez zniekształceń $\prob(\ket{j0})\le(1-\cos1)/(2M)\approx0{,}23/M$, a pierwszy wariant pozostaje określony aż do częstości $1/M$, co daje zapas na zniekształcenie wyników przez szum~\cite{werner_error_reduction_2025}; wartości odtworzone leżą jednak w $[0,\pi]$, a nie w $[0,1]$, a argument spoza $[-1,1]$, możliwy w drugim wariancie, trzeba obciąć.
+Czynnik $2M$ wzmacnia przy tym błąd estymacji częstości: z wariancji~\eqref{eq:tb01:estimator} i linearyzacji funkcji odczytu (wyprowadzenie własne) wynika dla pierwszego wariantu $\sigma(\tilde{p}_j)\approx\sqrt{M/\nshots}/\cos(p_j/2)$, czyli około 0,10 dla jasnych pikseli obrazu $8\times8$ przy $\nshots=8192$.
+Oszacowanie to nie dotyczy drugiego wariantu, w którym w mianowniku stoi $\sin(p_j/2)$, więc błąd ciemnych pikseli jest wielokrotnie większy; wpływ szumu urządzenia, wykraczający poza błąd próbkowania, bada rozdział~\ref{chapter:pdu_images}.
 
 \subsection{Miary jakości rekonstrukcji obrazu}\label{subsec:tb:qimg:metrics}
 
-Niech $e_j=\tilde{p}_j-p_j$ będzie błędem $j$-tej z $N$ porównywanych intensywności ($N=WH$ dla obrazu monochromatycznego i $3WH$ dla RGB), a $\bar{e}$ średnią tych błędów.
+Niech $e_j=\tilde{p}_j-p_j$ będzie błędem $j$-tej z $N$ porównywanych intensywności z przedziału $[0,1]$ ($N=WH$ dla obrazu monochromatycznego i $3WH$ dla RGB), a $\bar{e}$ średnią tych błędów.
 Błąd średniokwadratowy, średni błąd bezwzględny, odchylenie standardowe błędu i szczytowy stosunek sygnału do szumu definiuje się jako
 \begin{equation}\label{eq:tb:qimg:errors}
 \begin{gathered}
@@ -94,24 +79,19 @@ Błąd średniokwadratowy, średni błąd bezwzględny, odchylenie standardowe b
 \\
 \sigma_e=\sqrt{\frac{1}{N}\sum_{j}(e_j-\bar{e})^2},
 \qquad
-\mathrm{PSNR}=10\lg\frac{L^2}{\mathrm{MSE}}\ \mathrm{dB},
+\mathrm{PSNR}=10\lg\frac{1}{\mathrm{MSE}}\ \mathrm{dB},
 \end{gathered}
 \end{equation}
-gdzie $L=1$ jest rozpiętością skali intensywności, a $\lg$ oznacza logarytm dziesiętny.
-Ponieważ $\mathrm{MSE}=\bar{e}^{\,2}+\sigma_e^2$, MSE łączy obciążenie rekonstrukcji z rozrzutem błędu, dlatego podaje się obok niego $\sigma_e$; MAE jest mniej wrażliwy na pojedyncze duże błędy, a PSNR wyraża MSE w skali logarytmicznej (MSE równe 0,01 to 20~dB) i jest miarodajny przy porównaniach na tych samych obrazach~\cite{huynh-thu_scope_2008}.
+gdzie $\lg$ oznacza logarytm dziesiętny; ponieważ $\mathrm{MSE}=\bar{e}^{\,2}+\sigma_e^2$, MSE łączy obciążenie rekonstrukcji z rozrzutem błędu, dlatego podaje się obok niego $\sigma_e$.
+MAE jest mniej wrażliwy na pojedyncze duże błędy, a PSNR wyraża MSE w skali logarytmicznej i jest miarodajny przy porównaniach na tych samych obrazach i przy tym samym rodzaju zniekształcenia~\cite{huynh-thu_scope_2008}.
 Wartości odtworzone spoza $[0,1]$, możliwe w LPIQE, zmieniają te miary, więc rozdziały podają, czy przed ich obliczeniem stosuje się obcięcie.
 
-Współczynnik korelacji Pearsona $r$ między $p_j$ i $\tilde{p}_j$ (kowariancja podzielona przez iloczyn odchyleń standardowych) mierzy liniowy związek rekonstrukcji z oryginałem niezależnie od przesunięcia i skali intensywności, więc wysoka korelacja przy dużym MSE wskazuje na błąd systematyczny.
-Jego p-wartość pochodzi z testu t-Studenta hipotezy o zerowej korelacji ($N-2$ stopni swobody), który zakłada niezależne obserwacje; sąsiednie piksele są skorelowane, więc p-wartości liczone na pikselach są orientacyjne.
+Współczynnik korelacji Pearsona $r$ między $p_j$ i $\tilde{p}_j$ (nieokreślony, gdy jeden z obrazów jest stały) mierzy liniowy związek rekonstrukcji z oryginałem niezależnie od przesunięcia i skali intensywności, więc wysoka korelacja przy dużym MSE wskazuje na błąd systematyczny o charakterze afinicznym.
+Współczynniki korelacji rangowej mierzą zależność monotoniczną i nie zmieniają się przy rosnących przekształceniach nieliniowych: $r_{\mathrm{S}}$ Spearmana jest współczynnikiem Pearsona rang obu ciągów, a $\tau$ Kendalla różnicą udziałów par obserwacji uporządkowanych zgodnie i niezgodnie~\cite{bib:statistics_wilc}.
+P-wartości tych współczynników dotyczą hipotezy o braku korelacji i zakładają niezależne obserwacje; sąsiednie piksele są skorelowane, więc p-wartości liczone na pikselach są orientacyjne.
 
 Miara SSIM~\cite{wang_image_2004} porównuje lokalne średnie, wariancje i kowariancję intensywności w odpowiadających sobie oknach $x$ i $y$ obu obrazów:
 \begin{equation}\label{eq:tb:qimg:ssim}
 \mathrm{SSIM}(x,y)=\frac{(2\mu_x\mu_y+C_1)(2\sigma_{xy}+C_2)}{(\mu_x^2+\mu_y^2+C_1)(\sigma_x^2+\sigma_y^2+C_2)},
 \end{equation}
-gdzie $C_1$ i $C_2$ są małymi stałymi stabilizującymi, a wynik dla obrazu jest średnią po oknach, równą 1 tylko dla obrazów identycznych; okno i stałe dobrane do obrazów o boku od 8 do 16 pikseli podaje rozdział~\ref{chapter:learned_encoding}.
-
-Rozdziały~\ref{chapter:pdu_images} i~\ref{chapter:dl_error_reduction}, zgodnie z pracami źródłowymi, posługują się MSE, $\sigma_e$ i współczynnikiem $r$ z p-wartością, a rozdział~\ref{chapter:learned_encoding} raportuje MAE jako miarę główną oraz PSNR i SSIM, a MSE tylko dla tej konfiguracji, dla której jest ono w plikach wynikowych.
-\agentinfo{
-Usunięto zdanie o porównaniu z kompresją stratną ,,wymaganym przez tezę T2'': teza T2 jest robocza i nierozstrzygnięta (zadanie PHD-TS-10), więc zaplecze teoretyczne nie może jej przesądzać.
-Jeśli autor zdecyduje się na takie porównanie, opis metody (ta sama miara, te same obrazy, koder stratny o ustalonym parametrze jakości) trafia do rozdziału 5.
-}
+gdzie $C_1$ i $C_2$ są małymi stałymi stabilizującymi, a wynik dla obrazu jest średnią po oknach, równą 1 tylko dla obrazów identycznych; okno dobrane do obrazów o boku od 8 do 16 pikseli i wartości stałych podaje rozdział~\ref{chapter:learned_encoding}.

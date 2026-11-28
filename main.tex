@@ -124,8 +124,8 @@
 % 6. Uczenie głębokie jako narzędzie redukcji błędów (chapters/dl_error_reduction.tex)
 % 7. Uczone kodowanie obrazów na rzeczywistym sprzęcie kwantowym (chapters/learned_encoding.tex)
 % 8. Klasyfikacja w obecności szumu i wpływ redukcji błędów (chapters/classification.tex)
-% 9. Prace powiązane z udziałem autora: struktura szumu kwantowego (chapters/noise_structure.tex)
-% 10. Podsumowanie (chapters/summary.tex)
+% 9. Podsumowanie (chapters/summary.tex)
+% Dawny rozdział o strukturze szumu (chapters/noise_structure.tex) jest od 2026-11-27 plikiem archiwalnym: decyzją autora jego treść przeniesiono do sekcji 3.5 i 3.7, dyskusji 4.8 i wprowadzenia.
 % Dodatki (chapters/appendix_experiments.tex) (chapters/appendix_results.tex)
 %
 
@@ -168,7 +168,7 @@
 \input{chapters/dl_error_reduction.tex}
 \input{chapters/learned_encoding.tex}
 \input{chapters/classification.tex}
-\input{chapters/noise_structure.tex}
+% \input{chapters/noise_structure.tex} % plik archiwalny, niewłączany od 2026-11-27 (decyzja autora)
 \input{chapters/summary.tex}
 
 \backmatter
@@ -187,6 +187,7 @@
 \printindex
 
 \begin{appendices}
+\makeatletter\@mainmattertrue\makeatother % dodatki numerowane literami mimo \backmatter (zmiana lokalna dla środowiska appendices)
 
 \input{chapters/appendix_experiments.tex} % środowisko eksperymentalne i parametry urządzeń
 \input{chapters/appendix_results.tex}     % wyniki uzupełniające

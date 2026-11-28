@@ -2,16 +2,17 @@
 
 \section[Klasyfikacja obrazów z użyciem komputerów kwantowych a szum]{Klasyfikacja obrazów z użyciem komputerów\\ kwantowych a szum}\label{sec:lr:classification}
 \agentinfo{
-Sekcja jest tłem rozdziału 8 (wpływ szumu i redukcji błędów na klasyfikację) i, w ostatnim akapicie, rozdziału 9; definicje modeli hybrydowych i miar są w podrozdziale 2.6 \agentref{chapters/theoretical_background_06_ML.tex}.
+Sekcja jest tłem rozdziału 8 (wpływ szumu i redukcji błędów na klasyfikację); definicje modeli hybrydowych i miar są w podrozdziale 2.6 \agentref{chapters/theoretical_background_06_ML.tex}.
 Literatura i zakres wyszukiwania (zadanie PHD-TS-23): \agentref{eksperymenty/przeglad-literatury/sekcja-3.7-klasyfikacja.md}; wpisy pod znacznikiem LR-3.7 w biblio.bib.
-Sekcja napisana w zadaniu PHD-TS-36 (2026-11-27); liczby sprawdzono ponownie w źródłach, a wersję źródła podaje komentarz przy każdym zdaniu z liczbą.
+Sekcja napisana w zadaniu PHD-TS-36 (2026-11-27), poprawiona po recenzji (PHD-TS-90), uzupełniona o akapit par:lr:cls:lie (PHD-TS-94) i skrócona w zadaniu PHD-TS-96 (lista cięć: \agentref{eksperymenty/recenzje/rozdzial-3-skracanie.md}); wersję źródła podaje komentarz przy każdym zdaniu z liczbą.
+Akapit par:lr:cls:lie: decyzją autora z 2026-11-27 dawny rozdział 9 nie jest osobnym rozdziałem, a omówienie preprintu raubitzek_lie_group_manuscript jest tutaj w skróconej postaci (plik archiwalny: \agentref{chapters/noise_structure.tex}; notatka z analizy: \agentref{eksperymenty/weryfikacja-liczb/rozdzial-9-grupy-liego.md}; źródło: \agentref{artykuły/noisy_lie_group_learners/main.tex}).
+Uzgodnienia do tego akapitu: preprintu nie nazywać publikacją; sieci są klasyczne; zaburzenie łamiące symetrię jest opcjonalnym elementem konstrukcji, nieużytym w raportowanych eksperymentach, więc tekst nie formułuje wniosku o korzyści z szumu; praca jest pracą powiązaną z udziałem autora rozprawy, a nie wkładem rozprawy (udział: sekcja sec:introduction:publications).
 Trzy pozycje (shen_classification_2024, bowles_better_2024, lee_some_2022) oraz raubitzek_lie_group_manuscript to preprinty i tak są nazywane.
 Odporność klasyfikatora z rozdziału 8 na skurczenie wektora Blocha przedstawiać jako zgodną z pracą larose_robust_2020, a nie jako nową.
-Wniosku z punktu 4.2 notatki o niezmienniczości odczytu azymutalnego nie przeniesiono: nie ma źródła, a w części dotyczącej tłumienia fazy jest sprzeczny ze wzorem eq:cls:noise-frame rozdziału 8, według którego tłumienie fazy zmienia azymut.
+Wniosku z punktu 4.2 notatki o niezmienniczości odczytu azymutalnego nie przeniesiono: nie ma źródła, a w części dotyczącej tłumienia fazy jest sprzeczny ze wzorem eq:cls:noise-frame rozdziału 8.
 Pracę współautorską potempa_frqi_pairs_2025 przywołano jednym zdaniem jako pracę z udziałem autora rozprawy; jego rola nie jest ustalona.
-Po recenzji (PHD-TS-90, 2026-11-27): tytuł sekcji ma argument opcjonalny z pełnym brzmieniem (spis treści, nagłówki stron) i ręczne złamanie wiersza w tytule, bo bez niego wystawał poza margines; brzmienia nie zmieniono.
-Wynik pracy shen_classification_2024 podano jako najlepszy (najwyżej około 40 procent), a przy ustawieniach środowiska wykonawczego dopisano wartości podane przez autorów, bez interpretacji, bo praca nie opisuje, co oznacza poziom resilience 1.
-Pracę li_ensemble-learning_2024 z rezerwy notatki (symulacja; czytana w wersji arXiv) zacytowano dla oszczędności miejsca tylko w elemencie (d) sekcji 3.8, a zdanie wprowadzające sekcję usunięto (przebieg wywodu podaje sekcja 3.1); tabelę przerobiono na styl pozostałych tabel rozdziału, a zdanie o technice najbliższej korekcie typu PDU ma zakres (techniki z tabeli).
+Pracę li_ensemble-learning_2024 zacytowano tylko w elemencie (d) sekcji 3.8.
+W zadaniu PHD-TS-96 wypadły: wynik jądra kwantowego z pracy peters_machine_2021 (współczynnik 0,29), zdanie o zaniku gradientu wywołanym szumem (wang_noise-induced_2021, wang_can_2024) i pierwsze z dwóch przywołań pracy potempa_frqi_pairs_2025; akapit par:lr:cls:lie skrócono mniej więcej o jedną trzecią bez zmiany wniosku (wypadła między innymi lista rodzajów eksperymentów preprintu).
 Do decyzji autora:
 (1) jak sformułować element (d) luki w sekcji 3.8: w tekście podano tylko, co oceniano i na jakich danych;
 (2) czy zdanie oznaczone jako wniosek własny (szum jednakowo skalujący wielkości porównywane przy decyzji) ma zostać w przeglądzie, czy przejść do dyskusji rozdziału 8;
@@ -22,10 +23,8 @@ Do decyzji autora:
 Klasyfikatory obrazów uruchamiane na urządzeniach działają w zestawionych pracach na co najwyżej kilkudziesięciu cechach i kilkunastu kubitach (tabela~\ref{tab:lr:cls:mitigation}).
 W preprincie Shena i~in. przybliżone stany FRQI obrazów $32\times32$ na 11 kubitach dały na procesorze nadprzewodzącym dokładność najwyżej około 40\% dla dziesięciu klas (100 obrazów testowych), wobec $89{,}48\%$ maszyny wektorów nośnych uczonej na dokładnych stanach FRQI~\cite{shen_classification_2024}.
 % ŹRÓDŁO: shen_classification_2024, sek. III.A (,,the best test accuracy of about 40%''), rys. 4 oraz dod. A i B (ibmq-kolkata, pierwsze 100 obrazów testowych Fashion-MNIST, 11 kubitów; SVM na dokładnych stanach FRQI 89,48%), arXiv:2403.02405v1.
-Obrazy FRQI klasyfikuje też kwantowa sieć rekurencyjna z pracy z~2025~r. powstałej z udziałem autora rozprawy~\cite{potempa_frqi_pairs_2025}, bez analizy szumu.
 W obu zebranych porównaniach prowadzonych według jednolitego protokołu lepiej wypadły modele klasyczne.
-W preprincie Bowlesa i~in. dwanaście modeli kwantowych zbadano w symulacji na 160 zbiorach z sześciu zadań klasyfikacji binarnej i klasyczne modele użyte bez strojenia były od nich skuteczniejsze~\cite{bowles_better_2024}.
-W pracy~\cite{e25070992} klasyfikator wariacyjny i estymator jądra kwantowego przewyższały modele liniowe, lecz ustępowały metodom wzmacniania gradientowego.
+W preprincie Bowlesa i~in. (dwanaście modeli kwantowych, symulacja, 160 zbiorów z sześciu zadań klasyfikacji binarnej) były to modele użyte bez strojenia~\cite{bowles_better_2024}, a w pracy~\cite{e25070992} metody wzmacniania gradientowego, choć klasyfikator wariacyjny i estymator jądra kwantowego przewyższały tam modele liniowe.
 % ŹRÓDŁO: bowles_better_2024, streszczenie, arXiv:2403.07059v2; e25070992, streszczenie (Crossref).
 Słabszy od sieci klasycznej wynik klasyfikatora z rozdziału~\ref{chapter:classification} nie odbiega więc od tego obrazu.
 
@@ -34,12 +33,9 @@ Dla klasyfikatora binarnego, w którym etykietę wyznacza próg $1/2$ prawdopodo
 Przy tłumieniu amplitudy zbiór danych o niezmienionej decyzji zależy od kodowania.
 Twierdzenia te dotyczą dokładnych prawdopodobieństw; spadek dokładności pod depolaryzacją odnotowany we wcześniejszej pracy autorzy przypisują wyłącznie skończonej liczbie pomiarów.
 % ŹRÓDŁO: larose_robust_2020, Tw. 1--5 i uwaga po Tw. 5 (Tw. 2 dotyczy kanału defazującego, czyli kanału Pauliego bez błędów X i Y), arXiv:2003.01695v1; wersji wydawniczej nie czytano.
-Podobną własność ma metoda jądrowa: funkcja decyzyjna maszyny wektorów nośnych nie zależy od skali jądra, a elementy jądra zmierzone na 17 kubitach układały się wokół wartości idealnych pomnożonych przez około $0{,}29$ przy dokładności porównywalnej z symulacją bez szumu~\cite{peters_machine_2021}.
-% ŹRÓDŁO: peters_machine_2021, dod. E i rys. 9 (r = 0,29) oraz streszczenie, arXiv:2101.09581v1.
 Według preprintu Lee i~in. błąd koherentny, w uproszczonym modelu szumu jednokubitowego, zmienia decyzję tylko dla danych bliskich granicy decyzyjnej~\cite{lee_some_2022}, a Wang i~in. pokazują, że szum przekształca wynik pomiaru liniowo, ze skalowaniem niezależnym od wejścia i przesunięciem od niego zależnym~\cite{wang_quantumnat_2022}.
 % ŹRÓDŁO: lee_some_2022, Tw. 2, arXiv:2211.06492v2; wang_quantumnat_2022, Tw. 3.1, arXiv:2110.11331.
 Wniosek własny: decyzji nie zmienia szum, który jednakowo skaluje wielkości porównywane przy decyzji, więc korekta odwracająca samo skalowanie może na nią wpłynąć tylko przez błąd statystyczny; zmienia ją szum naruszający relacje między tymi wielkościami (tłumienie amplitudy, błąd koherentny, przesunięcie zależne od wejścia).
-Wywołany szumem zanik gradientu ogranicza też uczenie~\cite{wang_noise-induced_2021}, a~mitygacja nie usuwa go bez wykładniczych zasobów~\cite{wang_can_2024}.
 
 \begin{table}[tb]
 \centering
@@ -73,11 +69,30 @@ Spośród technik z tabeli~\ref{tab:lr:cls:mitigation} korekcie typu PDU najbli�
 Nie wyznacza ona jednak zależności błędu od wartości wyniku i musi być stosowana także w uczeniu~\cite{wang_quantumnat_2022}.
 % ŹRÓDŁO: wang_quantumnat_2022, sek. 3.1 (normalizacja w uczeniu i we wnioskowaniu) i dod. A.3.7 (statystyki zbioru walidacyjnego zebrane wcześniej na urządzeniu), arXiv:2110.11331.
 Wpływ tych technik oceniano zatem na obrazach pomniejszonych i kodowanych kątowo, na cechach po redukcji wymiaru i na danych nieobrazowych.
-Dla obrazów w reprezentacji FRQI zebrane prace podają dokładność bez wariantu porównawczego: na urządzeniu przy domyślnych ustawieniach środowiska wykonawczego (\emph{optimization level}~3, \emph{resilience level}~1)~\cite{shen_classification_2024} albo bez analizy szumu~\cite{potempa_frqi_pairs_2025}.
+Dla obrazów w reprezentacji FRQI zebrane prace podają dokładność bez wariantu porównawczego: na urządzeniu przy domyślnych ustawieniach środowiska wykonawczego (\emph{optimization level}~3, \emph{resilience level}~1)~\cite{shen_classification_2024} albo, w pracy z~2025~r. powstałej z udziałem autora rozprawy (kwantowa sieć rekurencyjna), bez analizy szumu~\cite{potempa_frqi_pairs_2025}.
 % ŹRÓDŁO: shen_classification_2024, dod. B (,,the default setting (optimization level = 3 and the resilience level = 1)''; znaczenia poziomów praca nie opisuje), arXiv:2403.02405v1.
 Oceny korekty typu PDU, kalibrowanej na zależności błędu od wartości wyniku, w zadaniu klasyfikacji w przeszukanym zakresie nie znaleziono (podrozdział~\ref{sec:lr:gap}).
 
 \paragraph{Szum jako zasób i struktura grupowa.}
 Szum bywa też składnikiem modelu: depolaryzacja poprawia oszacowanie odporności klasyfikatora na przykłady adwersarialne~\cite{du_quantum_2021}, a dobrany poziom szumu działał w symulacjach regresji jak regularyzacja (2025)~\cite{kuzmin_method_2025}.
 W kwantowych sieciach ekwiwariantnych~\cite{nguyen2024_eqnn} (podrozdział~\ref{subsec:tb:ml:lie}) część modeli zachowuje ekwiwariancję pod kanałami Pauliego, lecz nie pod tłumieniem amplitudy, a łamanie symetrii rośnie liniowo z liczbą warstw i siłą szumu~\cite{tuysuz_symmetry_2024}.
-Do tego wątku należą omawiane w rozdziale~\ref{chapter:noise_structure} prace z~2026~r. z udziałem autora rozprawy: artykuł~\cite{raubitzek_quantum_noise} i preprint~\cite{raubitzek_lie_group_manuscript}.
+
+\paragraph{Sieci klasyczne oparte na grupach Liego.}\label{par:lr:cls:lie}
+Strukturę grupową w sieciach klasycznych wykorzystuje preprint z~2026~r.~\cite{raubitzek_lie_group_manuscript}, którego pierwszym autorem jest S.~Raubitzek, a autor rozprawy jednym ze współautorów (podrozdział~\ref{sec:introduction:publications}).
+% ŹRÓDŁO: rok, status i kolejność autorów: wpis raubitzek_lie_group_manuscript w bibliography/own_publications.bib (preprint, Preprints.org, 2026, DOI 10.20944/preprints202605.2045.v1; według notatki eksperymenty/weryfikacja-liczb/rozdzial-9-grupy-liego.md zamieszczony 2026-05-29 według Crossref).
+Warstwa działania grupy (równanie~\eqref{eq:tb:ml:lie}) przekształca w nim bloki cech macierzami z grup $\mathrm{SO}(3)$, $\mathrm{SU}(2)$ albo $\mathrm{SU}(3)$, a sieci uczy się propagacją wsteczną, bez urządzenia kwantowego i bez symulatora obwodów.
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, streszczenie (wiersze 242--244: grupy SO(3), SU(2) i SU(3)), wiersze 488 i 492 (ten sam mechanizm algebraiczny co w kwantowym uczeniu maszynowym: generator i mapa wykładnicza; bez sprzętu kwantowego i bez symulacji obwodów), 3479 (klasyczny odpowiednik) oraz 1934--1935 i 5410 (TensorFlow/Keras).
+Konstrukcja dopuszcza opcjonalne, losowe zaburzenie elementu algebry, wzorowane według autorów na pracach~\cite{raubitzek_obfuscation_2025,raubitzek_quantum_noise} (podrozdział~\ref{par:lr:noise:generators}): jego składowa spoza algebry na ogół wyprowadza macierz poza grupę, co autorzy nazywają kontrolowanym łamaniem symetrii.
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, wiersze 1426--1478 (tekst główny; wiersz 1478: ,,random coefficients''; składowa należąca do algebry zmienia tylko współrzędne i macierz pozostaje w grupie, a przy składowej spoza algebry macierz ,,no longer has to lie exactly in the intended Lie group'') i 3777--3998 (dodatek z notacją).
+Preprint nie podaje jednak rozkładu współczynników ani amplitudy tego zaburzenia i w żadnym z raportowanych eksperymentów ono nie występuje: opisy eksperymentów mówią o macierzach należących do grupy, a szum oznacza w nich zakłócenie danych wejściowych.
+% ŹRÓDŁO: brak rozkładu i amplitudy: notatka eksperymenty/weryfikacja-liczb/rozdzial-9-grupy-liego.md, część (1). artykuły/noisy_lie_group_learners/main.tex: sekcje eksperymentów od wierszy 1946, 2243, 2547, 2694 i 2836 oraz diagnostyka gradientów od wiersza 3140; symbole zaburzenia występują tylko w wierszach 1429--1478 i 3790--3993; macierze unitarne albo należące do grupy: wiersze 1981, 2631, 2727, 2896, 3411, 3463, 5526, 5548, 5556 i 6464; ustalenie potwierdzone niezależnie w recenzji (eksperymenty/recenzje/rozdzial-9.md, część 5); szum jako zakłócenie danych: wiersze 2555 (szum gaussowski i impulsowy dodany do sygnału), 2735 i 6283--6289 (szum dodawany do obrazów w uczeniu sieci GAN).
+Wyniki dotyczą więc ścisłych warstw grupowych i według autorów zależą od zbioru danych; najwyraźniejszą różnicę dało odszumianie sygnałów (błąd średniokwadratowy autoenkodera z warstwą $\mathrm{SU}(3)$ \mbox{$0{,}061\pm0{,}008$} wobec \mbox{$0{,}114\pm0{,}014$} dla autoenkodera klasycznego; średnia i odchylenie standardowe z 50 przebiegów).
+% ŹRÓDŁO: artykuły/noisy_lie_group_learners/main.tex, tabela tab:sine_denoising_results, wiersze 2597 (podpis: średnia i odchylenie standardowe z 50 przebiegów) i 2603--2604; ocena autorów (zależność od zbioru danych, najwyraźniejsza poprawa w odszumianiu): wiersze 247--249 i 3403; pominięto dla objętości: w klasyfikacji model z warstwami grupowymi był najlepszy na dwóch z sześciu zbiorów, a na czterech las ExtraTrees (wiersz 2190).
+Preprint nie zawiera zatem danych o wpływie takiego zaburzenia na uczenie i w ocenie autora rozprawy nie uzasadnia tezy o szumie jako zasobie w uczeniu.
+\agenttask{
+Pytania do autora (przeniesione z dawnej sekcji 9.3; zadania PHD-TS-49, PHD-TS-61 i PHD-TS-94).
+(1) Czy w którymkolwiek z przebiegów, z których pochodzą liczby w tabelach preprintu, zaburzenie miało niezerową amplitudę; jeśli tak, w których i z jakimi parametrami. Preprint tego nie podaje, a w publicznym repozytorium kodu wskazanym w preprincie (github.com/Raubkatz/Lie_Group_Learners, rewizja 919d4ad z 2026-06-02, odczyt 2026-11-27) amplituda wynosi zero we wszystkich konfiguracjach.
+(2) Czy skrypty z publicznego repozytorium są tymi, którymi uzyskano raportowane wyniki. Zdania o repozytorium nie przeniesiono do tekstu drukowanego (recenzja, ustalenie I5: wykracza poza treść preprintu, a autor rozprawy może o przebiegach, które sam uruchamiał, napisać wprost); czy je dodać i w jakim brzmieniu.
+(3) Czy istnieją niepublikowane przebiegi z zaburzeniem (ablacja). Bez nich akapit stwierdza, że preprint nie zawiera danych o wpływie łamania symetrii na uczenie; ujęcie tego wątku jako uczenia wykorzystującego błędy kwantowe nie ma w preprincie pokrycia w wynikach.
+(4) Tekstu preprintu w wersji v1 (Preprints.org) nie porównywano z plikiem w katalogu artykuły; plik ma nagłówek czasopisma Quantum Machine Intelligence i wygląda na wersję po rewizji.
+}

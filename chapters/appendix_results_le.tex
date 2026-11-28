@@ -1,0 +1,97 @@
+% !TeX root = ./../main.tex
+% Dodatek B, część do rozdziału 7 (zadanie PHD-TS-98, 2026-11-27).
+% Tabele tab:le:data, tab:le:hw i tab:le:paired oraz rysunek fig:le:shots przeniesiono z pliku learned_encoding.tex bez zmiany liczb i etykiet;
+% wiersz \input{chapters/appendix_results_le.tex} dopisuje do appendix_results.tex orkiestrator.
+
+\section{Wyniki uzupełniające do rozdziału~\ref{chapter:learned_encoding}}\label{app:results:le}
+
+\agentinfo{
+Sekcja powstała w zadaniu PHD-TS-98 przy skracaniu rozdziału 7: zawiera pełne zestawienia, z których tekst rozdziału przytacza tylko wartości potrzebne w wywodzie.
+Liczby i komentarze źródłowe przeniesiono bez zmian z pliku learned_encoding.tex; dwa zdania o protokole (parametry optymalizatora, obwody echa przebiegu H1) pochodzą z sekcji 7.3 sprzed skrócenia.
+Tabeli wszystkich wariantów korekty z podrozdziału 7.4.4 tu nie ma: czeka na decyzję autora (zadanie w podrozdziale 7.4.4).
+}
+
+Dodatek zawiera pełne zestawienia, z których rozdział~\ref{chapter:learned_encoding} przytacza tylko wartości potrzebne w wywodzie: dane, podział i trening konfiguracji autoenkodera (tabela~\ref{tab:le:data}), błąd rekonstrukcji w funkcji liczby pomiarów (rys.~\ref{fig:le:shots}), wyniki przebiegu H2 według źródła rozkładu wyników (tabela~\ref{tab:le:hw}) i porównania sparowane na zbiorze K10 (tabela~\ref{tab:le:paired}).
+Sieć uczono optymalizatorem Adam o współczynniku uczenia $10^{-3}$, zmniejszanym o połowę po pięciu epokach bez poprawy straty walidacyjnej, w paczkach po 8 obrazów.
+Przebieg H1 obejmował, oprócz 228 pomiarów rejestrów, 12 obwodów echa, złożonych z obwodu i jego odwrotności, z których pochodzi jedno z kryteriów dopasowania współczynnika $c_{\mathrm{kal}}$ (podrozdział~\ref{subsec:le:results:hardware}).
+% ŹRÓDŁO: output/hw_run1/analysis/report.json, echo.lambda_crossing (jak w komentarzu do zdania o modelu kalibracyjnym w podrozdziale 7.4.2); parametry treningu: train_autoencoder7.py (jak w agentinfo sekcji 7.3).
+Umieszczenie dziewięciu rejestrów w jednym obwodzie sprawdzono pomiarem kontrolnym: dla 12 obrazów zmierzonych na tym samym łańcuchu osobno i wśród ośmiu innych rejestrów różnica wierności Hellingera wynosi, przy wyrównanej liczbie pomiarów, średnio $+0{,}0011$ (przedział ufności $[-0{,}0038;\,+0{,}0061]$), co dotyczy \glslink{crosstalk}{przesłuchu} między rejestrami, a nie między sąsiednimi kubitami jednego rejestru.
+% ŹRÓDŁO: output/hw_run1/analysis/report.json, crosstalk_packed_vs_alone (mean_delta_F_packed_minus_alone, per_image) (zestaw: wiersz 156); przedział ufności wyliczony z per_image, spoza zestawu.
+
+\begin{table}[htbp]
+\centering
+\caption[Dane, podział i trening konfiguracji autoenkodera]{Dane, podział i trening konfiguracji z tabeli~\ref{tab:le:configs}. A8 uczono na częściach uczącej i walidacyjnej eksportu, a oceniano na testowej; w A9 i A16 pliki katalogu podzielono losowo w stosunku 9:1; w A16K wylosowano podzbiory obu części zbioru KITTI. Epoki: budżet i, w nawiasie, epoka wybranego punktu kontrolnego; czas: średni czas epoki.}
+\label{tab:le:data}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lllllr@{}}
+\toprule
+Konf. & Uczenie & Ocena & Szum w treningu & Epoki & Czas [s] \\
+\midrule
+A8 & 106 kafli & K16: 16 kafli & brak & 400 (96) & 3,7 \\
+A9 & 129 ze 143 plików & K10: 10 z 14 plików & poziom 4 & 400 (198) & 330 \\
+A16 & 110 ze 122 kafli & K12: 12 kafli & brak & 2000 (102) & 7,0 \\
+A16K & 2000 z 7481 obrazów & 1500 z 7518 obrazów & brak & 300 (59) & 423 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\input{figures/chp_learned_encoding/le_shots.tex}
+\caption[Błąd rekonstrukcji w funkcji liczby pomiarów]{MAE rekonstrukcji w funkcji liczby pomiarów $\nshots$ (oś pozioma; średnia z trzech losowań, obie osie logarytmiczne, zakres osi pionowej osobny dla każdego panelu) na tle wartości dokładnej i obu punktów odniesienia; znacznik pusty: jedno losowanie przy 16\,384 pomiarach, jak w przebiegu H2. Opracowanie własne.}
+\label{fig:le:shots}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption[Rekonstrukcja obrazów zbioru K10 na symulatorach i na urządzeniu]{Rekonstrukcja obrazów zbioru K10 przez model A9 według źródła rozkładu wyników (przebieg H2; próbkowanie i urządzenie: 16\,384 pomiary). MAE z odchyleniem standardowym po obrazach, miary jak w tabeli~\ref{tab:le:sim}, $\hfid$ i TVD względem rozkładu idealnego tej samej sieci. Próbkowanie z poziomu 4 to jedno losowanie, a z bliźniaka średnia z trzech, dla której zapisano tylko MAE; wiersze bez dopisku dotyczą sieci pierwotnej.}
+\label{tab:le:hw}
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{@{}lcrrrrr@{}}
+\toprule
+Źródło rozkładu wyników & MAE & MSE & PSNR & SSIM & $\hfid$ & TVD \\
+\midrule
+% ŹRÓDŁO: MAE, odchylenie, MSE, wierność, TVD: hw_run2_finetune/baseline/summary.csv i hw_run2_finetune/final_best/summary.csv; PSNR i SSIM (okno Gaussa 5x5): article/data/hw_results.json, run2_finetune.methods.*; bliźniak z próbkowaniem: run2_finetune.sim_fitted_sampled_mae (zestaw: wiersze 182-242, 277-317).
+symulator bezszumowy & $0{,}0795\pm0{,}026$ & 0,0119 & 20,06 & 0,302 & 1,000 & 0,000 \\
+symulator poziomu 4 & $0{,}0787\pm0{,}028$ & 0,0117 & 20,22 & 0,315 & 0,991 & 0,054 \\
+symulator poziomu 4, próbkowanie & $0{,}0819\pm0{,}026$ & 0,0123 & 19,85 & 0,278 & 0,984 & 0,083 \\
+bliźniak ($\qdep=0{,}015$) & $0{,}0869\pm0{,}029$ & 0,0133 & 19,49 & 0,322 & 0,928 & 0,192 \\
+bliźniak, próbkowanie & $0{,}0894$\phantom{${}\pm0{,}000$} & --- & --- & --- & --- & --- \\
+urządzenie, zadanie bazowe & $0{,}1009\pm0{,}032$ & 0,0171 & 18,31 & 0,233 & 0,905 & 0,225 \\
+\midrule
+urządzenie, zadanie końcowe & $0{,}1026\pm0{,}031$ & 0,0178 & 18,10 & 0,205 & 0,900 & 0,233 \\
+urządzenie, zadanie końcowe, sieć dostrojona & $0{,}0995\pm0{,}031$ & 0,0168 & 18,45 & 0,242 & 0,887 & 0,252 \\
+symulator poziomu 4, sieć dostrojona & $0{,}0997\pm0{,}021$ & 0,0175 & 17,85 & 0,241 & 0,990 & 0,057 \\
+\midrule
+płaski obraz własnego koloru & $0{,}0833\pm0{,}038$ & 0,0134 & 20,10 & 0,296 & --- & --- \\
+obraz średni & $0{,}1329\pm0{,}045$ & --- & 16,80 & 0,286 & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption[Porównania sparowane na zbiorze K10]{Porównania sparowane na zbiorze K10 (model A9): średnia różnica MAE, jej 95-procentowy przedział ufności, liczba obrazów, na których odjemna ma mniejszy MAE (,,niżej''), i p-wartość testu znaków, bez poprawki na wielokrotne porównania. Płaski obraz: płaski obraz własnego koloru; urządzenie bez dopisku: zadanie bazowe.}
+\label{tab:le:paired}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrcrr@{}}
+\toprule
+Porównanie & Różnica & Przedział ufności & Niżej & $p$ \\
+\midrule
+% ŹRÓDŁO: article/data/hw_results.json, run2_finetune.paired.* (te same wartości w hw_run2_finetune/baseline/hardware_vs_simulator.json i final_best/original_vs_finetuned.json); wiersze z obrazem średnim wyliczone z run2_finetune.methods.*.mae_per_image (zestaw: wiersze 106, 243, 245, 318, 321-323 i tabele w rozdzial-7.md).
+symulator poziomu 4 $-$ obraz średni & $-0{,}0542$ & $[-0{,}0787;\,-0{,}0352]$ & 10/10 & 0,002 \\
+symulator poziomu 4 $-$ płaski obraz & $-0{,}0046$ & $[-0{,}0135;\,+0{,}0039]$ & 7/10 & 0,34 \\
+urządzenie $-$ symulator poziomu 4 & $+0{,}0222$ & $[+0{,}0153;\,+0{,}0295]$ & 0/10 & 0,002 \\
+urządzenie $-$ obraz średni & $-0{,}0320$ & $[-0{,}0569;\,-0{,}0129]$ & 7/10 & 0,34 \\
+urządzenie $-$ płaski obraz & $+0{,}0176$ & $[+0{,}0112;\,+0{,}0247]$ & 0/10 & 0,002 \\
+\midrule
+urządzenie, zadanie końcowe: sieć dostrojona $-$ pierwotna & $-0{,}0032$ & $[-0{,}0076;\,+0{,}0016]$ & 7/10 & 0,34 \\
+urządzenie, sieć pierwotna: zadanie końcowe $-$ bazowe & $+0{,}0017$ & $[-0{,}0004;\,+0{,}0036]$ & 2/10 & 0,11 \\
+symulator poziomu 4: sieć dostrojona $-$ pierwotna & $+0{,}0210$ & $[+0{,}0120;\,+0{,}0306]$ & 0/10 & 0,002 \\
+urządzenie, sieć dostrojona $-$ płaski obraz & $+0{,}0161$ & $[+0{,}0081;\,+0{,}0250]$ & 0/10 & 0,002 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -2,42 +2,30 @@
 
 \section{Próbkowanie kwantowe jako model obliczeń}\label{sec:tb:qsamp}
 \agentinfo{
-Uzgodnienia (PHD-TS-15).
+Stan (PHD-TS-95, 2026-11-27): podrozdział skrócony i poprawiony po recenzji \agentref{eksperymenty/recenzje/rozdzial-2-sekcje-2.3-2.4.md}; usunięto podrozdział o operatorze zniekształcenia fazy (definicja, twierdzenie o odczycie), funkcję FCoSamp z postacią Fouriera i powtórzony wzór interferencji; lista cięć w \agentref{eksperymenty/recenzje/rozdzial-2-skracanie.md}.
 QCoSamp i kodowanie danych w fazie pochodzą z pracy Wereszczyńskiego i in. \agentref{bib:wereszczynski_cosine_2020} (preprint) i nie są wkładem autora rozprawy.
 Konwencja (za pracą źródłową i kodem z pracy magisterskiej \agentref{artykuły/magisterka_werner_final/chapters/03.tex}): argument x_D = -pi + suma po j od 0 do m-1 z pi d_j / 2^j, bit d_0 najbardziej znaczący, siatka od -pi do pi - pi/2^(m-1); wartość składnika jest prawdopodobieństwem wyniku 0 na kubicie odczytu.
-Nazewnictwo: rejestr argumentu (m kubitów, jak w rozdziale 4) i kubit odczytu (w rozdziale 4: kubit mierzony; w pracy źródłowej i w artykule ICCS: ancilla; w pracy magisterskiej nazwy są odwrócone).
-Rozbieżności źródeł, zgłoszone w komentarzu do zadania: dziedzina [-1, 1] funkcji referencyjnej w artykule ICCS \agentref{artykuły/Quantum_Errors_ICCS/main.tex}; warunek lambda^2 + gamma^2 <= 2 w pracy źródłowej (z tożsamości trygonometrycznej wynika <= 4); stałe przesunięcie fazy i zakres argumentów w eksperymencie dwóch zmiennych z pracy magisterskiej.
-Nazwa operator zniekształcenia fazy (PDO) pochodzi z koncepcji rozprawy z 2022 r., a nie z opublikowanych źródeł; definicja jako operatora diagonalnego jest sformułowaniem tego podrozdziału (DO POTWIERDZENIA PRZEZ AUTORA).
-Etykiety dla rozdziałów 4 i 5: def:tb:qsamp:sampling, def:tb:qsamp:component, def:tb:qsamp:argument, def:tb:qsamp:circuit, thm:tb:qsamp:readout, def:tb:qsamp:series, eq:tb:qsamp:mixture, eq:tb:qsamp:fourier, eq:tb:qsamp:two-variables, def:tb:qsamp:pdo, thm:tb:qsamp:pdo-readout, fig:tb:qsamp:circuits (części: fig:tb:qsamp:component, fig:tb:qsamp:two-components).
+Rozbieżności źródeł niewidoczne po skróceniu: warunek lambda^2 + gamma^2 <= 2 w pracy źródłowej (z tożsamości trygonometrycznej wynika <= 4) i wzór odtwarzania szeregu Fouriera dotyczyły usuniętego akapitu o funkcji FCoSamp; dziedzina [-1, 1] funkcji referencyjnej w artykule ICCS \agentref{artykuły/Quantum_Errors_ICCS/main.tex} należy do rozdziału 4.
+Etykiety używane przez rozdział 4 (nie usuwać): subsec:tb:qsamp:sampling, subsec:tb:qsamp:qcosamp, def:tb:qsamp:sampling, def:tb:qsamp:component, def:tb:qsamp:argument, def:tb:qsamp:circuit, thm:tb:qsamp:readout, fig:tb:qsamp:component, eq:tb:qsamp:two-variables.
 }
 
 Metody redukcji błędów rozwijane w rozprawie korygują wynik obliczeń, który ma postać rozkładu prawdopodobieństwa, a nie pojedynczego ciągu bitów.
-Podrozdział definiuje ten sposób prowadzenia obliczeń, metodę QCoSamp, na której obwodach opracowano metodę PDU (rozdział~\ref{chapter:pdu}), oraz operator zapisujący dane w fazach lokalnych, z którego korzysta reprezentacja LPIQE (podrozdział~\ref{subsec:tb:qimg:lpiqe}).
-Metoda QCoSamp i kodowanie danych w fazie pochodzą z pracy Wereszczyńskiego i~in.~\cite{wereszczynski_cosine_2020}, dostępnej jako preprint, i nie są wkładem autora rozprawy; przytoczono je w zakresie potrzebnym w rozdziałach~\ref{chapter:pdu} i~\ref{chapter:pdu_images}.
+Podrozdział definiuje ten sposób prowadzenia obliczeń i metodę QCoSamp, na obwodach której opracowano metodę PDU (rozdział~\ref{chapter:pdu}); metoda ta i kodowanie danych w fazie pochodzą z pracy Wereszczyńskiego i~in.~\cite{wereszczynski_cosine_2020}, dostępnej jako preprint, i nie są wkładem autora rozprawy.
 
 \subsection{Obliczenia oparte na próbkowaniu}\label{subsec:tb:qsamp:sampling}
 
-Pojedyncze wykonanie obwodu kwantowego kończy się pomiarem, który zwraca jeden stan bazowy z prawdopodobieństwem wyznaczonym przez amplitudy stanu końcowego (podrozdział~\ref{subsec:tb:measurement}).
-Część algorytmów projektuje się tak, aby poprawna odpowiedź pojawiała się w pojedynczym pomiarze z dużym prawdopodobieństwem; przykładem jest algorytm Grovera~\cite{bib:grovers_alg}.
-W \glslink{quantum-sampling}{próbkowaniu kwantowym} rezygnuje się z tego wymagania: wynikiem obliczeń jest rozkład prawdopodobieństwa stanów bazowych, szacowany z wielu wykonań tego samego obwodu~\cite{wereszczynski_cosine_2020,werner_experiment_driven_2022}.
-Zbiór próbek jest wynikiem także w kwantowych algorytmach próbkowania z rozkładów Gibbsa~\cite{bib:quantum_sampling} i w próbkowaniu bozonów na procesorach fotonicznych~\cite{madsen_quantum_2022}.
+Pojedyncze wykonanie obwodu kończy się pomiarem, który zwraca jeden stan bazowy (podrozdział~\ref{subsec:tb:measurement}); w \glslink{quantum-sampling}{próbkowaniu kwantowym} wynikiem obliczeń nie jest pojedynczy taki stan, lecz rozkład prawdopodobieństwa stanów bazowych, szacowany z wielu wykonań tego samego obwodu~\cite{wereszczynski_cosine_2020,werner_experiment_driven_2022}.
 
 \begin{Definition}[Eksperyment próbkowania i znormalizowany histogram]\label{def:tb:qsamp:sampling}
-Niech $U$ będzie operatorem ewolucji obwodu o $q$ kubitach, a $\mathbb{E}$ bazą pomiarową złożoną ze stanów bazowych mierzonych kubitów.
-\emph{Eksperymentem próbkowania} o liczbie powtórzeń $\nshots$ nazywa się $\nshots$-krotne przygotowanie stanu $U\ket{0}^{\otimes q}$ i jego pomiar w bazie $\mathbb{E}$.
-\emph{Znormalizowanym histogramem} eksperymentu nazywa się funkcję $\tilde{\prob}(\ket{k})=N_k/\nshots$ określoną na $\mathbb{E}$, gdzie $N_k$ jest liczbą powtórzeń zakończonych wynikiem $\ket{k}$.
+Niech $U$ będzie operatorem ewolucji obwodu, a $\mathbb{E}$ bazą pomiarową złożoną ze stanów bazowych mierzonych kubitów.
+\emph{Eksperymentem próbkowania} o liczbie powtórzeń $\nshots$ nazywa się $\nshots$-krotne przygotowanie stanu $U\ket{0\dots0}$ i jego pomiar w bazie $\mathbb{E}$, a \emph{znormalizowanym histogramem} eksperymentu funkcję $\tilde{\prob}(\ket{k})$ określoną na $\mathbb{E}$, której wartościami są częstości względne~\eqref{eq:tb01:estimator} wyników.
 \end{Definition}
 
-W obwodzie bez szumu histogram $\tilde{\prob}$ jest nieobciążonym estymatorem rozkładu $\prob$, a odchylenie standardowe każdej jego wartości nie przekracza $1/(2\sqrt{\nshots})$ (podrozdział~\ref{subsec:tb:measurement}).
-Szum urządzenia (podrozdział~\ref{sec:tb:noise}) przesuwa wartość oczekiwaną histogramu; tego odchylenia systematycznego nie zmniejsza zwiększanie liczby powtórzeń i to ono jest przedmiotem redukcji błędów w rozdziale~\ref{chapter:pdu}.
-
-Znormalizowany histogram interpretuje się jako wartości funkcji określonej na stanach bazy pomiarowej.
-Oprócz obwodu i eksperymentu próbkowania obliczenie wymaga zatem słownika, który każdemu stanowi bazowemu przypisuje znaczenie w dziedzinie problemu: wartość funkcji w zadanym punkcie, intensywność piksela (rozdział~\ref{chapter:pdu_images}) albo prawdopodobieństwo przynależności obiektu do klasy (rozdział~\ref{chapter:classification}), oraz rekonstrukcji tych wielkości z histogramu~\cite{wereszczynski_cosine_2020}.
+Oprócz obwodu i eksperymentu próbkowania obliczenie wymaga słownika, który stanom bazowym przypisuje znaczenie w dziedzinie problemu (wartość funkcji w zadanym punkcie, intensywność piksela, prawdopodobieństwo przynależności obiektu do klasy), oraz rekonstrukcji tych wielkości z histogramu~\cite{wereszczynski_cosine_2020}.
 
 \subsection{Metoda QCoSamp}\label{subsec:tb:qsamp:qcosamp}
 
 Metoda \gls{qcosamp}, czyli kwantowe próbkowanie szeregiem cosinusów, służy do budowy operatorów ewolucji, dla których prawdopodobieństwo wyniku pomiaru jednego kubitu jest ważoną sumą przesuniętych funkcji cosinus argumentu wprowadzonego do obwodu~\cite{wereszczynski_cosine_2020}.
-Funkcję otrzymywaną z próbkowania autorzy metody nazywają funkcją FCoSamp, a jej elementarnym budulcem jest składnik cosinusowy.
 
 \begin{Definition}[Składnik cosinusowy]\label{def:tb:qsamp:component}
 \emph{Składnikiem cosinusowym} o częstotliwości (krotności argumentu) $n\in\{1,2,\dots\}$ i fazie $r\in\mathbb{R}$ nazywa się funkcję o wartościach w przedziale $[0,1]$
@@ -46,14 +34,11 @@ Funkcję otrzymywaną z próbkowania autorzy metody nazywają funkcją FCoSamp, 
 \end{equation}
 \end{Definition}
 
-Wartość składnika powstaje przez \glslink{interference}{interferencję} na jednym kubicie (podrozdział~\ref{subsec:tb:phase}).
-Bramka przesunięcia fazy umieszczona między dwiema bramkami Hadamarda daje
-\begin{equation}\label{eq:tb:qsamp:base}
-\mathrm{H}\,\mathrm{P}(\varphi)\,\mathrm{H}\ket{0}=\frac{1+\mathrm{e}^{\mathrm{i}\varphi}}{2}\ket{0}+\frac{1-\mathrm{e}^{\mathrm{i}\varphi}}{2}\ket{1},
-\qquad
-\prob(\ket{0})=\frac{1+\cos\varphi}{2},\quad \prob(\ket{1})=\frac{1-\cos\varphi}{2}.
-\end{equation}
-Faza lokalna $\varphi$ jest więc odczytywana jako prawdopodobieństwo, równe $\coscomp_{n,r}(x)$ dla $\varphi=nx+r$, a argument $x$ wprowadza się do obwodu jako stan bazowy osobnego rejestru.
+Wartość składnika powstaje przez \glslink{interference}{interferencję} na jednym kubicie: zgodnie z~\eqref{eq:tb01:interference} układ bramek $\mathrm{H}\,\mathrm{P}(\varphi)\,\mathrm{H}$ daje $\prob(\ket{0})=\coscomp_{n,r}(x)$ dla $\varphi=nx+r$, a argument $x$ wprowadza się do obwodu jako stan bazowy osobnego rejestru.
+W pracy źródłowej składnikiem (ang.\ \emph{component}) nazywa się parę takich funkcji o wspólnej częstotliwości, a kubit, na którym zachodzi interferencja, kubitem pomocniczym (\emph{ancilla}); w rozprawie składnikiem jest pojedyncza funkcja, a kubit ten nazywa się kubitem odczytu.
+\agenttask{
+Pytanie do autora (recenzja 2.4-I1): czy zaakceptować odstępstwa od zapisu pracy źródłowej metody QCoSamp (składnik jako pojedyncza funkcja, nazwa kubit odczytu zamiast ancilla, oznaczenia własne składnika, obwodu i bloku fazowego) i czy potwierdzić u współautorów preprintu dwie usterki jego zapisu, których rozprawa po skróceniu już nie przytacza (warunek na współczynniki z prawą stroną 2 zamiast 4 oraz wzór odtwarzania bez odjęcia wyrazu stałego)?
+}
 
 \begin{Definition}[Kodowanie argumentu]\label{def:tb:qsamp:argument}
 Niech $D=(d_0,\dots,d_{m-1})\in\{0,1\}^{m}$ będzie ciągiem bitów zapisanym w stanie bazowym $\ket{D}=\ket{d_0\dots d_{m-1}}$ \emph{rejestru argumentu} o $m$ kubitach.
@@ -64,7 +49,7 @@ x_D=-\pi+\sum_{j=0}^{m-1}\frac{\pi d_j}{2^{j}} ,
 a liczbę $2^{m}$ kodowanych wartości nazywa się \emph{rozdzielczością} argumentu.
 \end{Definition}
 
-Bit $d_0$ jest najbardziej znaczący, a kodowane argumenty tworzą siatkę równomierną o kroku $\Delta x=\pi/2^{m-1}$ od $-\pi$ do $\pi-\Delta x$; dla $m=4$ jest to 16 wartości od $-\pi$ do $\tfrac{7}{8}\pi$ z krokiem $\tfrac{1}{8}\pi$.
+Bit $d_0$ jest najbardziej znaczący, a kodowane argumenty tworzą siatkę równomierną o kroku $\Delta x=\pi/2^{m-1}$ od $-\pi$ do $\pi-\Delta x$.
 
 \begin{Definition}[Obwód składnika]\label{def:tb:qsamp:circuit}
 \emph{Obwodem składnika} $\coscomp_{n,r}$ nazywa się obwód o $m+1$ kubitach, złożony z rejestru argumentu i \emph{kubitu odczytu} $a$, jedynego kubitu podlegającego pomiarowi, inicjowany stanem $\ket{0}^{\otimes(m+1)}$ i opisany operatorem
@@ -85,8 +70,7 @@ Po ewolucji $\compcirc_{n,r}(D)\ket{0}^{\otimes(m+1)}$ prawdopodobieństwa wynik
 \end{equation}
 \end{Theorem}
 \begin{proof}
-Operator $E(D)$ przeprowadza rejestr argumentu w stan $\ket{D}$.
-Diagonalny blok $\compphase^{(a)}_{n,r}$ nie zmienia składowej $\ket{D}\ket{0}_a$, a fazę składowej $\ket{D}\ket{1}_a$ zwiększa o $r-n\pi+\sum_{j}n\pi d_j/2^{j}$, czyli zgodnie z~\eqref{eq:tb:qsamp:argument} o $nx_D+r$; teza wynika więc z~\eqref{eq:tb:qsamp:base} dla $\varphi=nx_D+r$.
+Operator $E(D)$ przeprowadza rejestr argumentu w stan $\ket{D}$, a diagonalny blok $\compphase^{(a)}_{n,r}$ nie zmienia składowej $\ket{D}\ket{0}_a$ i zwiększa fazę składowej $\ket{D}\ket{1}_a$ o $r-n\pi+\sum_{j}n\pi d_j/2^{j}$, czyli o $nx_D+r$, więc teza wynika z~\eqref{eq:tb01:interference} dla $\varphi=nx_D+r$.
 \end{proof}
 
 \begin{figure}[htbp]
@@ -103,82 +87,27 @@ Diagonalny blok $\compphase^{(a)}_{n,r}$ nie zmienia składowej $\ket{D}\ket{0}_
 \caption{szereg $\tfrac{1}{2}(\coscomp_{1,0}+\coscomp_{2,0})$}
 \label{fig:tb:qsamp:two-components}
 \end{subfigure}
-\caption{Obwody metody QCoSamp: (a)~obwód składnika cosinusowego (definicja~\ref{def:tb:qsamp:circuit}), w którym dla $n=1$ i $r=0$ kąty bramek fazowych wynoszą $-\pi$ oraz $\pi$, $\tfrac{\pi}{2}$, $\tfrac{\pi}{4}$, $\tfrac{\pi}{8}$; (b)~schemat obwodu szeregu dwuskładnikowego, w którym blok $(\compphase^{(ab)}_{3,0})^{\dagger}$, dodatkowo kontrolowany kubitem $a$, usuwa iloczyn faz $\mathrm{e}^{\mathrm{i}3x_D}$ ze składowej $\ket{1}_a\ket{1}_b$.
+\caption{Obwody metody QCoSamp: (a)~obwód składnika cosinusowego (definicja~\ref{def:tb:qsamp:circuit}) z kątami bramek fazowych dla $n=1$ i $r=0$; (b)~schemat obwodu szeregu dwuskładnikowego, w którym blok $(\compphase^{(ab)}_{3,0})^{\dagger}$, dodatkowo kontrolowany kubitem $a$, usuwa iloczyn faz $\mathrm{e}^{\mathrm{i}3x_D}$ ze składowej $\ket{1}_a\ket{1}_b$.
 Opracowanie własne na podstawie~\cite{wereszczynski_cosine_2020,werner_magisterka_2022}.}
 \label{fig:tb:qsamp:circuits}
 \end{figure}
 
-Obwód składnika (rysunek~\ref{fig:tb:qsamp:component}) wymaga $m+1$ kubitów i $m$ kontrolowanych bramek fazowych, a stablicowanie składnika na całej siatce wymaga $2^{m}$ eksperymentów próbkowania, po jednym dla każdego ciągu $D$.
-W odróżnieniu od pojedynczej bramki $\mathrm{P}(nx+r)$, która daje tę samą wartość, obwód z rejestrem angażuje wiele kubitów i \glslink{phase-kickback}{przeniesienie fazy} z bramek dwukubitowych (podrozdział~\ref{subsec:tb:gates}), dlatego to on służy w rozprawie do badania błędów.
+Obwód składnika (rysunek~\ref{fig:tb:qsamp:component}) wymaga $m$ kontrolowanych bramek fazowych, a stablicowanie składnika na całej siatce $2^{m}$ eksperymentów próbkowania, po jednym dla każdego ciągu $D$.
+W odróżnieniu od pojedynczej bramki $\mathrm{P}(nx+r)$, która daje tę samą wartość, angażuje on wiele kubitów i \glslink{phase-kickback}{przeniesienie fazy} z bramek dwukubitowych (podrozdział~\ref{subsec:tb:gates}), dlatego to on służy w rozprawie do badania błędów.
 Dla $n=1$ i $r=0$ otrzymuje się funkcję $\coscomp_{1,0}(x)=\tfrac{1}{2}(1+\cos x)$ i obwód $\compcirc_{1,0}(D)$, które w metodzie PDU pełnią rolę funkcji referencyjnej i obwodu referencyjnego (podrozdział~\ref{sec:pdu:reference}).
 
-\begin{Definition}[Szereg wieloskładnikowy i funkcja FCoSamp]\label{def:tb:qsamp:series}
-\emph{Szeregiem wieloskładnikowym} nazywa się kombinację wypukłą składników cosinusowych
-\begin{equation}\label{eq:tb:qsamp:series}
-\cosseries(x)=\sum_{c=1}^{C}w_c\,\coscomp_{n_c,r_c}(x),\qquad w_c>0,\quad \sum_{c=1}^{C}w_c=1 .
-\end{equation}
-\emph{Funkcją FCoSamp} o $N$ harmonicznych nazywa się szereg $\cosseries_N$, w którym harmonicznej $n\in\{1,\dots,N\}$ odpowiadają dwa składniki, $\coscomp_{n,r_n}$ i $\coscomp_{n,s_n}$, każdy o wadze $1/(2M_n)$, przy czym $\sum_{n}1/M_n=1$; funkcję tę nazywa się \emph{zrównoważoną}, gdy $M_n=N$ dla każdego $n$.
-\end{Definition}
+\emph{Szeregiem wieloskładnikowym} nazywa się kombinację wypukłą składników cosinusowych, $\cosseries(x)=\sum_{c}w_c\,\coscomp_{n_c,r_c}(x)$, gdzie $w_c>0$ i $\sum_{c}w_c=1$.
+W obwodzie realizującym szereg składnik wskazują stany bazowe $\ket{c}$ dodatkowych kubitów pomocniczych, wprowadzonych w superpozycję: jeżeli przed końcową bramką Hadamarda układ jest w stanie $\sum_{c}\sqrt{w_c}\,\ket{c}\otimes(\ket{0}+\mathrm{e}^{\mathrm{i}\varphi_c}\ket{1})_a/\sqrt{2}$, to ze względu na ortogonalność stanów $\ket{c}$ składniki nie interferują ze sobą i $\prob(\ket{0}_a)=\sum_{c}w_c(1+\cos\varphi_c)/2$, czyli $\cosseries(x_D)$ dla $\varphi_c=n_cx_D+r_c$; niepożądane iloczyny faz różnych składników usuwa się przez \glslink{uncomputation}{dekomputację}.
+W obwodzie z rysunku~\ref{fig:tb:qsamp:two-components}, użytym w pracy magisterskiej autora~\cite{werner_magisterka_2022}, kubit odczytu $a$ otrzymuje fazę $x_D$, kubit pomocniczy $b$ fazę $2x_D$, a po dekomputacji stan kubitu $b$ wskazuje, którą z~dwóch faz niesie kubit odczytu, więc $\prob(\ket{0}_a)=\tfrac{1}{4}(1+\cos x_D)+\tfrac{1}{4}(1+\cos 2x_D)$.
 
-W obwodzie realizującym szereg stany bazowe $\ket{c}$ dodatkowych kubitów pomocniczych, wprowadzonych w superpozycję, wskazują składnik.
-Jeżeli przed końcową bramką Hadamarda układ jest w stanie $\sum_{c}\sqrt{w_c}\,\ket{c}\otimes(\ket{0}+\mathrm{e}^{\mathrm{i}\varphi_c}\ket{1})_a/\sqrt{2}$, to ze względu na ortogonalność stanów $\ket{c}$ składniki nie interferują ze sobą i z~\eqref{eq:tb:qsamp:base} wynika
-\begin{equation}\label{eq:tb:qsamp:mixture}
-\prob(\ket{0}_a)=\sum_{c}w_c\,\frac{1+\cos\varphi_c}{2},
-\end{equation}
-czyli szereg~\eqref{eq:tb:qsamp:series} dla $\varphi_c=n_cx_D+r_c$.
-Niepożądane iloczyny faz różnych składników usuwa się przez \glslink{uncomputation}{dekomputację}~\cite{bennett_logical_1973}.
-W~pracy źródłowej składniki łączy się parami w strukturę pełnego drzewa binarnego, w której $M_n=2^{\delta_n}$ zależy od głębokości $\delta_n$ składnika~\cite{wereszczynski_cosine_2020}.
-
-Funkcja FCoSamp jest przeskalowanym szeregiem Fouriera: dla funkcji zrównoważonej z rozwinięcia cosinusa sumy wynika
-\begin{equation}\label{eq:tb:qsamp:fourier}
-\cosseries_N(x)=\frac{1}{2}+\frac{1}{4N}\sum_{n=1}^{N}\bigl(\lambda_n\cos nx+\gamma_n\sin nx\bigr),
-\quad
-\lambda_n=\cos r_n+\cos s_n,\;\; \gamma_n=-\sin r_n-\sin s_n,
-\end{equation}
-więc wartości szeregu $f_N(x)=\sum_{n=1}^{N}(\lambda_n\cos nx+\gamma_n\sin nx)$ odtwarza się z histogramu jako $4N\bigl(\cosseries_N(x)-\tfrac{1}{2}\bigr)$.
-Ponieważ $\cos(nx+r_n)+\cos(nx+s_n)=2\cos\tfrac{r_n-s_n}{2}\,\cos\bigl(nx+\tfrac{r_n+s_n}{2}\bigr)$, para faz nadaje harmonicznej dowolne przesunięcie i dowolną amplitudę z przedziału $[0,2]$, co odpowiada współczynnikom spełniającym warunek $\lambda_n^2+\gamma_n^2\leq4$.
-
-Przykładem jest obwód z rysunku~\ref{fig:tb:qsamp:two-components}, użyty w pracy magisterskiej autora~\cite{werner_magisterka_2022}.
-Kubit odczytu $a$ otrzymuje fazę $x_D$, kubit pomocniczy $b$ fazę $2x_D$, a po dekomputacji bramka CNOT sprawia, że stan kubitu $b$ wskazuje, którą z~dwóch faz niesie kubit odczytu; zgodnie z~\eqref{eq:tb:qsamp:mixture} pomiar daje $\prob(\ket{0}_a)=\tfrac{1}{4}(1+\cos x_D)+\tfrac{1}{4}(1+\cos 2x_D)$.
-
-Funkcję dwóch zmiennych otrzymuje się, dodając drugi rejestr argumentu, przechowujący ciąg $D'$, i kontrolując nim drugi blok fazowy, o częstotliwości $n'$ i zerowej fazie, na tym samym kubicie odczytu.
-Fazy pochodzące od obu rejestrów sumują się wtedy i
+Funkcję dwóch zmiennych otrzymuje się, dodając drugi rejestr argumentu, przechowujący ciąg $D'$, i kontrolując nim drugi blok fazowy, o częstotliwości $n'$ i zerowej fazie, na tym samym kubicie odczytu; fazy pochodzące od obu rejestrów sumują się i
 \begin{equation}\label{eq:tb:qsamp:two-variables}
 \prob(\ket{0}_a)=\frac{1}{2}\bigl(1+\cos(nx_D+n'y_{D'}+r)\bigr)=\coscomp_{n,\,r+n'y_{D'}}(x_D),
 \end{equation}
 gdzie $y_{D'}$ jest argumentem kodowanym przez $D'$ zgodnie z~\eqref{eq:tb:qsamp:argument}.
-Konstrukcję tego typu autor zastosował do funkcji $\tfrac{1}{2}(1+\cos(x+y))$ (podrozdział~\ref{subsec:pdu:results:two}).
-W~pracy źródłowej funkcje wielu zmiennych mają postać iloczynu: kubity odczytu niezależnych operatorów QCoSamp, po jednym na zmienną, mierzy się łącznie~\cite{wereszczynski_cosine_2020}.
+Konstrukcję tego typu autor zastosował do funkcji zapisanej w pracy~\cite{werner_magisterka_2022} jako $\tfrac{1}{2}(1+\cos(x+y))$ (podrozdział~\ref{subsec:pdu:results:two}); stałego przesunięcia fazy w tamtym obwodzie źródło nie podaje jednoznacznie.
 
-\subsection{Operator zniekształcenia fazy i kodowanie danych w fazie lokalnej}\label{subsec:tb:qsamp:pdo}
-
-Drugim sposobem wprowadzania danych, opisanym w~\cite{wereszczynski_cosine_2020} jako kodowanie danych stałych, jest zapisanie dowolnego wektora liczb w \glslink{local-phase}{fazach lokalnych} stanów bazowych.
-Operator, który to realizuje, nie ma w pracy źródłowej osobnej nazwy; w rozprawie nazywa się go \glslink{pdo}{operatorem zniekształcenia fazy}.
-
-\begin{Definition}[Operator zniekształcenia fazy]\label{def:tb:qsamp:pdo}
-Niech $\boldsymbol{\varphi}=(\varphi_0,\dots,\varphi_{M-1})\in\mathbb{R}^{M}$, $M=2^{m}$.
-\emph{Operatorem zniekształcenia fazy} (ang.\ \emph{Phase Distortion Operator}, PDO) nazywa się operator unitarny na $m$ kubitach, diagonalny w bazie obliczeniowej,
-\begin{equation}\label{eq:tb:qsamp:pdo}
-\pdo(\boldsymbol{\varphi})=\sum_{k=0}^{M-1}\mathrm{e}^{\mathrm{i}\varphi_k}\ket{k}\bra{k} .
-\end{equation}
-\end{Definition}
-
-Działając na równomierną superpozycję, operator zniekształca jej płaski profil fazy zgodnie z danymi i daje stan $\frac{1}{\sqrt{M}}\sum_{k}\mathrm{e}^{\mathrm{i}\varphi_k}\ket{k}$, w którym $M$ liczb rzeczywistych jest zapisanych na $m$ kubitach.
-Bezpośredni pomiar tego stanu daje rozkład jednostajny niezależnie od $\boldsymbol{\varphi}$, dlatego odczyt wymaga interferencji z gałęzią odniesienia, tak jak w~\eqref{eq:tb:qsamp:base}.
-
-\begin{Theorem}[Odczyt faz lokalnych]\label{thm:tb:qsamp:pdo-readout}
-Niech rejestr o $m$ kubitach i kubit odczytu $a$ zostaną przygotowane w równomiernej superpozycji, operator $\pdo(\boldsymbol{\varphi})$ zadziała na rejestr pod warunkiem, że kubit odczytu jest w stanie $\ket{1}$, a następnie na kubit odczytu zadziała bramka Hadamarda.
-Wówczas, zgodnie z~\eqref{eq:tb:qsamp:mixture} dla stanów $\ket{k}$ rejestru i wag $1/M$,
-\begin{equation}\label{eq:tb:qsamp:pdo-readout}
-\prob(\ket{k}\ket{0}_a)=\frac{1+\cos\varphi_k}{2M},\qquad
-\prob(\ket{k}\ket{1}_a)=\frac{1-\cos\varphi_k}{2M}.
-\end{equation}
-\end{Theorem}
-
-Jeden eksperyment próbkowania dostarcza zatem wartości $\coscomp_{1,0}(\varphi_k)$ dla wszystkich $M$ danych naraz, za cenę bazy pomiarowej o $2M$ stanach i czynnika $1/M$ przy każdej wartości: utrzymanie tej samej dokładności wymaga liczby powtórzeń rosnącej wraz z $M$.
-Reprezentacja LPIQE jest operatorem $\pdo(\boldsymbol{\varphi})$, w którym fazami są intensywności pikseli; w jej operatorze rekonstrukcji (podrozdział~\ref{subsec:tb:qimg:lpiqe}) kubit odczytu, nazywany tam pomocniczym, jest dodatkowo negowany, więc role wyników $0$ i $1$ są zamienione względem~\eqref{eq:tb:qsamp:pdo-readout}.
-
-Bramki przesunięcia fazy są szczególnymi przypadkami operatora~\eqref{eq:tb:qsamp:pdo}, na przykład $\mathrm{P}(\theta)=\pdo(0,\theta)$ i $\mathrm{CP}(\theta)=\pdo(0,0,0,\theta)$, a blok $\compphase^{(a)}_{n,r}$ z~\eqref{eq:tb:qsamp:circuit} ma fazy liniowe względem zakodowanej liczby, dzięki czemu wystarcza w nim $m$ bramek dwukubitowych.
-Operator ogólny ma $M-1$ niezależnych faz (jedna jest fazą globalną), więc liczba bramek potrzebnych do jego dokładnej realizacji rośnie w ogólnym przypadku wykładniczo z liczbą kubitów, co na urządzeniach nadprzewodzących wydłuża obwód po \glslink{transpilation}{transpilacji} i zwiększa błąd wyniku badany w rozdziale~\ref{chapter:pdu_images}.
-Na platformach fotonicznych przesunięcie fazy jest natomiast operacją elementarną: przesuwnik fazy zmienia fazę światła w jednym modzie, a programowalne procesory fotoniczne są rekonfigurowalnymi interferometrami wielomodowymi~\cite{NielsenChuang2010,taballione_20-mode_2022,de_goede_high_2022}.
-Układ bramek z~\eqref{eq:tb:qsamp:base} jest kubitowym odpowiednikiem interferometru Macha--Zehndera~\cite{wereszczynski_cosine_2020}.
+Drugim sposobem wprowadzania danych, opisanym w pracy źródłowej jako kodowanie danych stałych, jest zapisanie wektora liczb w \glslink{local-phase}{fazach lokalnych} stanów bazowych operatorem diagonalnym~\cite{wereszczynski_cosine_2020}; opiera się na nim reprezentacja LPIQE, zdefiniowana wraz z odczytem tych faz w podrozdziale~\ref{subsec:tb:qimg:lpiqe}.
+\agenttask{
+Pytanie do autora (recenzja 2.4-I3): po skróceniu rozprawa nie używa nazwy operator zniekształcenia fazy (PDO), która pochodzi z koncepcji z 2022 r., a nie ze źródeł opublikowanych, i myliła się z nazwą PDU; czy nazwa ma wrócić (jedno zdanie w tym akapicie albo w definicji LPIQE)?
+}

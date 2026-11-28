@@ -7,7 +7,7 @@
   font=\footnotesize,
   >={Stealth[length=2mm]},
   node distance=0.38cm,
-  box/.style={draw, rounded corners=2pt, align=center, minimum height=1.0cm, inner sep=2.5pt},
+  box/.style={draw, rounded corners=2pt, align=center, minimum height=0.9cm, inner sep=2.5pt}, % PHD-TS-98: wysokość pól zmniejszona z 1,0 cm, odstęp wierszy z 1,25 cm
   data/.style={box, fill=white},
   cls/.style={box, fill=gray!12},
   qnt/.style={box, fill=gray!35},
@@ -31,7 +31,7 @@
 \node[lbl, anchor=south] at ($(conv.north west)!0.5!(head.north east)+(0,0.16)$) {sieć klasyczna $\Theta_{\mathbf{w}}$ (uczona); splot na wejściu tylko w części konfiguracji};
 
 % --- wiersz dolny: obwód, pomiar, przetwarzanie końcowe ---
-\node[qnt, below=1.25cm of head.south east, anchor=north east] (circ) {obwód, $n+1$ kubitów:\\$\mathrm{H}$, $L$ bloków, $\mathrm{H}$};
+\node[qnt, below=1.1cm of head.south east, anchor=north east] (circ) {obwód, $n+1$ kubitów:\\$\mathrm{H}$, $L$ bloków, $\mathrm{H}$};
 \node[qnt, left=of circ]            (meas) {pomiar,\\$\nshots$ powtórzeń};
 \node[cls, left=0.8cm of meas]      (read) {odczyt $\tilde{u}_j$\\(połowa $a=1$)};
 \node[cls, left=of read]            (smo)  {splot $3\times3$\\na kanał};

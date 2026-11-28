@@ -1,0 +1,32 @@
+% !TeX root = ./../main.tex
+% Dodatek B, część do rozdziału 2 (zadanie PHD-TS-95, 2026-11-27).
+% Tabelę tab:tb:noise:channels przeniesiono z pliku theoretical_background_02_noise.tex bez zmiany treści i etykiety;
+% wiersz \input{chapters/appendix_results_tb.tex} dopisuje do appendix_results.tex orkiestrator.
+
+\section{Kanały jednokubitowe modeli szumu (do rozdziału~\ref{chapter:theoretical_background})}\label{app:results:tb}
+
+\agentinfo{
+Stan (PHD-TS-95, 2026-11-27): tabela przeniesiona z podrozdziału 2.2.3 dla objętości; odwołują się do niej podrozdział 2.2.3 i rozdział 8.
+}
+
+Tabela~\ref{tab:tb:noise:channels} podaje operatory Krausa (podrozdział~\ref{subsec:tb:noise:channels}) kanałów, z~których zbudowane są modele szumu z~podrozdziału~\ref{subsec:tb:noise:models}, oraz ich działanie na wektor Blocha~\cite{NielsenChuang2010}.
+
+\begin{table}[htb]
+\centering
+\caption[Jednokubitowe kanały używane w~modelach szumu]{Jednokubitowe kanały używane w~modelach szumu: operatory Krausa i~działanie na wektor Blocha według równania~\eqref{eq:tb:noise:affine}; $c_{\varphi}=\sqrt{1-\qphase}$, $c_{\mathrm{a}}=\sqrt{1-\qamp}$, $\operatorname{diag}(\cdot)$ oznacza macierz diagonalną.}
+\label{tab:tb:noise:channels}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Kanał (parametr) & Operatory Krausa & Macierz $\ptmblock$ & Wektor $\ptmshift$ \\
+\midrule
+odwrócenie bitu ($q$) & $\sqrt{1-q}\,\identity$, $\sqrt{q}\,\sigma_x$ & $\operatorname{diag}(1,\,1-2q,\,1-2q)$ & $\mathbf{0}$ \\
+odwrócenie fazy ($q$) & $\sqrt{1-q}\,\identity$, $\sqrt{q}\,\sigma_z$ & $\operatorname{diag}(1-2q,\,1-2q,\,1)$ & $\mathbf{0}$ \\
+depolaryzujący ($\qdep$) & $\sqrt{1-\qdep}\,\identity$, $\sqrt{\qdep/3}\,\sigma_{a}$, $a\in\{x,y,z\}$ & $(1-\tfrac{4}{3}\qdep)\,\identity$ & $\mathbf{0}$ \\
+tłumienie fazy ($\qphase$) & $\ket{0}\bra{0}+c_{\varphi}\ket{1}\bra{1}$, $\sqrt{\qphase}\,\ket{1}\bra{1}$ & $\operatorname{diag}(c_{\varphi},\,c_{\varphi},\,1)$ & $\mathbf{0}$ \\
+tłumienie amplitudy ($\qamp$) & $\ket{0}\bra{0}+c_{\mathrm{a}}\ket{1}\bra{1}$, $\sqrt{\qamp}\,\ket{0}\bra{1}$ & $\operatorname{diag}(c_{\mathrm{a}},\,c_{\mathrm{a}},\,1-\qamp)$ & $(0,\,0,\,\qamp)^{\top}$ \\
+odstrojenie ($\cohangle$) & $R_z(\cohangle)$ & obrót o~kąt $\cohangle$ wokół osi $z$ & $\mathbf{0}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
