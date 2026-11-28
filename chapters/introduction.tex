@@ -9,7 +9,7 @@ Szczegółowe uzasadnienie luki badawczej znajduje się w rozdziale przeglądu l
 Rozdział pisać po rozdziałach 2--8, a wcześniej utrzymywać go jako aktualny konspekt.
 Docelowa objętość: około 6 stron; cała praca około 125 stron.
 Układ rozdziałów po decyzji autora z 2026-11-27 (zadanie PHD-TS-94): 1 wprowadzenie, 2 zaplecze teoretyczne, 3 przegląd literatury, 4 metoda PDU, 5 redukcja błędów w kodowaniu i rekonstrukcji obrazów, 6 uczenie głębokie jako narzędzie redukcji błędów, 7 uczone kodowanie obrazów, 8 klasyfikacja, 9 podsumowanie.
-Osobnego rozdziału o strukturze szumu nie ma: dwie prace powiązane z udziałem autora (pierwszy autor S. Raubitzek) są omawiane w przeglądzie literatury (sekcja 3.5, akapit par:lr:noise:generators, i sekcja 3.7, akapit par:lr:cls:lie), ich związek z założeniem Z4 w dyskusji 4.8, a udział autora w sekcji sec:introduction:publications; plik chapters/noise_structure.tex jest archiwalny i nie jest włączany do main.tex.
+Osobnego rozdziału o strukturze szumu nie ma: dwie prace powiązane z udziałem autora (pierwszy autor S. Raubitzek) są omawiane w przeglądzie literatury (sekcja 3.5, akapit par:lr:noise:generators, i sekcja 3.7, akapit par:lr:cls:lie), ich związek z założeniem Z4 w dyskusji 4.8, a udział autora jednym zdaniem w tych samych akapitach (od 2026-11-28 wprowadzenie nie ma wykazu publikacji); plik chapters/noise_structure.tex jest archiwalny i nie jest włączany do main.tex.
 
 Podstawa treści (ustalenie autora, 2026-11-26): wstępy dostarczonych artykułów \agentref{artykuły/Quantum_Errors_ICCS/main.tex} \agentref{artykuły/PROCS_KES2023_LATEX_Template/k23-558.tex} \agentref{artykuły/CoDIT_2025_final_paper/root.tex} \agentref{artykuły/Quantum_journal_GAN__Copy_/article.tex} oraz wprowadzenie rozprawy Michała jako wzór zakresu i toku wywodu \agentref{doktorat Michał/chapters/introduction.tex}.
 Z rozprawy Michała nie przepisywać zdań.
@@ -84,50 +84,29 @@ Wkład należy wyliczyć w punktach i powiązać z rozdziałami:
 (f) ocena wpływu szumu i redukcji błędów na klasyfikację, w tym klasyfikację obrazów (rozdział 8).
 Prace S. Raubitzka i in. omawiane w przeglądzie literatury (sekcje 3.5 i 3.7; do 2026-11-27 osobny rozdział 9) nie są wkładem rozprawy; autor implementował w nich część kodu i uruchamiał eksperymenty.
 W punktach (e) i (f) oddzielić wkład własny autora od wkładu współautorów manuskryptów roboczych.
+Decyzja autora z 2026-11-28: wprowadzenie nie ma sekcji ani wykazu publikacji (dawna sekcja 1.5 usunięta; etykiety sec:introduction:publications już nie ma i nie wolno jej używać).
+Zamiast wykazu każdy punkt wkładu przywołuje cytowaniem pracę, w której go opisano: (a) werner_experiment_driven_2022 oraz praca magisterska werner_magisterka_2022; (b) werner_error_reduction_2025; (c) werner_data_loss_2023 (i praca współautorska kordasz_image_encoding_2025); (d) preprint werner_deep_learning_manuscript; (e) i (f) manuskrypty robocze, współautorskie i nieopublikowane.
+Jedno zdanie tej sekcji ma stwierdzać, że dwie prace, których pierwszym autorem jest S. Raubitzek, nie są wkładem rozprawy; udział autora w nich podają akapity par:lr:noise:generators (3.5) i par:lr:cls:lie (3.7).
+Usunięty tekst wykazów jest w historii repozytorium (commit 965caa1 i wcześniejsze).
 }
 
-\section{Publikacje i manuskrypty związane z rozprawą}\label{sec:introduction:publications}
 \agentinfo{
 Status publikacji (opublikowana, przyjęta, w recenzji, manuskrypt) oraz pełne dane bibliograficzne wymagają potwierdzenia przez autora.
 Stan zweryfikowany w Crossref 2026-11-26: opublikowane z autorem jako pierwszym autorem są trzy prace (ICCS 2022, KES 2023, CoDIT 2025); praca o sieciach GAN istnieje tylko jako preprint z 2023 r.; praca o szumie, w której autor jest drugim autorem, została opublikowana w APS Open Science w 2026 r.; praca o grupach Liego jest preprintem z 2026 r.
 Lista jest zgodna z profilem autora w serwisie ResearchGate odczytanym 2026-11-26 (10 pozycji, w tym preprinty i praca magisterska).
 Praca FRQI Pairs (CoDIT 2025, autor rozprawy jako czwarty autor) dotyczy klasyfikacji obrazów; ustalić z autorem jego udział i to, czy warto ją omówić w rozdziale 8 lub w przeglądzie literatury.
-Rozprawa powstaje z wyników eksperymentów, a nie z artykułów, więc lista poniżej dokumentuje dorobek, a nie wyznacza zakres pracy.
+Rozprawa powstaje z wyników eksperymentów, a nie z artykułów, więc prace autora dokumentują dorobek, a nie wyznaczają zakresu pracy.
 Dwa kolejne manuskrypty robocze autora: klasyfikator z odczytem fazowym (repozytorium quantum-classifier) oraz hybrydowy autoenkoder obrazów z uczonym kodowaniem (katalog best_results_package, plik article/main.tex); oba współautorskie i nieopublikowane.
 Wpisy znajdują się w bibliography/own_publications.bib; pola oznaczone DO WERYFIKACJI uzupełnić po potwierdzeniu.
 Manuskrypt o sieciach GAN istnieje w dwóch szablonach (Quantum oraz MDPI Energies); ustalić, gdzie ostatecznie został zgłoszony.
 Artykuł CoDIT 2025 ma dwie wcześniejsze wersje robocze w katalogach Quantum_Errors_ICCS_Images i Artykuł_2025_PDU_conf; wersją obowiązującą jest CoDIT_2025_final_paper.
-Akapit przed wykazem pozostałych prac (zadanie PHD-TS-94, 2026-11-27) przejął treść dawnej sekcji 9.1: udział autora w pracach raubitzek_quantum_noise i raubitzek_lie_group_manuscript podano wyłącznie w zakresie ustalonym przez autora 2026-11-26 (implementacja części kodu, uruchamianie eksperymentów); prace nie są wkładem rozprawy; preprintu nie nazywać publikacją.
+Udział autora w pracach raubitzek_quantum_noise i raubitzek_lie_group_manuscript podaje się wyłącznie w zakresie ustalonym przez autora 2026-11-26 (implementacja części kodu, uruchamianie eksperymentów), od 2026-11-28 w akapitach par:lr:noise:generators i par:lr:cls:lie; prace nie są wkładem rozprawy; preprintu nie nazywać publikacją.
 Oświadczenia o wkładzie autorów w źródłach: praca o szumie, wersja opublikowana, część końcowa przed sekcją o dostępności danych (w wersji zgłoszeniowej wiersz 970): Kr.W.: main manuscript, numerical simulation, experiments, review; S.R.: mathematics, main manuscript, numerical simulation, validation, review. Preprint, wiersze 3583--3590: Kr.W.: numerical simulation, experiments, review; S.R.: mathematics, main manuscript, numerical simulation, validation, experiments, concepts, review; G.G.: mathematics, main manuscript.
 }
 
-\subsection{Prace bezpośrednio związane z rozprawą}
-
-Autor rozprawy jest pierwszym autorem wszystkich prac wymienionych w tym punkcie.
-
-\begin{itemize}
-\item Praca~\cite{werner_experiment_driven_2022} wprowadza metodę redukcji błędów opartą na funkcji PDU i stanowi podstawę rozdziału~\ref{chapter:pdu}.
-\item Praca~\cite{werner_data_loss_2023} porównuje utratę danych w metodach kwantowej reprezentacji obrazów i stanowi podstawę rozdziału~\ref{chapter:pdu_images}.
-\item Praca~\cite{werner_error_reduction_2025} przedstawia schemat kodowania i~rekonstrukcji obrazów z~redukcją błędów i stanowi podstawę rozdziału~\ref{chapter:pdu_images}.
-\item Preprint~\cite{werner_deep_learning_manuscript} opisuje zastosowanie generatywnych sieci przeciwstawnych do redukcji błędów i stanowi podstawę rozdziału~\ref{chapter:dl_error_reduction}.
-\end{itemize}
-
-\subsection{Pozostałe prace}
-
-Pierwszym autorem dwóch pierwszych prac wymienionych niżej jest S.~Raubitzek; nie są one wkładem rozprawy i są omawiane w przeglądzie literatury.
-Autor rozprawy implementował w nich część kodu i uruchamiał eksperymenty, czemu w zamieszczonych w nich oświadczeniach o wkładzie autorów odpowiadają pozycje dotyczące symulacji numerycznych i eksperymentów.
-% ŹRÓDŁO: raubitzek_quantum_noise, wersja opublikowana (eksperymenty/_build/PHD-TS-38/work/pub/published.txt), oświadczenie o wkładzie autorów przed sekcją Data availability (strona 000109-25; Kr.W.: main manuscript, numerical simulation, experiments, and review); wersja zgłoszeniowa artykuły/quantum_noise_elsevier_submission/main.tex, wiersz 970. Preprint: artykuły/noisy_lie_group_learners/main.tex, wiersze 3583--3590 (Kr.W.: numerical simulation, experiments, review).
-Koncepcja zaburzeń generatorów i aparat matematyczny obu prac nie pochodzą od autora rozprawy.
-% ŹRÓDŁO: te same oświadczenia (mathematics przy S.R., w preprincie także przy G.G.; concepts przy S.R.) oraz pochodzenie konstrukcji z pracy raubitzek_obfuscation_2025, powstałej bez udziału autora rozprawy (raubitzek_quantum_noise, wersja opublikowana, sekcja II; preprint, wiersze 1427 i 3779).
-
-\begin{itemize}
-\item Praca~\cite{raubitzek_quantum_noise} dotyczy rekonstrukcji szumu kwantowego z~generatorów łamiących symetrię i jest omawiana w podrozdziale~\ref{par:lr:noise:generators}.
-\item Preprint~\cite{raubitzek_lie_group_manuscript} dotyczy klasycznych sieci neuronowych opartych na grupach Liego i jest omawiany w podrozdziale~\ref{par:lr:cls:lie}.
-\item Praca~\cite{potempa_frqi_pairs_2025} dotyczy klasyfikacji obrazów kodowanych metodą FRQI z~użyciem kwantowej sieci rekurencyjnej.
-\item Praca magisterska autora~\cite{werner_magisterka_2022} zawiera pierwotne sformułowanie metody PDU.
-\end{itemize}
 \agenttask{
-Pytania do autora (przeniesione z dawnej sekcji 9.1; zadania PHD-TS-38 i PHD-TS-94).
+Pytania do autora (przeniesione z dawnej sekcji 9.1; zadania PHD-TS-38 i PHD-TS-94); po usunięciu wykazu publikacji (2026-11-28) odpowiedzi dotyczą zdań o udziale autora w akapitach par:lr:noise:generators (3.5) i par:lr:cls:lie (3.7).
+(0) Czy promotor oczekuje w rozprawie wykazu publikacji autora (rozprawa M. Kordasza ma we wprowadzeniu sekcję o publikacjach i manuskryptach); jeśli tak, dodać go jako nienumerowany wykaz po bibliografii, poza budżetem stron tekstu głównego.
 (1) Które części kodu i które eksperymenty wykonał autor w każdej z dwóch prac, których pierwszym autorem jest S. Raubitzek: w pracy o szumie na przykład uruchamianie tomografii na urządzeniu ibm_brisbane, symulator tomografii, algorytm genetyczny, zespoły losowe; w preprincie które grupy eksperymentów. Po odpowiedzi uzupełnić zdanie o udziale.
 (2) Oświadczenie o wkładzie w pracy o szumie wymienia przy autorze także udział w tekście (main manuscript) i recenzję tekstu (review), a w preprincie recenzję tekstu (review); czy wspomnieć o tym w rozprawie, czy pozostać przy ustaleniu z 2026-11-26 (implementacja części kodu i uruchamianie eksperymentów).
 (3) Czy zostawić zdanie, że koncepcja zaburzeń generatorów i aparat matematyczny nie pochodzą od autora rozprawy (oparte na oświadczeniach o wkładzie: mathematics przy S.R., w preprincie także przy G.G., concepts przy S.R., oraz na tym, że konstrukcja pochodzi z pracy raubitzek_obfuscation_2025).
